@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Envío - Expres Contraentrega</title>
+    <!-- QR Code library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <!-- Nuestros estilos -->
+    <link rel="stylesheet" href="guia.css">
+    <style>
+    /* Estilos para visualización en pantalla */
+    @media screen {
+        body {
+            background: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .guia-container {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px dashed #ccc;
+            height: 155mm;
+        }
+        
+        .no-print {
+            display: block;
+        }
+        
+        .print-instructions {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .print-instructions p:first-child {
+            color: #135bec;
+            font-weight: bold;
+        }
+    }
+    
+    /* Para impresión - tamaño 8x15 cm */
+    @media print {
+        @page {
+            size: 79mm 149mm;
+            margin: 2mm;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- Controles solo para pantalla -->
+    <div class="no-print screen-controls">
+        <button onclick="window.print()" class="btn-print">🖨️ Imprimir Guía</button>
+        <button onclick="window.close()" class="btn-close">✖️ Cerrar</button>
+        <div class="print-instructions">
+            <p><strong>Instrucciones:</strong> Usar papel adhesivo 8×11 cm</p>
+            <p>Asegúrese de que la impresión esté a escala 100%</p>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE LA GUÍA -->
+    <div class="guia-container">
+        
+        <!-- ENCABEZADO -->
+        <header class="guia-header">
+            <div class="logo-section">
+                <div class="logo">🚚</div>
+                <div class="empresa-info">
+                    <h1>EXPRES CONTRAENTREGA</h1>
+                    <p class="slogan">Tu envío rápido y seguro</p>
+                </div>
+            </div>
+            
+            <div class="guia-info">
+                <div class="info-row">
+                    <span class="label">GUÍA No:</span>
+                    <span class="value guia-id" id="guiaId">Cargando...</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">FECHA:</span>
+                    <span class="value" id="fecha">Cargando...</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">FORMA DE PAGO:</span>
+                    <span class="value forma-pago" id="formaPago">Cargando...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN REMITENTE -->
+        <section class="seccion remitente">
+            <h2 class="seccion-title">📍 REMITENTE</h2>
+            <div class="datos">
+                <div class="dato-line">
+                    <strong id="remitenteNombre">Cargando...</strong>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Tel:</span>
+                    <span id="remitenteTelefono">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Ciudad:</span>
+                    <span id="remitenteCiudad">Cargando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN DESTINATARIO -->
+       <section class="seccion destinatario">
+            <h2 class="seccion-title">👤 DESTINATARIO</h2>
+            <div class="datos">
+                <div class="dato-line">
+                    <strong id="destinatarioNombre">Cargando...</strong>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Tel:</span>
+                    <span id="destinatarioTelefono">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span id="destinatarioDireccion">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span id="destinatarioBarrio">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Ciudad:</span>
+                    <span id="destinatarioCiudad">Cargando...</span>
+                </div>
+                <div class="dato-line complemento">
+                    <span class="label">Complemento:</span>
+                    <span id="complemento">Cargando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN INFORMACIÓN DE PAGO -->
+        <section class="seccion pago">
+            <h2 class="seccion-title">💰 INFORMACIÓN DE PAGO</h2>
+            <div class="datos-pago">
+                <div class="pago-row">
+                    <span class="label">Valor a Recaudar:</span>
+                    <span class="value valor" id="valorRecaudar">Cargando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN INFORMACIÓN LOGÍSTICA -->
+        <section class="seccion logistica">
+            <div class="logistica-grid">
+                <div class="logistica-item">
+                    <span class="label">ZONA:</span>
+                    <span class="value" id="zona">Cargando...</span>
+                </div>
+                <div class="logistica-item">
+                    <span class="label">MENSAJERO:</span>
+                    <span class="value" id="mensajero">Cargando...</span>
+                </div>
+                <div class="logistica-item full-width">
+                    <span class="label">OBSERVACIONES:</span>
+                    <span class="value" id="observaciones">Cargando...</span>
+                </div>
+            </div>
+        </section>
+                <!-- PIE DE PÁGINA -->
+        <footer class="guia-footer">
+            <div class="footer-line">
+                <span class="small">📞 Soporte: 3001234567</span>
+                <span class="small">🌐 www.exprescontraentrega.com</span>
+            </div>
+            <div class="footer-line">
+                <span class="small">Guía generada el: <span id="fechaGeneracion">Cargando...</span></span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Nuestro JavaScript -->
+    <script src="guia.js"></script>
+</body>
+</html>

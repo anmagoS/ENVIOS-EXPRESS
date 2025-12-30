@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sistema de Envíos - Contraentrega</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-dark": "#0f4bc4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a202c",
+                        "input-light": "#e7ebf3",
+                        "input-dark": "#2d3748",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "danger": "#ef4444"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Estilos para campos deshabilitados */
+        input:disabled, select:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .dark input:disabled, .dark select:disabled {
+            opacity: 0.5;
+        }
+        
+        /* Estilos para transiciones */
+        .payment-option {
+            transition: all 0.2s ease;
+        }
+        
+        .payment-option.selected {
+            border-color: #135bec;
+            background-color: rgba(19, 91, 236, 0.05);
+        }
+        
+        /* Estilos mejorados para el dropdown de autocomplete */
+        .autocomplete-dropdown {
+            position: absolute;
+            z-index: 1000;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-top: 0.5rem;
+            display: none;
+            top: 100%; /* Aparece justo debajo del campo */
+            left: 0;
+        }
+
+        .dark .autocomplete-dropdown {
+            background: #1f2937;
+            border-color: #4b5563;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        .autocomplete-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .dark .autocomplete-item {
+            border-bottom-color: #374151;
+        }
+
+        .dark .autocomplete-item:hover {
+            background-color: #374151;
+        }
+
+        .autocomplete-item.highlighted {
+            background-color: #e5e7eb;
+        }
+
+        .dark .autocomplete-item.highlighted {
+            background-color: #4b5563;
+        }
+
+        .autocomplete-item .barrio-id {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-family: monospace;
+            background-color: #f3f4f6;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            margin-right: 0.75rem;
+            min-width: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .dark .autocomplete-item .barrio-id {
+            color: #9ca3af;
+            background-color: #374151;
+        }
+
+        .autocomplete-item .barrio-nombre {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Scrollbar personalizada */
+        .autocomplete-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .autocomplete-dropdown::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .autocomplete-dropdown::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .dark .autocomplete-dropdown::-webkit-scrollbar-track {
+            background: #374151;
+        }
+
+        .dark .autocomplete-dropdown::-webkit-scrollbar-thumb {
+            background: #6b7280;
+        }
+        
+        /* Spinner para botón de envío */
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Campos requeridos inválidos */
+        .invalid {
+            border-color: #ef4444 !important;
+            border-width: 2px;
+        }
+        
+        /* Para ocultar elementos */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display flex flex-col min-h-screen text-[#0d121b] dark:text-white transition-colors duration-200">
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 w-full bg-surface-light dark:bg-surface-dark border-b border-solid border-[#e7ebf3] dark:border-gray-800 px-6 py-3 shadow-sm">
+        <div class="mx-auto max-w-7xl flex items-center justify-between whitespace-nowrap">
+            <div class="flex items-center gap-4 text-[#0d121b] dark:text-white">
+                <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                    <span class="material-symbols-outlined text-2xl">local_shipping</span>
+                </div>
+                <h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Expres Contraentrega</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex flex-col items-end mr-2">
+                    <span class="text-sm font-semibold text-[#0d121b] dark:text-white">Alex</span>
+                    <span class="text-xs text-[#4c669a] dark:text-gray-400">Operador Logístico</span>
+                </div>
+                <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHdncnvfU7TsNmWeUeUJ0UYPAz9BzBx81lq4UEwtgmGBCdZmv4uXnF_3Tx8oE8bSYPqkYSLGSQsBc3VJM6lrLe4iFzAQC287vN3rhtGYCEdoKOkbOtxnxxD1oReP8LrM8i5sZycdxRVlxcikXb1SssTAUPO1_Z8lVAcIZAdBo7-51A_cFNIDS22SZ04WLRRQomqB7gNcwwGHQRh-XuV9GNIkBZe2gjZPo6vSSx5iXD_PPYNffE2XiiZgXT_vzYezxgBe_tkyD1MoXp");'></div>
+                <button class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <span class="material-symbols-outlined text-[#4c669a]">logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 w-full px-4 py-8 md:px-8 lg:px-12 flex justify-center">
+        <div class="w-full max-w-[1024px] flex flex-col gap-6">
+            <!-- Page Heading -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex flex-col gap-1">
+                    <h1 class="text-[#0d121b] dark:text-white text-3xl font-bold leading-tight tracking-tight">Nueva Entrega</h1>
+                    <p class="text-[#4c669a] dark:text-gray-400 text-sm font-normal">Complete el formulario para registrar y generar la guía de envío.</p>
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <form id="deliveryForm" class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-[#e7ebf3] dark:border-gray-800 p-6 md:p-8 flex flex-col gap-8">
+                <!-- Section: Order Info -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                        <span class="material-symbols-outlined text-primary">inventory_2</span>
+                        <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Información del Pedido</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Generated ID Field -->
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">ID de Guía (Generado)</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">qr_code_2</span>
+                                <input id="envioId" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-500 dark:text-gray-400 font-mono font-bold tracking-wider cursor-not-allowed focus:ring-0" readonly type="text"/>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded font-bold">AUTO</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Forma de Pago Field -->
+                        <div class="flex flex-col gap-2 md:col-span-2">
+                            <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Forma de Pago</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contado">
+                                    <span class="material-symbols-outlined text-lg mr-2 text-green-600">payments</span>
+                                    <span class="font-medium">Contado</span>
+                                </div>
+                                <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contraentrega">
+                                    <span class="material-symbols-outlined text-lg mr-2 text-blue-600">package</span>
+                                    <span class="font-medium">Contraentrega</span>
+                                </div>
+                                <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contraentrega_recaudo">
+                                    <span class="material-symbols-outlined text-lg mr-2 text-orange-600">savings</span>
+                                    <span class="font-medium">Con Recaudo</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="formaPago" name="formaPago" value="contado">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Sender Info -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                        <span class="material-symbols-outlined text-primary">person_pin_circle</span>
+                        <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Datos del Remitente</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 1. Campo de NOMBRE del remitente con autocomplete -->
+                        <label class="flex flex-col gap-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Nombre Completo / Empresa</span>
+                            <div class="relative">
+                                <input id="remitente" name="remitente" 
+                                       class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                       placeholder="Ej. Distribuidora Central S.A." 
+                                       type="text" 
+                                       autocomplete="off"
+                                       required/>
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]">search</span>
+                                <!-- Dropdown para autocomplete -->
+                                <div id="remitenteAutocomplete" class="autocomplete-dropdown"></div>
+                            </div>
+                        </label>
+                        
+                        <!-- 2. Campo de TELÉFONO del remitente -->
+                        <label class="flex flex-col gap-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Teléfono de Contacto</span>
+                            <input id="telefonoRemitente" name="telefonoRemitente" 
+                                   class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                   placeholder="+57 300 123 4567" 
+                                   type="tel" 
+                                   required/>
+                        </label>
+                        
+                        <!-- 3. Campo de DIRECCIÓN del remitente -->
+                        <label class="flex flex-col gap-2 md:col-span-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Dirección de Recogida</span>
+                            <div class="relative">
+                                <input id="direccionRemitente" name="direccionRemitente"
+                                       class="w-full h-12 pl-4 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                       placeholder="Calle 123 # 45 - 67, Oficina 202" 
+                                       type="text" 
+                                       required/>
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]">my_location</span>
+                            </div>
+                        </label>
+                        
+                        <!-- Ciudad de Origen Fija -->
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Ciudad de Origen</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">location_city</span>
+                                <input id="ciudadOrigen" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-700 dark:text-gray-300 font-medium cursor-not-allowed focus:ring-0" readonly type="text" value="Bogotá D.C."/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Recipient Info -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                        <span class="material-symbols-outlined text-primary">location_on</span>
+                        <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Datos del Destinatario</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <label class="flex flex-col gap-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Nombre del Cliente</span>
+                            <input id="destinatario" name="destinatario" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Ej. Juan Pérez" type="text" required/>
+                        </label>
+                        
+                        <label class="flex flex-col gap-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Teléfono Cliente</span>
+                            <input id="telefonoCliente" name="telefonoCliente" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="+57 310 987 6543" type="tel" required/>
+                        </label>
+                        
+                        <label class="flex flex-col gap-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Ciudad Destino</span>
+                            <select id="ciudadDestino" name="ciudadDestino" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white transition-all appearance-none" required>
+                                <option value="">Seleccione ciudad</option>
+                                <option value="Bogotá D.C.">Bogotá D.C.</option>
+                                <option value="Soacha">Soacha</option>
+                            </select>
+                        </label>
+                        
+                        <label class="flex flex-col gap-2 md:col-span-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Dirección de Entrega</span>
+                            <input id="direccionDestino" name="direccionDestino" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Carrera 80 # 12 - 34" type="text" required/>
+                        </label>
+                        
+                        <label class="flex flex-col gap-2">
+                            <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Complemento de Dirección</span>
+                            <input id="complementoDireccion" name="complementoDireccion" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Apto 501, Torre 2" type="text"/>
+                        </label>
+                        
+                        <!-- Barrio y Localidad con Autocomplete -->
+                        <div class="flex flex-col gap-2 relative">
+                            <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Barrio y Localidad</label>
+                            <div class="relative">
+                                <input id="barrioLocalidad" name="barrioLocalidad" class="w-full h-12 px-4 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Escriba para buscar barrio..." type="text" autocomplete="off" required/>
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a] pointer-events-none">search</span>
+                                <input type="hidden" id="barrioId" name="barrioId">
+                            </div>
+                            <!-- Dropdown de autocomplete -->
+                            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Escriba las primeras letras para buscar el barrio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Payment Info -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                        <span class="material-symbols-outlined text-primary">monetization_on</span>
+                        <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Información de Pago</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Valor a Recaudar Field (Conditional) -->
+                        <div class="flex flex-col gap-2" id="valorRecaudarContainer">
+                            <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Valor a Recaudar ($)</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">attach_money</span>
+                                <input id="valorRecaudar" name="valorRecaudar" class="w-full h-12 pl-12 pr-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="0.00" type="number" min="0" step="100" disabled/>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded font-bold hidden" id="autoRecaudoLabel">AUTO</div>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="valorRecaudarHelp"></p>
+                        </div>
+                        
+                        <!-- Summary Card -->
+                        <div class="md:col-span-2">
+                            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">info</span>
+                                    <h4 class="text-blue-800 dark:text-blue-300 font-semibold">Resumen de Pago</h4>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="flex flex-col">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Forma de Pago:</span>
+                                        <span class="font-semibold text-lg" id="resumenFormaPago">Contado</span>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Valor a Recaudar:</span>
+                                        <span class="font-semibold text-lg" id="resumenValorRecaudar">$0</span>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Estado:</span>
+                                        <span class="font-semibold text-green-600 dark:text-green-400" id="resumenEstado">Por confirmar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-4 pt-6 mt-2 border-t border-[#e7ebf3] dark:border-gray-800">
+                    <button class="w-full sm:w-auto min-w-[140px] h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-600 bg-transparent text-[#4c669a] dark:text-gray-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" type="button" id="cancelButton">
+                        Cancelar
+                    </button>
+                    <button class="w-full sm:w-auto min-w-[180px] h-12 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-lg shadow-primary/30 transition-all flex items-center justify-center gap-2 group" type="submit" id="submitButton">
+                        <span id="submitText">Registrar Envío</span>
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform text-lg" id="submitIcon">arrow_forward</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Sección de Resultado (oculta inicialmente) -->
+            <div id="resultSection" class="hidden">
+                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center justify-center size-12 rounded-full bg-green-100 dark:bg-green-900/30">
+                                <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">check_circle</span>
+                            </div>
+                            <div>
+                                <h3 class="text-green-800 dark:text-green-300 text-lg font-bold">¡Envío Registrado Exitosamente!</h3>
+                                <p class="text-green-600 dark:text-green-400 text-sm mt-1" id="resultMessage">Guía generada exitosamente. Puedes imprimir la guía para el mensajero.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button type="button" id="printGuideBtn" 
+                                    class="min-w-[180px] h-12 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold px-6 flex items-center justify-center gap-2 transition-all">
+                                <span class="material-symbols-outlined">print</span>
+                                Imprimir Guía
+                            </button>
+                            <button type="button" id="newDeliveryBtn"
+                                    class="min-w-[140px] h-12 rounded-lg border border-green-600 text-green-600 dark:text-green-400 font-bold hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors">
+                                Nuevo Envío
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Detalles del envío registrado -->
+                    <div class="mt-6 pt-6 border-t border-green-200 dark:border-green-800">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <span class="text-sm text-green-700 dark:text-green-500">Número de Guía:</span>
+                                <div class="font-mono font-bold text-lg" id="resultGuideNumber">ABC12345</div>
+                            </div>
+                            <div>
+                                <span class="text-sm text-green-700 dark:text-green-500">Destinatario:</span>
+                                <div class="font-semibold" id="resultDestinatario">Juan Pérez</div>
+                            </div>
+                            <div>
+                                <span class="text-sm text-green-700 dark:text-green-500">Valor:</span>
+                                <div class="font-bold text-green-600 dark:text-green-400" id="resultValor">$10,000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

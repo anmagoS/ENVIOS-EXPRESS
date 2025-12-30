@@ -1,0 +1,8626 @@
+[
+  {
+    "id": "ATB6ZXHU",
+    "nombre": "USAQUÉN-SANTA BARBARA ORIENTAL"
+  },
+  {
+    "id": "1HOGOY32",
+    "nombre": "USAQUÉN-SANTA BARBARA CENTRAL"
+  },
+  {
+    "id": "WYWRDLUX",
+    "nombre": "USAQUÉN-CHICO NORTE II SECTOR"
+  },
+  {
+    "id": "5TKZNTB2",
+    "nombre": "USAQUÉN-SANTA BARBARA OCCIDENTAL"
+  },
+  {
+    "id": "5DUKSNR5",
+    "nombre": "USAQUÉN-SAN PATRICIO"
+  },
+  {
+    "id": "8P7G5755",
+    "nombre": "USAQUÉN-SAN GABRIEL NORTE"
+  },
+  {
+    "id": "U74GX0H2",
+    "nombre": "USAQUÉN-PARAMO RURAL V"
+  },
+  {
+    "id": "DN16QMMQ",
+    "nombre": "USAQUÉN-USAQUEN"
+  },
+  {
+    "id": "B7LIOQPH",
+    "nombre": "USAQUÉN-SANTA ANA"
+  },
+  {
+    "id": "F45N01F6",
+    "nombre": "USAQUÉN-CHICO NORTE III SECTOR"
+  },
+  {
+    "id": "AL3W11DH",
+    "nombre": "USAQUÉN-MONACO"
+  },
+  {
+    "id": "35IGXMGT",
+    "nombre": "USAQUÉN-SEMINARIO"
+  },
+  {
+    "id": "R24YYYHI",
+    "nombre": "USAQUÉN-PARAMO URBANO"
+  },
+  {
+    "id": "LKMJ9N06",
+    "nombre": "USAQUÉN-SANTA BIBIANA"
+  },
+  {
+    "id": "2GHKNX79",
+    "nombre": "USAQUÉN-SAN ISIDRO RURAL II"
+  },
+  {
+    "id": "EXWX4TD7",
+    "nombre": "USAQUÉN-ESTORIL"
+  },
+  {
+    "id": "P2J7C33G",
+    "nombre": "USAQUÉN-ESCUELA DE INFANTERIA"
+  },
+  {
+    "id": "6MW6UMEV",
+    "nombre": "USAQUÉN-PARAMO II RURAL"
+  },
+  {
+    "id": "WYO7C2PF",
+    "nombre": "USAQUÉN-PARAMO"
+  },
+  {
+    "id": "BISPHNSI",
+    "nombre": "USAQUÉN-ESCUELA DE CABALLERIA II"
+  },
+  {
+    "id": "QFS7XE8T",
+    "nombre": "USAQUÉN-SAN GABRIEL NORTE II"
+  },
+  {
+    "id": "UWONZDND",
+    "nombre": "USAQUÉN-MOLINOS NORTE"
+  },
+  {
+    "id": "YO5I2RAW",
+    "nombre": "USAQUÉN-RINCON DEL CHICO"
+  },
+  {
+    "id": "9RF659H3",
+    "nombre": "USAQUÉN-ESCUELA DE CABALLERIA I"
+  },
+  {
+    "id": "WYCR4N4L",
+    "nombre": "USAQUÉN-PARAMO IV"
+  },
+  {
+    "id": "KT2JMSXV",
+    "nombre": "USAQUÉN-BELLA SUIZA"
+  },
+  {
+    "id": "7GFBFP6O",
+    "nombre": "USAQUÉN-SANTA ANA OCCIDENTAL"
+  },
+  {
+    "id": "2YX0QJU0",
+    "nombre": "USAQUÉN-LA CALLEJA"
+  },
+  {
+    "id": "XLOFTQWC",
+    "nombre": "USAQUÉN-PARAMO III RURAL"
+  },
+  {
+    "id": "MNN762LY",
+    "nombre": "USAQUÉN-BARRANCAS ORIENTAL RURAL"
+  },
+  {
+    "id": "93IJOK4T",
+    "nombre": "USAQUÉN-SANTA BARBARA ORIENTAL"
+  },
+  {
+    "id": "LDKJKPUV",
+    "nombre": "USAQUÉN-CEDRITOS"
+  },
+  {
+    "id": "EZ87UA1J",
+    "nombre": "USAQUÉN-SANTA BARBARA CENTRAL"
+  },
+  {
+    "id": "AFA8F2QF",
+    "nombre": "USAQUÉN-PRADO VERANIEGO"
+  },
+  {
+    "id": "5OQ497CL",
+    "nombre": "USAQUÉN-SANTA BARBARA OCCIDENTAL"
+  },
+  {
+    "id": "ZETO0RFS",
+    "nombre": "USAQUÉN-SEGUNDO CONTADOR"
+  },
+  {
+    "id": "NEXS2TNL",
+    "nombre": "USAQUÉN-SAN GABRIEL NORTE"
+  },
+  {
+    "id": "I7YW8EDY",
+    "nombre": "USAQUÉN-COUNTRY CLUB"
+  },
+  {
+    "id": "I7YW9EDY",
+    "nombre": "USAQUÉN-GINEBRA II"
+  },
+  {
+    "id": "5HVVR728",
+    "nombre": "USAQUÉN-CEDRO NARVAEZ"
+  },
+  {
+    "id": "LCDSJTJN",
+    "nombre": "USAQUÉN-BOSQUE DE PINOS I"
+  },
+  {
+    "id": "1VZ7IRC1",
+    "nombre": "USAQUÉN-GINEBRA"
+  },
+  {
+    "id": "7KMG6UMX",
+    "nombre": "USAQUÉN-LOS CEDROS ORIENTAL"
+  },
+  {
+    "id": "VGTFP5WU",
+    "nombre": "USAQUÉN-LISBOA"
+  },
+  {
+    "id": "WTCZ7MAA",
+    "nombre": "USAQUÉN-LAS MARGARITAS"
+  },
+  {
+    "id": "UGI7LWPL",
+    "nombre": "USAQUÉN-LA CAROLINA"
+  },
+  {
+    "id": "ZYJON6HP",
+    "nombre": "USAQUÉN-LAS DELICIAS DEL CARMEN II SECTOR"
+  },
+  {
+    "id": "BSV4M8K9",
+    "nombre": "USAQUÉN-SAN JOSE DEL PRADO"
+  },
+  {
+    "id": "BSOYEE9L",
+    "nombre": "USAQUÉN-PARAMO"
+  },
+  {
+    "id": "OSRA2883",
+    "nombre": "USAQUÉN-CEDRO SALAZAR"
+  },
+  {
+    "id": "50ZOUVAI",
+    "nombre": "USAQUÉN-CAOBOS SALAZAR"
+  },
+  {
+    "id": "R046YUEJ",
+    "nombre": "USAQUÉN-LOS CEDROS"
+  },
+  {
+    "id": "Q1XCJPKJ",
+    "nombre": "USAQUÉN-ACACIAS USAQUEN"
+  },
+  {
+    "id": "B4LD8DKJ",
+    "nombre": "USAQUÉN-CANODROMO"
+  },
+  {
+    "id": "BV59JVKZ",
+    "nombre": "USAQUÉN-EL CONTADOR"
+  },
+  {
+    "id": "ZKK0JO20",
+    "nombre": "USAQUÉN-BELLA SUIZA"
+  },
+  {
+    "id": "DVSRPH0A",
+    "nombre": "USAQUÉN-PARAMO URBANO I"
+  },
+  {
+    "id": "FVK0ASXE",
+    "nombre": "USAQUÉN-LA CALLEJA"
+  },
+  {
+    "id": "VUKYD43W",
+    "nombre": "USAQUÉN-SAN CRISTOBAL NORTE"
+  },
+  {
+    "id": "PXZ77WP8",
+    "nombre": "USAQUÉN-BARRANCAS ORIENTAL RURAL"
+  },
+  {
+    "id": "DZ76GLIB",
+    "nombre": "USAQUÉN-ESTRELLA DEL NORTE"
+  },
+  {
+    "id": "YC47IRCI",
+    "nombre": "USAQUÉN-LA LIBERIA"
+  },
+  {
+    "id": "31B8NZ23",
+    "nombre": "USAQUÉN-LA CITA"
+  },
+  {
+    "id": "4QWKE8AF",
+    "nombre": "USAQUÉN-BOSQUE DE PINOS III RURAL"
+  },
+  {
+    "id": "A35RIS95",
+    "nombre": "USAQUÉN-LA GRANJA NORTE"
+  },
+  {
+    "id": "NL57ZS23",
+    "nombre": "USAQUÉN-BOSQUE DE PINOS I"
+  },
+  {
+    "id": "3B4O8L3G",
+    "nombre": "USAQUÉN-LAS ORQUIDEAS"
+  },
+  {
+    "id": "YKZ4IDY4",
+    "nombre": "USAQUÉN-BOSQUE DE PINOS"
+  },
+  {
+    "id": "NS0EFWBB",
+    "nombre": "USAQUÉN-BOSQUE DE PINOS III"
+  },
+  {
+    "id": "0XT626LN",
+    "nombre": "USAQUÉN-LAS MARGARITAS"
+  },
+  {
+    "id": "5SY5E1S1",
+    "nombre": "USAQUÉN-BARRANCAS NORTE"
+  },
+  {
+    "id": "GSI51AQX",
+    "nombre": "USAQUÉN-EL TOBERIN"
+  },
+  {
+    "id": "4F779B04",
+    "nombre": "USAQUÉN-CEDRO SALAZAR"
+  },
+  {
+    "id": "1EKS4DPP",
+    "nombre": "USAQUÉN-CAOBOS SALAZAR"
+  },
+  {
+    "id": "QQOR58ZH",
+    "nombre": "USAQUÉN-LA URIBE"
+  },
+  {
+    "id": "CGI5I4E8",
+    "nombre": "USAQUÉN-BARRANCAS ORIENTAL"
+  },
+  {
+    "id": "0SNH3LRB",
+    "nombre": "USAQUÉN-SANTA CECILIA PUENTE NORTE"
+  },
+  {
+    "id": "1ZTJCISH",
+    "nombre": "USAQUÉN-SANTA TERESA"
+  },
+  {
+    "id": "B4AH4IVH",
+    "nombre": "USAQUÉN-SAN JOSE DE USAQUEN"
+  },
+  {
+    "id": "MFM0TQC3",
+    "nombre": "USAQUÉN-LA PRADERA NORTE"
+  },
+  {
+    "id": "WSBIZUJC",
+    "nombre": "USAQUÉN-BARRANCAS"
+  },
+  {
+    "id": "FHYTH3ZA",
+    "nombre": "USAQUÉN-BARRANCAS ORIENTAL RURAL"
+  },
+  {
+    "id": "JGS78CPC",
+    "nombre": "USAQUÉN-SAN ANTONIO NOROCCIDENTAL"
+  },
+  {
+    "id": "FPHZE8K7",
+    "nombre": "USAQUÉN-CASABLANCA SUBA URBANO"
+  },
+  {
+    "id": "S1EPGHY4",
+    "nombre": "USAQUÉN-TIBABITA"
+  },
+  {
+    "id": "VGSFGB7B",
+    "nombre": "USAQUÉN-TIBABITA I"
+  },
+  {
+    "id": "B18IFM6H",
+    "nombre": "USAQUÉN-HORIZONTES NORTE"
+  },
+  {
+    "id": "B8JKQR1Q",
+    "nombre": "USAQUÉN-LA GRANJA NORTE"
+  },
+  {
+    "id": "NAA7H823",
+    "nombre": "USAQUÉN-VERBENAL SAN ANTONIO"
+  },
+  {
+    "id": "CZGJ6AH9",
+    "nombre": "USAQUÉN-TIBABITA RURAL"
+  },
+  {
+    "id": "0NFFAOGX",
+    "nombre": "USAQUÉN-CANAIMA"
+  },
+  {
+    "id": "V0TKR7JX",
+    "nombre": "USAQUÉN-TIBABITA EL ROSARIO"
+  },
+  {
+    "id": "FEFXFUOC",
+    "nombre": "USAQUÉN-EL TOBERIN"
+  },
+  {
+    "id": "6K3N050O",
+    "nombre": "USAQUÉN-LA ESTRELLITA I"
+  },
+  {
+    "id": "YM4OVA29",
+    "nombre": "USAQUÉN-MIRADOR DEL NORTE"
+  },
+  {
+    "id": "K5AWKLFG",
+    "nombre": "USAQUÉN-SAN ANTONIO NORTE"
+  },
+  {
+    "id": "NTRJUXY6",
+    "nombre": "USAQUÉN-EL CEREZO"
+  },
+  {
+    "id": "ITBX7EE8",
+    "nombre": "USAQUÉN-LA URIBE"
+  },
+  {
+    "id": "AMDMEYU7",
+    "nombre": "USAQUÉN-TIBABITA RURAL I"
+  },
+  {
+    "id": "IVP2KSRG",
+    "nombre": "USAQUÉN-EL REDIL"
+  },
+  {
+    "id": "BLEGL6E4",
+    "nombre": "USAQUÉN-LA ESTRELLITA III"
+  },
+  {
+    "id": "J5VYICQ8",
+    "nombre": "USAQUÉN-EL VERVENAL"
+  },
+  {
+    "id": "O3MENB1W",
+    "nombre": "USAQUÉN-SAN JOSE DE USAQUEN"
+  },
+  {
+    "id": "LPIX52PY",
+    "nombre": "USAQUÉN-LA ESTRELLITA"
+  },
+  {
+    "id": "QCKJGVX7",
+    "nombre": "USAQUÉN-EL ROCIO NORTE"
+  },
+  {
+    "id": "C4K687Z4",
+    "nombre": "USAQUÉN-LA PRADERA NORTE"
+  },
+  {
+    "id": "UKN0PKHE",
+    "nombre": "USAQUÉN-BUENAVISTA"
+  },
+  {
+    "id": "N70BU439",
+    "nombre": "USAQUÉN-TORCA RURAL II"
+  },
+  {
+    "id": "XNJ0HPYU",
+    "nombre": "USAQUÉN-CASABLANCA SUBA URBANO"
+  },
+  {
+    "id": "NL89EEBH",
+    "nombre": "USAQUÉN-TORCA I"
+  },
+  {
+    "id": "XSS22DX4",
+    "nombre": "USAQUÉN-TIBABITA RURAL"
+  },
+  {
+    "id": "606SWFQ0",
+    "nombre": "USAQUÉN-TORCA II"
+  },
+  {
+    "id": "YW7OEG2L",
+    "nombre": "USAQUÉN-TORCA RURAL I"
+  },
+  {
+    "id": "N2PPAP0F",
+    "nombre": "USAQUÉN-TORCA"
+  },
+  {
+    "id": "K5LGZ7LC",
+    "nombre": "USAQUÉN-TORCA RURAL II"
+  },
+  {
+    "id": "BAWS9GYM",
+    "nombre": "CHAPINERO-SAN LUIS ALTOS DEL CABO RURAL"
+  },
+  {
+    "id": "ZAZ938J7",
+    "nombre": "CHAPINERO-PARAMO RURAL V"
+  },
+  {
+    "id": "OAFYGRR0",
+    "nombre": "CHAPINERO-SAN LUIS ALTOS DEL CABO RURAL II"
+  },
+  {
+    "id": "M7S6PMI8",
+    "nombre": "CHAPINERO-SEMINARIO"
+  },
+  {
+    "id": "BBGRHZDL",
+    "nombre": "CHAPINERO-PARAMO URBANO"
+  },
+  {
+    "id": "925668H9",
+    "nombre": "CHAPINERO-PARAMO I RURAL"
+  },
+  {
+    "id": "HIX9UTH4",
+    "nombre": "CHAPINERO-SAN ISIDRO RURAL II"
+  },
+  {
+    "id": "GV4M830A",
+    "nombre": "CHAPINERO-EL BAGAZAL"
+  },
+  {
+    "id": "S8ZL5RW2",
+    "nombre": "CHAPINERO-PARAMO II"
+  },
+  {
+    "id": "NFY2IWGF",
+    "nombre": "CHAPINERO-PARAMO"
+  },
+  {
+    "id": "J7BFAWSM",
+    "nombre": "CHAPINERO-SAN ISIDRO RURAL"
+  },
+  {
+    "id": "06SRDF4H",
+    "nombre": "CHAPINERO-SAN ISIDRO"
+  },
+  {
+    "id": "OEHYWQBK",
+    "nombre": "CHAPINERO-PARAMO I"
+  },
+  {
+    "id": "IFA21DTY",
+    "nombre": "CHAPINERO-PARAMO IV"
+  },
+  {
+    "id": "Y6ZSA2OK",
+    "nombre": "CHAPINERO-LA ESPERANZA"
+  },
+  {
+    "id": "1EVA68WN",
+    "nombre": "CHAPINERO-PARAMO III RURAL"
+  },
+  {
+    "id": "UMG0UC9M",
+    "nombre": "CHAPINERO-CHICO NORTE II SECTOR"
+  },
+  {
+    "id": "CPWEMUFT",
+    "nombre": "CHAPINERO-LOS ROSALES"
+  },
+  {
+    "id": "XQ1A8B0N",
+    "nombre": "CHAPINERO-PORCIUNCULA"
+  },
+  {
+    "id": "6G4XZNJ4",
+    "nombre": "CHAPINERO-BELLAVISTA"
+  },
+  {
+    "id": "7HEUZARY",
+    "nombre": "CHAPINERO-CHICO NORTE III SECTOR"
+  },
+  {
+    "id": "XY53FC2X",
+    "nombre": "CHAPINERO-CHICO NORTE"
+  },
+  {
+    "id": "L2E102VX",
+    "nombre": "CHAPINERO-SEMINARIO"
+  },
+  {
+    "id": "IO4S9EEL",
+    "nombre": "CHAPINERO-EL REFUGIO II"
+  },
+  {
+    "id": "8W2FVGP3",
+    "nombre": "CHAPINERO-PARAMO I RURAL"
+  },
+  {
+    "id": "0DJCNUF1",
+    "nombre": "CHAPINERO-JUAN XXIII"
+  },
+  {
+    "id": "WGEVH3LK",
+    "nombre": "CHAPINERO-EL REFUGIO"
+  },
+  {
+    "id": "LQE0PVBB",
+    "nombre": "CHAPINERO-ANTIGUO COUNTRY"
+  },
+  {
+    "id": "WFGG2KTC",
+    "nombre": "CHAPINERO-LAGO GAITAN"
+  },
+  {
+    "id": "Z28YT1IN",
+    "nombre": "CHAPINERO-ESCUELA DE INFANTERIA"
+  },
+  {
+    "id": "7TKGLLZ3",
+    "nombre": "CHAPINERO-EL BAGAZAL"
+  },
+  {
+    "id": "4E8TEOR5",
+    "nombre": "CHAPINERO-LA CABRERA"
+  },
+  {
+    "id": "F2CU92QL",
+    "nombre": "CHAPINERO-EL REFUGIO ZONA II"
+  },
+  {
+    "id": "KEOI1P1V",
+    "nombre": "CHAPINERO-PARAMO II"
+  },
+  {
+    "id": "NTURE6M9",
+    "nombre": "CHAPINERO-PARAMO"
+  },
+  {
+    "id": "CBJ32QIT",
+    "nombre": "CHAPINERO-ESPARTILLAL"
+  },
+  {
+    "id": "0ATUQED4",
+    "nombre": "CHAPINERO-EL NOGAL"
+  },
+  {
+    "id": "LU4ASD2Q",
+    "nombre": "CHAPINERO-INGEMAR ORIENTAL RURAL"
+  },
+  {
+    "id": "1EE9UDK2",
+    "nombre": "CHAPINERO-EL BAGAZAL"
+  },
+  {
+    "id": "7BVT82Y4",
+    "nombre": "CHAPINERO-EL CHICO"
+  },
+  {
+    "id": "9F0RQXKQ",
+    "nombre": "CHAPINERO-LA CASTELLANA"
+  },
+  {
+    "id": "QT31PRHK",
+    "nombre": "CHAPINERO-EL RETIRO"
+  },
+  {
+    "id": "TQUNZ5Q0",
+    "nombre": "CHAPINERO-POLO CLUB"
+  },
+  {
+    "id": "JLCNOE4D",
+    "nombre": "CHAPINERO-QUINTA CAMACHO"
+  },
+  {
+    "id": "CWILAMO9",
+    "nombre": "CHAPINERO-EMAUS"
+  },
+  {
+    "id": "E7M8VVZV",
+    "nombre": "CHAPINERO-PARAMO I"
+  },
+  {
+    "id": "X7DB38VZ",
+    "nombre": "CHAPINERO-LAS ACACIAS"
+  },
+  {
+    "id": "2YP68H67",
+    "nombre": "CHAPINERO-HOYA TEUSACA"
+  },
+  {
+    "id": "8CZXNURH",
+    "nombre": "CHAPINERO-EL REFUGIO I"
+  },
+  {
+    "id": "1D8L0OVD",
+    "nombre": "CHAPINERO-INGEMAR ORIENTAL I"
+  },
+  {
+    "id": "IP87F3AT",
+    "nombre": "CHAPINERO-PARAMO III RURAL"
+  },
+  {
+    "id": "F9C5B0O1",
+    "nombre": "CHAPINERO-CONCEPCION NORTE"
+  },
+  {
+    "id": "I36ISWXO",
+    "nombre": "CHAPINERO-SIBERIA II"
+  },
+  {
+    "id": "MRY1PKYR",
+    "nombre": "CHAPINERO-PARDO RUBIO"
+  },
+  {
+    "id": "S6AB11T1",
+    "nombre": "CHAPINERO-SIBERIA RURAL"
+  },
+  {
+    "id": "33BBG4TI",
+    "nombre": "CHAPINERO-PARQUE NACIONAL"
+  },
+  {
+    "id": "Y0UA9KOT",
+    "nombre": "CHAPINERO-SIBERIA"
+  },
+  {
+    "id": "8NX4QBVR",
+    "nombre": "CHAPINERO-MARIA CRISTINA"
+  },
+  {
+    "id": "HM9Q8TWX",
+    "nombre": "CHAPINERO-PORCIUNCULA"
+  },
+  {
+    "id": "ZHAS3MA3",
+    "nombre": "CHAPINERO-BELLAVISTA"
+  },
+  {
+    "id": "UC868VCL",
+    "nombre": "CHAPINERO-LA SALLE"
+  },
+  {
+    "id": "MUMGMIFC",
+    "nombre": "CHAPINERO-PARDO RUBIO I"
+  },
+  {
+    "id": "8FVWQGA9",
+    "nombre": "CHAPINERO-CATALUNA"
+  },
+  {
+    "id": "6EFUGIP0",
+    "nombre": "CHAPINERO-JUAN XXIII"
+  },
+  {
+    "id": "PV6MNU54",
+    "nombre": "CHAPINERO-EL BAGAZAL"
+  },
+  {
+    "id": "FCBKT9B5",
+    "nombre": "CHAPINERO-SIBERIA CENTRAL"
+  },
+  {
+    "id": "WVO7DHEO",
+    "nombre": "CHAPINERO-CHAPINERO NORTE"
+  },
+  {
+    "id": "TBKYLP41",
+    "nombre": "CHAPINERO-MARLY"
+  },
+  {
+    "id": "2SCQ2N0F",
+    "nombre": "CHAPINERO-BOSQUE CALDERON"
+  },
+  {
+    "id": "AR9497OY",
+    "nombre": "CHAPINERO-SUCRE"
+  },
+  {
+    "id": "XVYK26LD",
+    "nombre": "CHAPINERO-INGEMAR ORIENTAL RURAL"
+  },
+  {
+    "id": "GBZVN00M",
+    "nombre": "CHAPINERO-CHAPINERO CENTRAL"
+  },
+  {
+    "id": "8JMIGVIS",
+    "nombre": "CHAPINERO-QUESADA"
+  },
+  {
+    "id": "14B9EQL8",
+    "nombre": "CHAPINERO-EL PARAISO"
+  },
+  {
+    "id": "NI0UNP6M",
+    "nombre": "CHAPINERO-INGEMAR"
+  },
+  {
+    "id": "0N51YQST",
+    "nombre": "CHAPINERO-INGEMAR I"
+  },
+  {
+    "id": "VZ449KEU",
+    "nombre": "CHAPINERO-CHAPINERO OCCIDENTAL"
+  },
+  {
+    "id": "I3I7CLK6",
+    "nombre": "CHAPINERO-SAGRADO CORAZON"
+  },
+  {
+    "id": "HJJR8OLC",
+    "nombre": "CHAPINERO-QUINTA CAMACHO"
+  },
+  {
+    "id": "EO6I3F6J",
+    "nombre": "CHAPINERO-EMAUS"
+  },
+  {
+    "id": "HJFH6VE9",
+    "nombre": "CHAPINERO-GRANADA"
+  },
+  {
+    "id": "LI2HJ4E3",
+    "nombre": "CHAPINERO-LAS ACACIAS"
+  },
+  {
+    "id": "N8OWDTWC",
+    "nombre": "CHAPINERO-HOYA TEUSACA"
+  },
+  {
+    "id": "OP2K0Z05",
+    "nombre": "CHAPINERO-SIBERIA URBANO"
+  },
+  {
+    "id": "PTLLGLLW",
+    "nombre": "CHAPINERO-PARQUE NACIONAL ORIENTAL"
+  },
+  {
+    "id": "H5I2ENFN",
+    "nombre": "CHAPINERO-INGEMAR ORIENTAL I"
+  },
+  {
+    "id": "226365WY",
+    "nombre": "SANTA FE-LA ALAMEDA"
+  },
+  {
+    "id": "DJE14SA7",
+    "nombre": "SANTA FE-LA CAPUCHINA"
+  },
+  {
+    "id": "JWVZUT0T",
+    "nombre": "SANTA FE-SAN DIEGO"
+  },
+  {
+    "id": "ISRBQ860",
+    "nombre": "SANTA FE-LA PERSEVERANCIA I"
+  },
+  {
+    "id": "SB5JTSUG",
+    "nombre": "SANTA FE-LA FAVORITA"
+  },
+  {
+    "id": "B5MALNE5",
+    "nombre": "SANTA FE-PARQUE NACIONAL"
+  },
+  {
+    "id": "EXA073A5",
+    "nombre": "SANTA FE-SIBERIA"
+  },
+  {
+    "id": "TMPD5TBB",
+    "nombre": "SANTA FE-LA PERSEVERANCIA"
+  },
+  {
+    "id": "U7XVTVL5",
+    "nombre": "SANTA FE-LAS NIEVES"
+  },
+  {
+    "id": "7Y6FTDLR",
+    "nombre": "SANTA FE-LA MERCED"
+  },
+  {
+    "id": "P3WITH5W",
+    "nombre": "SANTA FE-LAS AGUAS"
+  },
+  {
+    "id": "FE228AXA",
+    "nombre": "SANTA FE-BOSQUE IZQUIERDO"
+  },
+  {
+    "id": "ULN19YCE",
+    "nombre": "SANTA FE-SUCRE"
+  },
+  {
+    "id": "NVQEMFIS",
+    "nombre": "SANTA FE-VERACRUZ"
+  },
+  {
+    "id": "PVHGMWTX",
+    "nombre": "SANTA FE-SAGRADO CORAZON"
+  },
+  {
+    "id": "4BLE814R",
+    "nombre": "SANTA FE-LA MACARENA"
+  },
+  {
+    "id": "O8GRR5C3",
+    "nombre": "SANTA FE-SAMPER"
+  },
+  {
+    "id": "89NFM888",
+    "nombre": "SANTA FE-HOYA TEUSACA"
+  },
+  {
+    "id": "Y26OUYO7",
+    "nombre": "SANTA FE-SANTA FE"
+  },
+  {
+    "id": "3N6BAVHT",
+    "nombre": "SANTA FE-PARQUE NACIONAL ORIENTAL"
+  },
+  {
+    "id": "MLALBQL8",
+    "nombre": "SANTA FE-SAN MARTIN"
+  },
+  {
+    "id": "UVM5FZ1N",
+    "nombre": "SANTA FE-LA PEÑA I"
+  },
+  {
+    "id": "HYFWDYCA",
+    "nombre": "SANTA FE-SAN BERNARDO"
+  },
+  {
+    "id": "G71TRGC9",
+    "nombre": "SANTA FE-EL ROCIO"
+  },
+  {
+    "id": "17X9NUR2",
+    "nombre": "SANTA FE-LA CAPUCHINA"
+  },
+  {
+    "id": "PM0Z9BUE",
+    "nombre": "SANTA FE-LA FAVORITA"
+  },
+  {
+    "id": "DPKIRKC4",
+    "nombre": "SANTA FE-LOURDES"
+  },
+  {
+    "id": "I4C57QRB",
+    "nombre": "SANTA FE-LA PENA"
+  },
+  {
+    "id": "5U4Z6PRM",
+    "nombre": "SANTA FE-MODELO SUR"
+  },
+  {
+    "id": "G44YQK90",
+    "nombre": "SANTA FE-EL GUAVIO"
+  },
+  {
+    "id": "2DSEJPBB",
+    "nombre": "SANTA FE-LAS AGUAS"
+  },
+  {
+    "id": "K6WM3KCM",
+    "nombre": "SANTA FE-SANTA BARBARA"
+  },
+  {
+    "id": "5KY8JS0P",
+    "nombre": "SANTA FE-CENTRO ADMINISTRATIVO"
+  },
+  {
+    "id": "CYOKWKNL",
+    "nombre": "SANTA FE-HOYA SAN CRISTOBAL"
+  },
+  {
+    "id": "BES4ZQQ0",
+    "nombre": "SANTA FE-EL DORADO"
+  },
+  {
+    "id": "QV5991ER",
+    "nombre": "SANTA FE-SAN FRANCISCO RURAL"
+  },
+  {
+    "id": "8S92885X",
+    "nombre": "SANTA FE-LA PEÑA RURAL"
+  },
+  {
+    "id": "JWLFNPB7",
+    "nombre": "SANTA FE-GIRARDOT"
+  },
+  {
+    "id": "WFYLHH79",
+    "nombre": "SANTA FE-LOS LACHES"
+  },
+  {
+    "id": "OBTILWBD",
+    "nombre": "SANTA FE-LAS CRUCES"
+  },
+  {
+    "id": "V4HPFZ2Y",
+    "nombre": "SANTA FE-CALVO SUR"
+  },
+  {
+    "id": "VGS1VQDZ",
+    "nombre": "SANTA FE-LA CATEDRAL"
+  },
+  {
+    "id": "C11YT67P",
+    "nombre": "SANTA FE-BUENOS AIRES"
+  },
+  {
+    "id": "THEVA34Q",
+    "nombre": "SANTA FE-VERACRUZ"
+  },
+  {
+    "id": "4CJ9SPET",
+    "nombre": "SANTA FE-EGIPTO"
+  },
+  {
+    "id": "J90K9A5F",
+    "nombre": "SANTA FE-LAS BRISAS"
+  },
+  {
+    "id": "DHYX36F6",
+    "nombre": "SANTA FE-VITELMA"
+  },
+  {
+    "id": "BEAKWNX7",
+    "nombre": "SANTA FE-LA ESTANZUELA"
+  },
+  {
+    "id": "O793IIPI",
+    "nombre": "SANTA FE-HOYA TEUSACA"
+  },
+  {
+    "id": "ENTW9V8X",
+    "nombre": "SANTA FE-SANTA INES"
+  },
+  {
+    "id": "JIVR4RI7",
+    "nombre": "SANTA FE-PARQUE NACIONAL ORIENTAL"
+  },
+  {
+    "id": "BCRBAWV2",
+    "nombre": "SANTA FE-RAMIREZ"
+  },
+  {
+    "id": "7TOLP9XY",
+    "nombre": "SAN CRISTÓBAL-AGUAS CLARAS I"
+  },
+  {
+    "id": "NKNGI2F0",
+    "nombre": "SAN CRISTÓBAL-AGUAS CLARAS"
+  },
+  {
+    "id": "CUU14K37",
+    "nombre": "SAN CRISTÓBAL-VELODROMO"
+  },
+  {
+    "id": "FQJD8T89",
+    "nombre": "SAN CRISTÓBAL-EL ROCIO"
+  },
+  {
+    "id": "Q69Z83UT",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE URBANO"
+  },
+  {
+    "id": "YWXUNQ0D",
+    "nombre": "SAN CRISTÓBAL-SAN BLAS II"
+  },
+  {
+    "id": "2CFF9ST4",
+    "nombre": "SAN CRISTÓBAL-QUINTA RAMOS"
+  },
+  {
+    "id": "VFOATB2K",
+    "nombre": "SAN CRISTÓBAL-MODELO SUR"
+  },
+  {
+    "id": "ZBP8IFCA",
+    "nombre": "SAN CRISTÓBAL-LA MARIA"
+  },
+  {
+    "id": "ZSIM8THB",
+    "nombre": "SAN CRISTÓBAL-LAS MERCEDES"
+  },
+  {
+    "id": "BJE71NOJ",
+    "nombre": "SAN CRISTÓBAL-SAN BLAS"
+  },
+  {
+    "id": "BMXPHNF7",
+    "nombre": "SAN CRISTÓBAL-SAN JAVIER"
+  },
+  {
+    "id": "CACNXT0K",
+    "nombre": "SAN CRISTÓBAL-EL TRIANGULO"
+  },
+  {
+    "id": "E5L1IMZT",
+    "nombre": "SAN CRISTÓBAL-SOCIEGO"
+  },
+  {
+    "id": "F00L1P9B",
+    "nombre": "SAN CRISTÓBAL-HOYA SAN CRISTOBAL"
+  },
+  {
+    "id": "FCLUL5HZ",
+    "nombre": "SAN CRISTÓBAL-EL DORADO"
+  },
+  {
+    "id": "VAYOD2AA",
+    "nombre": "SAN CRISTÓBAL-PRIMERO DE MAYO"
+  },
+  {
+    "id": "S8A9ZNNX",
+    "nombre": "SAN CRISTÓBAL-LA HORTUA"
+  },
+  {
+    "id": "OGOH8NX0",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE I"
+  },
+  {
+    "id": "PU7PC7Z4",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE"
+  },
+  {
+    "id": "7O8VT2GY",
+    "nombre": "SAN CRISTÓBAL-LOS LACHES"
+  },
+  {
+    "id": "XWA1BKQ6",
+    "nombre": "SAN CRISTÓBAL-LOS LAURELES SUR ORIENTAL I"
+  },
+  {
+    "id": "2X6YP4A7",
+    "nombre": "SAN CRISTÓBAL-LAS CRUCES"
+  },
+  {
+    "id": "EQF76ECE",
+    "nombre": "SAN CRISTÓBAL-MONTE CARLO"
+  },
+  {
+    "id": "BKB5LB49",
+    "nombre": "SAN CRISTÓBAL-CALVO SUR"
+  },
+  {
+    "id": "9JMEM2VO",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE III"
+  },
+  {
+    "id": "EZP7G8JJ",
+    "nombre": "SAN CRISTÓBAL-GRANADA SUR"
+  },
+  {
+    "id": "0YZEENEM",
+    "nombre": "SAN CRISTÓBAL-BUENOS AIRES"
+  },
+  {
+    "id": "60Z99640",
+    "nombre": "SAN CRISTÓBAL-SANTA ANA SUR"
+  },
+  {
+    "id": "8SC4887U",
+    "nombre": "SAN CRISTÓBAL-SAN CRISTOBAL SUR"
+  },
+  {
+    "id": "2W4FWBJ0",
+    "nombre": "SAN CRISTÓBAL-LAS BRISAS"
+  },
+  {
+    "id": "FXY8FSZ7",
+    "nombre": "SAN CRISTÓBAL-VITELMA"
+  },
+  {
+    "id": "UD51HWSY",
+    "nombre": "SAN CRISTÓBAL-MOLINO RURAL"
+  },
+  {
+    "id": "TRYOKZDW",
+    "nombre": "SAN CRISTÓBAL-HOYA TEUSACA"
+  },
+  {
+    "id": "3SHLSLQA",
+    "nombre": "SAN CRISTÓBAL-PARQUE NACIONAL ORIENTAL"
+  },
+  {
+    "id": "48SC15DF",
+    "nombre": "SAN CRISTÓBAL-MOLINOS DE ORIENTE"
+  },
+  {
+    "id": "H9XSOAU8",
+    "nombre": "SAN CRISTÓBAL-RAMIREZ"
+  },
+  {
+    "id": "32VZLHLP",
+    "nombre": "SAN CRISTÓBAL-NARINO SUR"
+  },
+  {
+    "id": "Z9IWJ0YA",
+    "nombre": "SAN CRISTÓBAL-CORDOBA"
+  },
+  {
+    "id": "MP6OKPXT",
+    "nombre": "SAN CRISTÓBAL-SANTA INES SUR"
+  },
+  {
+    "id": "FNLRDXIF",
+    "nombre": "SAN CRISTÓBAL-ATENAS"
+  },
+  {
+    "id": "DUR8RRNJ",
+    "nombre": "SAN CRISTÓBAL-SOSIEGO SUR"
+  },
+  {
+    "id": "S4GNDRC4",
+    "nombre": "SAN CRISTÓBAL-SANTA INES SUR II"
+  },
+  {
+    "id": "8WU2EGY2",
+    "nombre": "SAN CRISTÓBAL-SAN BLAS II"
+  },
+  {
+    "id": "9CVYHF21",
+    "nombre": "SAN CRISTÓBAL-BELLAVISTA SUR"
+  },
+  {
+    "id": "JYYPVBNX",
+    "nombre": "SAN CRISTÓBAL-BOSQUE DE LOS ALPES"
+  },
+  {
+    "id": "SDULDG0I",
+    "nombre": "SAN CRISTÓBAL-ALTOS DEL ZIPA"
+  },
+  {
+    "id": "E9VMA05J",
+    "nombre": "SAN CRISTÓBAL-LAS MERCEDES"
+  },
+  {
+    "id": "ZSN7F2A8",
+    "nombre": "SAN CRISTÓBAL-BELLO HORIZONTE"
+  },
+  {
+    "id": "500FDRWD",
+    "nombre": "SAN CRISTÓBAL-SAN BLAS"
+  },
+  {
+    "id": "4D5ATO8V",
+    "nombre": "SAN CRISTÓBAL-EL TRIANGULO"
+  },
+  {
+    "id": "V15Q0XJY",
+    "nombre": "SAN CRISTÓBAL-SURAMERICA"
+  },
+  {
+    "id": "SZIKM81C",
+    "nombre": "SAN CRISTÓBAL-LAS GUACAMAYAS I"
+  },
+  {
+    "id": "O1X79XBL",
+    "nombre": "SAN CRISTÓBAL-SOCIEGO"
+  },
+  {
+    "id": "Q9F5II37",
+    "nombre": "SAN CRISTÓBAL-SAN ISIDRO"
+  },
+  {
+    "id": "PI5HNKPP",
+    "nombre": "SAN CRISTÓBAL-PRIMERO DE MAYO"
+  },
+  {
+    "id": "M590B8WU",
+    "nombre": "SAN CRISTÓBAL-LAS GUACAMAYAS III"
+  },
+  {
+    "id": "4RC62HLG",
+    "nombre": "SAN CRISTÓBAL-SAN PEDRO"
+  },
+  {
+    "id": "DPYZJS23",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE I"
+  },
+  {
+    "id": "UORGDIRU",
+    "nombre": "SAN CRISTÓBAL-LAS LOMAS"
+  },
+  {
+    "id": "OYLL98UR",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE"
+  },
+  {
+    "id": "IK2IWG0P",
+    "nombre": "SAN CRISTÓBAL-VILLA DE LOS ALPES I"
+  },
+  {
+    "id": "CKM6MS6G",
+    "nombre": "SAN CRISTÓBAL-BARCELONA SUR"
+  },
+  {
+    "id": "OA4KR1B3",
+    "nombre": "SAN CRISTÓBAL-LA VICTORIA"
+  },
+  {
+    "id": "JU9LREX0",
+    "nombre": "SAN CRISTÓBAL-RAMAJAL"
+  },
+  {
+    "id": "TPCUYXJL",
+    "nombre": "SAN CRISTÓBAL-VILLA DE LOS ALPES"
+  },
+  {
+    "id": "YX3V9RP5",
+    "nombre": "SAN CRISTÓBAL-GRANADA SUR"
+  },
+  {
+    "id": "OZH0YYZS",
+    "nombre": "SAN CRISTÓBAL-MONTEBELLO"
+  },
+  {
+    "id": "HF2VF7V7",
+    "nombre": "SAN CRISTÓBAL-SAN CRISTOBAL SUR"
+  },
+  {
+    "id": "28FHCQP9",
+    "nombre": "SAN CRISTÓBAL-LOS ALPES"
+  },
+  {
+    "id": "KRZKQO20",
+    "nombre": "SAN CRISTÓBAL-VEINTE DE JULIO"
+  },
+  {
+    "id": "JU6WTT1U",
+    "nombre": "SAN CRISTÓBAL-SAN VICENTE"
+  },
+  {
+    "id": "3M78SP0B",
+    "nombre": "SAN CRISTÓBAL-MORALBA"
+  },
+  {
+    "id": "E80OVTOW",
+    "nombre": "SAN CRISTÓBAL-ALTOS DEL POBLADO"
+  },
+  {
+    "id": "W8YHCFNA",
+    "nombre": "SAN CRISTÓBAL-LAS GAVIOTAS"
+  },
+  {
+    "id": "XCTSFFTF",
+    "nombre": "SAN CRISTÓBAL-ATENAS"
+  },
+  {
+    "id": "6Y0QI1IO",
+    "nombre": "SAN CRISTÓBAL-SAN LUIS"
+  },
+  {
+    "id": "4H0RR5E1",
+    "nombre": "SAN CRISTÓBAL-CHIGUAZA URBANO"
+  },
+  {
+    "id": "4CLUS3SP",
+    "nombre": "SAN CRISTÓBAL-LAS GUACAMAYAS IV"
+  },
+  {
+    "id": "J8I247V0",
+    "nombre": "SAN CRISTÓBAL-BELLAVISTA SUR"
+  },
+  {
+    "id": "CFLK0PN2",
+    "nombre": "SAN CRISTÓBAL-BOSQUE DE LOS ALPES"
+  },
+  {
+    "id": "D8CKUE8X",
+    "nombre": "SAN CRISTÓBAL-ALTOS DEL ZIPA"
+  },
+  {
+    "id": "FRWAZQNW",
+    "nombre": "SAN CRISTÓBAL-LA GLORIA OCCIDENTAL"
+  },
+  {
+    "id": "EZKECYUK",
+    "nombre": "SAN CRISTÓBAL-VILLA DEL CERRO"
+  },
+  {
+    "id": "FAU3E7KT",
+    "nombre": "SAN CRISTÓBAL-LAS GUACAMAYAS I"
+  },
+  {
+    "id": "CHK10N49",
+    "nombre": "SAN CRISTÓBAL-HOYA SAN CRISTOBAL"
+  },
+  {
+    "id": "P5F45LRD",
+    "nombre": "SAN CRISTÓBAL-NUEVA GLORIA"
+  },
+  {
+    "id": "MTWTK9QS",
+    "nombre": "SAN CRISTÓBAL-LAS GUACAMAYAS III"
+  },
+  {
+    "id": "E538Z9W6",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE I"
+  },
+  {
+    "id": "RRWQ3OEW",
+    "nombre": "SAN CRISTÓBAL-LAS LOMAS"
+  },
+  {
+    "id": "2X5UYB86",
+    "nombre": "SAN CRISTÓBAL-SAN JOSE SUR ORIENTAL"
+  },
+  {
+    "id": "53CPMLS0",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE"
+  },
+  {
+    "id": "LX8PJ40T",
+    "nombre": "SAN CRISTÓBAL-VILLA DE LOS ALPES I"
+  },
+  {
+    "id": "YXCF3NEK",
+    "nombre": "SAN CRISTÓBAL-LA ARBOLEDA RURAL"
+  },
+  {
+    "id": "LANK7ISM",
+    "nombre": "SAN CRISTÓBAL-BARCELONA SUR"
+  },
+  {
+    "id": "BLKH1R9P",
+    "nombre": "SAN CRISTÓBAL-LA VICTORIA"
+  },
+  {
+    "id": "GO2PGQHI",
+    "nombre": "SAN CRISTÓBAL-VILLA DE LOS ALPES"
+  },
+  {
+    "id": "OPS38CUM",
+    "nombre": "SAN CRISTÓBAL-LA GLORIA ORIENTAL"
+  },
+  {
+    "id": "UXJGL7YV",
+    "nombre": "SAN CRISTÓBAL-ALTAMIRA"
+  },
+  {
+    "id": "1YS52QG8",
+    "nombre": "SAN CRISTÓBAL-CANADA O GUIRA"
+  },
+  {
+    "id": "S91WUUBV",
+    "nombre": "SAN CRISTÓBAL-DIANA TURBAY ARRAYANES"
+  },
+  {
+    "id": "KKSMSN58",
+    "nombre": "SAN CRISTÓBAL-QUINDIO"
+  },
+  {
+    "id": "QKCEM5NZ",
+    "nombre": "SAN CRISTÓBAL-LOS ALPES"
+  },
+  {
+    "id": "N0BO4FUA",
+    "nombre": "SAN CRISTÓBAL-CERROS DE ORIENTE"
+  },
+  {
+    "id": "9UJIHRIV",
+    "nombre": "SAN CRISTÓBAL-SAN MARTIN SUR"
+  },
+  {
+    "id": "FPBAO522",
+    "nombre": "SAN CRISTÓBAL-LAS GUACAMAYAS II"
+  },
+  {
+    "id": "Q2VX769M",
+    "nombre": "SAN CRISTÓBAL-SAN VICENTE"
+  },
+  {
+    "id": "7UB836Y8",
+    "nombre": "SAN CRISTÓBAL-ALTOS DEL ZUQUE"
+  },
+  {
+    "id": "BB7ENTO9",
+    "nombre": "SAN CRISTÓBAL-PUENTE COLORADO"
+  },
+  {
+    "id": "M4QS9A9I",
+    "nombre": "SAN CRISTÓBAL-COLMENA I LOS PINARES"
+  },
+  {
+    "id": "Z4CHB46Q",
+    "nombre": "SAN CRISTÓBAL-CIUDAD LONDRES I RURAL"
+  },
+  {
+    "id": "ZH6IAHJJ",
+    "nombre": "SAN CRISTÓBAL-SAN RAFAEL USME"
+  },
+  {
+    "id": "QP29O4Z2",
+    "nombre": "SAN CRISTÓBAL-SAN RAFAEL USME RURAL I"
+  },
+  {
+    "id": "CY4WCVMR",
+    "nombre": "SAN CRISTÓBAL-LAS GAVIOTAS"
+  },
+  {
+    "id": "7MRPHM5F",
+    "nombre": "SAN CRISTÓBAL-EL PINAR"
+  },
+  {
+    "id": "XQD4NJV5",
+    "nombre": "SAN CRISTÓBAL-NUEVA DELHI"
+  },
+  {
+    "id": "3IDUMAW0",
+    "nombre": "SAN CRISTÓBAL-CHIGUAZA RURAL"
+  },
+  {
+    "id": "18A2IVUM",
+    "nombre": "SAN CRISTÓBAL-CHIGUAZA URBANO"
+  },
+  {
+    "id": "A0XRBMPH",
+    "nombre": "SAN CRISTÓBAL-FISCALA ALTA"
+  },
+  {
+    "id": "ZXJUSQAC",
+    "nombre": "SAN CRISTÓBAL-LA GLORIA OCCIDENTAL"
+  },
+  {
+    "id": "AWQ5D3DW",
+    "nombre": "SAN CRISTÓBAL-JUAN REY SUR"
+  },
+  {
+    "id": "LJ5VADID",
+    "nombre": "SAN CRISTÓBAL-BOLONIA I"
+  },
+  {
+    "id": "R7KWPUQU",
+    "nombre": "SAN CRISTÓBAL-VILLA DEL CERRO"
+  },
+  {
+    "id": "F3MHT5IL",
+    "nombre": "SAN CRISTÓBAL-LA BELLEZA"
+  },
+  {
+    "id": "W3NQOKMC",
+    "nombre": "SAN CRISTÓBAL-NUEVA GLORIA"
+  },
+  {
+    "id": "SGTEC5PJ",
+    "nombre": "SAN CRISTÓBAL-LOS LIBERTADORES"
+  },
+  {
+    "id": "Q4C9RPVF",
+    "nombre": "SAN CRISTÓBAL-CIUDAD LONDRES I"
+  },
+  {
+    "id": "MBZPR2EY",
+    "nombre": "SAN CRISTÓBAL-TIBAQUE"
+  },
+  {
+    "id": "2O3OTXLL",
+    "nombre": "SAN CRISTÓBAL-LA ARBOLEDA RURAL"
+  },
+  {
+    "id": "9Z2AO14M",
+    "nombre": "SAN CRISTÓBAL-ARRAYANES V"
+  },
+  {
+    "id": "QK4BKUMF",
+    "nombre": "SAN CRISTÓBAL-JUAN REY (LA PAZ)"
+  },
+  {
+    "id": "LJL29DB1",
+    "nombre": "SAN CRISTÓBAL-VILLABEL"
+  },
+  {
+    "id": "HIKE6KXQ",
+    "nombre": "SAN CRISTÓBAL-EL PARAISO"
+  },
+  {
+    "id": "RMS4IJD0",
+    "nombre": "SAN CRISTÓBAL-LA GLORIA ORIENTAL"
+  },
+  {
+    "id": "S4VJ53JS",
+    "nombre": "SAN CRISTÓBAL-ALTAMIRA"
+  },
+  {
+    "id": "JZ34TAUE",
+    "nombre": "SAN CRISTÓBAL-CANADA O GUIRA"
+  },
+  {
+    "id": "9X1J92ZE",
+    "nombre": "SAN CRISTÓBAL-YOMASA"
+  },
+  {
+    "id": "5DWSOQBZ",
+    "nombre": "SAN CRISTÓBAL-DIANA TURBAY ARRAYANES"
+  },
+  {
+    "id": "TE0LASDF",
+    "nombre": "SAN CRISTÓBAL-QUINDIO"
+  },
+  {
+    "id": "WP07LMMM",
+    "nombre": "SAN CRISTÓBAL-ARBOLEDA SANTA TERESITA"
+  },
+  {
+    "id": "GBVMTP46",
+    "nombre": "SAN CRISTÓBAL-SAN MARTIN SUR"
+  },
+  {
+    "id": "VIBAC5S9",
+    "nombre": "SAN CRISTÓBAL-CIUDAD LONDRES RURAL"
+  },
+  {
+    "id": "75IHJ9V9",
+    "nombre": "SAN CRISTÓBAL-SANTA RITA SUR ORIENTAL"
+  },
+  {
+    "id": "2E40BQFZ",
+    "nombre": "SAN CRISTÓBAL-COLMENA I LOS PINARES"
+  },
+  {
+    "id": "8M2IAAN1",
+    "nombre": "SAN CRISTÓBAL-ARRAYANES I"
+  },
+  {
+    "id": "NF30L5X7",
+    "nombre": "USME-TUNJUELITO"
+  },
+  {
+    "id": "5A65FX8F",
+    "nombre": "USME-LA AURORA"
+  },
+  {
+    "id": "ST5B7DE1",
+    "nombre": "USME-YOMASA NORTE RURAL"
+  },
+  {
+    "id": "UNOQDKHX",
+    "nombre": "USME-SAN JUAN BAUTISTA"
+  },
+  {
+    "id": "IHDFVFI0",
+    "nombre": "USME-EL MOCHUELO II RURAL"
+  },
+  {
+    "id": "CZ1R97A9",
+    "nombre": "USME-SANTA LIBRADA"
+  },
+  {
+    "id": "HJOIVYGP",
+    "nombre": "USME-AREA ARTILLERIA"
+  },
+  {
+    "id": "6I4X9FT9",
+    "nombre": "USME-LA MARICHUELA"
+  },
+  {
+    "id": "E20JS8Z3",
+    "nombre": "USME-LA ANDREA"
+  },
+  {
+    "id": "17QEVCLU",
+    "nombre": "USME-GRAN YOMASA"
+  },
+  {
+    "id": "N0ZMFQPM",
+    "nombre": "USME-GRANADA SUR"
+  },
+  {
+    "id": "9YKTK5B2",
+    "nombre": "USME-EL MOCHUELO ORIENTAL"
+  },
+  {
+    "id": "9AT15EXZ",
+    "nombre": "USME-BARRANQUILLITA"
+  },
+  {
+    "id": "MOKB9US1",
+    "nombre": "USME-TUNJUELITO RURAL"
+  },
+  {
+    "id": "BI5IHODG",
+    "nombre": "USME-PORVENIR"
+  },
+  {
+    "id": "8GVUWB12",
+    "nombre": "USME-EL MOCHUELO ORIENTAL RURAL"
+  },
+  {
+    "id": "4IYRO8F6",
+    "nombre": "USME-LA PICOTA"
+  },
+  {
+    "id": "YEXP2HMV",
+    "nombre": "USME-EL MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "6FE02ZH1",
+    "nombre": "USME-NUEVO SAN ANDRES"
+  },
+  {
+    "id": "32333KGJ",
+    "nombre": "USME-MONTEBLANCO"
+  },
+  {
+    "id": "2YAHASQF",
+    "nombre": "USME-SANTA LIBRADA NORTE"
+  },
+  {
+    "id": "JIZNMI43",
+    "nombre": "USME-EL BOSQUE"
+  },
+  {
+    "id": "KIVBN0J5",
+    "nombre": "USME-CIUDAD LONDRES I RURAL"
+  },
+  {
+    "id": "10AG9K1W",
+    "nombre": "USME-LAS GAVIOTAS"
+  },
+  {
+    "id": "TNK8QP2N",
+    "nombre": "USME-BOLONIA"
+  },
+  {
+    "id": "IN311O7N",
+    "nombre": "USME-LA PAZ"
+  },
+  {
+    "id": "I1SA0NG1",
+    "nombre": "USME-CHIGUAZA RURAL"
+  },
+  {
+    "id": "X5VISHQF",
+    "nombre": "USME-TIHUAQUE RURAL"
+  },
+  {
+    "id": "N2I4WGT4",
+    "nombre": "USME-LA ESPERANZA SUR I"
+  },
+  {
+    "id": "0KKP6EGI",
+    "nombre": "USME-CHUNIZA"
+  },
+  {
+    "id": "3PHRC0U1",
+    "nombre": "USME-LA FISCALA NORTE"
+  },
+  {
+    "id": "SL6RVSKZ",
+    "nombre": "USME-LOS SOCHES"
+  },
+  {
+    "id": "DKR7N0W9",
+    "nombre": "USME-EL NEVADO II"
+  },
+  {
+    "id": "SWSC67JM",
+    "nombre": "USME-BOLONIA I"
+  },
+  {
+    "id": "14PVIUJX",
+    "nombre": "USME-TIHUAQUE"
+  },
+  {
+    "id": "AQEKOYGE",
+    "nombre": "USME-FISCALA ALTA"
+  },
+  {
+    "id": "9Q1TR95P",
+    "nombre": "USME-SANTA LIBRADA"
+  },
+  {
+    "id": "EGOFPW7A",
+    "nombre": "USME-SALAZAR USME"
+  },
+  {
+    "id": "E31D3DL2",
+    "nombre": "USME-DUITAMA"
+  },
+  {
+    "id": "FAAB7LHZ",
+    "nombre": "USME-LOS OLIVARES"
+  },
+  {
+    "id": "3V4UT6ET",
+    "nombre": "USME-LA CABANA"
+  },
+  {
+    "id": "T6IZDBJR",
+    "nombre": "USME-LA FISCALA"
+  },
+  {
+    "id": "I108ZY1X",
+    "nombre": "USME-JUAN REY SUR"
+  },
+  {
+    "id": "MWCHXO5S",
+    "nombre": "USME-BOLONIA I"
+  },
+  {
+    "id": "PI9C87GP",
+    "nombre": "USME-TIBAQUE II"
+  },
+  {
+    "id": "3L3GIEY0",
+    "nombre": "USME-LA MARICHUELA"
+  },
+  {
+    "id": "52UE300B",
+    "nombre": "USME-LA ANDREA"
+  },
+  {
+    "id": "RXGB6OBD",
+    "nombre": "USME-GRAN YOMASA"
+  },
+  {
+    "id": "9NSXPNBP",
+    "nombre": "USME-LA BELLEZA"
+  },
+  {
+    "id": "J80U93AU",
+    "nombre": "USME-EL MOCHUELO ORIENTAL"
+  },
+  {
+    "id": "5S24BQP0",
+    "nombre": "USME-BARRANQUILLITA"
+  },
+  {
+    "id": "Q1BACI92",
+    "nombre": "USME-CIUDAD LONDRES I"
+  },
+  {
+    "id": "1MD12EOS",
+    "nombre": "USME-PALERMO SUR"
+  },
+  {
+    "id": "XZ0CD9D4",
+    "nombre": "USME-LAS VIOLETAS RURAL"
+  },
+  {
+    "id": "O2OCPUAO",
+    "nombre": "USME-EL PEDREGAL"
+  },
+  {
+    "id": "2VOO88GC",
+    "nombre": "USME-PORVENIR"
+  },
+  {
+    "id": "ODYL5KZB",
+    "nombre": "USME-DONA LILIANA"
+  },
+  {
+    "id": "MKEI3RAP",
+    "nombre": "USME-LA CABANA"
+  },
+  {
+    "id": "8QPS1A4F",
+    "nombre": "USME-LA ESPERANZA SUR"
+  },
+  {
+    "id": "T5AYKUZ9",
+    "nombre": "USME-TIBAQUE"
+  },
+  {
+    "id": "DBVKEDS9",
+    "nombre": "USME-LA ARBOLEDA RURAL"
+  },
+  {
+    "id": "T9A0JAAI",
+    "nombre": "USME-LA PICOTA"
+  },
+  {
+    "id": "V623R0TH",
+    "nombre": "USME-EL BOSQUE CENTRAL I"
+  },
+  {
+    "id": "HE57ZJIO",
+    "nombre": "USME-ARRAYANES V"
+  },
+  {
+    "id": "8OQ1NQFG",
+    "nombre": "USME-JUAN REY (LA PAZ)"
+  },
+  {
+    "id": "X03N9SUH",
+    "nombre": "USME-VILLABEL"
+  },
+  {
+    "id": "QJWWFSFT",
+    "nombre": "USME-DANUBIO II"
+  },
+  {
+    "id": "YFL86Z87",
+    "nombre": "USME-DANUBIO"
+  },
+  {
+    "id": "FVLFC39J",
+    "nombre": "USME-EL BOSQUE CENTRAL"
+  },
+  {
+    "id": "3BIBZPVM",
+    "nombre": "USME-TOCAIMITA ORIENTAL"
+  },
+  {
+    "id": "8MBQQ9ND",
+    "nombre": "USME-NUEVO SAN ANDRES"
+  },
+  {
+    "id": "9MCP9L1F",
+    "nombre": "USME-CANADA O GUIRA"
+  },
+  {
+    "id": "7NB5MY6M",
+    "nombre": "USME-LILIANA"
+  },
+  {
+    "id": "V8ZO47DR",
+    "nombre": "USME-YOMASA"
+  },
+  {
+    "id": "RYN7EZSH",
+    "nombre": "USME-DIANA TURBAY ARRAYANES"
+  },
+  {
+    "id": "8XVHYWW2",
+    "nombre": "USME-ALASKA"
+  },
+  {
+    "id": "4DA1YMAV",
+    "nombre": "USME-EL NEVADO"
+  },
+  {
+    "id": "RGPUJ70C",
+    "nombre": "USME-SAN PEDRO SUR"
+  },
+  {
+    "id": "DRLCW1VL",
+    "nombre": "USME-VILLA DIANA"
+  },
+  {
+    "id": "XP80W290",
+    "nombre": "USME-CIUDAD LONDRES RURAL"
+  },
+  {
+    "id": "C7RTURW0",
+    "nombre": "USME-EL CURUBO"
+  },
+  {
+    "id": "WEQVFEXK",
+    "nombre": "USME-SANTA LIBRADA NORTE"
+  },
+  {
+    "id": "NGUNK5FC",
+    "nombre": "USME-EL PEDREGAL II"
+  },
+  {
+    "id": "U4WYM5L2",
+    "nombre": "USME-TIBAQUE SUR"
+  },
+  {
+    "id": "652MAUQM",
+    "nombre": "USME-ARRAYANES I"
+  },
+  {
+    "id": "F76PFWVM",
+    "nombre": "USME-ARRAYANES VI"
+  },
+  {
+    "id": "T7D4AI7B",
+    "nombre": "USME-PEPINITOS"
+  },
+  {
+    "id": "90CUQ0AL",
+    "nombre": "USME-LOS ARRAYANES"
+  },
+  {
+    "id": "WJKRVLHT",
+    "nombre": "USME-EL BOSQUE"
+  },
+  {
+    "id": "BU2JL5TL",
+    "nombre": "USME-EL BOSQUE SUR ORIENTAL RURAL III"
+  },
+  {
+    "id": "ZPLPD7LY",
+    "nombre": "USME-EL UVAL RURAL"
+  },
+  {
+    "id": "UXPRT2WO",
+    "nombre": "USME-EL PORTAL DEL DIVINO"
+  },
+  {
+    "id": "PRATC58U",
+    "nombre": "USME-BOLONIA"
+  },
+  {
+    "id": "8H2BGG5G",
+    "nombre": "USME-EL NUEVO PORTAL"
+  },
+  {
+    "id": "XCST2MHI",
+    "nombre": "USME-CHARALA"
+  },
+  {
+    "id": "AC8H6Z5F",
+    "nombre": "USME-SAN FELIPE DE USME RURAL"
+  },
+  {
+    "id": "H263NUWH",
+    "nombre": "USME-EL NUEVO PORTAL II"
+  },
+  {
+    "id": "78O5WFPN",
+    "nombre": "USME-PUERTA AL LLANO DE USME"
+  },
+  {
+    "id": "0ATP7YGC",
+    "nombre": "USME-TIHUAQUE RURAL"
+  },
+  {
+    "id": "FDAW23RR",
+    "nombre": "USME-LA ESPERANZA SUR I"
+  },
+  {
+    "id": "JO68G35Q",
+    "nombre": "USME-TOCAIMITA ORIENTAL I"
+  },
+  {
+    "id": "2DOU16DO",
+    "nombre": "USME-CHUNIZA"
+  },
+  {
+    "id": "02XMIT5E",
+    "nombre": "USME-LOS SOCHES"
+  },
+  {
+    "id": "E07WG2XQ",
+    "nombre": "USME-CHAPINERITO"
+  },
+  {
+    "id": "XB8T8K44",
+    "nombre": "USME-TIHUAQUE"
+  },
+  {
+    "id": "YC7VR5W7",
+    "nombre": "USME-TOCAIMITA SUR"
+  },
+  {
+    "id": "PDW2PZLQ",
+    "nombre": "USME-EL REFUGIO I"
+  },
+  {
+    "id": "T4L2BJD0",
+    "nombre": "USME-LA COMUNA"
+  },
+  {
+    "id": "4R7PQUNB",
+    "nombre": "USME-EL PORTAL URBANO"
+  },
+  {
+    "id": "DVFFFT5E",
+    "nombre": "USME-EL BOSQUE SUR ORIENTAL"
+  },
+  {
+    "id": "GVUAM5LL",
+    "nombre": "USME-EL PORVENIR DE LOS SOCHES"
+  },
+  {
+    "id": "FRCHO4FY",
+    "nombre": "USME-EL SALTEADOR"
+  },
+  {
+    "id": "TW9JYWAH",
+    "nombre": "USME-PUERTA AL LLANO I"
+  },
+  {
+    "id": "74D1ASCB",
+    "nombre": "USME-PORTAL RURAL II"
+  },
+  {
+    "id": "G2BJOGBT",
+    "nombre": "USME-LAS VIOLETAS RURAL"
+  },
+  {
+    "id": "ZMFM0YZ7",
+    "nombre": "USME-EL BOSQUE SUR ORIENTAL RURAL I"
+  },
+  {
+    "id": "R326SDTM",
+    "nombre": "USME-LA ESPERANZA SUR"
+  },
+  {
+    "id": "BVA5QVC4",
+    "nombre": "USME-TIBAQUE"
+  },
+  {
+    "id": "IZFCSE0B",
+    "nombre": "USME-COMUNEROS"
+  },
+  {
+    "id": "VABJOE5B",
+    "nombre": "USME-EL UVAL"
+  },
+  {
+    "id": "MP6SNL8Y",
+    "nombre": "USME-EL BOSQUE CENTRAL I"
+  },
+  {
+    "id": "APE4TS5A",
+    "nombre": "USME-PUERTA AL LLANO RURAL"
+  },
+  {
+    "id": "TQH8S3TO",
+    "nombre": "USME-EL BOSQUE CENTRAL"
+  },
+  {
+    "id": "7S6QQ31D",
+    "nombre": "USME-TOCAIMITA ORIENTAL"
+  },
+  {
+    "id": "W6ACCTS0",
+    "nombre": "USME-JUAN JOSE RONDON I"
+  },
+  {
+    "id": "CG7G5EHI",
+    "nombre": "USME-LA REFORMA"
+  },
+  {
+    "id": "LQSOO2QH",
+    "nombre": "USME-LAS VIOLETAS"
+  },
+  {
+    "id": "T2WI7QU4",
+    "nombre": "USME-LILIANA"
+  },
+  {
+    "id": "DZWB2AH3",
+    "nombre": "USME-SAN FELIPE DE USME"
+  },
+  {
+    "id": "5E98QQLX",
+    "nombre": "USME-EL NUEVO PORTAL II RURAL"
+  },
+  {
+    "id": "OBGICWRX",
+    "nombre": "USME-VILLA DIANA"
+  },
+  {
+    "id": "C2VT6N2X",
+    "nombre": "USME-LA ORQUIDEA DE USME"
+  },
+  {
+    "id": "M9YBGCIO",
+    "nombre": "USME-EL PROGRESO USME"
+  },
+  {
+    "id": "CVVT6UYP",
+    "nombre": "USME-LA HUERTA"
+  },
+  {
+    "id": "WQH88AC6",
+    "nombre": "USME-BRISAS DEL LLANO"
+  },
+  {
+    "id": "V16HY2ZS",
+    "nombre": "USME-TIBAQUE SUR"
+  },
+  {
+    "id": "3RJK7RXS",
+    "nombre": "USME-ANTONIO JOSE DE SUCRE"
+  },
+  {
+    "id": "N7ZXK2TZ",
+    "nombre": "USME-VILLA ISRAEL"
+  },
+  {
+    "id": "D6WII5ML",
+    "nombre": "USME-CENTRO USME RURAL"
+  },
+  {
+    "id": "JDW69I3N",
+    "nombre": "USME-EL UVAL II"
+  },
+  {
+    "id": "YNERO3D5",
+    "nombre": "USME-EL UVAL RURAL"
+  },
+  {
+    "id": "Q39O1QR4",
+    "nombre": "USME-DESARROLLO BRAZUELOS"
+  },
+  {
+    "id": "T2G6VUPK",
+    "nombre": "USME-EL VIRREY"
+  },
+  {
+    "id": "1FGJB2E3",
+    "nombre": "USME-CHARALA"
+  },
+  {
+    "id": "WC2L38P9",
+    "nombre": "USME-LA ESPERANZA DE USME"
+  },
+  {
+    "id": "C6T1HGE6",
+    "nombre": "USME-YOMASA NORTE RURAL"
+  },
+  {
+    "id": "KYD35DZ3",
+    "nombre": "USME-BRAZUELOS OCCIDENTAL RURAL"
+  },
+  {
+    "id": "RPNBNBXZ",
+    "nombre": "USME-CHUNIZA"
+  },
+  {
+    "id": "XC8ARPI3",
+    "nombre": "USME-LA REQUILINA RURAL III"
+  },
+  {
+    "id": "FY9MQCXZ",
+    "nombre": "USME-SERRANIAS"
+  },
+  {
+    "id": "DSV9702Y",
+    "nombre": "USME-CENTRO USME URBANO"
+  },
+  {
+    "id": "3FA63X3C",
+    "nombre": "USME-MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "I0Y5YZV3",
+    "nombre": "USME-DESARROLLO BRAZUELOS I"
+  },
+  {
+    "id": "VZ2EAS05",
+    "nombre": "USME-CENTRO USME RURAL II"
+  },
+  {
+    "id": "OAZPCFSF",
+    "nombre": "USME-CENTRO USME"
+  },
+  {
+    "id": "3IRP3E6D",
+    "nombre": "USME-EL PORVENIR DE LOS SOCHES"
+  },
+  {
+    "id": "QTEXF9WS",
+    "nombre": "USME-LA REQUILINA RURAL II"
+  },
+  {
+    "id": "2J69U1DZ",
+    "nombre": "USME-LA MARICHUELA"
+  },
+  {
+    "id": "DEI0UOKB",
+    "nombre": "USME-OLARTE"
+  },
+  {
+    "id": "M588LMMO",
+    "nombre": "USME-GRAN YOMASA"
+  },
+  {
+    "id": "PV0B6H67",
+    "nombre": "USME-YOMASA NORTE"
+  },
+  {
+    "id": "8TTRIC7Y",
+    "nombre": "USME-EL SALTEADOR"
+  },
+  {
+    "id": "W4S3WIVV",
+    "nombre": "USME-PUERTA AL LLANO I"
+  },
+  {
+    "id": "SVQ8WR73",
+    "nombre": "USME-EL BOSQUE SUR ORIENTAL RURAL I"
+  },
+  {
+    "id": "UDUBOAFO",
+    "nombre": "USME-TUNJUELITO RURAL"
+  },
+  {
+    "id": "AJJ6JNQF",
+    "nombre": "USME-SERRANIAS I"
+  },
+  {
+    "id": "0YVPOU2Q",
+    "nombre": "USME-COMUNEROS"
+  },
+  {
+    "id": "EHBRDIKC",
+    "nombre": "USME-CENTRO USME URBANO I"
+  },
+  {
+    "id": "VSZ6QK55",
+    "nombre": "USME-LA REQUILINA"
+  },
+  {
+    "id": "WV2II5X2",
+    "nombre": "USME-BRAZUELOS OCCIDENTAL"
+  },
+  {
+    "id": "2LWGQE91",
+    "nombre": "USME-VILLA ANITA"
+  },
+  {
+    "id": "E7Z0XYOI",
+    "nombre": "USME-EL MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "SN2LZB7A",
+    "nombre": "USME-PUERTA AL LLANO RURAL"
+  },
+  {
+    "id": "AA7WKV7O",
+    "nombre": "USME-LA REFORMA"
+  },
+  {
+    "id": "X5BLITPF",
+    "nombre": "USME-EL TUNO"
+  },
+  {
+    "id": "3ZXD67LG",
+    "nombre": "USME-MONTEBLANCO"
+  },
+  {
+    "id": "UT08HXHF",
+    "nombre": "USME-LA ORQUIDEA DE USME"
+  },
+  {
+    "id": "YG61SVBT",
+    "nombre": "USME-LA HUERTA"
+  },
+  {
+    "id": "P9H1K6ID",
+    "nombre": "USME-CENTRO USME RURAL I"
+  },
+  {
+    "id": "98N62ATH",
+    "nombre": "USME-USMINIA"
+  },
+  {
+    "id": "8AWFIJEH",
+    "nombre": "USME-LA REQUILINA RURAL"
+  },
+  {
+    "id": "QPKGAWD8",
+    "nombre": "USME-BRISAS DEL LLANO"
+  },
+  {
+    "id": "TYYYKA8V",
+    "nombre": "TUNJUELITO-ARBORIZADORA BAJA"
+  },
+  {
+    "id": "9M3TKV1P",
+    "nombre": "TUNJUELITO-SAN VICENTE FERRER"
+  },
+  {
+    "id": "8TUB18PE",
+    "nombre": "TUNJUELITO-VILLA MAYOR ORIENTAL"
+  },
+  {
+    "id": "MRBOFB3J",
+    "nombre": "TUNJUELITO-TUNAL ORIENTAL"
+  },
+  {
+    "id": "8HNXWK1W",
+    "nombre": "TUNJUELITO-ISLA DEL SOL"
+  },
+  {
+    "id": "49EBV4WT",
+    "nombre": "TUNJUELITO-VILLA MAYOR"
+  },
+  {
+    "id": "XLJNPW6Y",
+    "nombre": "TUNJUELITO-MADELENA"
+  },
+  {
+    "id": "SA68LH3K",
+    "nombre": "TUNJUELITO-LAS DELICIAS"
+  },
+  {
+    "id": "QQ3WTL9S",
+    "nombre": "TUNJUELITO-ALQUERIA LA FRAGUA II"
+  },
+  {
+    "id": "SSOXI0HL",
+    "nombre": "TUNJUELITO-ALQUERIA"
+  },
+  {
+    "id": "EHJHYEEE",
+    "nombre": "TUNJUELITO-EL CARMEN"
+  },
+  {
+    "id": "X4QY7C62",
+    "nombre": "TUNJUELITO-FATIMA"
+  },
+  {
+    "id": "D1EOVFL9",
+    "nombre": "TUNJUELITO-LA CORUNA"
+  },
+  {
+    "id": "9G573FRK",
+    "nombre": "TUNJUELITO-ATLANTA"
+  },
+  {
+    "id": "ZQD68B47",
+    "nombre": "TUNJUELITO-ESCUELA GENERAL SANTANDER"
+  },
+  {
+    "id": "TF55O4UC",
+    "nombre": "TUNJUELITO-CLARET"
+  },
+  {
+    "id": "5WGSKZHZ",
+    "nombre": "TUNJUELITO-VENECIA"
+  },
+  {
+    "id": "5KAY721H",
+    "nombre": "TUNJUELITO-MUZU"
+  },
+  {
+    "id": "A6O49AQJ",
+    "nombre": "TUNJUELITO-PARQUE EL TUNAL"
+  },
+  {
+    "id": "4HLT5FQ3",
+    "nombre": "TUNJUELITO-SAMORE"
+  },
+  {
+    "id": "UWJMTGM9",
+    "nombre": "TUNJUELITO-VENECIA OCCIDENTAL"
+  },
+  {
+    "id": "5Z12QIH0",
+    "nombre": "TUNJUELITO-NUEVO MUZU"
+  },
+  {
+    "id": "A8Q1CFCB",
+    "nombre": "TUNJUELITO-SAN BENITO"
+  },
+  {
+    "id": "82KJLSSU",
+    "nombre": "TUNJUELITO-ARBORIZADORA BAJA"
+  },
+  {
+    "id": "EO2P1T4Q",
+    "nombre": "TUNJUELITO-SAN CARLOS"
+  },
+  {
+    "id": "H0AQM7K7",
+    "nombre": "TUNJUELITO-ABRAHAM LINCOLN"
+  },
+  {
+    "id": "AARHMZDV",
+    "nombre": "TUNJUELITO-TUNAL ORIENTAL"
+  },
+  {
+    "id": "XL9R6QO4",
+    "nombre": "TUNJUELITO-SANTA LUCIA"
+  },
+  {
+    "id": "EWAO1LQE",
+    "nombre": "TUNJUELITO-CENTRAL DE MEZCLAS"
+  },
+  {
+    "id": "OJMAO96E",
+    "nombre": "TUNJUELITO-MEXICO"
+  },
+  {
+    "id": "O25ECRZM",
+    "nombre": "TUNJUELITO-AREA ARTILLERIA"
+  },
+  {
+    "id": "3N239V3F",
+    "nombre": "TUNJUELITO-EL CHIRCAL SUR"
+  },
+  {
+    "id": "DIW0PP8O",
+    "nombre": "TUNJUELITO-EL MOCHUELO ORIENTAL"
+  },
+  {
+    "id": "F6PZ5JTN",
+    "nombre": "TUNJUELITO-TUNJUELITO"
+  },
+  {
+    "id": "4L5JS0DN",
+    "nombre": "TUNJUELITO-LA PICOTA"
+  },
+  {
+    "id": "6ANWG875",
+    "nombre": "TUNJUELITO-MARCO FIDEL SUAREZ"
+  },
+  {
+    "id": "LFTR52NO",
+    "nombre": "TUNJUELITO-RONDA"
+  },
+  {
+    "id": "ETM1CAON",
+    "nombre": "TUNJUELITO-EL PLAYON"
+  },
+  {
+    "id": "O59YLYNY",
+    "nombre": "TUNJUELITO-MEISSEN"
+  },
+  {
+    "id": "Y5PRKK2L",
+    "nombre": "TUNJUELITO-MUZU"
+  },
+  {
+    "id": "AM4KC401",
+    "nombre": "TUNJUELITO-PARQUE EL TUNAL"
+  },
+  {
+    "id": "WV3JE55L",
+    "nombre": "TUNJUELITO-ARBOLEDA SUR"
+  },
+  {
+    "id": "QR4LNOXT",
+    "nombre": "TUNJUELITO-MOLINOS DEL SUR"
+  },
+  {
+    "id": "JCFEARFY",
+    "nombre": "TUNJUELITO-MARCO FIDEL SUAREZ I"
+  },
+  {
+    "id": "6B35J4P1",
+    "nombre": "BOSA-BRASIL"
+  },
+  {
+    "id": "K0KKA4LN",
+    "nombre": "BOSA-OSORIO X"
+  },
+  {
+    "id": "5D1CRDWG",
+    "nombre": "BOSA-EL PORTAL DEL BRASIL"
+  },
+  {
+    "id": "KCPLX43F",
+    "nombre": "BOSA-PARCELA EL PORVENIR"
+  },
+  {
+    "id": "Y6U4NVAB",
+    "nombre": "BOSA-CANAVERALEJO"
+  },
+  {
+    "id": "2LUGG9RC",
+    "nombre": "BOSA-CAÑAVERALEJO I"
+  },
+  {
+    "id": "BWW6XJ7A",
+    "nombre": "BOSA-JORGE URIBE BOTERO"
+  },
+  {
+    "id": "R8RU9Z8G",
+    "nombre": "BOSA-EL DANUBIO AZUL"
+  },
+  {
+    "id": "I4ZS7BPC",
+    "nombre": "BOSA-OSORIO XXIII"
+  },
+  {
+    "id": "RXJYP2GD",
+    "nombre": "BOSA-BRASILIA"
+  },
+  {
+    "id": "46X6QV3R",
+    "nombre": "BOSA-LA LIBERTAD"
+  },
+  {
+    "id": "IOCVFS7W",
+    "nombre": "BOSA-CHICALA"
+  },
+  {
+    "id": "PDA1R05B",
+    "nombre": "BOSA-EL CORZO I"
+  },
+  {
+    "id": "TXC3CULC",
+    "nombre": "BOSA-CANAVERALEJO RURAL"
+  },
+  {
+    "id": "7FBHD5AD",
+    "nombre": "BOSA-GRAN BRITALIA"
+  },
+  {
+    "id": "K0M09LAV",
+    "nombre": "BOSA-OSORIO XII"
+  },
+  {
+    "id": "VMLPLUEA",
+    "nombre": "BOSA-LAS MARGARITAS"
+  },
+  {
+    "id": "GCE87GNV",
+    "nombre": "BOSA-ESCOCIA"
+  },
+  {
+    "id": "LUKB186M",
+    "nombre": "BOSA-BOSA NOVA EL PORVENIR"
+  },
+  {
+    "id": "0R98ZCLI",
+    "nombre": "BOSA-EL CARMELO"
+  },
+  {
+    "id": "Z6KFGXDI",
+    "nombre": "BOSA-BETANIA"
+  },
+  {
+    "id": "0VO6CNKY",
+    "nombre": "BOSA-LAS MARGARITAS"
+  },
+  {
+    "id": "1ZJM15CH",
+    "nombre": "BOSA-SANTA FE BOSA"
+  },
+  {
+    "id": "I4MN0OGU",
+    "nombre": "BOSA-BOSA NOVA"
+  },
+  {
+    "id": "0R4CXWJW",
+    "nombre": "BOSA-SAN MARTIN"
+  },
+  {
+    "id": "UTJDYAIH",
+    "nombre": "BOSA-EL CORZO II"
+  },
+  {
+    "id": "7JOATWMG",
+    "nombre": "BOSA-LA CABANA"
+  },
+  {
+    "id": "6Z539IJP",
+    "nombre": "BOSA-EL CORZO"
+  },
+  {
+    "id": "0N3TSNRR",
+    "nombre": "BOSA-OSORIO X URBANO"
+  },
+  {
+    "id": "IC8HBT39",
+    "nombre": "BOSA-SAN BERNARDINO II"
+  },
+  {
+    "id": "UTFZY0TK",
+    "nombre": "BOSA-LA PAZ BOSA"
+  },
+  {
+    "id": "3U83SACO",
+    "nombre": "BOSA-CHICO SUR"
+  },
+  {
+    "id": "ONU4K7GF",
+    "nombre": "BOSA-ESCOCIA"
+  },
+  {
+    "id": "F7W528EX",
+    "nombre": "BOSA-CAMPO VERDE"
+  },
+  {
+    "id": "EXV76MIT",
+    "nombre": "BOSA-SAN BERNARDINO XXV"
+  },
+  {
+    "id": "V62SHISM",
+    "nombre": "BOSA-ISLANDIA"
+  },
+  {
+    "id": "6999LWD5",
+    "nombre": "BOSA-SAN BERNARDINO XXII URBANO"
+  },
+  {
+    "id": "HV3E5R4G",
+    "nombre": "BOSA-SAN BERNARDINO XXV URBANO"
+  },
+  {
+    "id": "QB8XWKN1",
+    "nombre": "BOSA-CANAVERALEJO"
+  },
+  {
+    "id": "D1VMBW91",
+    "nombre": "BOSA-GRAN COLOMBIANO"
+  },
+  {
+    "id": "K56Z7M7H",
+    "nombre": "BOSA-CIUDADELA EL RECREO II"
+  },
+  {
+    "id": "53HTK63B",
+    "nombre": "BOSA-SAN BERNARDINO POTRERITOS"
+  },
+  {
+    "id": "ZA4XMIX0",
+    "nombre": "BOSA-SAN ANTONIO"
+  },
+  {
+    "id": "R0G99L1A",
+    "nombre": "BOSA-LA VEGA SAN BERNARDINO"
+  },
+  {
+    "id": "YBW76SAA",
+    "nombre": "BOSA-SAN DIEGO-BOSA"
+  },
+  {
+    "id": "P3A77GYF",
+    "nombre": "BOSA-SAN BERNARDINO XIX"
+  },
+  {
+    "id": "1XPWZZCN",
+    "nombre": "BOSA-EL REMANSO I"
+  },
+  {
+    "id": "L6K96DFA",
+    "nombre": "BOSA-LOS SAUCES"
+  },
+  {
+    "id": "2P3UUZBS",
+    "nombre": "BOSA-ARGELIA II"
+  },
+  {
+    "id": "7HFYG5L5",
+    "nombre": "BOSA-VILLAS DEL PROGRESO"
+  },
+  {
+    "id": "2N4OUQBB",
+    "nombre": "BOSA-ANTONIA SANTOS"
+  },
+  {
+    "id": "JCVRUT4P",
+    "nombre": "BOSA-CANAVERALEJO RURAL"
+  },
+  {
+    "id": "R5CRL1A8",
+    "nombre": "BOSA-LA INDEPENDENCIA"
+  },
+  {
+    "id": "6MJXYRLN",
+    "nombre": "BOSA-LAS MARGARITAS"
+  },
+  {
+    "id": "6545O6I2",
+    "nombre": "BOSA-ESCOCIA"
+  },
+  {
+    "id": "V98K9C99",
+    "nombre": "BOSA-SAN BERNARDINO XVIII"
+  },
+  {
+    "id": "UC2OY5G1",
+    "nombre": "BOSA-BOSA NOVA EL PORVENIR"
+  },
+  {
+    "id": "V8242WS9",
+    "nombre": "BOSA-EL JARDIN"
+  },
+  {
+    "id": "GP3IMCVO",
+    "nombre": "BOSA-CIUDADELA EL RECREO"
+  },
+  {
+    "id": "TESWMP0H",
+    "nombre": "BOSA-VILLA EMMA"
+  },
+  {
+    "id": "IZNA21Z7",
+    "nombre": "BOSA-LOS LAURELES"
+  },
+  {
+    "id": "3X5LXA96",
+    "nombre": "BOSA-SANTA FE BOSA"
+  },
+  {
+    "id": "1BWHAKWQ",
+    "nombre": "BOSA-BOSA NOVA"
+  },
+  {
+    "id": "IM66M7U7",
+    "nombre": "BOSA-LA CABANA"
+  },
+  {
+    "id": "3GFX7XU4",
+    "nombre": "BOSA-SAN PEDRO"
+  },
+  {
+    "id": "YX7PB1O9",
+    "nombre": "BOSA-SAN BERNARDINO XVIII"
+  },
+  {
+    "id": "VMH2FAG7",
+    "nombre": "BOSA-SAN BERNARDINO II"
+  },
+  {
+    "id": "KXEV5PX2",
+    "nombre": "BOSA-REMANSO URBANO"
+  },
+  {
+    "id": "0E3PCPI0",
+    "nombre": "BOSA-LA PAZ BOSA"
+  },
+  {
+    "id": "SOS89TS5",
+    "nombre": "BOSA-CHICO SUR"
+  },
+  {
+    "id": "PWYAGZ3H",
+    "nombre": "BOSA-ESCOCIA"
+  },
+  {
+    "id": "201XPX8V",
+    "nombre": "BOSA-EL REMANSO"
+  },
+  {
+    "id": "W1Q30B81",
+    "nombre": "BOSA-BOSA 37"
+  },
+  {
+    "id": "7M72JX1W",
+    "nombre": "BOSA-CAMPO VERDE"
+  },
+  {
+    "id": "NQ6I40KD",
+    "nombre": "BOSA-ISLANDIA"
+  },
+  {
+    "id": "U54VD62R",
+    "nombre": "BOSA-JIMENEZ DE QUESADA II SECTOR"
+  },
+  {
+    "id": "WA581D1H",
+    "nombre": "BOSA-JOSE ANTONIO GALAN"
+  },
+  {
+    "id": "AXZGSTF1",
+    "nombre": "BOSA-CHARLES DE GAULLE"
+  },
+  {
+    "id": "PQ5YPBO0",
+    "nombre": "BOSA-SAN BERNARDINO XXV URBANO"
+  },
+  {
+    "id": "5E2W4G51",
+    "nombre": "BOSA-GRAN COLOMBIANO"
+  },
+  {
+    "id": "L1TUYVH3",
+    "nombre": "BOSA-JIMENEZ DE QUESADA"
+  },
+  {
+    "id": "J8C3D9O2",
+    "nombre": "BOSA-SAN DIEGO-BOSA"
+  },
+  {
+    "id": "EBXDFPOQ",
+    "nombre": "BOSA-SAN BERNARDINO I"
+  },
+  {
+    "id": "UQW4XECR",
+    "nombre": "BOSA-PASO ANCHO"
+  },
+  {
+    "id": "3FJ49Q28",
+    "nombre": "BOSA-SAN PABLO BOSA"
+  },
+  {
+    "id": "6XRCLC05",
+    "nombre": "BOSA-EL REMANSO I"
+  },
+  {
+    "id": "QJKXJAVS",
+    "nombre": "BOSA-LOS SAUCES"
+  },
+  {
+    "id": "ELUIOHKX",
+    "nombre": "BOSA-ARGELIA II"
+  },
+  {
+    "id": "ES9D8A9R",
+    "nombre": "BOSA-BOSA"
+  },
+  {
+    "id": "GGQN0EO6",
+    "nombre": "BOSA-CLASS"
+  },
+  {
+    "id": "4JQVH51Z",
+    "nombre": "BOSA-ANTONIA SANTOS"
+  },
+  {
+    "id": "KNI9XMPX",
+    "nombre": "BOSA-LA INDEPENDENCIA"
+  },
+  {
+    "id": "W5MOL4U5",
+    "nombre": "BOSA-GRAN BRITALIA"
+  },
+  {
+    "id": "25UBBMLG",
+    "nombre": "BOSA-SAN BERNARDINO XVIII"
+  },
+  {
+    "id": "UVXR21DZ",
+    "nombre": "BOSA-EL RETAZO"
+  },
+  {
+    "id": "821BDG4H",
+    "nombre": "BOSA-EL JARDIN"
+  },
+  {
+    "id": "IEFG2YND",
+    "nombre": "BOSA-LOS LAURELES"
+  },
+  {
+    "id": "AFDCAYTO",
+    "nombre": "BOSA-SAN PEDRO"
+  },
+  {
+    "id": "TK04DP75",
+    "nombre": "BOSA-VILLA ANNY I"
+  },
+  {
+    "id": "H962I22I",
+    "nombre": "BOSA-SAN BERNARDINO XVIII"
+  },
+  {
+    "id": "JE679MR5",
+    "nombre": "BOSA-REMANSO URBANO"
+  },
+  {
+    "id": "MNEKKQMB",
+    "nombre": "BOSA-LA PAZ BOSA"
+  },
+  {
+    "id": "8YFZHR0R",
+    "nombre": "BOSA-GUALOCHE"
+  },
+  {
+    "id": "A1BWAA2L",
+    "nombre": "BOSA-JIMENEZ DE QUESADA II SECTOR"
+  },
+  {
+    "id": "VTFF976R",
+    "nombre": "BOSA-JOSE ANTONIO GALAN"
+  },
+  {
+    "id": "XBA7T7NA",
+    "nombre": "BOSA-CHARLES DE GAULLE"
+  },
+  {
+    "id": "86GDKU1M",
+    "nombre": "BOSA-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "GVZNGO3J",
+    "nombre": "BOSA-VILLA DEL RIO"
+  },
+  {
+    "id": "2FC4TCYD",
+    "nombre": "BOSA-LA ESTANCIA"
+  },
+  {
+    "id": "UOVXEAZN",
+    "nombre": "BOSA-GUADALUPE"
+  },
+  {
+    "id": "AAXM4TGM",
+    "nombre": "BOSA-GRAN COLOMBIANO"
+  },
+  {
+    "id": "W3NQ65SO",
+    "nombre": "BOSA-JIMENEZ DE QUESADA"
+  },
+  {
+    "id": "5N6YR1AY",
+    "nombre": "BOSA-SAN BERNARDINO I"
+  },
+  {
+    "id": "O03HJ0T2",
+    "nombre": "BOSA-SAN PABLO BOSA"
+  },
+  {
+    "id": "L2OCSWQ7",
+    "nombre": "BOSA-BOITA"
+  },
+  {
+    "id": "Y30U0U57",
+    "nombre": "BOSA-VILLA ANNY II"
+  },
+  {
+    "id": "FJKT7QVM",
+    "nombre": "BOSA-BOSA"
+  },
+  {
+    "id": "DZI9V1XB",
+    "nombre": "BOSA-CEMENTERIO JARDINES APOGEO"
+  },
+  {
+    "id": "AZ2NWEUT",
+    "nombre": "BOSA-BARLOVENTO"
+  },
+  {
+    "id": "HJIO48EG",
+    "nombre": "BOSA-LA ESTACION BOSA"
+  },
+  {
+    "id": "3M8N6BDT",
+    "nombre": "BOSA-EL RETAZO"
+  },
+  {
+    "id": "8NOJOOSU",
+    "nombre": "BOSA-OLARTE"
+  },
+  {
+    "id": "UR3DYAS3",
+    "nombre": "BOSA-PRIMAVERA II"
+  },
+  {
+    "id": "YAC6RWBV",
+    "nombre": "BOSA-RINCON DE LA VALVANERA"
+  },
+  {
+    "id": "1N2YX0CZ",
+    "nombre": "BOSA-LA CECILIA"
+  },
+  {
+    "id": "ZCK82F04",
+    "nombre": "BOSA-NUEVA GRANADA BOSA"
+  },
+  {
+    "id": "H6B8RKC3",
+    "nombre": "BOSA-JACQUELINE"
+  },
+  {
+    "id": "MY94QBPO",
+    "nombre": "BOSA-JOSE MARIA CARBONEL"
+  },
+  {
+    "id": "1S1KB47F",
+    "nombre": "BOSA-ANDALUCIA II"
+  },
+  {
+    "id": "Y5PIPE70",
+    "nombre": "BOSA-VILLA ANNY I"
+  },
+  {
+    "id": "FF5JQHXC",
+    "nombre": "KENNEDY-LA MAGDALENA"
+  },
+  {
+    "id": "C7Z0VW0K",
+    "nombre": "KENNEDY-LA MAGDALENA RURAL"
+  },
+  {
+    "id": "9883OWBR",
+    "nombre": "KENNEDY-TAIRONA"
+  },
+  {
+    "id": "A5AAA91A",
+    "nombre": "KENNEDY-SAN PEDRO"
+  },
+  {
+    "id": "25PW0K86",
+    "nombre": "KENNEDY-EL TINTAL IV"
+  },
+  {
+    "id": "3BRS7W4G",
+    "nombre": "KENNEDY-TINTALA"
+  },
+  {
+    "id": "JB410VI9",
+    "nombre": "KENNEDY-VEREDA EL TINTAL URBANO"
+  },
+  {
+    "id": "MO4R5HW4",
+    "nombre": "KENNEDY-EL TINTAL III"
+  },
+  {
+    "id": "TRM2TX4N",
+    "nombre": "KENNEDY-OSORIO IV"
+  },
+  {
+    "id": "P7EZCDPQ",
+    "nombre": "KENNEDY-LA MAGDALENA I"
+  },
+  {
+    "id": "RANPR3Y3",
+    "nombre": "KENNEDY-EL TINTAL II"
+  },
+  {
+    "id": "C507GU51",
+    "nombre": "KENNEDY-SABANA GRANDE RURAL"
+  },
+  {
+    "id": "V1KWAIRO",
+    "nombre": "KENNEDY-VEREDA EL TINTAL"
+  },
+  {
+    "id": "EZKKPWR3",
+    "nombre": "KENNEDY-VALLADOLID"
+  },
+  {
+    "id": "UFUJHW1F",
+    "nombre": "KENNEDY-EL VERGEL"
+  },
+  {
+    "id": "CTMY8SQF",
+    "nombre": "KENNEDY-PATIO BONITO"
+  },
+  {
+    "id": "J0WMJP96",
+    "nombre": "KENNEDY-CIUDAD TECHO II"
+  },
+  {
+    "id": "W0GZHKQT",
+    "nombre": "KENNEDY-OSORIO II"
+  },
+  {
+    "id": "IZFQXMWO",
+    "nombre": "KENNEDY-VERGEL OCCIDENTAL"
+  },
+  {
+    "id": "8I6JFJIM",
+    "nombre": "KENNEDY-VEREDA EL TINTAL RURAL"
+  },
+  {
+    "id": "FAAPB94E",
+    "nombre": "KENNEDY-OSORIO III"
+  },
+  {
+    "id": "IWZSY30U",
+    "nombre": "KENNEDY-EL VERGEL ORIENTAL"
+  },
+  {
+    "id": "J8BWPAL5",
+    "nombre": "KENNEDY-HIPOTECHO OCCIDENTAL"
+  },
+  {
+    "id": "160JQ028",
+    "nombre": "KENNEDY-MARSELLA"
+  },
+  {
+    "id": "SIJ9FUR7",
+    "nombre": "KENNEDY-PIO XII"
+  },
+  {
+    "id": "5M66HK6K",
+    "nombre": "KENNEDY-BAVARIA"
+  },
+  {
+    "id": "DKVN3ICH",
+    "nombre": "KENNEDY-EL TINTAL IV"
+  },
+  {
+    "id": "FHSZX5XE",
+    "nombre": "KENNEDY-CASTILLA"
+  },
+  {
+    "id": "H1TBFB8Z",
+    "nombre": "KENNEDY-VILLA ALSACIA II"
+  },
+  {
+    "id": "TSZ3QFWG",
+    "nombre": "KENNEDY-TINTALA"
+  },
+  {
+    "id": "KPLCIFFL",
+    "nombre": "KENNEDY-COOPERATIVA DE SUB-OFICIALES"
+  },
+  {
+    "id": "1GRC4ZVU",
+    "nombre": "KENNEDY-INTERINDUSTRIAL"
+  },
+  {
+    "id": "4ONU0TGN",
+    "nombre": "KENNEDY-LA PAMPA"
+  },
+  {
+    "id": "9CPK1P21",
+    "nombre": "KENNEDY-VISION DE ORIENTE"
+  },
+  {
+    "id": "M21V2RVS",
+    "nombre": "KENNEDY-TECHO"
+  },
+  {
+    "id": "X5ZH3Q22",
+    "nombre": "KENNEDY-CIUDAD KENNEDY NORTE"
+  },
+  {
+    "id": "Q1BXS19F",
+    "nombre": "KENNEDY-VEREDA EL TINTAL"
+  },
+  {
+    "id": "Z0XXZKBL",
+    "nombre": "KENNEDY-PROVIVIENDA"
+  },
+  {
+    "id": "5QU7IR88",
+    "nombre": "KENNEDY-CIUDAD KENNEDY ORIENTAL"
+  },
+  {
+    "id": "NKIYRUU0",
+    "nombre": "KENNEDY-VALLADOLID"
+  },
+  {
+    "id": "Y5O8BZQA",
+    "nombre": "KENNEDY-MARIA PAZ"
+  },
+  {
+    "id": "VAPJF422",
+    "nombre": "KENNEDY-MANDALAY"
+  },
+  {
+    "id": "ZN9PRQP1",
+    "nombre": "KENNEDY-NUEVO TECHO"
+  },
+  {
+    "id": "7H0KY2PU",
+    "nombre": "KENNEDY-EL VERGEL"
+  },
+  {
+    "id": "F9N4B2KT",
+    "nombre": "KENNEDY-CIUDAD TECHO II"
+  },
+  {
+    "id": "XVS6LJQ2",
+    "nombre": "KENNEDY-VERGEL OCCIDENTAL"
+  },
+  {
+    "id": "L9EUYX79",
+    "nombre": "KENNEDY-VEREDA EL TINTAL RURAL"
+  },
+  {
+    "id": "JWY6FAP1",
+    "nombre": "KENNEDY-HIPOTECHO"
+  },
+  {
+    "id": "0XP6OGGO",
+    "nombre": "KENNEDY-CIUDAD KENNEDY"
+  },
+  {
+    "id": "A0880W36",
+    "nombre": "KENNEDY-LAS DOS AVENIDAS"
+  },
+  {
+    "id": "DU0DV3EZ",
+    "nombre": "KENNEDY-EL VERGEL ORIENTAL"
+  },
+  {
+    "id": "0EVYQG6A",
+    "nombre": "KENNEDY-PROVIVIENDA OCCIDENTAL"
+  },
+  {
+    "id": "O59B95QG",
+    "nombre": "KENNEDY-HIPOTECHO OCCIDENTAL"
+  },
+  {
+    "id": "9H2BEK4R",
+    "nombre": "KENNEDY-MARSELLA"
+  },
+  {
+    "id": "O5ECCFYG",
+    "nombre": "KENNEDY-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "MCDZEDLL",
+    "nombre": "KENNEDY-ALQUERIA LA FRAGUA NORTE"
+  },
+  {
+    "id": "4HKA7OH9",
+    "nombre": "KENNEDY-BAVARIA"
+  },
+  {
+    "id": "KLHANX7U",
+    "nombre": "KENNEDY-VILLA ALSACIA II"
+  },
+  {
+    "id": "CIANKUXT",
+    "nombre": "KENNEDY-MONTEVIDEO"
+  },
+  {
+    "id": "FQWJ7USA",
+    "nombre": "KENNEDY-COOPERATIVA DE SUB-OFICIALES"
+  },
+  {
+    "id": "0XJBVNKR",
+    "nombre": "KENNEDY-VILLA ALSACIA"
+  },
+  {
+    "id": "3DRO28EM",
+    "nombre": "KENNEDY-CENTRO INDUSTRIAL"
+  },
+  {
+    "id": "EVDZWCWJ",
+    "nombre": "KENNEDY-HIPOTECHO SUR"
+  },
+  {
+    "id": "7F0M3KTH",
+    "nombre": "KENNEDY-GRANJAS DE TECHO"
+  },
+  {
+    "id": "M3HLD8O3",
+    "nombre": "KENNEDY-PROVIVIENDA"
+  },
+  {
+    "id": "YUN47EX8",
+    "nombre": "KENNEDY-GALAN"
+  },
+  {
+    "id": "UMCL96J2",
+    "nombre": "KENNEDY-MANDALAY"
+  },
+  {
+    "id": "3KO3OFHO",
+    "nombre": "KENNEDY-NUEVO TECHO"
+  },
+  {
+    "id": "AW64JSVB",
+    "nombre": "KENNEDY-PROVIVIENDA ORIENTAL"
+  },
+  {
+    "id": "CH8J9D78",
+    "nombre": "KENNEDY-SALAZAR GOMEZ"
+  },
+  {
+    "id": "5UE28HT0",
+    "nombre": "KENNEDY-PROVIVIENDA NORTE"
+  },
+  {
+    "id": "VY6NTV3S",
+    "nombre": "KENNEDY-HIPOTECHO"
+  },
+  {
+    "id": "T1PNQ8RL",
+    "nombre": "KENNEDY-LAS DOS AVENIDAS"
+  },
+  {
+    "id": "1IGNKHI9",
+    "nombre": "KENNEDY-LUSITANIA"
+  },
+  {
+    "id": "PNU9M5DG",
+    "nombre": "KENNEDY-HIPOTECHO OCCIDENTAL"
+  },
+  {
+    "id": "42B7R2FJ",
+    "nombre": "KENNEDY-TEJAR"
+  },
+  {
+    "id": "HUXBC2G1",
+    "nombre": "KENNEDY-TIMIZA"
+  },
+  {
+    "id": "M47EPYL5",
+    "nombre": "KENNEDY-TUNDAMA"
+  },
+  {
+    "id": "BEQDKWDS",
+    "nombre": "KENNEDY-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "VLA0TK95",
+    "nombre": "KENNEDY-VILLA DEL RIO"
+  },
+  {
+    "id": "URUNN58G",
+    "nombre": "KENNEDY-GUADALUPE"
+  },
+  {
+    "id": "RDN76QO8",
+    "nombre": "KENNEDY-ALQUERIA LA FRAGUA NORTE"
+  },
+  {
+    "id": "J0DHQB4E",
+    "nombre": "KENNEDY-RENANIA URAPANES"
+  },
+  {
+    "id": "M0YYN05X",
+    "nombre": "KENNEDY-TIMIZA C"
+  },
+  {
+    "id": "PCWJPY4B",
+    "nombre": "KENNEDY-CIUDAD KENNEDY SUR"
+  },
+  {
+    "id": "NGY92AJ9",
+    "nombre": "KENNEDY-ALQUERIA LA FRAGUA"
+  },
+  {
+    "id": "CTVE89BG",
+    "nombre": "KENNEDY-ISLA DEL SOL"
+  },
+  {
+    "id": "OJHNQRWM",
+    "nombre": "KENNEDY-SANTA CATALINA"
+  },
+  {
+    "id": "EHMMGUQ4",
+    "nombre": "KENNEDY-LA CAMPINA"
+  },
+  {
+    "id": "BDC3SLU0",
+    "nombre": "KENNEDY-BOITA"
+  },
+  {
+    "id": "P86S0O7E",
+    "nombre": "KENNEDY-TIMIZA A"
+  },
+  {
+    "id": "6HDSPS8Q",
+    "nombre": "KENNEDY-TIMIZA B"
+  },
+  {
+    "id": "H4IST8FS",
+    "nombre": "KENNEDY-LAS DELICIAS"
+  },
+  {
+    "id": "D6WZGUZ0",
+    "nombre": "KENNEDY-ALQUERIA LA FRAGUA II"
+  },
+  {
+    "id": "PENTYEXR",
+    "nombre": "KENNEDY-ALQUERIA"
+  },
+  {
+    "id": "XRNWLH70",
+    "nombre": "KENNEDY-PROVIVIENDA"
+  },
+  {
+    "id": "Z7RMCP1V",
+    "nombre": "KENNEDY-JACQUELINE"
+  },
+  {
+    "id": "JQMBZTPH",
+    "nombre": "KENNEDY-CIUDAD KENNEDY ORIENTAL"
+  },
+  {
+    "id": "QD5EWCTO",
+    "nombre": "KENNEDY-VENECIA"
+  },
+  {
+    "id": "Y03G3HPZ",
+    "nombre": "KENNEDY-PROVIVIENDA ORIENTAL"
+  },
+  {
+    "id": "92NVR0WB",
+    "nombre": "KENNEDY-VENECIA OCCIDENTAL"
+  },
+  {
+    "id": "EBI84N2X",
+    "nombre": "KENNEDY-NUEVA YORK"
+  },
+  {
+    "id": "E86DJ8I3",
+    "nombre": "KENNEDY-PROVIVIENDA OCCIDENTAL"
+  },
+  {
+    "id": "CNYLFA2S",
+    "nombre": "KENNEDY-TOCAREMA"
+  },
+  {
+    "id": "K16CG2AF",
+    "nombre": "KENNEDY-TIMIZA"
+  },
+  {
+    "id": "HCTTP1NO",
+    "nombre": "KENNEDY-CIUDAD KENNEDY CENTRAL"
+  },
+  {
+    "id": "D80GZDZV",
+    "nombre": "KENNEDY-TAIRONA"
+  },
+  {
+    "id": "8I2XY1MK",
+    "nombre": "KENNEDY-CHUCUA DE LA VACA II"
+  },
+  {
+    "id": "ABDNESAV",
+    "nombre": "KENNEDY-PIO XII"
+  },
+  {
+    "id": "05VFBDYA",
+    "nombre": "KENNEDY-CHUCUA DE LA VACA III"
+  },
+  {
+    "id": "V7374BQF",
+    "nombre": "KENNEDY-PATIO BONITO II"
+  },
+  {
+    "id": "K11FGSFY",
+    "nombre": "KENNEDY-TIMIZA C"
+  },
+  {
+    "id": "ZR6DGIRO",
+    "nombre": "KENNEDY-CIUDAD KENNEDY SUR"
+  },
+  {
+    "id": "TPSW0XJ6",
+    "nombre": "KENNEDY-CIUDAD KENNEDY OCCIDENTAL"
+  },
+  {
+    "id": "NU8GV1I1",
+    "nombre": "KENNEDY-PASTRANA"
+  },
+  {
+    "id": "OTLI7XBW",
+    "nombre": "KENNEDY-TECHO"
+  },
+  {
+    "id": "JU6SZAPX",
+    "nombre": "KENNEDY-CIUDAD KENNEDY NORTE"
+  },
+  {
+    "id": "VEHWJRB5",
+    "nombre": "KENNEDY-VILLA NELLY III SECTOR"
+  },
+  {
+    "id": "VSHSG2P4",
+    "nombre": "KENNEDY-CORABASTOS"
+  },
+  {
+    "id": "DN0C7EDG",
+    "nombre": "KENNEDY-SAUCEDAL"
+  },
+  {
+    "id": "YGPV8XZQ",
+    "nombre": "KENNEDY-CHUCUA DE LA VACA I"
+  },
+  {
+    "id": "N3Z9CYVB",
+    "nombre": "KENNEDY-CIUDAD KENNEDY ORIENTAL"
+  },
+  {
+    "id": "YRCYJND9",
+    "nombre": "KENNEDY-MARIA PAZ"
+  },
+  {
+    "id": "JCPEW2SI",
+    "nombre": "KENNEDY-MANDALAY"
+  },
+  {
+    "id": "NEZCRVLT",
+    "nombre": "KENNEDY-PATIO BONITO"
+  },
+  {
+    "id": "1IF7DZ2F",
+    "nombre": "KENNEDY-CIUDAD TECHO II"
+  },
+  {
+    "id": "2KAZ65HF",
+    "nombre": "KENNEDY-GRAN BRITALIA I"
+  },
+  {
+    "id": "U3M74Y9I",
+    "nombre": "KENNEDY-TINTALITO"
+  },
+  {
+    "id": "K2WY7EIC",
+    "nombre": "KENNEDY-LLANO GRANDE"
+  },
+  {
+    "id": "R4N7WMBG",
+    "nombre": "KENNEDY-CIUDAD KENNEDY"
+  },
+  {
+    "id": "8BA6Y1JI",
+    "nombre": "KENNEDY-PROVIVIENDA OCCIDENTAL"
+  },
+  {
+    "id": "LU697FGQ",
+    "nombre": "KENNEDY-JOSE ANTONIO GALAN"
+  },
+  {
+    "id": "NP5UA7PC",
+    "nombre": "KENNEDY-JORGE URIBE BOTERO"
+  },
+  {
+    "id": "L20PKP6R",
+    "nombre": "KENNEDY-EL DANUBIO AZUL"
+  },
+  {
+    "id": "22QTIDQM",
+    "nombre": "KENNEDY-EL RUBI"
+  },
+  {
+    "id": "K0VA0ZK5",
+    "nombre": "KENNEDY-TIMIZA C"
+  },
+  {
+    "id": "W0ZJK7II",
+    "nombre": "KENNEDY-CIUDAD KENNEDY SUR"
+  },
+  {
+    "id": "YCZPX7P8",
+    "nombre": "KENNEDY-CIUDAD KENNEDY OCCIDENTAL"
+  },
+  {
+    "id": "CT4TL1TF",
+    "nombre": "KENNEDY-ROMA"
+  },
+  {
+    "id": "QDVZ68ZZ",
+    "nombre": "KENNEDY-PASTRANA"
+  },
+  {
+    "id": "VCBNH2WX",
+    "nombre": "KENNEDY-ARGELIA II"
+  },
+  {
+    "id": "MF9XW4CB",
+    "nombre": "KENNEDY-BOSA"
+  },
+  {
+    "id": "IW0Y9VLI",
+    "nombre": "KENNEDY-CLASS"
+  },
+  {
+    "id": "NZ4BZK9W",
+    "nombre": "KENNEDY-CHICALA"
+  },
+  {
+    "id": "HM7WGTWV",
+    "nombre": "KENNEDY-CASABLANCA"
+  },
+  {
+    "id": "88AV84DI",
+    "nombre": "KENNEDY-CEMENTERIO JARDINES APOGEO"
+  },
+  {
+    "id": "4NF77DB4",
+    "nombre": "KENNEDY-TIMIZA B"
+  },
+  {
+    "id": "NH65XW5O",
+    "nombre": "KENNEDY-GRAN BRITALIA"
+  },
+  {
+    "id": "TAMWTI3P",
+    "nombre": "KENNEDY-ESCOCIA"
+  },
+  {
+    "id": "CYXT0I8M",
+    "nombre": "KENNEDY-CASA BLANCA SUR"
+  },
+  {
+    "id": "9WNJ66JA",
+    "nombre": "KENNEDY-EL CARMELO"
+  },
+  {
+    "id": "7YSU8OHV",
+    "nombre": "KENNEDY-VILLA NELLY III SECTOR"
+  },
+  {
+    "id": "ZQVX3R3C",
+    "nombre": "KENNEDY-LAS MARGARITAS"
+  },
+  {
+    "id": "WU5JEZB9",
+    "nombre": "KENNEDY-LA CECILIA"
+  },
+  {
+    "id": "0U8VTODU",
+    "nombre": "KENNEDY-CHUCUA DE LA VACA I"
+  },
+  {
+    "id": "B1W3K1QZ",
+    "nombre": "KENNEDY-JACQUELINE"
+  },
+  {
+    "id": "YEWKFUJ0",
+    "nombre": "KENNEDY-ANDALUCIA II"
+  },
+  {
+    "id": "ILM9YU68",
+    "nombre": "KENNEDY-GRAN BRITALIA I"
+  },
+  {
+    "id": "ZMLJQ4UJ",
+    "nombre": "KENNEDY-LA PAZ BOSA"
+  },
+  {
+    "id": "EFIM92G2",
+    "nombre": "KENNEDY-TINTALITO"
+  },
+  {
+    "id": "IPNYHRL8",
+    "nombre": "KENNEDY-CATALINA II"
+  },
+  {
+    "id": "UIFW7ZTR",
+    "nombre": "KENNEDY-TOCAREMA"
+  },
+  {
+    "id": "BU1O8HBM",
+    "nombre": "KENNEDY-CATALINA"
+  },
+  {
+    "id": "TEVITKXZ",
+    "nombre": "KENNEDY-EL PARAISO"
+  },
+  {
+    "id": "JKYZPZPY",
+    "nombre": "KENNEDY-TAIRONA"
+  },
+  {
+    "id": "NCMGA7BI",
+    "nombre": "KENNEDY-LAS ACACIAS"
+  },
+  {
+    "id": "NC12Q4HI",
+    "nombre": "KENNEDY-CALANDAIMA"
+  },
+  {
+    "id": "35OFFN4E",
+    "nombre": "KENNEDY-TINTALA"
+  },
+  {
+    "id": "XWG25JWS",
+    "nombre": "KENNEDY-PATIO BONITO II"
+  },
+  {
+    "id": "J3R236HT",
+    "nombre": "KENNEDY-LOS ALMENDROS"
+  },
+  {
+    "id": "5SRJ3O5T",
+    "nombre": "KENNEDY-PATIO BONITO III"
+  },
+  {
+    "id": "NTJ5UFT5",
+    "nombre": "KENNEDY-OSORIO IV"
+  },
+  {
+    "id": "L2B87Y0Z",
+    "nombre": "KENNEDY-LA MAGDALENA I"
+  },
+  {
+    "id": "2MPIHSEI",
+    "nombre": "KENNEDY-PROVIVIENDA OCCIDENTAL"
+  },
+  {
+    "id": "TEMOIUY4",
+    "nombre": "KENNEDY-CAMPO HERMOSO"
+  },
+  {
+    "id": "TLWVCYUU",
+    "nombre": "KENNEDY-EL PARAISO BOSA"
+  },
+  {
+    "id": "3S3PIO02",
+    "nombre": "KENNEDY-GALAN"
+  },
+  {
+    "id": "NOYIZW1R",
+    "nombre": "KENNEDY-GALAN RURAL"
+  },
+  {
+    "id": "MO3MJQL3",
+    "nombre": "KENNEDY-SAUCEDAL"
+  },
+  {
+    "id": "DCISR744",
+    "nombre": "KENNEDY-MARIA PAZ"
+  },
+  {
+    "id": "886276UJ",
+    "nombre": "KENNEDY-PATIO BONITO"
+  },
+  {
+    "id": "GB8LXGPM",
+    "nombre": "KENNEDY-CIUDAD DE CALI"
+  },
+  {
+    "id": "3192KJF2",
+    "nombre": "KENNEDY-CIUDAD TECHO II"
+  },
+  {
+    "id": "WI5VNWWN",
+    "nombre": "KENNEDY-OSORIO II"
+  },
+  {
+    "id": "HLOK5WUS",
+    "nombre": "KENNEDY-LAS ACACIAS RURAL"
+  },
+  {
+    "id": "R6234RDW",
+    "nombre": "KENNEDY-LLANO GRANDE"
+  },
+  {
+    "id": "7CM0LR75",
+    "nombre": "KENNEDY-OSORIO III"
+  },
+  {
+    "id": "739X5GKI",
+    "nombre": "KENNEDY-BRASIL"
+  },
+  {
+    "id": "X3BXNKVH",
+    "nombre": "KENNEDY-EL PARAISO"
+  },
+  {
+    "id": "LDIK2GAC",
+    "nombre": "KENNEDY-OSORIO X"
+  },
+  {
+    "id": "B7XBL8SX",
+    "nombre": "KENNEDY-PARCELA EL PORVENIR"
+  },
+  {
+    "id": "8CMI8XML",
+    "nombre": "KENNEDY-DINTALITO"
+  },
+  {
+    "id": "Z1YRD0TO",
+    "nombre": "KENNEDY-JORGE URIBE BOTERO"
+  },
+  {
+    "id": "JQYWFRF9",
+    "nombre": "KENNEDY-LAS ACACIAS"
+  },
+  {
+    "id": "VC62Y0ZL",
+    "nombre": "KENNEDY-CHUCUA DE LA VACA II"
+  },
+  {
+    "id": "GSTY2QIZ",
+    "nombre": "KENNEDY-EL JAZMIN"
+  },
+  {
+    "id": "NS7BR5FS",
+    "nombre": "KENNEDY-CHUCUA DE LA VACA III"
+  },
+  {
+    "id": "3GTK8TGV",
+    "nombre": "KENNEDY-LOS ALMENDROS"
+  },
+  {
+    "id": "SFUEUR7I",
+    "nombre": "KENNEDY-EL JAZMIN"
+  },
+  {
+    "id": "BHVUGQAS",
+    "nombre": "KENNEDY-BRASILIA"
+  },
+  {
+    "id": "WW3PNLE8",
+    "nombre": "KENNEDY-OSORIO XII"
+  },
+  {
+    "id": "JWGGHFZD",
+    "nombre": "KENNEDY-PROVIVIENDA OCCIDENTAL"
+  },
+  {
+    "id": "DFMZ6JN9",
+    "nombre": "KENNEDY-BETANIA"
+  },
+  {
+    "id": "H8GZ09C1",
+    "nombre": "KENNEDY-OSORIO XII RURAL"
+  },
+  {
+    "id": "IHR9FPJJ",
+    "nombre": "KENNEDY-DINDALITO"
+  },
+  {
+    "id": "ZGMQQFHU",
+    "nombre": "KENNEDY-GALAN"
+  },
+  {
+    "id": "EALEYKHP",
+    "nombre": "KENNEDY-GALAN RURAL"
+  },
+  {
+    "id": "DOGGXC8Y",
+    "nombre": "KENNEDY-LAS MARGARITAS"
+  },
+  {
+    "id": "A7WM9LAL",
+    "nombre": "KENNEDY-OSORIO X URBANO"
+  },
+  {
+    "id": "6DXBY2MO",
+    "nombre": "KENNEDY-CIUDAD DE CALI"
+  },
+  {
+    "id": "O0ZF0T9M",
+    "nombre": "KENNEDY-LAS ACACIAS RURAL"
+  },
+  {
+    "id": "3E6TCU2I",
+    "nombre": "KENNEDY-DINDALITO"
+  },
+  {
+    "id": "3D78NK3T",
+    "nombre": "KENNEDY-TINTALITO"
+  },
+  {
+    "id": "4FXTG64N",
+    "nombre": "KENNEDY-LLANO GRANDE"
+  },
+  {
+    "id": "JFRVLX4K",
+    "nombre": "FONTIBÓN-EL PANTANO"
+  },
+  {
+    "id": "WH90MAIJ",
+    "nombre": "FONTIBÓN-CENTRO FONTIBON"
+  },
+  {
+    "id": "XWKGTTWB",
+    "nombre": "FONTIBÓN-LAS NAVETAS"
+  },
+  {
+    "id": "3LL3B3E0",
+    "nombre": "FONTIBÓN-BOSQUE DE MODELIA"
+  },
+  {
+    "id": "1AUSJKU2",
+    "nombre": "FONTIBÓN-FERROCAJA FONTIBON"
+  },
+  {
+    "id": "WX203R7N",
+    "nombre": "FONTIBÓN-BELEN FONTIBON"
+  },
+  {
+    "id": "4KGSDLI6",
+    "nombre": "FONTIBÓN-LOS ALAMOS"
+  },
+  {
+    "id": "DUAKWB8V",
+    "nombre": "FONTIBÓN-EL CHARCO"
+  },
+  {
+    "id": "14F2U8T6",
+    "nombre": "FONTIBÓN-LA GIRALDA"
+  },
+  {
+    "id": "DXMSHQ6Z",
+    "nombre": "FONTIBÓN-PUENTE GRANDE"
+  },
+  {
+    "id": "52CZUGYN",
+    "nombre": "FONTIBÓN-PUERTA DE TEJA"
+  },
+  {
+    "id": "ZWAOTVXV",
+    "nombre": "FONTIBÓN-EL REFUGIO"
+  },
+  {
+    "id": "Z2SZMMDA",
+    "nombre": "FONTIBÓN-VILLEMAR"
+  },
+  {
+    "id": "12AOCCQG",
+    "nombre": "FONTIBÓN-MODELIA OCCIDENTAL"
+  },
+  {
+    "id": "JKYT19HG",
+    "nombre": "FONTIBÓN-PUEBLO VIEJO"
+  },
+  {
+    "id": "K0TP5NSD",
+    "nombre": "FONTIBÓN-BRISAS ALDEA FONTIBON"
+  },
+  {
+    "id": "C124VO2K",
+    "nombre": "FONTIBÓN-ATAHUALPA"
+  },
+  {
+    "id": "LU9OZAGD",
+    "nombre": "FONTIBÓN-CHARCO RURAL"
+  },
+  {
+    "id": "QFCMZKQ6",
+    "nombre": "FONTIBÓN-SAN PABLO JERICO"
+  },
+  {
+    "id": "227GEWO3",
+    "nombre": "FONTIBÓN-VERSALLES FONTIBON"
+  },
+  {
+    "id": "QMT68O3V",
+    "nombre": "FONTIBÓN-EL TINTAL CENTRAL"
+  },
+  {
+    "id": "I8B5R2R8",
+    "nombre": "FONTIBÓN-EL CEDRO"
+  },
+  {
+    "id": "V5ZV5II7",
+    "nombre": "FONTIBÓN-AEROPUERTO EL DORADO"
+  },
+  {
+    "id": "33N21I0F",
+    "nombre": "FONTIBÓN-SABANA DEL DORADO"
+  },
+  {
+    "id": "RI259A1G",
+    "nombre": "FONTIBÓN-LA CABANA FONTIBON"
+  },
+  {
+    "id": "8XB21IZ2",
+    "nombre": "FONTIBÓN-SANTA CECILIA"
+  },
+  {
+    "id": "IHQ9LJAM",
+    "nombre": "FONTIBÓN-VILLA GLADYS"
+  },
+  {
+    "id": "S1QGUFEO",
+    "nombre": "FONTIBÓN-SAN JOSE DE FONTIBON"
+  },
+  {
+    "id": "IPZG75OS",
+    "nombre": "FONTIBÓN-LA MAGDALENA RURAL"
+  },
+  {
+    "id": "EJ30EP00",
+    "nombre": "FONTIBÓN-CENTRO FONTIBON"
+  },
+  {
+    "id": "52V5OWMX",
+    "nombre": "FONTIBÓN-EL CHANCO RURAL II"
+  },
+  {
+    "id": "HWTD15CP",
+    "nombre": "FONTIBÓN-SAN PEDRO"
+  },
+  {
+    "id": "M1NG0MF2",
+    "nombre": "FONTIBÓN-EL CHANCO II"
+  },
+  {
+    "id": "XVNBQ4NV",
+    "nombre": "FONTIBÓN-CHARCO URBANO"
+  },
+  {
+    "id": "UTLO86S4",
+    "nombre": "FONTIBÓN-FERROCAJA FONTIBON"
+  },
+  {
+    "id": "K6F6UUI5",
+    "nombre": "FONTIBÓN-ZONA FRANCA"
+  },
+  {
+    "id": "NH95RLM3",
+    "nombre": "FONTIBÓN-BELEN FONTIBON"
+  },
+  {
+    "id": "CTQ6UM5I",
+    "nombre": "FONTIBÓN-EL CHARCO"
+  },
+  {
+    "id": "5I5GBCN4",
+    "nombre": "FONTIBÓN-LA GIRALDA"
+  },
+  {
+    "id": "LPZL8DHF",
+    "nombre": "FONTIBÓN-PUENTE GRANDE"
+  },
+  {
+    "id": "FIAGORHF",
+    "nombre": "FONTIBÓN-EL CARMEN FONTIBON"
+  },
+  {
+    "id": "C98VB55E",
+    "nombre": "FONTIBÓN-CIUDAD HAYUELOS"
+  },
+  {
+    "id": "F2470Z7E",
+    "nombre": "FONTIBÓN-VILLEMAR"
+  },
+  {
+    "id": "6VWRYJQZ",
+    "nombre": "FONTIBÓN-EL TINTAL II"
+  },
+  {
+    "id": "ML6VLU3W",
+    "nombre": "FONTIBÓN-BRISAS ALDEA FONTIBON"
+  },
+  {
+    "id": "H1EKROJO",
+    "nombre": "FONTIBÓN-CHARCO RURAL"
+  },
+  {
+    "id": "EENOGHJ4",
+    "nombre": "FONTIBÓN-EL CHANCO RURAL III"
+  },
+  {
+    "id": "SZY82087",
+    "nombre": "FONTIBÓN-SAN PABLO JERICO"
+  },
+  {
+    "id": "EZXE0Y5S",
+    "nombre": "FONTIBÓN-SABANA GRANDE RURAL"
+  },
+  {
+    "id": "9QIMJGD0",
+    "nombre": "FONTIBÓN-VERSALLES FONTIBON"
+  },
+  {
+    "id": "FYQ0DSTI",
+    "nombre": "FONTIBÓN-EL TINTAL CENTRAL"
+  },
+  {
+    "id": "3LJXF8ME",
+    "nombre": "FONTIBÓN-EL CHANCO III"
+  },
+  {
+    "id": "IKDWW1ER",
+    "nombre": "FONTIBÓN-LA LAGUNA FONTIBON"
+  },
+  {
+    "id": "AX3Y4WX9",
+    "nombre": "FONTIBÓN-VEREDA EL TINTAL"
+  },
+  {
+    "id": "Z7J9ESYA",
+    "nombre": "FONTIBÓN-KASANDRA"
+  },
+  {
+    "id": "KVQ0UFIK",
+    "nombre": "FONTIBÓN-EL TINTAL"
+  },
+  {
+    "id": "SNZDMDOM",
+    "nombre": "FONTIBÓN-VILLA CARMENZA"
+  },
+  {
+    "id": "MV2856UJ",
+    "nombre": "FONTIBÓN-SABANA GRANDE"
+  },
+  {
+    "id": "NL0SYZPF",
+    "nombre": "FONTIBÓN-SAN PEDRO DE LOS ROBLES"
+  },
+  {
+    "id": "RXR03ZI4",
+    "nombre": "FONTIBÓN-EL CHANCO I"
+  },
+  {
+    "id": "YOUNF0T1",
+    "nombre": "FONTIBÓN-EL VERGEL"
+  },
+  {
+    "id": "GNB09DJP",
+    "nombre": "FONTIBÓN-GUADUAL FONTIBON"
+  },
+  {
+    "id": "C5V78XA0",
+    "nombre": "FONTIBÓN-VEREDA EL TINTAL RURAL"
+  },
+  {
+    "id": "1WJ60SHQ",
+    "nombre": "FONTIBÓN-MORAVIA"
+  },
+  {
+    "id": "2XEU2YLN",
+    "nombre": "FONTIBÓN-CIUDAD SALITRE SUR-ORIENTAL"
+  },
+  {
+    "id": "IB96EWYR",
+    "nombre": "FONTIBÓN-CIUDAD SALITRE NOR-ORIENTAL"
+  },
+  {
+    "id": "4GE5QI7X",
+    "nombre": "FONTIBÓN-MONTEVIDEO"
+  },
+  {
+    "id": "1GGSERER",
+    "nombre": "FONTIBÓN-BOSQUE DE MODELIA"
+  },
+  {
+    "id": "IBDH246O",
+    "nombre": "FONTIBÓN-VILLA ALSACIA"
+  },
+  {
+    "id": "2BIDYRRK",
+    "nombre": "FONTIBÓN-CENTRO INDUSTRIAL"
+  },
+  {
+    "id": "S2R4P5TX",
+    "nombre": "FONTIBÓN-CAPELLANIA"
+  },
+  {
+    "id": "X0SMZ5V9",
+    "nombre": "FONTIBÓN-JARDIN BOTANICO"
+  },
+  {
+    "id": "CMA5JZK7",
+    "nombre": "FONTIBÓN-EL SALITRE"
+  },
+  {
+    "id": "E5I1BLVV",
+    "nombre": "FONTIBÓN-FERROCAJA FONTIBON"
+  },
+  {
+    "id": "TWA7CJ8O",
+    "nombre": "FONTIBÓN-INTERINDUSTRIAL"
+  },
+  {
+    "id": "54V3XWAH",
+    "nombre": "FONTIBÓN-VISION DE ORIENTE"
+  },
+  {
+    "id": "KCLJPMQW",
+    "nombre": "FONTIBÓN-LA ESPERANZA NORTE"
+  },
+  {
+    "id": "D6P1QGX3",
+    "nombre": "FONTIBÓN-CIUDAD HAYUELOS"
+  },
+  {
+    "id": "SU8T3GJZ",
+    "nombre": "FONTIBÓN-GRANJAS DE TECHO"
+  },
+  {
+    "id": "6COI60KD",
+    "nombre": "FONTIBÓN-SAN IGNACIO"
+  },
+  {
+    "id": "P8K5458O",
+    "nombre": "FONTIBÓN-MODELIA OCCIDENTAL"
+  },
+  {
+    "id": "86HSD75Z",
+    "nombre": "FONTIBÓN-LA ESPERANZA SUR"
+  },
+  {
+    "id": "N5QKS995",
+    "nombre": "FONTIBÓN-FRANCO"
+  },
+  {
+    "id": "67GVPQKE",
+    "nombre": "FONTIBÓN-VEREDA EL TINTAL"
+  },
+  {
+    "id": "ILW6R8OH",
+    "nombre": "FONTIBÓN-SALITRE OCCIDENTAL"
+  },
+  {
+    "id": "F486G5SE",
+    "nombre": "FONTIBÓN-TERMINAL DE TRANSPORTES"
+  },
+  {
+    "id": "M6ICB09W",
+    "nombre": "FONTIBÓN-NUEVO TECHO"
+  },
+  {
+    "id": "H1ZOUQ4F",
+    "nombre": "FONTIBÓN-MODELIA"
+  },
+  {
+    "id": "W24TL50B",
+    "nombre": "FONTIBÓN-EL VERGEL"
+  },
+  {
+    "id": "O2II4TJC",
+    "nombre": "FONTIBÓN-SANTA CECILIA"
+  },
+  {
+    "id": "W9ALJ4Z9",
+    "nombre": "FONTIBÓN-VERGEL OCCIDENTAL"
+  },
+  {
+    "id": "MAKE28LS",
+    "nombre": "FONTIBÓN-LUSITANIA"
+  },
+  {
+    "id": "FFP45YWT",
+    "nombre": "ENGATIVÁ-SANTA CECILIA DE SUBA I"
+  },
+  {
+    "id": "CUJLCM5S",
+    "nombre": "ENGATIVÁ-CIUDADELA COLSUBSIDIO"
+  },
+  {
+    "id": "CEG2I75J",
+    "nombre": "ENGATIVÁ-TIBABUYES"
+  },
+  {
+    "id": "RICZUSV9",
+    "nombre": "ENGATIVÁ-SANTA TERESA DE SUBA"
+  },
+  {
+    "id": "IRUNZQ0U",
+    "nombre": "ENGATIVÁ-EL MADRIGAL"
+  },
+  {
+    "id": "BYBHV4S6",
+    "nombre": "ENGATIVÁ-BOCHICA"
+  },
+  {
+    "id": "94F2VAUD",
+    "nombre": "ENGATIVÁ-BOLIVIA"
+  },
+  {
+    "id": "KIBN89L6",
+    "nombre": "ENGATIVÁ-EL DORADO"
+  },
+  {
+    "id": "I7DI1PV6",
+    "nombre": "ENGATIVÁ-EL DORADO RURAL"
+  },
+  {
+    "id": "O5V575JB",
+    "nombre": "ENGATIVÁ-EL CORTIJO"
+  },
+  {
+    "id": "RILUC043",
+    "nombre": "ENGATIVÁ-LECH WALESA"
+  },
+  {
+    "id": "ZOBNKYM7",
+    "nombre": "ENGATIVÁ-LA CAROLINA DE SUBA"
+  },
+  {
+    "id": "84TTHN0V",
+    "nombre": "ENGATIVÁ-BOLIVIA ORIENTAL"
+  },
+  {
+    "id": "8ZVBTPVO",
+    "nombre": "ENGATIVÁ-VILLAS DE GRANADA I"
+  },
+  {
+    "id": "9VYBTI3D",
+    "nombre": "ENGATIVÁ-EL DORADO INDUSTRIAL"
+  },
+  {
+    "id": "ME4LSYXT",
+    "nombre": "ENGATIVÁ-SANTA CECILIA DE SUBA I RURAL"
+  },
+  {
+    "id": "64PZSJAV",
+    "nombre": "ENGATIVÁ-BOCHICA II"
+  },
+  {
+    "id": "6VAA95OE",
+    "nombre": "ENGATIVÁ-SANTA TERESA DE SUBA"
+  },
+  {
+    "id": "RRDJ2VVI",
+    "nombre": "ENGATIVÁ-SANTA ROSA"
+  },
+  {
+    "id": "PKHZ0FJ9",
+    "nombre": "ENGATIVÁ-LOS CEREZOS"
+  },
+  {
+    "id": "Q7E51CKW",
+    "nombre": "ENGATIVÁ-LUIS CARLOS GALAN"
+  },
+  {
+    "id": "TAQ75FME",
+    "nombre": "ENGATIVÁ-PARIS"
+  },
+  {
+    "id": "5AT4W96A",
+    "nombre": "ENGATIVÁ-AUTOPISTA MEDELLIN"
+  },
+  {
+    "id": "CQ928LEF",
+    "nombre": "ENGATIVÁ-CLUB DE LOS LAGARTOS"
+  },
+  {
+    "id": "2JT1M7AK",
+    "nombre": "ENGATIVÁ-LA GRANJA"
+  },
+  {
+    "id": "KD0LT624",
+    "nombre": "ENGATIVÁ-EL MADRIGAL"
+  },
+  {
+    "id": "FMPTJ33K",
+    "nombre": "ENGATIVÁ-BOCHICA"
+  },
+  {
+    "id": "MYCUIQF0",
+    "nombre": "ENGATIVÁ-JULIO FLOREZ"
+  },
+  {
+    "id": "K7LP9XRQ",
+    "nombre": "ENGATIVÁ-QUIRIGUA I"
+  },
+  {
+    "id": "26FP17IF",
+    "nombre": "ENGATIVÁ-CIUDAD BACHUE II"
+  },
+  {
+    "id": "0ASUSKMU",
+    "nombre": "ENGATIVÁ-EL MINUTO DE DIOS"
+  },
+  {
+    "id": "FS2PVMSC",
+    "nombre": "ENGATIVÁ-PARIS GAITAN"
+  },
+  {
+    "id": "V4NWWPBI",
+    "nombre": "ENGATIVÁ-CIUDAD BACHUE I ETAPA"
+  },
+  {
+    "id": "HEPAY5W6",
+    "nombre": "ENGATIVÁ-QUIRIGUA II"
+  },
+  {
+    "id": "CK4NRLZQ",
+    "nombre": "ENGATIVÁ-QUIRIGUA ORIENTAL"
+  },
+  {
+    "id": "FQ2AQC7S",
+    "nombre": "ENGATIVÁ-CIUDAD BACHUE"
+  },
+  {
+    "id": "3EC0V3Q9",
+    "nombre": "ENGATIVÁ-BOLIVIA ORIENTAL"
+  },
+  {
+    "id": "WVDYG490",
+    "nombre": "ENGATIVÁ-PRIMAVERA"
+  },
+  {
+    "id": "GXYS0IUS",
+    "nombre": "ENGATIVÁ-POTOSI"
+  },
+  {
+    "id": "RYR9ZSI6",
+    "nombre": "ENGATIVÁ-LA SERENA"
+  },
+  {
+    "id": "OGI41ANL",
+    "nombre": "ENGATIVÁ-LOS ANDES"
+  },
+  {
+    "id": "1ERPKHUV",
+    "nombre": "ENGATIVÁ-SANTA MARIA"
+  },
+  {
+    "id": "JYBTUJBG",
+    "nombre": "ENGATIVÁ-BOCHICA II"
+  },
+  {
+    "id": "SFGGVC8J",
+    "nombre": "ENGATIVÁ-ENTRERIOS"
+  },
+  {
+    "id": "S9TMBYWX",
+    "nombre": "ENGATIVÁ-VILLAS DE GRANADA"
+  },
+  {
+    "id": "9GSKXYL0",
+    "nombre": "ENGATIVÁ-CIUDADELA COLSUBSIDIO"
+  },
+  {
+    "id": "Y556WKAH",
+    "nombre": "ENGATIVÁ-EL PANTANO"
+  },
+  {
+    "id": "JASTRVQ9",
+    "nombre": "ENGATIVÁ-GARCES NAVAS SUR"
+  },
+  {
+    "id": "KMTP3HCQ",
+    "nombre": "ENGATIVÁ-BOLIVIA"
+  },
+  {
+    "id": "4JMS21YY",
+    "nombre": "ENGATIVÁ-GRAN GRANADA"
+  },
+  {
+    "id": "C4669H5I",
+    "nombre": "ENGATIVÁ-VILLAS DE ALCALA"
+  },
+  {
+    "id": "WPO8V5VY",
+    "nombre": "ENGATIVÁ-ENGATIVA ZONA URBANA"
+  },
+  {
+    "id": "OC8JYY4Q",
+    "nombre": "ENGATIVÁ-EL GACO"
+  },
+  {
+    "id": "YN93UDPN",
+    "nombre": "ENGATIVÁ-CENTRO ENGATIVA II"
+  },
+  {
+    "id": "3JLZX7X6",
+    "nombre": "ENGATIVÁ-LA FAENA"
+  },
+  {
+    "id": "CFFTGW0R",
+    "nombre": "ENGATIVÁ-SAN ANTONIO URBANO"
+  },
+  {
+    "id": "SRE7LEKA",
+    "nombre": "ENGATIVÁ-ENGATIVA EL DORADO"
+  },
+  {
+    "id": "M5MMZJUN",
+    "nombre": "ENGATIVÁ-VILLA AMALIA"
+  },
+  {
+    "id": "92OVT349",
+    "nombre": "ENGATIVÁ-GARCES NAVAS"
+  },
+  {
+    "id": "UVCD8D97",
+    "nombre": "ENGATIVÁ-EL CEDRO I"
+  },
+  {
+    "id": "ZO71DPD9",
+    "nombre": "ENGATIVÁ-EL CORTIJO"
+  },
+  {
+    "id": "BFAO40S4",
+    "nombre": "ENGATIVÁ-LA RIVIERA"
+  },
+  {
+    "id": "TPVVR8PC",
+    "nombre": "ENGATIVÁ-EL CEDRO"
+  },
+  {
+    "id": "0V2F2X2R",
+    "nombre": "ENGATIVÁ-BOLIVIA"
+  },
+  {
+    "id": "HTAK5BWA",
+    "nombre": "ENGATIVÁ-AEROPUERTO EL DORADO"
+  },
+  {
+    "id": "DZG6XNM8",
+    "nombre": "ENGATIVÁ-SAN ANTONIO ENGATIVA"
+  },
+  {
+    "id": "9LGZ4VRJ",
+    "nombre": "ENGATIVÁ-SABANA DEL DORADO"
+  },
+  {
+    "id": "PWYNZWQH",
+    "nombre": "ENGATIVÁ-VILLAS DE GRANADA I"
+  },
+  {
+    "id": "3XVMZF8R",
+    "nombre": "ENGATIVÁ-MARANDU"
+  },
+  {
+    "id": "HNJC3QNT",
+    "nombre": "ENGATIVÁ-VILLA GLADYS"
+  },
+  {
+    "id": "GIVIZLPD",
+    "nombre": "ENGATIVÁ-EL DORADO INDUSTRIAL"
+  },
+  {
+    "id": "GFAXXPPL",
+    "nombre": "ENGATIVÁ-SANTA MONICA"
+  },
+  {
+    "id": "COAOD1LX",
+    "nombre": "ENGATIVÁ-EL MUELLE"
+  },
+  {
+    "id": "8K2059VQ",
+    "nombre": "ENGATIVÁ-PARIS"
+  },
+  {
+    "id": "J4YX96JZ",
+    "nombre": "ENGATIVÁ-EL MADRIGAL"
+  },
+  {
+    "id": "IXHRA9UV",
+    "nombre": "ENGATIVÁ-VILLA DEL MAR"
+  },
+  {
+    "id": "QDDJYOSJ",
+    "nombre": "ENGATIVÁ-BOCHICA"
+  },
+  {
+    "id": "5YV8G5TH",
+    "nombre": "ENGATIVÁ-BOLIVIA"
+  },
+  {
+    "id": "LWH1GNXL",
+    "nombre": "ENGATIVÁ-LOS ALAMOS"
+  },
+  {
+    "id": "RUZWVG4M",
+    "nombre": "ENGATIVÁ-ALAMOS"
+  },
+  {
+    "id": "Y2YVVAD1",
+    "nombre": "ENGATIVÁ-LOS ALAMOS"
+  },
+  {
+    "id": "OUCWWEOK",
+    "nombre": "ENGATIVÁ-VILLA AMALIA"
+  },
+  {
+    "id": "69LDWXZO",
+    "nombre": "ENGATIVÁ-GARCES NAVAS"
+  },
+  {
+    "id": "XZ9BPVF6",
+    "nombre": "ENGATIVÁ-LOS ANGELES"
+  },
+  {
+    "id": "XNEFEWBZ",
+    "nombre": "ENGATIVÁ-FLORIDA BLANCA"
+  },
+  {
+    "id": "PPTR32M1",
+    "nombre": "ENGATIVÁ-VILLA SAGRARIO"
+  },
+  {
+    "id": "5OEJDQRX",
+    "nombre": "ENGATIVÁ-BOLIVIA"
+  },
+  {
+    "id": "6DYN7LBJ",
+    "nombre": "ENGATIVÁ-EL CEDRO"
+  },
+  {
+    "id": "UL9B4Y17",
+    "nombre": "ENGATIVÁ-AEROPUERTO EL DORADO"
+  },
+  {
+    "id": "ZMYPR5ZQ",
+    "nombre": "ENGATIVÁ-SAN ANTONIO ENGATIVA"
+  },
+  {
+    "id": "17FRMRM8",
+    "nombre": "ENGATIVÁ-GARCES NAVAS ORIENTAL"
+  },
+  {
+    "id": "P27M2TTY",
+    "nombre": "ENGATIVÁ-VILLAS DE GRANADA I"
+  },
+  {
+    "id": "25WHCENF",
+    "nombre": "ENGATIVÁ-FLORENCIA"
+  },
+  {
+    "id": "8ACTZRQQ",
+    "nombre": "ENGATIVÁ-BOCHICA II"
+  },
+  {
+    "id": "TQO1KSAA",
+    "nombre": "ENGATIVÁ-SANTA MONICA"
+  },
+  {
+    "id": "8M0SO3V9",
+    "nombre": "ENGATIVÁ-LA SOLEDAD NORTE"
+  },
+  {
+    "id": "L77QRZRO",
+    "nombre": "ENGATIVÁ-PARIS"
+  },
+  {
+    "id": "P4QI00AO",
+    "nombre": "ENGATIVÁ-AUTOPISTA MEDELLIN"
+  },
+  {
+    "id": "6J7VITZO",
+    "nombre": "ENGATIVÁ-LA GRANJA"
+  },
+  {
+    "id": "FTP2BKJD",
+    "nombre": "ENGATIVÁ-EL MADRIGAL"
+  },
+  {
+    "id": "S18YKN0H",
+    "nombre": "ENGATIVÁ-BOCHICA"
+  },
+  {
+    "id": "TXXSKCJT",
+    "nombre": "ENGATIVÁ-VILLA LUZ"
+  },
+  {
+    "id": "W9LPZRT3",
+    "nombre": "ENGATIVÁ-EL MINUTO DE DIOS"
+  },
+  {
+    "id": "NE7B7JQA",
+    "nombre": "ENGATIVÁ-LOS ALAMOS"
+  },
+  {
+    "id": "ADIV5XIO",
+    "nombre": "ENGATIVÁ-PARIS GAITAN"
+  },
+  {
+    "id": "TWEYNDEZ",
+    "nombre": "ENGATIVÁ-BONANZA"
+  },
+  {
+    "id": "9Q2OOJ6P",
+    "nombre": "ENGATIVÁ-LOS ANGELES"
+  },
+  {
+    "id": "3R3O24AX",
+    "nombre": "ENGATIVÁ-QUIRIGUA II"
+  },
+  {
+    "id": "CGR7I6IM",
+    "nombre": "ENGATIVÁ-FLORIDA BLANCA"
+  },
+  {
+    "id": "RAYEO9VO",
+    "nombre": "ENGATIVÁ-QUIRIGUA ORIENTAL"
+  },
+  {
+    "id": "HIOA33JP",
+    "nombre": "ENGATIVÁ-PALO BLANCO"
+  },
+  {
+    "id": "OQHIB780",
+    "nombre": "ENGATIVÁ-EL LAUREL"
+  },
+  {
+    "id": "PLDU73BV",
+    "nombre": "ENGATIVÁ-TABORA"
+  },
+  {
+    "id": "YCJJM44B",
+    "nombre": "ENGATIVÁ-PRIMAVERA"
+  },
+  {
+    "id": "CVYDG8PC",
+    "nombre": "ENGATIVÁ-SANTA MARIA"
+  },
+  {
+    "id": "GAMJTMSD",
+    "nombre": "ENGATIVÁ-BOYACA"
+  },
+  {
+    "id": "PPEBAFM4",
+    "nombre": "ENGATIVÁ-FLORENCIA"
+  },
+  {
+    "id": "NSZ0VB5W",
+    "nombre": "ENGATIVÁ-SANTA HELENITA"
+  },
+  {
+    "id": "YSCTNKLY",
+    "nombre": "ENGATIVÁ-LA CABANA"
+  },
+  {
+    "id": "11UPOL44",
+    "nombre": "ENGATIVÁ-BOSQUE POPULAR"
+  },
+  {
+    "id": "6ZSBXRHA",
+    "nombre": "ENGATIVÁ-SANTA ROSA"
+  },
+  {
+    "id": "KAGPC113",
+    "nombre": "ENGATIVÁ-JARDIN BOTANICO"
+  },
+  {
+    "id": "3BZ2ZRZJ",
+    "nombre": "ENGATIVÁ-LA ESTRADITA"
+  },
+  {
+    "id": "0EKP0DQQ",
+    "nombre": "ENGATIVÁ-LAS FERIAS"
+  },
+  {
+    "id": "Z2TW3BT7",
+    "nombre": "ENGATIVÁ-JULIO FLOREZ"
+  },
+  {
+    "id": "DUPHPIZA",
+    "nombre": "ENGATIVÁ-LAS FERIAS OCCIDENTAL"
+  },
+  {
+    "id": "MYK9XTHS",
+    "nombre": "ENGATIVÁ-METROPOLIS"
+  },
+  {
+    "id": "EHCRT13O",
+    "nombre": "ENGATIVÁ-EL MINUTO DE DIOS"
+  },
+  {
+    "id": "V67DALIP",
+    "nombre": "ENGATIVÁ-SAN JOAQUIN"
+  },
+  {
+    "id": "C9J41SK7",
+    "nombre": "ENGATIVÁ-BONANZA"
+  },
+  {
+    "id": "W29F4E2D",
+    "nombre": "ENGATIVÁ-PALO BLANCO"
+  },
+  {
+    "id": "XA52286D",
+    "nombre": "ENGATIVÁ-JOSE JOAQUIN VARGAS"
+  },
+  {
+    "id": "RKIMIU1F",
+    "nombre": "ENGATIVÁ-EL LAUREL"
+  },
+  {
+    "id": "MELYSS92",
+    "nombre": "ENGATIVÁ-BELLAVISTA OCCIDENTAL"
+  },
+  {
+    "id": "RLEYHBTG",
+    "nombre": "ENGATIVÁ-PARQUE POPULAR SALITRE"
+  },
+  {
+    "id": "FEHEFM1A",
+    "nombre": "ENGATIVÁ-SANTA MARIA"
+  },
+  {
+    "id": "C5FS3M9C",
+    "nombre": "ENGATIVÁ-LA ESTRADA"
+  },
+  {
+    "id": "5OHDJU66",
+    "nombre": "ENGATIVÁ-BOYACA"
+  },
+  {
+    "id": "8I1N82KZ",
+    "nombre": "ENGATIVÁ-SAN FERNANDO OCCIDENTAL"
+  },
+  {
+    "id": "8DEQ9UU3",
+    "nombre": "ENGATIVÁ-ENTRERIOS"
+  },
+  {
+    "id": "F3PCKBRT",
+    "nombre": "ENGATIVÁ-LA CABANA"
+  },
+  {
+    "id": "D3HNSD15",
+    "nombre": "ENGATIVÁ-BOSQUE POPULAR"
+  },
+  {
+    "id": "BHR59X36",
+    "nombre": "ENGATIVÁ-NORMANDIA OCCIDENTAL"
+  },
+  {
+    "id": "P3V9HDHM",
+    "nombre": "ENGATIVÁ-JARDIN BOTANICO"
+  },
+  {
+    "id": "MA9X1Q7Z",
+    "nombre": "ENGATIVÁ-EL SALITRE"
+  },
+  {
+    "id": "HTX32JEG",
+    "nombre": "ENGATIVÁ-VILLA LUZ"
+  },
+  {
+    "id": "DT4RT462",
+    "nombre": "ENGATIVÁ-LOS ALAMOS"
+  },
+  {
+    "id": "WFBCKHPD",
+    "nombre": "ENGATIVÁ-LA ESPERANZA NORTE"
+  },
+  {
+    "id": "B4MPN8SO",
+    "nombre": "ENGATIVÁ-SAN IGNACIO"
+  },
+  {
+    "id": "W16Z6O7O",
+    "nombre": "ENGATIVÁ-NORMANDIA"
+  },
+  {
+    "id": "BBYWRBDX",
+    "nombre": "ENGATIVÁ-SAN JOAQUIN"
+  },
+  {
+    "id": "WKAG5E7O",
+    "nombre": "ENGATIVÁ-EL ENCANTO"
+  },
+  {
+    "id": "FSAXAAR8",
+    "nombre": "ENGATIVÁ-EL REAL"
+  },
+  {
+    "id": "O9R419J6",
+    "nombre": "ENGATIVÁ-SANTA CECILIA"
+  },
+  {
+    "id": "HN1X7VUG",
+    "nombre": "ENGATIVÁ-LOS ANGELES"
+  },
+  {
+    "id": "ZGKNNOEG",
+    "nombre": "ENGATIVÁ-FLORIDA BLANCA"
+  },
+  {
+    "id": "SP0CEBDK",
+    "nombre": "ENGATIVÁ-CAMPO EUCARISTICO"
+  },
+  {
+    "id": "BRUNXRSH",
+    "nombre": "ENGATIVÁ-EL LAUREL"
+  },
+  {
+    "id": "FHE8FCZ7",
+    "nombre": "ENGATIVÁ-SALITRE OCCIDENTAL"
+  },
+  {
+    "id": "BHE2WE3H",
+    "nombre": "ENGATIVÁ-MODELIA"
+  },
+  {
+    "id": "N09MBAXJ",
+    "nombre": "ENGATIVÁ-SANTA CECILIA"
+  },
+  {
+    "id": "AHVFAZKX",
+    "nombre": "ENGATIVÁ-PARQUE POPULAR SALITRE"
+  },
+  {
+    "id": "PQ6VOGDR",
+    "nombre": "ENGATIVÁ-BOYACA"
+  },
+  {
+    "id": "URK1KQZP",
+    "nombre": "ENGATIVÁ-SANTA HELENITA"
+  },
+  {
+    "id": "XW5RO3OM",
+    "nombre": "SUBA-PRADO VERANIEGO"
+  },
+  {
+    "id": "6JJIT9KG",
+    "nombre": "SUBA-SANTA BARBARA OCCIDENTAL"
+  },
+  {
+    "id": "GSZHUOKF",
+    "nombre": "SUBA-SANTA ROSA"
+  },
+  {
+    "id": "90Y054KB",
+    "nombre": "SUBA-SAN PATRICIO"
+  },
+  {
+    "id": "MM10XB13",
+    "nombre": "SUBA-PRADO VERANIEGO NORTE"
+  },
+  {
+    "id": "CE9CHQFJ",
+    "nombre": "SUBA-CHICO NORTE III SECTOR"
+  },
+  {
+    "id": "P5TQ71LL",
+    "nombre": "SUBA-MONACO"
+  },
+  {
+    "id": "S6WTXWRE",
+    "nombre": "SUBA-NIZA NORTE"
+  },
+  {
+    "id": "8TQ6JX6D",
+    "nombre": "SUBA-SANTA BIBIANA"
+  },
+  {
+    "id": "541PWFM7",
+    "nombre": "SUBA-IBERIA"
+  },
+  {
+    "id": "ZI2W3DD7",
+    "nombre": "SUBA-JULIO FLOREZ"
+  },
+  {
+    "id": "2PXZ5L4O",
+    "nombre": "SUBA-LAS VILLAS"
+  },
+  {
+    "id": "O2PEXGEY",
+    "nombre": "SUBA-ESTORIL"
+  },
+  {
+    "id": "7AHKM58X",
+    "nombre": "SUBA-PRADO VERANIEGO SUR"
+  },
+  {
+    "id": "PNGO7283",
+    "nombre": "SUBA-BATAN"
+  },
+  {
+    "id": "D3991CST",
+    "nombre": "SUBA-SAN JOSE DEL PRADO"
+  },
+  {
+    "id": "SCJOO63H",
+    "nombre": "SUBA-PASADENA"
+  },
+  {
+    "id": "2PLFP1NE",
+    "nombre": "SUBA-NIZA SUBA"
+  },
+  {
+    "id": "0HR10DWE",
+    "nombre": "SUBA-LOS CEDROS"
+  },
+  {
+    "id": "V6MJXZQK",
+    "nombre": "SUBA-ANDES NORTE"
+  },
+  {
+    "id": "Q7IY7P0N",
+    "nombre": "SUBA-SANTA HELENA"
+  },
+  {
+    "id": "13RC3RC9",
+    "nombre": "SUBA-CIUDAD JARDIN NORTE"
+  },
+  {
+    "id": "93VRRW4F",
+    "nombre": "SUBA-CANODROMO"
+  },
+  {
+    "id": "D14Y4QJK",
+    "nombre": "SUBA-PRADO PINZON"
+  },
+  {
+    "id": "WO2QYNKY",
+    "nombre": "SUBA-PUENTE LARGO"
+  },
+  {
+    "id": "C1GVIYLX",
+    "nombre": "SUBA-LA CALLEJA"
+  },
+  {
+    "id": "32PH4EH3",
+    "nombre": "SUBA-ATENAS"
+  },
+  {
+    "id": "ZA9GAJSV",
+    "nombre": "SUBA-EL RINCON NORTE"
+  },
+  {
+    "id": "46KT469J",
+    "nombre": "SUBA-ALTOS DE CHOZICA"
+  },
+  {
+    "id": "INL49PQ7",
+    "nombre": "SUBA-LOS NARANJOS"
+  },
+  {
+    "id": "K9497PGY",
+    "nombre": "SUBA-SANTA TERESA DE SUBA"
+  },
+  {
+    "id": "8AKUZIX0",
+    "nombre": "SUBA-SANTA ROSA"
+  },
+  {
+    "id": "X0X0HLS5",
+    "nombre": "SUBA-SUBA URBANO"
+  },
+  {
+    "id": "GQ23WZ7W",
+    "nombre": "SUBA-LOS CEREZOS"
+  },
+  {
+    "id": "A7XKY4NW",
+    "nombre": "SUBA-LUIS CARLOS GALAN"
+  },
+  {
+    "id": "3MDU07DP",
+    "nombre": "SUBA-CLUB DE LOS LAGARTOS"
+  },
+  {
+    "id": "PLRBDYLI",
+    "nombre": "SUBA-ALTOS DE SUBA"
+  },
+  {
+    "id": "K78CGLSM",
+    "nombre": "SUBA-MONACO"
+  },
+  {
+    "id": "INUNFZSC",
+    "nombre": "SUBA-NIZA NORTE"
+  },
+  {
+    "id": "GDHDXA6L",
+    "nombre": "SUBA-IBERIA"
+  },
+  {
+    "id": "AT436GGI",
+    "nombre": "SUBA-NIZA SUR"
+  },
+  {
+    "id": "AR02YD4H",
+    "nombre": "SUBA-JULIO FLOREZ"
+  },
+  {
+    "id": "0A8O7493",
+    "nombre": "SUBA-LAS VILLAS"
+  },
+  {
+    "id": "FPQ76SD3",
+    "nombre": "SUBA-SUBA CERROS"
+  },
+  {
+    "id": "XSTRG4WL",
+    "nombre": "SUBA-VEREDA SUBA NARANJOS"
+  },
+  {
+    "id": "AFURM5WP",
+    "nombre": "SUBA-RINCON ALTAMAR"
+  },
+  {
+    "id": "8HOQPZ7D",
+    "nombre": "SUBA-EL MINUTO DE DIOS"
+  },
+  {
+    "id": "O2VEFX9A",
+    "nombre": "SUBA-BATAN"
+  },
+  {
+    "id": "AQDI8OG6",
+    "nombre": "SUBA-CIUDAD HUNZA"
+  },
+  {
+    "id": "L70LU2UT",
+    "nombre": "SUBA-VILLA ALCAZAR"
+  },
+  {
+    "id": "TC2RZ4SS",
+    "nombre": "SUBA-PASADENA"
+  },
+  {
+    "id": "JR0DKAJV",
+    "nombre": "SUBA-NIZA SUBA"
+  },
+  {
+    "id": "5PRBFRWS",
+    "nombre": "SUBA-ANDES NORTE"
+  },
+  {
+    "id": "YMY0R14J",
+    "nombre": "SUBA-CIUDAD JARDIN NORTE"
+  },
+  {
+    "id": "PB0PLVKZ",
+    "nombre": "SUBA-POTOSI"
+  },
+  {
+    "id": "BWVKOERN",
+    "nombre": "SUBA-LA SERENA"
+  },
+  {
+    "id": "9LH52ZKF",
+    "nombre": "SUBA-LOS ANDES"
+  },
+  {
+    "id": "UO3RD1KI",
+    "nombre": "SUBA-ALMIRANTE COLON"
+  },
+  {
+    "id": "10PZAIU5",
+    "nombre": "SUBA-PUENTE LARGO"
+  },
+  {
+    "id": "T01PFAHH",
+    "nombre": "SUBA-ATENAS"
+  },
+  {
+    "id": "W3W6EHEX",
+    "nombre": "SUBA-EL RINCON NORTE"
+  },
+  {
+    "id": "2KD4YCT9",
+    "nombre": "SUBA-ALTOS DE CHOZICA"
+  },
+  {
+    "id": "T9VCY5H1",
+    "nombre": "SUBA-LOS NARANJOS"
+  },
+  {
+    "id": "F8X39R77",
+    "nombre": "SUBA-SANTA TERESA DE SUBA"
+  },
+  {
+    "id": "DWH4HWSD",
+    "nombre": "SUBA-LAGO DE SUBA"
+  },
+  {
+    "id": "D55L2DDV",
+    "nombre": "SUBA-CLUB DE LOS LAGARTOS"
+  },
+  {
+    "id": "DO417MBZ",
+    "nombre": "SUBA-LA CHUCUA"
+  },
+  {
+    "id": "V3I3ELS8",
+    "nombre": "SUBA-EL RINCON"
+  },
+  {
+    "id": "LI561R0O",
+    "nombre": "SUBA-RINCON ALTAMAR"
+  },
+  {
+    "id": "4R3FIFNI",
+    "nombre": "SUBA-RINCON DE SUBA"
+  },
+  {
+    "id": "J1OVDPZQ",
+    "nombre": "SUBA-LAS FLORES"
+  },
+  {
+    "id": "XAJV2JO9",
+    "nombre": "SUBA-SAN CAYETANO"
+  },
+  {
+    "id": "U7PNLJ9X",
+    "nombre": "SUBA-CIUDAD HUNZA"
+  },
+  {
+    "id": "GHM4K87L",
+    "nombre": "SUBA-VILLA ALCAZAR"
+  },
+  {
+    "id": "M1LWL94O",
+    "nombre": "SUBA-POTRERILLO"
+  },
+  {
+    "id": "I25BTP74",
+    "nombre": "SUBA-AURES"
+  },
+  {
+    "id": "10J95E17",
+    "nombre": "SUBA-COSTA AZUL"
+  },
+  {
+    "id": "UDAGTSMV",
+    "nombre": "SUBA-LECH WALESA"
+  },
+  {
+    "id": "XM87JWPM",
+    "nombre": "SUBA-TTES DE COLOMBIA"
+  },
+  {
+    "id": "FAHJH7ER",
+    "nombre": "SUBA-BOLIVIA ORIENTAL"
+  },
+  {
+    "id": "8L6L6FPY",
+    "nombre": "SUBA-EL POA"
+  },
+  {
+    "id": "089GDFJN",
+    "nombre": "SUBA-VILLA ELISA"
+  },
+  {
+    "id": "STTEDPGE",
+    "nombre": "SUBA-ALMIRANTE COLON"
+  },
+  {
+    "id": "DAFH10M9",
+    "nombre": "SUBA-LOMBARDIA"
+  },
+  {
+    "id": "4LVY1LIG",
+    "nombre": "SUBA-BOCHICA II"
+  },
+  {
+    "id": "0YIO8CGC",
+    "nombre": "SUBA-CIUDADELA COLSUBSIDIO"
+  },
+  {
+    "id": "QB7N20ML",
+    "nombre": "SUBA-TIBABUYES"
+  },
+  {
+    "id": "BS45I2S6",
+    "nombre": "SUBA-SANTA TERESA DE SUBA"
+  },
+  {
+    "id": "PBFHSN7M",
+    "nombre": "SUBA-LISBOA"
+  },
+  {
+    "id": "87U2MFJB",
+    "nombre": "SUBA-LAGO DE SUBA"
+  },
+  {
+    "id": "LW61WBJD",
+    "nombre": "SUBA-AURES II"
+  },
+  {
+    "id": "4BZND55W",
+    "nombre": "SUBA-EL DORADO"
+  },
+  {
+    "id": "GHWTNIJ9",
+    "nombre": "SUBA-LA GAITANA ORIENTAL"
+  },
+  {
+    "id": "0Q8IUUXK",
+    "nombre": "SUBA-SABANA DE TIBABUYES"
+  },
+  {
+    "id": "1JN4FV0J",
+    "nombre": "SUBA-LA GAITANA"
+  },
+  {
+    "id": "DZNSSZV6",
+    "nombre": "SUBA-TOSCANA"
+  },
+  {
+    "id": "VFNHA2YO",
+    "nombre": "SUBA-VILLA MARIA"
+  },
+  {
+    "id": "Z76PZ13K",
+    "nombre": "SUBA-PUERTA DEL SOL"
+  },
+  {
+    "id": "V3YFAYLQ",
+    "nombre": "SUBA-TIBABUYES"
+  },
+  {
+    "id": "3HX4BH8Q",
+    "nombre": "SUBA-COSTA AZUL"
+  },
+  {
+    "id": "E1ILMC02",
+    "nombre": "SUBA-LECH WALESA"
+  },
+  {
+    "id": "T5AELK3V",
+    "nombre": "SUBA-VILLA MARIA I"
+  },
+  {
+    "id": "HJR3KLDN",
+    "nombre": "SUBA-LA CAROLINA DE SUBA"
+  },
+  {
+    "id": "4E37RLV9",
+    "nombre": "SUBA-TIBABUYES UNIVERSAL"
+  },
+  {
+    "id": "TV2YWVZ1",
+    "nombre": "SUBA-EL POA"
+  },
+  {
+    "id": "PBI6ATIF",
+    "nombre": "SUBA-NUEVA TIBABUYES"
+  },
+  {
+    "id": "NIS9MS3Q",
+    "nombre": "SUBA-LOMBARDIA"
+  },
+  {
+    "id": "3GKYHT7B",
+    "nombre": "SUBA-SANTA CECILIA DE SUBA I"
+  },
+  {
+    "id": "4OX9FTPB",
+    "nombre": "SUBA-SANTA CECILIA DE SUBA II"
+  },
+  {
+    "id": "CIVOLS2J",
+    "nombre": "SUBA-BILBAO"
+  },
+  {
+    "id": "R2NLP5TY",
+    "nombre": "SUBA-SAN PEDRO RURAL"
+  },
+  {
+    "id": "6R8WILSA",
+    "nombre": "SUBA-TIBABUYES OCCIDENTAL"
+  },
+  {
+    "id": "P2MVMUBZ",
+    "nombre": "SUBA-TIBABUYES"
+  },
+  {
+    "id": "WJYDZAED",
+    "nombre": "SUBA-LISBOA"
+  },
+  {
+    "id": "NFPNDFBI",
+    "nombre": "SUBA-BERLIN"
+  },
+  {
+    "id": "II8WE0KW",
+    "nombre": "SUBA-TUNA RURAL"
+  },
+  {
+    "id": "EMHOVDKI",
+    "nombre": "SUBA-SANTA RITA DE SUBA"
+  },
+  {
+    "id": "NMZS1QQM",
+    "nombre": "SUBA-TIBABUYES II"
+  },
+  {
+    "id": "QPWNUJFE",
+    "nombre": "SUBA-EL DORADO"
+  },
+  {
+    "id": "1UMXST5X",
+    "nombre": "SUBA-SANTA CECILIA"
+  },
+  {
+    "id": "5M1LV9O5",
+    "nombre": "SUBA-BILBAO RURAL"
+  },
+  {
+    "id": "INDP183V",
+    "nombre": "SUBA-SABANA DE TIBABUYES"
+  },
+  {
+    "id": "JFPK535N",
+    "nombre": "SUBA-SAN PEDRO"
+  },
+  {
+    "id": "SKL3KQRN",
+    "nombre": "SUBA-TIBABUYES II RURAL"
+  },
+  {
+    "id": "75ZN1ZMF",
+    "nombre": "SUBA-LA GAITANA"
+  },
+  {
+    "id": "COU1KPRO",
+    "nombre": "SUBA-TOSCANA"
+  },
+  {
+    "id": "RPRQORP2",
+    "nombre": "SUBA-SAN CARLOS DE SUBA"
+  },
+  {
+    "id": "H5EWFHFZ",
+    "nombre": "SUBA-TIBABUYES UNIVERSAL"
+  },
+  {
+    "id": "OICV3FFH",
+    "nombre": "SUBA-SANTA CECILIA DE SUBA I RURAL"
+  },
+  {
+    "id": "J9WMEKAJ",
+    "nombre": "SUBA-LOMBARDIA"
+  },
+  {
+    "id": "0C8UQ00H",
+    "nombre": "SUBA-SABANA DE TIBABUYES NORTE"
+  },
+  {
+    "id": "4X4NQWSB",
+    "nombre": "SUBA-ALTOS DE CHOZICA"
+  },
+  {
+    "id": "75J79MS7",
+    "nombre": "SUBA-ESTRELLA DEL NORTE"
+  },
+  {
+    "id": "SACE569T",
+    "nombre": "SUBA-IRAGUA"
+  },
+  {
+    "id": "4XLCMEUU",
+    "nombre": "SUBA-VILLA DEL PRADO"
+  },
+  {
+    "id": "3KE4HI13",
+    "nombre": "SUBA-SUBA URBANO"
+  },
+  {
+    "id": "DPRBP7SX",
+    "nombre": "SUBA-LAS MERCEDES SUBA RURAL"
+  },
+  {
+    "id": "B11RYVTR",
+    "nombre": "SUBA-ALTOS DE SUBA"
+  },
+  {
+    "id": "TQRJBM5Z",
+    "nombre": "SUBA-SAN JOSE V SECTOR"
+  },
+  {
+    "id": "D1I0WI5E",
+    "nombre": "SUBA-GRANADA NORTE"
+  },
+  {
+    "id": "KJ94JSLY",
+    "nombre": "SUBA-SAN JOSE DE BAVARIA"
+  },
+  {
+    "id": "QJHJU82M",
+    "nombre": "SUBA-IBERIA"
+  },
+  {
+    "id": "AY23CR7R",
+    "nombre": "SUBA-PORTALES DEL NORTE"
+  },
+  {
+    "id": "SV7T5U9H",
+    "nombre": "SUBA-CASA BLANCA SUBA I"
+  },
+  {
+    "id": "2P9ZPSW7",
+    "nombre": "SUBA-VICTORIA NORTE"
+  },
+  {
+    "id": "ZOEG1NGL",
+    "nombre": "SUBA-CASABLANCA SUBA"
+  },
+  {
+    "id": "GY71EJLM",
+    "nombre": "SUBA-SUBA CERROS"
+  },
+  {
+    "id": "KRNQJUD6",
+    "nombre": "SUBA-LAS ORQUIDEAS"
+  },
+  {
+    "id": "TKA1NXXZ",
+    "nombre": "SUBA-BARAJAS NORTE"
+  },
+  {
+    "id": "2C9RXV70",
+    "nombre": "SUBA-SALITRE SUBA"
+  },
+  {
+    "id": "I92L1NDN",
+    "nombre": "SUBA-LAS MARGARITAS"
+  },
+  {
+    "id": "NUMFDA8N",
+    "nombre": "SUBA-LAS FLORES"
+  },
+  {
+    "id": "YYQCN57M",
+    "nombre": "SUBA-BOSQUES DE SAN JORGE"
+  },
+  {
+    "id": "QIWU7X5Z",
+    "nombre": "SUBA-SAN JOSE DEL PRADO"
+  },
+  {
+    "id": "1LU5CKEV",
+    "nombre": "SUBA-TUNA ALTA"
+  },
+  {
+    "id": "NJ3OMWOK",
+    "nombre": "SUBA-MAZUREN"
+  },
+  {
+    "id": "IIYT6EWP",
+    "nombre": "SUBA-EL TOBERIN"
+  },
+  {
+    "id": "EIIW7CKT",
+    "nombre": "SUBA-ESCUELA DE CARABINEROS"
+  },
+  {
+    "id": "N4W9XRJ0",
+    "nombre": "SUBA-NIZA SUBA"
+  },
+  {
+    "id": "V6XH1MG3",
+    "nombre": "SUBA-BRITALIA"
+  },
+  {
+    "id": "0C6VQRJ6",
+    "nombre": "SUBA-LOS CEDROS"
+  },
+  {
+    "id": "9ZX0N8X3",
+    "nombre": "SUBA-VEREDA SUBA CERROS II"
+  },
+  {
+    "id": "ZTNEQCSB",
+    "nombre": "SUBA-LA URIBE"
+  },
+  {
+    "id": "BAIBYGNY",
+    "nombre": "SUBA-SANTA HELENA"
+  },
+  {
+    "id": "OMOBKEJ4",
+    "nombre": "SUBA-DELMONTE"
+  },
+  {
+    "id": "9WD4PRG7",
+    "nombre": "SUBA-CANTAGALLO"
+  },
+  {
+    "id": "WJRQSG88",
+    "nombre": "SUBA-CAMPANELLA"
+  },
+  {
+    "id": "YJDE9OJU",
+    "nombre": "SUBA-GILMAR"
+  },
+  {
+    "id": "2MGEW5E6",
+    "nombre": "SUBA-EL PLAN"
+  },
+  {
+    "id": "M72SLUV4",
+    "nombre": "SUBA-VILLA ELISA"
+  },
+  {
+    "id": "LD6PFVL4",
+    "nombre": "SUBA-PRADO PINZON"
+  },
+  {
+    "id": "XSFUJC57",
+    "nombre": "SUBA-ATENAS"
+  },
+  {
+    "id": "6G0PX0XP",
+    "nombre": "SUBA-VILLA HERMOSA"
+  },
+  {
+    "id": "1MQ9MK8B",
+    "nombre": "SUBA-SUBA URBANO"
+  },
+  {
+    "id": "8MK8X2GJ",
+    "nombre": "SUBA-LAS MERCEDES SUBA RURAL"
+  },
+  {
+    "id": "4QODTF16",
+    "nombre": "SUBA-LAS MERCEDES SUBA"
+  },
+  {
+    "id": "M719PQBK",
+    "nombre": "SUBA-RINCON DE SANTA INES"
+  },
+  {
+    "id": "1HBBF92N",
+    "nombre": "SUBA-TUNA RURAL"
+  },
+  {
+    "id": "YD45R1LN",
+    "nombre": "SUBA-TIBABUYES II"
+  },
+  {
+    "id": "6WX6MYTB",
+    "nombre": "SUBA-BARAJAS NORTE"
+  },
+  {
+    "id": "H47IN92I",
+    "nombre": "SUBA-PINOS DE LOMBARDIA"
+  },
+  {
+    "id": "54NHQVHN",
+    "nombre": "SUBA-TUNA BAJA"
+  },
+  {
+    "id": "00BNCKUV",
+    "nombre": "SUBA-TUNA"
+  },
+  {
+    "id": "590S3S8W",
+    "nombre": "SUBA-SALITRE SUBA"
+  },
+  {
+    "id": "KO9HP3ZI",
+    "nombre": "SUBA-SABANA DE TIBABUYES"
+  },
+  {
+    "id": "UYRABQSG",
+    "nombre": "SUBA-LAS FLORES"
+  },
+  {
+    "id": "QX0AZ6K6",
+    "nombre": "SUBA-BOSQUES DE SAN JORGE"
+  },
+  {
+    "id": "O4S4W4IT",
+    "nombre": "SUBA-TIBABUYES II RURAL"
+  },
+  {
+    "id": "WJ7ZQM85",
+    "nombre": "SUBA-TUNA ALTA"
+  },
+  {
+    "id": "FN1CTIN4",
+    "nombre": "SUBA-TIBABUYES"
+  },
+  {
+    "id": "OAR2OF6E",
+    "nombre": "SUBA-LAS MERCEDES I"
+  },
+  {
+    "id": "SBADTRU6",
+    "nombre": "SUBA-CAMPANELLA"
+  },
+  {
+    "id": "B52RADSG",
+    "nombre": "SUBA-EL PINO"
+  },
+  {
+    "id": "6XC2WPYN",
+    "nombre": "SUBA-EL POA"
+  },
+  {
+    "id": "MYQKB3OA",
+    "nombre": "SUBA-VILLA ELISA"
+  },
+  {
+    "id": "ZICHDLXX",
+    "nombre": "SUBA-LOMBARDIA"
+  },
+  {
+    "id": "9G5CXQRA",
+    "nombre": "SUBA-SABANA DE TIBABUYES NORTE"
+  },
+  {
+    "id": "38EDWFZY",
+    "nombre": "SUBA-MIRANDELA"
+  },
+  {
+    "id": "YGFCB9T3",
+    "nombre": "SUBA-SAN ANTONIO NOROCCIDENTAL"
+  },
+  {
+    "id": "2NOIT67T",
+    "nombre": "SUBA-CASABLANCA SUBA OTOÑO"
+  },
+  {
+    "id": "7X84KYMU",
+    "nombre": "SUBA-CASABLANCA SUBA I"
+  },
+  {
+    "id": "MCHM9TCY",
+    "nombre": "SUBA-CASABLANCA SUBA URBANO"
+  },
+  {
+    "id": "C7PCG2GZ",
+    "nombre": "SUBA-EL OTOÑO I"
+  },
+  {
+    "id": "24DJPQCD",
+    "nombre": "SUBA-VILLA DEL PRADO"
+  },
+  {
+    "id": "AVXJARLH",
+    "nombre": "SUBA-LA LOMITA"
+  },
+  {
+    "id": "52ZP5MCA",
+    "nombre": "SUBA-CASABLANCA SUBA URBANO I"
+  },
+  {
+    "id": "BYVVC3XL",
+    "nombre": "SUBA-SAN JOSE DE BAVARIA"
+  },
+  {
+    "id": "1AGBJ0NB",
+    "nombre": "SUBA-TORCA I"
+  },
+  {
+    "id": "JEID5PBX",
+    "nombre": "SUBA-EL OTOÑO"
+  },
+  {
+    "id": "YD7W0JC2",
+    "nombre": "SUBA-BARAJAS NORTE"
+  },
+  {
+    "id": "8S9ORFUV",
+    "nombre": "SUBA-GUAYMARAL"
+  },
+  {
+    "id": "S72L52D7",
+    "nombre": "SUBA-TIBABITA RURAL"
+  },
+  {
+    "id": "ZKO4IGU9",
+    "nombre": "SUBA-CANAIMA"
+  },
+  {
+    "id": "GVN5QV8X",
+    "nombre": "SUBA-CASABLANCA SUBA URBANO II"
+  },
+  {
+    "id": "2OK4A5EE",
+    "nombre": "SUBA-BRITALIA"
+  },
+  {
+    "id": "MWNCT3KK",
+    "nombre": "SUBA-EL CEREZO"
+  },
+  {
+    "id": "R9U0BF4S",
+    "nombre": "SUBA-LA URIBE"
+  },
+  {
+    "id": "CD6W619R",
+    "nombre": "SUBA-EL VERVENAL"
+  },
+  {
+    "id": "2QYTBTOQ",
+    "nombre": "SUBA-CASABLANCA SUBA"
+  },
+  {
+    "id": "6EWZDN1R",
+    "nombre": "SUBA-NUEVA ZELANDIA"
+  },
+  {
+    "id": "OA19N7TV",
+    "nombre": "SUBA-CASABLANCA SUBA I"
+  },
+  {
+    "id": "IXTIN23S",
+    "nombre": "SUBA-LA CANDELARIA"
+  },
+  {
+    "id": "1OWMRNMD",
+    "nombre": "SUBA-LA LOMITA"
+  },
+  {
+    "id": "BRHOGMTE",
+    "nombre": "SUBA-LAS MERCEDES SUBA RURAL"
+  },
+  {
+    "id": "Y8LGN3HV",
+    "nombre": "SUBA-TUNA RURAL"
+  },
+  {
+    "id": "ZAJ73HI2",
+    "nombre": "SUBA-SAN JOSE DE BAVARIA"
+  },
+  {
+    "id": "3VOQ77L0",
+    "nombre": "SUBA-BARAJAS NORTE"
+  },
+  {
+    "id": "IVC9ZAUS",
+    "nombre": "SUBA-GUAYMARAL"
+  },
+  {
+    "id": "0E4ECVY5",
+    "nombre": "SUBA-NUESTRA SENORA DEL ROSARIO"
+  },
+  {
+    "id": "BOWOBDRY",
+    "nombre": "SUBA-CONEJERA"
+  },
+  {
+    "id": "CWFT14L3",
+    "nombre": "SUBA-VEREDA SUBA CERROS II"
+  },
+  {
+    "id": "6E6JA9AN",
+    "nombre": "SUBA-CASABLANCA SUBA"
+  },
+  {
+    "id": "DKZZ932X",
+    "nombre": "SUBA-CASABLANCA SUBA URBANO"
+  },
+  {
+    "id": "OZPTYYVA",
+    "nombre": "SUBA-TORCA I"
+  },
+  {
+    "id": "CNDOE61S",
+    "nombre": "SUBA-GUAYMARAL"
+  },
+  {
+    "id": "4G9KP3U1",
+    "nombre": "SUBA-CASABLANCA SUBA II"
+  },
+  {
+    "id": "MD5X92SU",
+    "nombre": "SUBA-CASABLANCA SUBA"
+  },
+  {
+    "id": "ZNZ4QOOL",
+    "nombre": "BARRIOS UNIDOS-ALCAZARES NORTE"
+  },
+  {
+    "id": "NBF5FMW5",
+    "nombre": "BARRIOS UNIDOS-PORCIUNCULA"
+  },
+  {
+    "id": "AAKRLASA",
+    "nombre": "BARRIOS UNIDOS-CHICO NORTE III SECTOR"
+  },
+  {
+    "id": "NAPMHXTM",
+    "nombre": "BARRIOS UNIDOS-SIMON BOLIVAR"
+  },
+  {
+    "id": "WXZ4ELPD",
+    "nombre": "BARRIOS UNIDOS-SAN FELIPE"
+  },
+  {
+    "id": "W8CMJXRP",
+    "nombre": "BARRIOS UNIDOS-LA LIBERTAD"
+  },
+  {
+    "id": "NP0I579B",
+    "nombre": "BARRIOS UNIDOS-JULIO FLOREZ"
+  },
+  {
+    "id": "N1VJKI3G",
+    "nombre": "BARRIOS UNIDOS-LA PATRIA"
+  },
+  {
+    "id": "QA1I4O5W",
+    "nombre": "BARRIOS UNIDOS-JUAN XXIII"
+  },
+  {
+    "id": "ZWPSSJY7",
+    "nombre": "BARRIOS UNIDOS-ANTIGUO COUNTRY"
+  },
+  {
+    "id": "99JOUG2W",
+    "nombre": "BARRIOS UNIDOS-LA AURORA"
+  },
+  {
+    "id": "9T1UC8BV",
+    "nombre": "BARRIOS UNIDOS-ONCE DE NOVIEMBRE"
+  },
+  {
+    "id": "Y0COT5K9",
+    "nombre": "BARRIOS UNIDOS-LAGO GAITAN"
+  },
+  {
+    "id": "SLCN0LWA",
+    "nombre": "BARRIOS UNIDOS-METROPOLIS"
+  },
+  {
+    "id": "PJIKB8WT",
+    "nombre": "BARRIOS UNIDOS-ESTORIL"
+  },
+  {
+    "id": "SQ84QQPJ",
+    "nombre": "BARRIOS UNIDOS-ESCUELA MILITAR"
+  },
+  {
+    "id": "DHI6KIVB",
+    "nombre": "BARRIOS UNIDOS-ALCAZARES"
+  },
+  {
+    "id": "J5X6XBO1",
+    "nombre": "BARRIOS UNIDOS-PASADENA"
+  },
+  {
+    "id": "23ZGFUAY",
+    "nombre": "BARRIOS UNIDOS-JORGE ELIECER GAITAN"
+  },
+  {
+    "id": "9A084U4N",
+    "nombre": "BARRIOS UNIDOS-RIONEGRO"
+  },
+  {
+    "id": "ZBQSV5KZ",
+    "nombre": "BARRIOS UNIDOS-ANDES NORTE"
+  },
+  {
+    "id": "ZZQMTCAB",
+    "nombre": "BARRIOS UNIDOS-DOCE DE OCTUBRE"
+  },
+  {
+    "id": "VQQJMCMK",
+    "nombre": "BARRIOS UNIDOS-SANTA SOFIA"
+  },
+  {
+    "id": "G4HX884Z",
+    "nombre": "BARRIOS UNIDOS-EL CHICO"
+  },
+  {
+    "id": "Q7HPX33I",
+    "nombre": "BARRIOS UNIDOS-LA CASTELLANA"
+  },
+  {
+    "id": "Y5F4UQ99",
+    "nombre": "BARRIOS UNIDOS-SAN FERNANDO"
+  },
+  {
+    "id": "0BH5Z3F8",
+    "nombre": "BARRIOS UNIDOS-POLO CLUB"
+  },
+  {
+    "id": "VZ1N5V6T",
+    "nombre": "BARRIOS UNIDOS-LOS ANDES"
+  },
+  {
+    "id": "2D6CHQSB",
+    "nombre": "BARRIOS UNIDOS-COLOMBIA"
+  },
+  {
+    "id": "22U1IBJE",
+    "nombre": "BARRIOS UNIDOS-SAN FERNANDO OCCIDENTAL"
+  },
+  {
+    "id": "1IONPQ03",
+    "nombre": "BARRIOS UNIDOS-LA MERCED NORTE"
+  },
+  {
+    "id": "KDPPRRJN",
+    "nombre": "BARRIOS UNIDOS-ENTRERIOS"
+  },
+  {
+    "id": "4DW5OJ4C",
+    "nombre": "BARRIOS UNIDOS-BENJAMIN HERRERA"
+  },
+  {
+    "id": "DXXAKK8N",
+    "nombre": "BARRIOS UNIDOS-CONCEPCION NORTE"
+  },
+  {
+    "id": "Y1ST38HA",
+    "nombre": "BARRIOS UNIDOS-ALCAZARES NORTE"
+  },
+  {
+    "id": "591SW73G",
+    "nombre": "BARRIOS UNIDOS-RAFAEL URIBE"
+  },
+  {
+    "id": "K0XQJCOF",
+    "nombre": "BARRIOS UNIDOS-SIETE DE AGOSTO"
+  },
+  {
+    "id": "JWBMT0HX",
+    "nombre": "BARRIOS UNIDOS-PARQUE DISTRITAL SALITRE"
+  },
+  {
+    "id": "2PMSPQPH",
+    "nombre": "BARRIOS UNIDOS-LA ESPERANZA"
+  },
+  {
+    "id": "H9ETBRU9",
+    "nombre": "BARRIOS UNIDOS-SAN LUIS"
+  },
+  {
+    "id": "MJ0VYO5C",
+    "nombre": "BARRIOS UNIDOS-PORCIUNCULA"
+  },
+  {
+    "id": "CRLJC01G",
+    "nombre": "BARRIOS UNIDOS-NICOLAS DE FEDERMAN"
+  },
+  {
+    "id": "1A9JWX0N",
+    "nombre": "BARRIOS UNIDOS-LA ESTRADITA"
+  },
+  {
+    "id": "M4WI8OFK",
+    "nombre": "BARRIOS UNIDOS-SAN FELIPE"
+  },
+  {
+    "id": "XOTN9YRB",
+    "nombre": "BARRIOS UNIDOS-ONCE DE NOVIEMBRE"
+  },
+  {
+    "id": "HZOD88MX",
+    "nombre": "BARRIOS UNIDOS-ALCAZARES"
+  },
+  {
+    "id": "TOTJUWBZ",
+    "nombre": "BARRIOS UNIDOS-PABLO VI NORTE"
+  },
+  {
+    "id": "ZMO7SZ1Z",
+    "nombre": "BARRIOS UNIDOS-SAN MIGUEL"
+  },
+  {
+    "id": "N2A1AG0M",
+    "nombre": "BARRIOS UNIDOS-CHAPINERO NORTE"
+  },
+  {
+    "id": "3VBE6R3O",
+    "nombre": "BARRIOS UNIDOS-BAQUERO"
+  },
+  {
+    "id": "9Y0NFG4N",
+    "nombre": "BARRIOS UNIDOS-CAMPIN"
+  },
+  {
+    "id": "D2RNG2TD",
+    "nombre": "BARRIOS UNIDOS-LA PAZ"
+  },
+  {
+    "id": "QISQDJ1P",
+    "nombre": "BARRIOS UNIDOS-JOSE JOAQUIN VARGAS"
+  },
+  {
+    "id": "BT1IJ6NC",
+    "nombre": "BARRIOS UNIDOS-CAMPO EUCARISTICO"
+  },
+  {
+    "id": "JXZVXODY",
+    "nombre": "BARRIOS UNIDOS-QUINTA MUTIS"
+  },
+  {
+    "id": "TA0OY22J",
+    "nombre": "BARRIOS UNIDOS-CHAPINERO CENTRAL"
+  },
+  {
+    "id": "HR5EBHCO",
+    "nombre": "BARRIOS UNIDOS-DOCE DE OCTUBRE"
+  },
+  {
+    "id": "J8T4JBJ4",
+    "nombre": "BARRIOS UNIDOS-MUEQUETA"
+  },
+  {
+    "id": "DQHRUDFW",
+    "nombre": "BARRIOS UNIDOS-SAN FERNANDO"
+  },
+  {
+    "id": "I9A9L25V",
+    "nombre": "BARRIOS UNIDOS-CHAPINERO OCCIDENTAL"
+  },
+  {
+    "id": "4QWHWF45",
+    "nombre": "BARRIOS UNIDOS-QUINTA CAMACHO"
+  },
+  {
+    "id": "PWEI804D",
+    "nombre": "BARRIOS UNIDOS-BELLAVISTA OCCIDENTAL"
+  },
+  {
+    "id": "SJAI2DVI",
+    "nombre": "BARRIOS UNIDOS-PARQUE POPULAR SALITRE"
+  },
+  {
+    "id": "VQ9BTO1K",
+    "nombre": "BARRIOS UNIDOS-EL ROSARIO"
+  },
+  {
+    "id": "E8AJD1W0",
+    "nombre": "BARRIOS UNIDOS-COLOMBIA"
+  },
+  {
+    "id": "MZ2FHUFN",
+    "nombre": "BARRIOS UNIDOS-SAN FERNANDO OCCIDENTAL"
+  },
+  {
+    "id": "O1H3BLSC",
+    "nombre": "BARRIOS UNIDOS-CAMPIN OCCIDENTAL"
+  },
+  {
+    "id": "T76U0IWH",
+    "nombre": "BARRIOS UNIDOS-LA MERCED NORTE"
+  },
+  {
+    "id": "F8TDXH8Y",
+    "nombre": "BARRIOS UNIDOS-POPULAR MODELO"
+  },
+  {
+    "id": "5BLPFWJY",
+    "nombre": "TEUSAQUILLO-ESTRELLA"
+  },
+  {
+    "id": "LSDIKW6O",
+    "nombre": "TEUSAQUILLO-ARMENIA"
+  },
+  {
+    "id": "9WTNRG4R",
+    "nombre": "TEUSAQUILLO-LA ALAMEDA"
+  },
+  {
+    "id": "A2T05RCX",
+    "nombre": "TEUSAQUILLO-SAN DIEGO"
+  },
+  {
+    "id": "MAA65A2E",
+    "nombre": "TEUSAQUILLO-LAS AMERICAS"
+  },
+  {
+    "id": "UGPOVZ32",
+    "nombre": "TEUSAQUILLO-SAN LUIS"
+  },
+  {
+    "id": "JOUWC8FX",
+    "nombre": "TEUSAQUILLO-BELALCAZAR"
+  },
+  {
+    "id": "RRJ04R7N",
+    "nombre": "TEUSAQUILLO-NICOLAS DE FEDERMAN"
+  },
+  {
+    "id": "G91TU78B",
+    "nombre": "TEUSAQUILLO-ACEVEDO TEJADA"
+  },
+  {
+    "id": "NIO08OXF",
+    "nombre": "TEUSAQUILLO-FLORIDA"
+  },
+  {
+    "id": "JXUUUHHP",
+    "nombre": "TEUSAQUILLO-LA MAGDALENA"
+  },
+  {
+    "id": "DELZCWPI",
+    "nombre": "TEUSAQUILLO-CIUDAD UNIVERSITARIA"
+  },
+  {
+    "id": "B1I39ZE3",
+    "nombre": "TEUSAQUILLO-MARLY"
+  },
+  {
+    "id": "BRYJH3TL",
+    "nombre": "TEUSAQUILLO-TEUSAQUILLO"
+  },
+  {
+    "id": "MWEVTQPD",
+    "nombre": "TEUSAQUILLO-SUCRE"
+  },
+  {
+    "id": "K78PAYHQ",
+    "nombre": "TEUSAQUILLO-SANTA TERESITA"
+  },
+  {
+    "id": "7UJK18DC",
+    "nombre": "TEUSAQUILLO-LA SOLEDAD"
+  },
+  {
+    "id": "D30NK9B9",
+    "nombre": "TEUSAQUILLO-CAMPIN"
+  },
+  {
+    "id": "D1TAUJSQ",
+    "nombre": "TEUSAQUILLO-CHAPINERO CENTRAL"
+  },
+  {
+    "id": "J23VKR4D",
+    "nombre": "TEUSAQUILLO-QUESADA"
+  },
+  {
+    "id": "1871FNC6",
+    "nombre": "TEUSAQUILLO-CHAPINERO OCCIDENTAL"
+  },
+  {
+    "id": "U7VJFAED",
+    "nombre": "TEUSAQUILLO-SAGRADO CORAZON"
+  },
+  {
+    "id": "4XGADXRC",
+    "nombre": "TEUSAQUILLO-PALERMO"
+  },
+  {
+    "id": "U7Y8GN8P",
+    "nombre": "TEUSAQUILLO-ALFONSO LOPEZ"
+  },
+  {
+    "id": "1X6NYE7S",
+    "nombre": "TEUSAQUILLO-GALERIAS"
+  },
+  {
+    "id": "5N0SOOGX",
+    "nombre": "TEUSAQUILLO-SAMPER"
+  },
+  {
+    "id": "7PW1OYQK",
+    "nombre": "TEUSAQUILLO-CAMPIN OCCIDENTAL"
+  },
+  {
+    "id": "L0JQ7WO9",
+    "nombre": "TEUSAQUILLO-SANTA FE"
+  },
+  {
+    "id": "YHA5NIQJ",
+    "nombre": "TEUSAQUILLO-BANCO CENTRAL"
+  },
+  {
+    "id": "94VMFC7C",
+    "nombre": "TEUSAQUILLO-CIUDAD SALITRE SUR-ORIENTAL"
+  },
+  {
+    "id": "6775GHVS",
+    "nombre": "TEUSAQUILLO-CIUDAD SALITRE NOR-ORIENTAL"
+  },
+  {
+    "id": "464WWU4K",
+    "nombre": "TEUSAQUILLO-PARQUE DISTRITAL SALITRE"
+  },
+  {
+    "id": "XO8US8AS",
+    "nombre": "TEUSAQUILLO-LAS AMERICAS"
+  },
+  {
+    "id": "V4BY2BTT",
+    "nombre": "TEUSAQUILLO-MONTEVIDEO"
+  },
+  {
+    "id": "KWC6CM54",
+    "nombre": "TEUSAQUILLO-CENTRO INDUSTRIAL"
+  },
+  {
+    "id": "4I4JI9C0",
+    "nombre": "TEUSAQUILLO-JARDIN BOTANICO"
+  },
+  {
+    "id": "7UYUGLVR",
+    "nombre": "TEUSAQUILLO-BELALCAZAR"
+  },
+  {
+    "id": "AZZXJD4P",
+    "nombre": "TEUSAQUILLO-NICOLAS DE FEDERMAN"
+  },
+  {
+    "id": "4EYZSR1X",
+    "nombre": "TEUSAQUILLO-EL SALITRE"
+  },
+  {
+    "id": "NV2MCJWX",
+    "nombre": "TEUSAQUILLO-ACEVEDO TEJADA"
+  },
+  {
+    "id": "9YCH54ZE",
+    "nombre": "TEUSAQUILLO-FLORIDA"
+  },
+  {
+    "id": "L15ATD2C",
+    "nombre": "TEUSAQUILLO-CENTRO ADMINISTRATIVO OCC."
+  },
+  {
+    "id": "2E48X2NG",
+    "nombre": "TEUSAQUILLO-GRAN AMERICA"
+  },
+  {
+    "id": "GREY83W7",
+    "nombre": "TEUSAQUILLO-PABLO VI NORTE"
+  },
+  {
+    "id": "44HZ5EKP",
+    "nombre": "TEUSAQUILLO-CIUDAD UNIVERSITARIA"
+  },
+  {
+    "id": "P89ASJPP",
+    "nombre": "TEUSAQUILLO-ORTEZAL"
+  },
+  {
+    "id": "1GGR2LAQ",
+    "nombre": "TEUSAQUILLO-LA SOLEDAD"
+  },
+  {
+    "id": "CZS0UFIJ",
+    "nombre": "TEUSAQUILLO-CAMPO EUCARISTICO"
+  },
+  {
+    "id": "7SBH2M27",
+    "nombre": "TEUSAQUILLO-PUENTE ARANDA"
+  },
+  {
+    "id": "5KJRKB7G",
+    "nombre": "TEUSAQUILLO-EL RECUERDO"
+  },
+  {
+    "id": "84ZTJXY8",
+    "nombre": "TEUSAQUILLO-SALITRE OCCIDENTAL"
+  },
+  {
+    "id": "XZJGLBTH",
+    "nombre": "TEUSAQUILLO-LA ESMERALDA"
+  },
+  {
+    "id": "DYLBPT5L",
+    "nombre": "TEUSAQUILLO-PAULO VI"
+  },
+  {
+    "id": "YCPFFURO",
+    "nombre": "TEUSAQUILLO-PARQUE POPULAR SALITRE"
+  },
+  {
+    "id": "WN3DCCA5",
+    "nombre": "TEUSAQUILLO-EL ROSARIO"
+  },
+  {
+    "id": "O6EEJ4C1",
+    "nombre": "TEUSAQUILLO-RAFAEL NUNEZ"
+  },
+  {
+    "id": "UJ7PKAV1",
+    "nombre": "TEUSAQUILLO-CAMPIN OCCIDENTAL"
+  },
+  {
+    "id": "QFM7ZLIT",
+    "nombre": "TEUSAQUILLO-CENTRO NARINO"
+  },
+  {
+    "id": "PZ6Z9NKD",
+    "nombre": "TEUSAQUILLO-QUINTA PAREDES"
+  },
+  {
+    "id": "OPR1EVMF",
+    "nombre": "MÁRTIRES-ESTRELLA"
+  },
+  {
+    "id": "MK6Y6X4W",
+    "nombre": "MÁRTIRES-EL LISTON"
+  },
+  {
+    "id": "2I7CJKSF",
+    "nombre": "MÁRTIRES-SAN BERNARDO"
+  },
+  {
+    "id": "VP6X1TO3",
+    "nombre": "MÁRTIRES-ARMENIA"
+  },
+  {
+    "id": "7WI2D9TF",
+    "nombre": "MÁRTIRES-LA ALAMEDA"
+  },
+  {
+    "id": "VO27P8NM",
+    "nombre": "MÁRTIRES-PALOQUEMAO"
+  },
+  {
+    "id": "SYY8UM43",
+    "nombre": "MÁRTIRES-SANTA ISABEL SUR"
+  },
+  {
+    "id": "V7F2VGWS",
+    "nombre": "MÁRTIRES-SAN VICTORINO"
+  },
+  {
+    "id": "CUYLK8T3",
+    "nombre": "MÁRTIRES-LA CAPUCHINA"
+  },
+  {
+    "id": "HDPWAO34",
+    "nombre": "MÁRTIRES-LA FAVORITA"
+  },
+  {
+    "id": "NPOME4UW",
+    "nombre": "MÁRTIRES-RICAURTE"
+  },
+  {
+    "id": "SGVIM4ZP",
+    "nombre": "MÁRTIRES-EDUARDO SANTOS"
+  },
+  {
+    "id": "5BB4AH57",
+    "nombre": "MÁRTIRES-EL PROGRESO"
+  },
+  {
+    "id": "L1RINPMK",
+    "nombre": "MÁRTIRES-SAMPER MENDOZA"
+  },
+  {
+    "id": "85QY9WPL",
+    "nombre": "MÁRTIRES-LA ASUNCION"
+  },
+  {
+    "id": "ISIM7E7Y",
+    "nombre": "MÁRTIRES-SENA"
+  },
+  {
+    "id": "EQWL6Y9S",
+    "nombre": "MÁRTIRES-FLORIDA"
+  },
+  {
+    "id": "0L1SLPXQ",
+    "nombre": "MÁRTIRES-PENSILVANIA"
+  },
+  {
+    "id": "HO19KWKR",
+    "nombre": "MÁRTIRES-SAN ANTONIO"
+  },
+  {
+    "id": "7B07RD2J",
+    "nombre": "MÁRTIRES-LA HORTUA"
+  },
+  {
+    "id": "V18PJD66",
+    "nombre": "MÁRTIRES-VOTO NACIONAL"
+  },
+  {
+    "id": "Y6E65WBC",
+    "nombre": "MÁRTIRES-COLSEGUROS"
+  },
+  {
+    "id": "DYHGBYOH",
+    "nombre": "MÁRTIRES-USATAMA"
+  },
+  {
+    "id": "GK7BA3K2",
+    "nombre": "MÁRTIRES-VERAGUAS"
+  },
+  {
+    "id": "P42AX307",
+    "nombre": "MÁRTIRES-LA PEPITA"
+  },
+  {
+    "id": "N9S0YC2K",
+    "nombre": "MÁRTIRES-EL VERGEL"
+  },
+  {
+    "id": "UEYH90US",
+    "nombre": "MÁRTIRES-LA SABANA"
+  },
+  {
+    "id": "L22DE8HF",
+    "nombre": "MÁRTIRES-SANTA ISABEL"
+  },
+  {
+    "id": "21UGYHXI",
+    "nombre": "MÁRTIRES-LA FRAGUA"
+  },
+  {
+    "id": "QDS3KIAB",
+    "nombre": "MÁRTIRES-LA ESTANZUELA"
+  },
+  {
+    "id": "MVNLGC6E",
+    "nombre": "MÁRTIRES-SANTA INES"
+  },
+  {
+    "id": "SJ6PP8H5",
+    "nombre": "MÁRTIRES-SANTA FE"
+  },
+  {
+    "id": "6JU37GQD",
+    "nombre": "MÁRTIRES-LA FRAGUITA"
+  },
+  {
+    "id": "TFKQ00PG",
+    "nombre": "MÁRTIRES-SANTA MATILDE"
+  },
+  {
+    "id": "D9LG1IJO",
+    "nombre": "MÁRTIRES-COMUNEROS"
+  },
+  {
+    "id": "VC1OGPWY",
+    "nombre": "ANTONIO NARIÑO-RESTREPO OCCIDENTAL"
+  },
+  {
+    "id": "J5H1RTDL",
+    "nombre": "ANTONIO NARIÑO-SEVILLA"
+  },
+  {
+    "id": "KZ6JXO0G",
+    "nombre": "ANTONIO NARIÑO-CIUDAD JARDIN SUR"
+  },
+  {
+    "id": "YM5S91C9",
+    "nombre": "ANTONIO NARIÑO-SAN BERNARDO"
+  },
+  {
+    "id": "PZYWUE5J",
+    "nombre": "ANTONIO NARIÑO-AUTOPISTA SUR"
+  },
+  {
+    "id": "PJ0R5BK4",
+    "nombre": "ANTONIO NARIÑO-SANTANDER SUR"
+  },
+  {
+    "id": "DKDE07AU",
+    "nombre": "ANTONIO NARIÑO-SOSIEGO SUR"
+  },
+  {
+    "id": "3H4RESML",
+    "nombre": "ANTONIO NARIÑO-VILLA MAYOR ORIENTAL"
+  },
+  {
+    "id": "Q5NON1L9",
+    "nombre": "ANTONIO NARIÑO-SANTIAGO PEREZ"
+  },
+  {
+    "id": "YNVS4PHD",
+    "nombre": "ANTONIO NARIÑO-CENTENARIO"
+  },
+  {
+    "id": "GSEQKFEI",
+    "nombre": "ANTONIO NARIÑO-MODELO SUR"
+  },
+  {
+    "id": "Q8DUDIQ3",
+    "nombre": "ANTONIO NARIÑO-BRAVO PAEZ"
+  },
+  {
+    "id": "PFV0IN6R",
+    "nombre": "ANTONIO NARIÑO-VILLA MAYOR"
+  },
+  {
+    "id": "GIY0ZWQ5",
+    "nombre": "ANTONIO NARIÑO-EDUARDO SANTOS"
+  },
+  {
+    "id": "R7OKOGRZ",
+    "nombre": "ANTONIO NARIÑO-REMANSO"
+  },
+  {
+    "id": "PN9XQ4F7",
+    "nombre": "ANTONIO NARIÑO-SENA"
+  },
+  {
+    "id": "FJCFWHCM",
+    "nombre": "ANTONIO NARIÑO-POLICARPA"
+  },
+  {
+    "id": "UJDSE2QM",
+    "nombre": "ANTONIO NARIÑO-SOCIEGO"
+  },
+  {
+    "id": "5R7BQYCE",
+    "nombre": "ANTONIO NARIÑO-LIBERTADOR"
+  },
+  {
+    "id": "JL17JR07",
+    "nombre": "ANTONIO NARIÑO-SAN ANTONIO"
+  },
+  {
+    "id": "6LYDCVSU",
+    "nombre": "ANTONIO NARIÑO-LA HORTUA"
+  },
+  {
+    "id": "RNEUAC8X",
+    "nombre": "ANTONIO NARIÑO-REMANSO SUR"
+  },
+  {
+    "id": "8L6K8UPZ",
+    "nombre": "ANTONIO NARIÑO-LAS CRUCES"
+  },
+  {
+    "id": "BRI3UNNX",
+    "nombre": "ANTONIO NARIÑO-MURILLO TORO"
+  },
+  {
+    "id": "Z48XDRE1",
+    "nombre": "ANTONIO NARIÑO-OLAYA"
+  },
+  {
+    "id": "N7YCEQA9",
+    "nombre": "ANTONIO NARIÑO-EL VERGEL"
+  },
+  {
+    "id": "I7WXZBK1",
+    "nombre": "ANTONIO NARIÑO-ESCUELA GENERAL SANTANDER"
+  },
+  {
+    "id": "JGZ5SFNS",
+    "nombre": "ANTONIO NARIÑO-SANTANDER"
+  },
+  {
+    "id": "FGCLFEYH",
+    "nombre": "ANTONIO NARIÑO-EDUARDO FREY"
+  },
+  {
+    "id": "1B52O051",
+    "nombre": "ANTONIO NARIÑO-VEINTE DE JULIO"
+  },
+  {
+    "id": "X78LHUFD",
+    "nombre": "ANTONIO NARIÑO-LA FRAGUA"
+  },
+  {
+    "id": "MM43LIFL",
+    "nombre": "ANTONIO NARIÑO-RESTREPO"
+  },
+  {
+    "id": "O32CJ0AM",
+    "nombre": "ANTONIO NARIÑO-AUTOPISTA MUZU"
+  },
+  {
+    "id": "U15TH8SK",
+    "nombre": "ANTONIO NARIÑO-SAN JOSE SUR"
+  },
+  {
+    "id": "S4YJZW83",
+    "nombre": "ANTONIO NARIÑO-CIUDAD BERNA"
+  },
+  {
+    "id": "LBCEWCH9",
+    "nombre": "ANTONIO NARIÑO-LA FRAGUITA"
+  },
+  {
+    "id": "NWX5OWRC",
+    "nombre": "ANTONIO NARIÑO-CARACAS"
+  },
+  {
+    "id": "CFP75IN0",
+    "nombre": "ANTONIO NARIÑO-AUTOPISTA MUZU ORIENTAL"
+  },
+  {
+    "id": "M8T2Z259",
+    "nombre": "ANTONIO NARIÑO-NARINO SUR"
+  },
+  {
+    "id": "EE2PL1UF",
+    "nombre": "ANTONIO NARIÑO-INGLES"
+  },
+  {
+    "id": "PU7MCHWA",
+    "nombre": "PUENTE ARANDA-COLON"
+  },
+  {
+    "id": "97Q5PJ84",
+    "nombre": "PUENTE ARANDA-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "DN2EL0UD",
+    "nombre": "PUENTE ARANDA-PALOQUEMAO"
+  },
+  {
+    "id": "D1AO1WBF",
+    "nombre": "PUENTE ARANDA-BOCHICA"
+  },
+  {
+    "id": "W0GYW4TI",
+    "nombre": "PUENTE ARANDA-CIUDAD SALITRE SUR-ORIENTAL"
+  },
+  {
+    "id": "XEGPVR29",
+    "nombre": "PUENTE ARANDA-ESTACION CENTRAL"
+  },
+  {
+    "id": "7GOJU8O0",
+    "nombre": "PUENTE ARANDA-MONTEVIDEO"
+  },
+  {
+    "id": "OVK88A37",
+    "nombre": "PUENTE ARANDA-CENTRO INDUSTRIAL"
+  },
+  {
+    "id": "LRY7375L",
+    "nombre": "PUENTE ARANDA-BATALLON CALDAS"
+  },
+  {
+    "id": "W9B3N04X",
+    "nombre": "PUENTE ARANDA-INDUSTRIAL CENTENARIO"
+  },
+  {
+    "id": "1FVRBBTY",
+    "nombre": "PUENTE ARANDA-RICAURTE"
+  },
+  {
+    "id": "Y32424F8",
+    "nombre": "PUENTE ARANDA-HIPOTECHO SUR"
+  },
+  {
+    "id": "UGQX1K3D",
+    "nombre": "PUENTE ARANDA-SAN FRANCISCO"
+  },
+  {
+    "id": "9OS19FEY",
+    "nombre": "PUENTE ARANDA-LA CAMELIA II"
+  },
+  {
+    "id": "LA5LBYFC",
+    "nombre": "PUENTE ARANDA-MONTES"
+  },
+  {
+    "id": "J5MVRNQX",
+    "nombre": "PUENTE ARANDA-LA PRADERA"
+  },
+  {
+    "id": "FGB1SE0M",
+    "nombre": "PUENTE ARANDA-LA ASUNCION"
+  },
+  {
+    "id": "6S4C86XU",
+    "nombre": "PUENTE ARANDA-FLORIDA"
+  },
+  {
+    "id": "N89RKLGJ",
+    "nombre": "PUENTE ARANDA-BARCELONA"
+  },
+  {
+    "id": "D19XIIZG",
+    "nombre": "PUENTE ARANDA-GRANJAS DE TECHO"
+  },
+  {
+    "id": "XCIUSP0I",
+    "nombre": "PUENTE ARANDA-GORGONZOLA"
+  },
+  {
+    "id": "I3CGZP7X",
+    "nombre": "PUENTE ARANDA-LOS EJIDOS"
+  },
+  {
+    "id": "2NJX957G",
+    "nombre": "PUENTE ARANDA-PENSILVANIA"
+  },
+  {
+    "id": "FZMR1O4Z",
+    "nombre": "PUENTE ARANDA-PRIMAVERA OCCIDENTAL"
+  },
+  {
+    "id": "MKK7JPF8",
+    "nombre": "PUENTE ARANDA-ORTEZAL"
+  },
+  {
+    "id": "8PEHSUO9",
+    "nombre": "PUENTE ARANDA-COLSEGUROS"
+  },
+  {
+    "id": "URFYDSCF",
+    "nombre": "PUENTE ARANDA-TIBANA"
+  },
+  {
+    "id": "E32ATKIV",
+    "nombre": "PUENTE ARANDA-USATAMA"
+  },
+  {
+    "id": "VN0YFPV1",
+    "nombre": "PUENTE ARANDA-SAN RAFAEL"
+  },
+  {
+    "id": "QB3H1IE1",
+    "nombre": "PUENTE ARANDA-VERAGUAS"
+  },
+  {
+    "id": "3EG3557U",
+    "nombre": "PUENTE ARANDA-EL EJIDO"
+  },
+  {
+    "id": "U8U276J0",
+    "nombre": "PUENTE ARANDA-LA FLORIDA OCCIDENTAL"
+  },
+  {
+    "id": "325E9488",
+    "nombre": "PUENTE ARANDA-LA TRINIDAD"
+  },
+  {
+    "id": "7T3ARJVL",
+    "nombre": "PUENTE ARANDA-PUENTE ARANDA"
+  },
+  {
+    "id": "51Y2ZR2M",
+    "nombre": "PUENTE ARANDA-SANTA ISABEL"
+  },
+  {
+    "id": "DT8R86CQ",
+    "nombre": "PUENTE ARANDA-GALAN"
+  },
+  {
+    "id": "JUFSCRVJ",
+    "nombre": "PUENTE ARANDA-CUNDINAMARCA"
+  },
+  {
+    "id": "AV50RC11",
+    "nombre": "PUENTE ARANDA-JORGE GAITAN CORTES"
+  },
+  {
+    "id": "HXYY4OSS",
+    "nombre": "PUENTE ARANDA-SALAZAR GOMEZ"
+  },
+  {
+    "id": "1DG5B0ZA",
+    "nombre": "PUENTE ARANDA-COMUNEROS"
+  },
+  {
+    "id": "9HBSAWRC",
+    "nombre": "PUENTE ARANDA-LUSITANIA"
+  },
+  {
+    "id": "78ECXGO6",
+    "nombre": "PUENTE ARANDA-SAN GABRIEL"
+  },
+  {
+    "id": "L2XW6JA0",
+    "nombre": "PUENTE ARANDA-SAN RAFAEL INDUSTRIAL"
+  },
+  {
+    "id": "CDA11HEB",
+    "nombre": "PUENTE ARANDA-SAN EUSEBIO"
+  },
+  {
+    "id": "LVZD75PE",
+    "nombre": "PUENTE ARANDA-TEJAR"
+  },
+  {
+    "id": "YCOKZXYY",
+    "nombre": "PUENTE ARANDA-COLON"
+  },
+  {
+    "id": "KTQ8MPOJ",
+    "nombre": "PUENTE ARANDA-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "AT0U2WC7",
+    "nombre": "PUENTE ARANDA-ALQUERIA LA FRAGUA NORTE"
+  },
+  {
+    "id": "R5X6RS84",
+    "nombre": "PUENTE ARANDA-AUTOPISTA SUR"
+  },
+  {
+    "id": "4HGP8F1Q",
+    "nombre": "PUENTE ARANDA-VILLA MAYOR ORIENTAL"
+  },
+  {
+    "id": "8ALC5XUS",
+    "nombre": "PUENTE ARANDA-ALQUERIA LA FRAGUA"
+  },
+  {
+    "id": "KNXIWORJ",
+    "nombre": "PUENTE ARANDA-HIPOTECHO SUR"
+  },
+  {
+    "id": "I44Q3E4V",
+    "nombre": "PUENTE ARANDA-LA CAMELIA II"
+  },
+  {
+    "id": "IENDS2YK",
+    "nombre": "PUENTE ARANDA-MONTES"
+  },
+  {
+    "id": "2UORFGWW",
+    "nombre": "PUENTE ARANDA-LA CAMELIA"
+  },
+  {
+    "id": "WM4WCHTU",
+    "nombre": "PUENTE ARANDA-LA PRADERA"
+  },
+  {
+    "id": "IK3ELN6C",
+    "nombre": "PUENTE ARANDA-REMANSO"
+  },
+  {
+    "id": "4WV3BUYN",
+    "nombre": "PUENTE ARANDA-ALCALA"
+  },
+  {
+    "id": "A1CI3YC1",
+    "nombre": "PUENTE ARANDA-ALQUERIA LA FRAGUA II"
+  },
+  {
+    "id": "IH8Q1DLN",
+    "nombre": "PUENTE ARANDA-ALQUERIA"
+  },
+  {
+    "id": "SB7BWXEY",
+    "nombre": "PUENTE ARANDA-REMANSO SUR"
+  },
+  {
+    "id": "ZQ70ZMOI",
+    "nombre": "PUENTE ARANDA-OSPINA PEREZ SUR"
+  },
+  {
+    "id": "C59OPC8I",
+    "nombre": "PUENTE ARANDA-LA TRINIDAD"
+  },
+  {
+    "id": "5ZDRM13J",
+    "nombre": "PUENTE ARANDA-ESCUELA GENERAL SANTANDER"
+  },
+  {
+    "id": "EL3G2OWX",
+    "nombre": "PUENTE ARANDA-GALAN"
+  },
+  {
+    "id": "MKGPHNC9",
+    "nombre": "PUENTE ARANDA-OSPINA PEREZ"
+  },
+  {
+    "id": "M68SH1BX",
+    "nombre": "PUENTE ARANDA-VENECIA"
+  },
+  {
+    "id": "V995DES0",
+    "nombre": "PUENTE ARANDA-PROVIVIENDA ORIENTAL"
+  },
+  {
+    "id": "6DC968M0",
+    "nombre": "PUENTE ARANDA-AUTOPISTA MUZU"
+  },
+  {
+    "id": "5ZCI31JV",
+    "nombre": "PUENTE ARANDA-PROVIVIENDA NORTE"
+  },
+  {
+    "id": "OP7X4TWE",
+    "nombre": "PUENTE ARANDA-SAN GABRIEL"
+  },
+  {
+    "id": "HHYNNW2O",
+    "nombre": "PUENTE ARANDA-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "ACL23YV5",
+    "nombre": "PUENTE ARANDA-AUTOPISTA SUR"
+  },
+  {
+    "id": "9VGX7DGI",
+    "nombre": "PUENTE ARANDA-SANTA ISABEL SUR"
+  },
+  {
+    "id": "36F7NC54",
+    "nombre": "PUENTE ARANDA-BOCHICA"
+  },
+  {
+    "id": "LEE03VHK",
+    "nombre": "PUENTE ARANDA-MONTES"
+  },
+  {
+    "id": "CTEBV7NB",
+    "nombre": "PUENTE ARANDA-LA CAMELIA"
+  },
+  {
+    "id": "3V51D2WZ",
+    "nombre": "PUENTE ARANDA-REMANSO"
+  },
+  {
+    "id": "QT0A846T",
+    "nombre": "PUENTE ARANDA-LA ASUNCION"
+  },
+  {
+    "id": "CSVNDNA5",
+    "nombre": "PUENTE ARANDA-SENA"
+  },
+  {
+    "id": "VKWOXT2K",
+    "nombre": "PUENTE ARANDA-PRIMAVERA OCCIDENTAL"
+  },
+  {
+    "id": "BQX42NYV",
+    "nombre": "PUENTE ARANDA-REMANSO SUR"
+  },
+  {
+    "id": "0XVA5YI3",
+    "nombre": "PUENTE ARANDA-TIBANA"
+  },
+  {
+    "id": "YOT7NW9C",
+    "nombre": "PUENTE ARANDA-SANTA ISABEL"
+  },
+  {
+    "id": "JVTXTV7D",
+    "nombre": "PUENTE ARANDA-JORGE GAITAN CORTES"
+  },
+  {
+    "id": "5OABPX1J",
+    "nombre": "PUENTE ARANDA-AUTOPISTA MUZU"
+  },
+  {
+    "id": "EWV49UMU",
+    "nombre": "PUENTE ARANDA-SANTA MATILDE"
+  },
+  {
+    "id": "I6VBOJZL",
+    "nombre": "PUENTE ARANDA-COMUNEROS"
+  },
+  {
+    "id": "1LLW5XNJ",
+    "nombre": "PUENTE ARANDA-AUTOPISTA MUZU ORIENTAL"
+  },
+  {
+    "id": "A89Z5U7X",
+    "nombre": "CANDELARIA-SAN BERNARDO"
+  },
+  {
+    "id": "NGLA5FTY",
+    "nombre": "CANDELARIA-LA CAPUCHINA"
+  },
+  {
+    "id": "1X67H2IX",
+    "nombre": "CANDELARIA-LOURDES"
+  },
+  {
+    "id": "QVGOGGO7",
+    "nombre": "CANDELARIA-BELEN"
+  },
+  {
+    "id": "GOJBA1FP",
+    "nombre": "CANDELARIA-EL GUAVIO"
+  },
+  {
+    "id": "L5OWPQFG",
+    "nombre": "CANDELARIA-LAS AGUAS"
+  },
+  {
+    "id": "ZIVMPBPO",
+    "nombre": "CANDELARIA-LA CONCORDIA"
+  },
+  {
+    "id": "K1GNT14F",
+    "nombre": "CANDELARIA-SANTA BARBARA"
+  },
+  {
+    "id": "O5VHW4R4",
+    "nombre": "CANDELARIA-CENTRO ADMINISTRATIVO"
+  },
+  {
+    "id": "Q5I9RU6D",
+    "nombre": "CANDELARIA-SAN FRANCISCO RURAL"
+  },
+  {
+    "id": "LEBVPKA7",
+    "nombre": "CANDELARIA-PARQUE NACIONAL URBANO"
+  },
+  {
+    "id": "XXEKLQP1",
+    "nombre": "CANDELARIA-LA CATEDRAL"
+  },
+  {
+    "id": "0UT52DWZ",
+    "nombre": "CANDELARIA-VERACRUZ"
+  },
+  {
+    "id": "X0IHNOX0",
+    "nombre": "CANDELARIA-EGIPTO"
+  },
+  {
+    "id": "RBR0Z439",
+    "nombre": "CANDELARIA-PARQUE NACIONAL ORIENTAL"
+  },
+  {
+    "id": "3DFKHEK4",
+    "nombre": "RAFAEL URIBE URIBE-SAN JORGE SUR"
+  },
+  {
+    "id": "G0IA5Z0V",
+    "nombre": "RAFAEL URIBE URIBE-RESTREPO OCCIDENTAL"
+  },
+  {
+    "id": "FUVM5AOW",
+    "nombre": "RAFAEL URIBE URIBE-QUIROGA I"
+  },
+  {
+    "id": "6YPLUJI9",
+    "nombre": "RAFAEL URIBE URIBE-SANTANDER SUR"
+  },
+  {
+    "id": "DTSG29RP",
+    "nombre": "RAFAEL URIBE URIBE-VILLA MAYOR ORIENTAL"
+  },
+  {
+    "id": "QJECH91P",
+    "nombre": "RAFAEL URIBE URIBE-SANTIAGO PEREZ"
+  },
+  {
+    "id": "XVUOC7AX",
+    "nombre": "RAFAEL URIBE URIBE-TUNAL ORIENTAL"
+  },
+  {
+    "id": "3V2TYG56",
+    "nombre": "RAFAEL URIBE URIBE-CENTENARIO"
+  },
+  {
+    "id": "ID83S481",
+    "nombre": "RAFAEL URIBE URIBE-BRAVO PAEZ"
+  },
+  {
+    "id": "79K725SZ",
+    "nombre": "RAFAEL URIBE URIBE-SANTA LUCIA"
+  },
+  {
+    "id": "9EBKPS5L",
+    "nombre": "RAFAEL URIBE URIBE-VILLA MAYOR"
+  },
+  {
+    "id": "AEV6TTPM",
+    "nombre": "RAFAEL URIBE URIBE-GUSTAVO RESTREPO"
+  },
+  {
+    "id": "61RA8C8O",
+    "nombre": "RAFAEL URIBE URIBE-QUIROGA SUR"
+  },
+  {
+    "id": "U0D98PPU",
+    "nombre": "RAFAEL URIBE URIBE-LIBERTADOR"
+  },
+  {
+    "id": "VQ5VJO50",
+    "nombre": "RAFAEL URIBE URIBE-QUIROGA"
+  },
+  {
+    "id": "ZXJ21GMN",
+    "nombre": "RAFAEL URIBE URIBE-MURILLO TORO"
+  },
+  {
+    "id": "X2975AGX",
+    "nombre": "RAFAEL URIBE URIBE-OLAYA"
+  },
+  {
+    "id": "0Y0929IF",
+    "nombre": "RAFAEL URIBE URIBE-MARCO FIDEL SUAREZ"
+  },
+  {
+    "id": "LDIIJRUO",
+    "nombre": "RAFAEL URIBE URIBE-QUIROGA CENTRAL"
+  },
+  {
+    "id": "ASYJWY7F",
+    "nombre": "RAFAEL URIBE URIBE-ESCUELA GENERAL SANTANDER"
+  },
+  {
+    "id": "0X0886Y6",
+    "nombre": "RAFAEL URIBE URIBE-CLARET"
+  },
+  {
+    "id": "QFC6DEFO",
+    "nombre": "RAFAEL URIBE URIBE-RESTREPO"
+  },
+  {
+    "id": "DVRCATKN",
+    "nombre": "RAFAEL URIBE URIBE-MARCO FIDEL SUAREZ I"
+  },
+  {
+    "id": "1U2IBSQA",
+    "nombre": "RAFAEL URIBE URIBE-SAN JOSE SUR"
+  },
+  {
+    "id": "MQBTNQV1",
+    "nombre": "RAFAEL URIBE URIBE-INGLES"
+  },
+  {
+    "id": "EQSWZXF0",
+    "nombre": "RAFAEL URIBE URIBE-GRANJAS SAN PABLO"
+  },
+  {
+    "id": "X88LICZ6",
+    "nombre": "RAFAEL URIBE URIBE-SAN JORGE SUR"
+  },
+  {
+    "id": "D7H6H305",
+    "nombre": "RAFAEL URIBE URIBE-QUIROGA I"
+  },
+  {
+    "id": "G4ILI1WR",
+    "nombre": "RAFAEL URIBE URIBE-SAN LUIS"
+  },
+  {
+    "id": "CQC3GMO1",
+    "nombre": "RAFAEL URIBE URIBE-SOSIEGO SUR"
+  },
+  {
+    "id": "L412EHFS",
+    "nombre": "RAFAEL URIBE URIBE-GUSTAVO RESTREPO"
+  },
+  {
+    "id": "O60221H9",
+    "nombre": "RAFAEL URIBE URIBE-HOSPITAL SAN CARLOS"
+  },
+  {
+    "id": "KRGQSYIA",
+    "nombre": "RAFAEL URIBE URIBE-GRANJAS DE SANTA SOFIA"
+  },
+  {
+    "id": "NZRC117U",
+    "nombre": "RAFAEL URIBE URIBE-CARMEN DEL SOL"
+  },
+  {
+    "id": "QALCTJ7R",
+    "nombre": "RAFAEL URIBE URIBE-SAN ISIDRO"
+  },
+  {
+    "id": "DU1M8277",
+    "nombre": "RAFAEL URIBE URIBE-LA RESURRECCION"
+  },
+  {
+    "id": "LDKHFFOX",
+    "nombre": "RAFAEL URIBE URIBE-BARCELONA SUR"
+  },
+  {
+    "id": "AHTEOSCX",
+    "nombre": "RAFAEL URIBE URIBE-OLAYA"
+  },
+  {
+    "id": "ANANA80Z",
+    "nombre": "RAFAEL URIBE URIBE-MARCO FIDEL SUAREZ"
+  },
+  {
+    "id": "NAOK8CV7",
+    "nombre": "RAFAEL URIBE URIBE-CERROS DE ORIENTE"
+  },
+  {
+    "id": "PABNLJWC",
+    "nombre": "RAFAEL URIBE URIBE-VEINTE DE JULIO"
+  },
+  {
+    "id": "RBLRPKF3",
+    "nombre": "RAFAEL URIBE URIBE-PUERTO RICO"
+  },
+  {
+    "id": "OZDBVM81",
+    "nombre": "RAFAEL URIBE URIBE-MARCO FIDEL SUAREZ I"
+  },
+  {
+    "id": "J58D1F9U",
+    "nombre": "RAFAEL URIBE URIBE-SAN JOSE SUR"
+  },
+  {
+    "id": "KZY5QMF2",
+    "nombre": "RAFAEL URIBE URIBE-LA RESURRECCION I"
+  },
+  {
+    "id": "396AF8RB",
+    "nombre": "RAFAEL URIBE URIBE-GRANJAS SAN PABLO"
+  },
+  {
+    "id": "8WP1LVZ7",
+    "nombre": "RAFAEL URIBE URIBE-SAN JORGE SUR"
+  },
+  {
+    "id": "2ILHF6IC",
+    "nombre": "RAFAEL URIBE URIBE-SAN CARLOS"
+  },
+  {
+    "id": "KXFEJMKB",
+    "nombre": "RAFAEL URIBE URIBE-SAN LUIS"
+  },
+  {
+    "id": "UGRXM9G7",
+    "nombre": "RAFAEL URIBE URIBE-ABRAHAM LINCOLN"
+  },
+  {
+    "id": "9HIZKT1H",
+    "nombre": "RAFAEL URIBE URIBE-GUIPARMA"
+  },
+  {
+    "id": "GJ05JV7C",
+    "nombre": "RAFAEL URIBE URIBE-SAN AGUSTIN"
+  },
+  {
+    "id": "FJ4BS6Q7",
+    "nombre": "RAFAEL URIBE URIBE-CARMEN DEL SOL"
+  },
+  {
+    "id": "N6BTPLH7",
+    "nombre": "RAFAEL URIBE URIBE-LAS GUACAMAYAS III"
+  },
+  {
+    "id": "RQGRVYZ5",
+    "nombre": "RAFAEL URIBE URIBE-LA RESURRECCION"
+  },
+  {
+    "id": "105CAVOT",
+    "nombre": "RAFAEL URIBE URIBE-TUNJUELITO"
+  },
+  {
+    "id": "I9AEEGEF",
+    "nombre": "RAFAEL URIBE URIBE-LA PICOTA"
+  },
+  {
+    "id": "KUWM1I3F",
+    "nombre": "RAFAEL URIBE URIBE-MARCO FIDEL SUAREZ"
+  },
+  {
+    "id": "RZ6106N6",
+    "nombre": "RAFAEL URIBE URIBE-EL PLAYON"
+  },
+  {
+    "id": "GWGVCA60",
+    "nombre": "RAFAEL URIBE URIBE-CERROS DE ORIENTE"
+  },
+  {
+    "id": "ZFXLMH5N",
+    "nombre": "RAFAEL URIBE URIBE-LOS MOLINOS"
+  },
+  {
+    "id": "KGBD4B31",
+    "nombre": "RAFAEL URIBE URIBE-CALLEJON SANTA BARBARA"
+  },
+  {
+    "id": "SX1KRIDL",
+    "nombre": "RAFAEL URIBE URIBE-SAN MARTIN SUR"
+  },
+  {
+    "id": "8Y495Q4S",
+    "nombre": "RAFAEL URIBE URIBE-ARBOLEDA SUR"
+  },
+  {
+    "id": "QMVOHFB3",
+    "nombre": "RAFAEL URIBE URIBE-MARRUECOS"
+  },
+  {
+    "id": "V6BFTQCW",
+    "nombre": "RAFAEL URIBE URIBE-MOLINOS DEL SUR"
+  },
+  {
+    "id": "Y3WZELWQ",
+    "nombre": "RAFAEL URIBE URIBE-PUERTO RICO"
+  },
+  {
+    "id": "QRSIF8LU",
+    "nombre": "RAFAEL URIBE URIBE-MARCO FIDEL SUAREZ I"
+  },
+  {
+    "id": "NWAXKJ37",
+    "nombre": "RAFAEL URIBE URIBE-LA PAZ"
+  },
+  {
+    "id": "MJEPIKHZ",
+    "nombre": "RAFAEL URIBE URIBE-LA PICOTA ORIENTAL"
+  },
+  {
+    "id": "P18BAH7H",
+    "nombre": "RAFAEL URIBE URIBE-LA FISCALA NORTE"
+  },
+  {
+    "id": "NEV6G5VP",
+    "nombre": "RAFAEL URIBE URIBE-DIANA TURBAY"
+  },
+  {
+    "id": "YXGFNHA1",
+    "nombre": "RAFAEL URIBE URIBE-SAN AGUSTIN"
+  },
+  {
+    "id": "A2EXXXGV",
+    "nombre": "RAFAEL URIBE URIBE-AREA ARTILLERIA"
+  },
+  {
+    "id": "93FX774F",
+    "nombre": "RAFAEL URIBE URIBE-LOS ARRAYANES II"
+  },
+  {
+    "id": "AJ5V9VZM",
+    "nombre": "RAFAEL URIBE URIBE-EL MOCHUELO ORIENTAL"
+  },
+  {
+    "id": "0DZNT0VL",
+    "nombre": "RAFAEL URIBE URIBE-PALERMO SUR"
+  },
+  {
+    "id": "EE4UXURJ",
+    "nombre": "RAFAEL URIBE URIBE-DIANA TURBAY CULTIVOS"
+  },
+  {
+    "id": "QME3D4PJ",
+    "nombre": "RAFAEL URIBE URIBE-LA PICOTA"
+  },
+  {
+    "id": "DBMXMBFN",
+    "nombre": "RAFAEL URIBE URIBE-ARRAYANES V"
+  },
+  {
+    "id": "VWZTN728",
+    "nombre": "RAFAEL URIBE URIBE-DANUBIO II"
+  },
+  {
+    "id": "EN28YS46",
+    "nombre": "RAFAEL URIBE URIBE-DANUBIO"
+  },
+  {
+    "id": "8IUJBEW4",
+    "nombre": "RAFAEL URIBE URIBE-CANADA O GUIRA"
+  },
+  {
+    "id": "V192ZGVF",
+    "nombre": "RAFAEL URIBE URIBE-DIANA TURBAY ARRAYANES"
+  },
+  {
+    "id": "BA0ZWJI8",
+    "nombre": "RAFAEL URIBE URIBE-CERROS DE ORIENTE"
+  },
+  {
+    "id": "RLK74244",
+    "nombre": "RAFAEL URIBE URIBE-SAN MARTIN SUR"
+  },
+  {
+    "id": "CC1IVV6Y",
+    "nombre": "RAFAEL URIBE URIBE-MARRUECOS"
+  },
+  {
+    "id": "82S4W9SX",
+    "nombre": "RAFAEL URIBE URIBE-MOLINOS DEL SUR"
+  },
+  {
+    "id": "DG1TC9QZ",
+    "nombre": "RAFAEL URIBE URIBE-ARRAYANES I"
+  },
+  {
+    "id": "1DQYJQ7C",
+    "nombre": "RAFAEL URIBE URIBE-ARRAYANES VI"
+  },
+  {
+    "id": "QGD11G79",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA BAJA"
+  },
+  {
+    "id": "7KSI29KH",
+    "nombre": "CIUDAD BOLÍVAR-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "C46EHVJ3",
+    "nombre": "CIUDAD BOLÍVAR-GUADALUPE"
+  },
+  {
+    "id": "5OQIWV87",
+    "nombre": "CIUDAD BOLÍVAR-ISLA DEL SOL"
+  },
+  {
+    "id": "40A03DN9",
+    "nombre": "CIUDAD BOLÍVAR-MADELENA"
+  },
+  {
+    "id": "1P0ALIQS",
+    "nombre": "CIUDAD BOLÍVAR-EL CHIRCAL SUR"
+  },
+  {
+    "id": "I63QA8G3",
+    "nombre": "CIUDAD BOLÍVAR-EL SATELITE"
+  },
+  {
+    "id": "63H1UMCM",
+    "nombre": "CIUDAD BOLÍVAR-LOS LAURELES II"
+  },
+  {
+    "id": "XN5P2ZYP",
+    "nombre": "CIUDAD BOLÍVAR-LA CORUNA"
+  },
+  {
+    "id": "7RHXYD7R",
+    "nombre": "CIUDAD BOLÍVAR-EL ENSUENO"
+  },
+  {
+    "id": "L5OU72BH",
+    "nombre": "CIUDAD BOLÍVAR-RINCON DE LA VALVANERA"
+  },
+  {
+    "id": "YTAZR9IX",
+    "nombre": "CIUDAD BOLÍVAR-ATLANTA"
+  },
+  {
+    "id": "5RV1HMON",
+    "nombre": "CIUDAD BOLÍVAR-RONDA"
+  },
+  {
+    "id": "UYNL695S",
+    "nombre": "CIUDAD BOLÍVAR-MUZU"
+  },
+  {
+    "id": "YPB6EPKG",
+    "nombre": "CIUDAD BOLÍVAR-RAFAEL ESCAMILLA"
+  },
+  {
+    "id": "EOGMCX7C",
+    "nombre": "CIUDAD BOLÍVAR-PARQUE EL TUNAL"
+  },
+  {
+    "id": "6UY9VBST",
+    "nombre": "CIUDAD BOLÍVAR-NUEVO MUZU"
+  },
+  {
+    "id": "C7T06YCU",
+    "nombre": "CIUDAD BOLÍVAR-VERONA"
+  },
+  {
+    "id": "G3G7R35Y",
+    "nombre": "CIUDAD BOLÍVAR-SANTO DOMINGO"
+  },
+  {
+    "id": "G593MW3P",
+    "nombre": "CIUDAD BOLÍVAR-CORREDOR FERREO DEL SUR"
+  },
+  {
+    "id": "WGD76M0G",
+    "nombre": "CIUDAD BOLÍVAR-LA ESTANCIA"
+  },
+  {
+    "id": "WXXFVKU6",
+    "nombre": "CIUDAD BOLÍVAR-PERDOMO ALTO"
+  },
+  {
+    "id": "05REVG1G",
+    "nombre": "CIUDAD BOLÍVAR-ESPINO"
+  },
+  {
+    "id": "B37I1MOL",
+    "nombre": "CIUDAD BOLÍVAR-PERDOMO ALTO"
+  },
+  {
+    "id": "3NLFZPQI",
+    "nombre": "CIUDAD BOLÍVAR-LA VALVANERA"
+  },
+  {
+    "id": "A0SBSK5Z",
+    "nombre": "CIUDAD BOLÍVAR-MADELENA"
+  },
+  {
+    "id": "MVHHJ3WT",
+    "nombre": "CIUDAD BOLÍVAR-LA PRIMAVERA I"
+  },
+  {
+    "id": "5HBCBKKU",
+    "nombre": "CIUDAD BOLÍVAR-SANTA VIVIANA"
+  },
+  {
+    "id": "OFMOPNBW",
+    "nombre": "CIUDAD BOLÍVAR-GALICIA"
+  },
+  {
+    "id": "63FOF0O5",
+    "nombre": "CIUDAD BOLÍVAR-RINCON DE GALICIA"
+  },
+  {
+    "id": "CY01AG60",
+    "nombre": "CIUDAD BOLÍVAR-BARLOVENTO"
+  },
+  {
+    "id": "IW5V6ZHT",
+    "nombre": "CIUDAD BOLÍVAR-SAN ANTONIO DEL MIRADOR"
+  },
+  {
+    "id": "WTFWBH8N",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA"
+  },
+  {
+    "id": "R0UNNQG1",
+    "nombre": "CIUDAD BOLÍVAR-LOS TRES REYES"
+  },
+  {
+    "id": "50W5T1VX",
+    "nombre": "CIUDAD BOLÍVAR-EL ENSUENO"
+  },
+  {
+    "id": "9EFUJFAL",
+    "nombre": "CIUDAD BOLÍVAR-PRIMAVERA II"
+  },
+  {
+    "id": "CE9RPKJ8",
+    "nombre": "CIUDAD BOLÍVAR-RINCON DE LA VALVANERA"
+  },
+  {
+    "id": "DA0YSM7V",
+    "nombre": "CIUDAD BOLÍVAR-MARIA CANO"
+  },
+  {
+    "id": "UXORIV1J",
+    "nombre": "CIUDAD BOLÍVAR-RAFAEL ESCAMILLA"
+  },
+  {
+    "id": "323OZV3Q",
+    "nombre": "CIUDAD BOLÍVAR-LOS TRES REYES I"
+  },
+  {
+    "id": "SY94QGIO",
+    "nombre": "CIUDAD BOLÍVAR-ISMAEL PERDOMO"
+  },
+  {
+    "id": "JNKRGFUS",
+    "nombre": "CIUDAD BOLÍVAR-ESPINO I"
+  },
+  {
+    "id": "DIXXK3IU",
+    "nombre": "CIUDAD BOLÍVAR-EL MIRADOR DE LA ESTANCIA"
+  },
+  {
+    "id": "XJZVOPQE",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA"
+  },
+  {
+    "id": "2VSN59H6",
+    "nombre": "CIUDAD BOLÍVAR-EL PENON DEL CORTIJO"
+  },
+  {
+    "id": "AJ0QFYB0",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA"
+  },
+  {
+    "id": "ZOW49EZ6",
+    "nombre": "CIUDAD BOLÍVAR-SANTO DOMINGO"
+  },
+  {
+    "id": "QJFL7EZC",
+    "nombre": "CIUDAD BOLÍVAR-JERUSALEN"
+  },
+  {
+    "id": "8N9RQEP6",
+    "nombre": "CIUDAD BOLÍVAR-BELLAVISTA"
+  },
+  {
+    "id": "84HMXBBX",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA II"
+  },
+  {
+    "id": "XU14PSWG",
+    "nombre": "CIUDAD BOLÍVAR-SANTA VIVIANA"
+  },
+  {
+    "id": "NVRDPPF5",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA"
+  },
+  {
+    "id": "83OQQ36A",
+    "nombre": "CIUDAD BOLÍVAR-LAS BRISAS"
+  },
+  {
+    "id": "MDE8Q151",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA"
+  },
+  {
+    "id": "6YHI88C3",
+    "nombre": "CIUDAD BOLÍVAR-LOS LAURELES II"
+  },
+  {
+    "id": "NYZDK7EU",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA"
+  },
+  {
+    "id": "GI5OCJDT",
+    "nombre": "CIUDAD BOLÍVAR-LAS MANAS"
+  },
+  {
+    "id": "OU1R0X4I",
+    "nombre": "CIUDAD BOLÍVAR-EL ENSUENO"
+  },
+  {
+    "id": "RZD893B2",
+    "nombre": "CIUDAD BOLÍVAR-LA PRADERA"
+  },
+  {
+    "id": "G7JCM2W0",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA"
+  },
+  {
+    "id": "6BLWZ16R",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA II"
+  },
+  {
+    "id": "RQSH95YQ",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR"
+  },
+  {
+    "id": "2TZMB3L4",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA I"
+  },
+  {
+    "id": "ICU2QSOG",
+    "nombre": "CIUDAD BOLÍVAR-ISMAEL PERDOMO"
+  },
+  {
+    "id": "B5E8OJQ7",
+    "nombre": "CIUDAD BOLÍVAR-POTOSI"
+  },
+  {
+    "id": "UW7NIDYF",
+    "nombre": "CIUDAD BOLÍVAR-CARACOLI"
+  },
+  {
+    "id": "LLIPU35J",
+    "nombre": "CIUDAD BOLÍVAR-VERONA"
+  },
+  {
+    "id": "TMJLUCDQ",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA"
+  },
+  {
+    "id": "V8VXN0C5",
+    "nombre": "CIUDAD BOLÍVAR-SIERRA MORENA"
+  },
+  {
+    "id": "OU1HYTU8",
+    "nombre": "CIUDAD BOLÍVAR-SAN BENITO"
+  },
+  {
+    "id": "DL85O8IS",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA BAJO"
+  },
+  {
+    "id": "WLDKGDFX",
+    "nombre": "CIUDAD BOLÍVAR-JERUSALEN"
+  },
+  {
+    "id": "O622FJO1",
+    "nombre": "CIUDAD BOLÍVAR-CANDELARIA LA NUEVA"
+  },
+  {
+    "id": "C8XLI865",
+    "nombre": "CIUDAD BOLÍVAR-PARAISO QUIBA"
+  },
+  {
+    "id": "LVW24PY7",
+    "nombre": "CIUDAD BOLÍVAR-CERRO COLORADO"
+  },
+  {
+    "id": "B8GVKIN9",
+    "nombre": "CIUDAD BOLÍVAR-JUAN JOSE RONDON"
+  },
+  {
+    "id": "HLRHOQO4",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA"
+  },
+  {
+    "id": "9ST26GAC",
+    "nombre": "CIUDAD BOLÍVAR-EL MIRADOR"
+  },
+  {
+    "id": "C4KAF3B3",
+    "nombre": "CIUDAD BOLÍVAR-JUAN PABLO II"
+  },
+  {
+    "id": "RTLLAGVU",
+    "nombre": "CIUDAD BOLÍVAR-EL CHIRCAL SUR"
+  },
+  {
+    "id": "NA1V5DC0",
+    "nombre": "CIUDAD BOLÍVAR-EL SATELITE"
+  },
+  {
+    "id": "07IZ9R07",
+    "nombre": "CIUDAD BOLÍVAR-MILLAN"
+  },
+  {
+    "id": "S84D7TQ0",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA"
+  },
+  {
+    "id": "DEHER1T4",
+    "nombre": "CIUDAD BOLÍVAR-LOS LAURELES II"
+  },
+  {
+    "id": "K0DWSQ02",
+    "nombre": "CIUDAD BOLÍVAR-LUCERO ALTO"
+  },
+  {
+    "id": "X76BDH9F",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR RURAL III"
+  },
+  {
+    "id": "3KHXPTA4",
+    "nombre": "CIUDAD BOLÍVAR-LAS MANAS"
+  },
+  {
+    "id": "ZJMVPW9I",
+    "nombre": "CIUDAD BOLÍVAR-COMPARTIR"
+  },
+  {
+    "id": "NFKG2T9S",
+    "nombre": "CIUDAD BOLÍVAR-SAN FRANCISCO"
+  },
+  {
+    "id": "O94FF2GS",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA"
+  },
+  {
+    "id": "BMS581ER",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA II"
+  },
+  {
+    "id": "FSVTO0TL",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR"
+  },
+  {
+    "id": "CK0MN2NB",
+    "nombre": "CIUDAD BOLÍVAR-ARBORIZADORA ALTA I"
+  },
+  {
+    "id": "3J95DRD8",
+    "nombre": "CIUDAD BOLÍVAR-RONDA"
+  },
+  {
+    "id": "H9EGWL1I",
+    "nombre": "CIUDAD BOLÍVAR-LAS ACACIAS"
+  },
+  {
+    "id": "6E6VPCO1",
+    "nombre": "CIUDAD BOLÍVAR-VILLA CANDELARIA"
+  },
+  {
+    "id": "NH0YVXNO",
+    "nombre": "CIUDAD BOLÍVAR-PARQUE EL TUNAL"
+  },
+  {
+    "id": "EO6BL875",
+    "nombre": "CIUDAD BOLÍVAR-POTOSI"
+  },
+  {
+    "id": "U3U8SYDT",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR RURAL I"
+  },
+  {
+    "id": "3FSZGNAW",
+    "nombre": "CIUDAD BOLÍVAR-SAN BENITO"
+  },
+  {
+    "id": "A2MZGMH2",
+    "nombre": "CIUDAD BOLÍVAR-LUCERO DEL SUR"
+  },
+  {
+    "id": "5AG0HZ04",
+    "nombre": "CIUDAD BOLÍVAR-LOS ALPES SUR"
+  },
+  {
+    "id": "B5INSFB7",
+    "nombre": "CIUDAD BOLÍVAR-CORDILLERA DEL SUR"
+  },
+  {
+    "id": "7YEG9182",
+    "nombre": "CIUDAD BOLÍVAR-BELLA FLOR SUR"
+  },
+  {
+    "id": "SFFFPSEP",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA BAJO"
+  },
+  {
+    "id": "TTJRJ8SQ",
+    "nombre": "CIUDAD BOLÍVAR-BELLA FLOR RURAL"
+  },
+  {
+    "id": "28JX0W0E",
+    "nombre": "CIUDAD BOLÍVAR-BRISAS DEL VOLADOR"
+  },
+  {
+    "id": "ULXOR3KF",
+    "nombre": "CIUDAD BOLÍVAR-NACIONES UNIDAS"
+  },
+  {
+    "id": "U089WB1Y",
+    "nombre": "CIUDAD BOLÍVAR-PARAISO QUIBA"
+  },
+  {
+    "id": "YSWRGPRR",
+    "nombre": "CIUDAD BOLÍVAR-CERRO COLORADO"
+  },
+  {
+    "id": "K4P7KGXU",
+    "nombre": "CIUDAD BOLÍVAR-MEXICO"
+  },
+  {
+    "id": "OTMBJPE9",
+    "nombre": "CIUDAD BOLÍVAR-BELLA FLOR"
+  },
+  {
+    "id": "EK7S2ZVD",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO IV"
+  },
+  {
+    "id": "83ZVHZC6",
+    "nombre": "CIUDAD BOLÍVAR-BELLA FLOR SUR"
+  },
+  {
+    "id": "JQOVKOY7",
+    "nombre": "CIUDAD BOLÍVAR-EL MIRADOR"
+  },
+  {
+    "id": "CGC8ZA8W",
+    "nombre": "CIUDAD BOLÍVAR-AREA ARTILLERIA"
+  },
+  {
+    "id": "3GCC97F7",
+    "nombre": "CIUDAD BOLÍVAR-JUAN PABLO II"
+  },
+  {
+    "id": "P0FZX7FX",
+    "nombre": "CIUDAD BOLÍVAR-EL TESORO"
+  },
+  {
+    "id": "XR2GDGEO",
+    "nombre": "CIUDAD BOLÍVAR-BELLAVISTA LUCERO ALTO"
+  },
+  {
+    "id": "JAQ44WOF",
+    "nombre": "CIUDAD BOLÍVAR-MILLAN"
+  },
+  {
+    "id": "3SK3R3SH",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA ALTO"
+  },
+  {
+    "id": "CURQDOKV",
+    "nombre": "CIUDAD BOLÍVAR-LUCERO ALTO"
+  },
+  {
+    "id": "IPFKU5P3",
+    "nombre": "CIUDAD BOLÍVAR-EL MIRADOR II"
+  },
+  {
+    "id": "AJCNE5BL",
+    "nombre": "CIUDAD BOLÍVAR-BELLA FLOR SUR RURAL"
+  },
+  {
+    "id": "M951SCWO",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR RURAL III"
+  },
+  {
+    "id": "O5GKWZ3H",
+    "nombre": "CIUDAD BOLÍVAR-COMPARTIR"
+  },
+  {
+    "id": "3BEC82DO",
+    "nombre": "CIUDAD BOLÍVAR-SAN FRANCISCO"
+  },
+  {
+    "id": "JT1N7PI7",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO III"
+  },
+  {
+    "id": "58K8BDHM",
+    "nombre": "CIUDAD BOLÍVAR-NUEVA ESPERANZA"
+  },
+  {
+    "id": "2HXBIAR8",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR"
+  },
+  {
+    "id": "I1M77JPG",
+    "nombre": "CIUDAD BOLÍVAR-RONDA"
+  },
+  {
+    "id": "POCJ29DK",
+    "nombre": "CIUDAD BOLÍVAR-LAS ACACIAS"
+  },
+  {
+    "id": "8LEQW1FZ",
+    "nombre": "CIUDAD BOLÍVAR-GIBRALTAR SUR"
+  },
+  {
+    "id": "RWMQSLZF",
+    "nombre": "CIUDAD BOLÍVAR-SAN RAFAEL"
+  },
+  {
+    "id": "BFETC010",
+    "nombre": "CIUDAD BOLÍVAR-MEISSEN"
+  },
+  {
+    "id": "H3TD948B",
+    "nombre": "CIUDAD BOLÍVAR-VILLAS EL DIAMANTE"
+  },
+  {
+    "id": "L01IIXJF",
+    "nombre": "CIUDAD BOLÍVAR-VILLA GLORIA"
+  },
+  {
+    "id": "O74V5M9N",
+    "nombre": "CIUDAD BOLÍVAR-LA TORRE"
+  },
+  {
+    "id": "D3AK695R",
+    "nombre": "CIUDAD BOLÍVAR-CIUDAD BOLIVAR RURAL I"
+  },
+  {
+    "id": "S8SK38IZ",
+    "nombre": "CIUDAD BOLÍVAR-SUMAPAZ"
+  },
+  {
+    "id": "V9IJE5GP",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO II NORTE"
+  },
+  {
+    "id": "EPOX8NJM",
+    "nombre": "CIUDAD BOLÍVAR-ARABIA I"
+  },
+  {
+    "id": "VIP9I5V3",
+    "nombre": "CIUDAD BOLÍVAR-LUCERO DEL SUR"
+  },
+  {
+    "id": "NF3R6TZQ",
+    "nombre": "CIUDAD BOLÍVAR-LOS ALPES SUR"
+  },
+  {
+    "id": "WSKNLZ1D",
+    "nombre": "CIUDAD BOLÍVAR-CORDILLERA DEL SUR"
+  },
+  {
+    "id": "PYHL3JTM",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA BAJO"
+  },
+  {
+    "id": "H1ILWO7Q",
+    "nombre": "CIUDAD BOLÍVAR-LAGUNITAS URBANO"
+  },
+  {
+    "id": "BBHVM8PB",
+    "nombre": "CIUDAD BOLÍVAR-LAGUNITAS"
+  },
+  {
+    "id": "C271PP8E",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA"
+  },
+  {
+    "id": "PK0ZXBLY",
+    "nombre": "CIUDAD BOLÍVAR-SOTAVENTO"
+  },
+  {
+    "id": "0PKONGAB",
+    "nombre": "CIUDAD BOLÍVAR-NACIONES UNIDAS"
+  },
+  {
+    "id": "Q3ENR08K",
+    "nombre": "CIUDAD BOLÍVAR-CEDRITOS DEL SUR"
+  },
+  {
+    "id": "SZ2H52Q9",
+    "nombre": "CIUDAD BOLÍVAR-CENTRAL DE MEZCLAS"
+  },
+  {
+    "id": "XUWAO3D3",
+    "nombre": "CIUDAD BOLÍVAR-EL MINUTO DE MARIA"
+  },
+  {
+    "id": "316IZEL2",
+    "nombre": "CIUDAD BOLÍVAR-MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "EHIWU0DL",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO II RURAL"
+  },
+  {
+    "id": "K4CKDPE0",
+    "nombre": "CIUDAD BOLÍVAR-MEXICO"
+  },
+  {
+    "id": "3WBC3RQH",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO IV"
+  },
+  {
+    "id": "SMCXWMLE",
+    "nombre": "CIUDAD BOLÍVAR-QUINTAS DEL SUR"
+  },
+  {
+    "id": "F0OAOVRQ",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO"
+  },
+  {
+    "id": "K5YEUZLZ",
+    "nombre": "CIUDAD BOLÍVAR-AREA ARTILLERIA"
+  },
+  {
+    "id": "1FURBDDG",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO II URBANO"
+  },
+  {
+    "id": "TPV4KQKM",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO III RURAL"
+  },
+  {
+    "id": "OXYLVVT0",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA URBANO"
+  },
+  {
+    "id": "MTK0M3A7",
+    "nombre": "CIUDAD BOLÍVAR-EL TESORO"
+  },
+  {
+    "id": "JJJ6QIME",
+    "nombre": "CIUDAD BOLÍVAR-BELLAVISTA LUCERO ALTO"
+  },
+  {
+    "id": "5A803SJT",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO ORIENTAL"
+  },
+  {
+    "id": "22T0RSW4",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA ALTO"
+  },
+  {
+    "id": "0RW9FXO5",
+    "nombre": "CIUDAD BOLÍVAR-TUNJUELITO RURAL"
+  },
+  {
+    "id": "4JLVQY91",
+    "nombre": "CIUDAD BOLÍVAR-CASA DE TEJA"
+  },
+  {
+    "id": "DY8W3EVB",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO URBANO"
+  },
+  {
+    "id": "LOYR9U3Z",
+    "nombre": "CIUDAD BOLÍVAR-LUCERO ALTO"
+  },
+  {
+    "id": "W1QHDY5A",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO II"
+  },
+  {
+    "id": "HW7S9UI8",
+    "nombre": "CIUDAD BOLÍVAR-ARABIA II"
+  },
+  {
+    "id": "N8RVR11X",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO ORIENTAL RURAL"
+  },
+  {
+    "id": "W9D0S4BH",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "1S345Y4S",
+    "nombre": "CIUDAD BOLÍVAR-ARABIA"
+  },
+  {
+    "id": "12Z8LTYS",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO III"
+  },
+  {
+    "id": "R1J57NCI",
+    "nombre": "CIUDAD BOLÍVAR-ESTRELLA DEL SUR"
+  },
+  {
+    "id": "FDOX9QAW",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA I"
+  },
+  {
+    "id": "GY9G0ZOT",
+    "nombre": "CIUDAD BOLÍVAR-GIBRALTAR SUR"
+  },
+  {
+    "id": "OCOF7JAY",
+    "nombre": "CIUDAD BOLÍVAR-SAN RAFAEL"
+  },
+  {
+    "id": "DEMOJOPU",
+    "nombre": "CIUDAD BOLÍVAR-LA ALAMEDA"
+  },
+  {
+    "id": "S3TL2975",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA RURAL"
+  },
+  {
+    "id": "VSWWVDFL",
+    "nombre": "CIUDAD BOLÍVAR-SUMAPAZ"
+  },
+  {
+    "id": "ZT6GMMGS",
+    "nombre": "CIUDAD BOLÍVAR-PASQUILLA URBANA"
+  },
+  {
+    "id": "XB6V1OJ6",
+    "nombre": "CIUDAD BOLÍVAR-LOS ARRAYANES"
+  },
+  {
+    "id": "DSTN583C",
+    "nombre": "CIUDAD BOLÍVAR-MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "7MZ96A5P",
+    "nombre": "CIUDAD BOLÍVAR-EL HATO"
+  },
+  {
+    "id": "RK008JJ2",
+    "nombre": "CIUDAD BOLÍVAR-PASQUILLITA"
+  },
+  {
+    "id": "J5HYNQ7V",
+    "nombre": "CIUDAD BOLÍVAR-OLARTE"
+  },
+  {
+    "id": "5KGBOGUS",
+    "nombre": "CIUDAD BOLÍVAR-PASQUILLA"
+  },
+  {
+    "id": "5RALSBE2",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA ALTO"
+  },
+  {
+    "id": "62CZ74KH",
+    "nombre": "CIUDAD BOLÍVAR-LA REGADERA"
+  },
+  {
+    "id": "ZO0QQHDG",
+    "nombre": "CIUDAD BOLÍVAR-SANTA ROSA"
+  },
+  {
+    "id": "YUC93DXK",
+    "nombre": "CIUDAD BOLÍVAR-SANTA BARBARA"
+  },
+  {
+    "id": "ND7UGCO4",
+    "nombre": "CIUDAD BOLÍVAR-LAS MARGARITAS"
+  },
+  {
+    "id": "BBPM2PJU",
+    "nombre": "CIUDAD BOLÍVAR-LAS MERCEDES"
+  },
+  {
+    "id": "CHQHKVJ7",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA BAJO"
+  },
+  {
+    "id": "APO8IFHE",
+    "nombre": "CIUDAD BOLÍVAR-DESARROLLO BRAZUELOS"
+  },
+  {
+    "id": "B16LS1B8",
+    "nombre": "CIUDAD BOLÍVAR-MOCHUELO ALTO URBANO"
+  },
+  {
+    "id": "Y80PH750",
+    "nombre": "CIUDAD BOLÍVAR-YOMASA NORTE RURAL"
+  },
+  {
+    "id": "4LDOAOXG",
+    "nombre": "CIUDAD BOLÍVAR-BRAZUELOS OCCIDENTAL RURAL"
+  },
+  {
+    "id": "CH4GXMI8",
+    "nombre": "CIUDAD BOLÍVAR-MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "8SR9VLZM",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO II RURAL"
+  },
+  {
+    "id": "93FH500O",
+    "nombre": "CIUDAD BOLÍVAR-OLARTE"
+  },
+  {
+    "id": "1MO74P2X",
+    "nombre": "CIUDAD BOLÍVAR-PASQUILLA"
+  },
+  {
+    "id": "71QITIJ7",
+    "nombre": "CIUDAD BOLÍVAR-QUIBA ALTO"
+  },
+  {
+    "id": "RPURUT7S",
+    "nombre": "CIUDAD BOLÍVAR-TUNJUELITO RURAL"
+  },
+  {
+    "id": "OELS8PPI",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO II"
+  },
+  {
+    "id": "DX4AMCUS",
+    "nombre": "CIUDAD BOLÍVAR-BRAZUELOS OCCIDENTAL"
+  },
+  {
+    "id": "CJBPN64S",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "G4JX5VOK",
+    "nombre": "CIUDAD BOLÍVAR-EL MOCHUELO III"
+  },
+  {
+    "id": "YZO4TYS6",
+    "nombre": "USME-LOS ARRAYANES"
+  },
+  {
+    "id": "V88RVG38",
+    "nombre": "USME-EL HATO"
+  },
+  {
+    "id": "AUTOX5AS",
+    "nombre": "USME-CHISACA"
+  },
+  {
+    "id": "ZSHNCIWR",
+    "nombre": "USME-EL TABACO"
+  },
+  {
+    "id": "6GSENGSR",
+    "nombre": "USME-LA UNION"
+  },
+  {
+    "id": "3DAU0R93",
+    "nombre": "USME-LOS ANDES"
+  },
+  {
+    "id": "K384UKIA",
+    "nombre": "USME-SANTA ROSA"
+  },
+  {
+    "id": "B1EJAEBD",
+    "nombre": "USME-SANTA BARBARA"
+  },
+  {
+    "id": "ZZDSLQDS",
+    "nombre": "USME-LAS MARGARITAS"
+  },
+  {
+    "id": "OK57F6V0",
+    "nombre": "USME-LAS MERCEDES"
+  },
+  {
+    "id": "VUY2PQCQ",
+    "nombre": "SUMAPAZ-LAS PALMAS"
+  },
+  {
+    "id": "9ZPDTVUI",
+    "nombre": "SUMAPAZ-LAS ANIMAS"
+  },
+  {
+    "id": "WRGR8LDB",
+    "nombre": "SUMAPAZ-EL TOLDO"
+  },
+  {
+    "id": "LWFTF6UB",
+    "nombre": "SUMAPAZ-LAS SOPAS"
+  },
+  {
+    "id": "EE341DUF",
+    "nombre": "SUMAPAZ-NAZARETH"
+  },
+  {
+    "id": "4ZHUY1KS",
+    "nombre": "SUMAPAZ-LOS RIOS"
+  },
+  {
+    "id": "6X9CB9K3",
+    "nombre": "SUMAPAZ-LAS AURAS"
+  },
+  {
+    "id": "H0DU26E2",
+    "nombre": "SUMAPAZ-PENALISA"
+  },
+  {
+    "id": "ZBLE4KLX",
+    "nombre": "SUMAPAZ-LAS VEGAS"
+  },
+  {
+    "id": "QZCDXWHE",
+    "nombre": "SUMAPAZ-SAN ANTONIO"
+  },
+  {
+    "id": "W4DY2HIM",
+    "nombre": "SUMAPAZ-TAQUECITOS"
+  },
+  {
+    "id": "7LO222T3",
+    "nombre": "SUMAPAZ-LAS PALMAS"
+  },
+  {
+    "id": "824L87NP",
+    "nombre": "SUMAPAZ-LAS ANIMAS"
+  },
+  {
+    "id": "2FYICKXW",
+    "nombre": "SUMAPAZ-LOS ARRAYANES"
+  },
+  {
+    "id": "COB6XJ6E",
+    "nombre": "SUMAPAZ-SANTA ROSA BAJA"
+  },
+  {
+    "id": "FOLSLO6X",
+    "nombre": "SUMAPAZ-BETANIA"
+  },
+  {
+    "id": "SJANZML7",
+    "nombre": "SUMAPAZ-NAZARETH URBANO"
+  },
+  {
+    "id": "DAQ3HLQY",
+    "nombre": "SUMAPAZ-LAS SOPAS"
+  },
+  {
+    "id": "5L773K6C",
+    "nombre": "SUMAPAZ-NAZARETH"
+  },
+  {
+    "id": "P1KJY5JP",
+    "nombre": "SUMAPAZ-CHISACA"
+  },
+  {
+    "id": "0P41DJTP",
+    "nombre": "SUMAPAZ-LOS RIOS"
+  },
+  {
+    "id": "YN4TRRRU",
+    "nombre": "SUMAPAZ-RAIZAL"
+  },
+  {
+    "id": "O0HPXWDL",
+    "nombre": "SUMAPAZ-EL ITSMO"
+  },
+  {
+    "id": "N1W86VPF",
+    "nombre": "SUMAPAZ-SANTA ROSA ALTA"
+  },
+  {
+    "id": "OARPETDI",
+    "nombre": "SUMAPAZ-LAS AURAS"
+  },
+  {
+    "id": "0ATQQQO1",
+    "nombre": "SUMAPAZ-LAGUNA VERDE"
+  },
+  {
+    "id": "D0QS0BR6",
+    "nombre": "SUMAPAZ-PENALISA"
+  },
+  {
+    "id": "OE2JH36D",
+    "nombre": "SUMAPAZ-EL TABACO"
+  },
+  {
+    "id": "H8KOBCZ1",
+    "nombre": "SUMAPAZ-LA UNION"
+  },
+  {
+    "id": "5KI3FCHM",
+    "nombre": "SUMAPAZ-ARRAYAN"
+  },
+  {
+    "id": "9DCCH8TF",
+    "nombre": "SUMAPAZ-TAQUECITOS"
+  },
+  {
+    "id": "KTTJEELJ",
+    "nombre": "USME-CENTRO USME RURAL"
+  },
+  {
+    "id": "LULK0NDB",
+    "nombre": "USME-EL UVAL RURAL"
+  },
+  {
+    "id": "1XKKC0TW",
+    "nombre": "USME-LOS ARRAYANES"
+  },
+  {
+    "id": "BOJYXNRQ",
+    "nombre": "USME-MOCHUELO ALTO RURAL"
+  },
+  {
+    "id": "CUZAHISG",
+    "nombre": "USME-SAN BENITO"
+  },
+  {
+    "id": "XTY91KFM",
+    "nombre": "USME-CENTRO USME RURAL II"
+  },
+  {
+    "id": "3D16ZWXU",
+    "nombre": "USME-CENTRO USME"
+  },
+  {
+    "id": "3FAKSUSA",
+    "nombre": "USME-PASQUILLITA"
+  },
+  {
+    "id": "GVXYU6ZU",
+    "nombre": "USME-OLARTE"
+  },
+  {
+    "id": "PMTNRHPQ",
+    "nombre": "USME-PASQUILLA"
+  },
+  {
+    "id": "RH6YX95F",
+    "nombre": "USME-LA REGADERA"
+  },
+  {
+    "id": "6VI84OP7",
+    "nombre": "USME-SANTA BARBARA"
+  },
+  {
+    "id": "N7NDD4XK",
+    "nombre": "USME-LA REQUILINA RURAL"
+  },
+  {
+    "id": "14ZZ2RAF",
+    "nombre": "USME-LOS ARRAYANES"
+  },
+  {
+    "id": "DA6L63UY",
+    "nombre": "USME-SAN BENITO"
+  },
+  {
+    "id": "8A9XZCC5",
+    "nombre": "USME-EL HATO"
+  },
+  {
+    "id": "UMZ21POJ",
+    "nombre": "USME-CURUBITAL"
+  },
+  {
+    "id": "5VLAVRBW",
+    "nombre": "USME-EL TABACO"
+  },
+  {
+    "id": "UD54T6XE",
+    "nombre": "USME-LA UNION"
+  },
+  {
+    "id": "NOJVHV0S",
+    "nombre": "USME-LA REGADERA"
+  },
+  {
+    "id": "YUQY6YMN",
+    "nombre": "USME-LOS ANDES"
+  },
+  {
+    "id": "R782SJ9T",
+    "nombre": "USME-SANTA BARBARA"
+  },
+  {
+    "id": "CMS6T374",
+    "nombre": "USME-ARRAYAN"
+  },
+  {
+    "id": "38OSTQ8N",
+    "nombre": "SUMAPAZ-SAN JUAN"
+  },
+  {
+    "id": "Q5IIQRDI",
+    "nombre": "SUMAPAZ-TUNAL ALTO"
+  },
+  {
+    "id": "O1W99565",
+    "nombre": "SUMAPAZ-CAPITOLIO"
+  },
+  {
+    "id": "8RGITQVQ",
+    "nombre": "SUMAPAZ-TUNAL BAJO"
+  },
+  {
+    "id": "IT7JGHCV",
+    "nombre": "SUMAPAZ-LAGUNITAS"
+  },
+  {
+    "id": "AXSKSXQ7",
+    "nombre": "SUMAPAZ-LA UNION URBANO"
+  },
+  {
+    "id": "2SZMU9EF",
+    "nombre": "SUMAPAZ-EL TOLDO"
+  },
+  {
+    "id": "N3I7O0NE",
+    "nombre": "SUMAPAZ-LAS SOPAS"
+  },
+  {
+    "id": "98N9R3B9",
+    "nombre": "SUMAPAZ-LA UNION"
+  },
+  {
+    "id": "D4FG79TE",
+    "nombre": "SUMAPAZ-SANTO DOMINGO"
+  },
+  {
+    "id": "69JA9OBG",
+    "nombre": "SUMAPAZ-SAN JUAN URBANO"
+  },
+  {
+    "id": "B5YB41IO",
+    "nombre": "SUMAPAZ-LAS VEGAS"
+  },
+  {
+    "id": "41BOWVIX",
+    "nombre": "SUMAPAZ-SAN ANTONIO"
+  },
+  {
+    "id": "0VB5YRHP",
+    "nombre": "SUMAPAZ-CHORRERAS"
+  },
+  {
+    "id": "5DGOWUUN",
+    "nombre": "SUMAPAZ-TUNAL ALTO"
+  },
+  {
+    "id": "Q7HQGQ7J",
+    "nombre": "SUMAPAZ-CONCEPCION"
+  },
+  {
+    "id": "R5MVT6L8",
+    "nombre": "SUMAPAZ-TUNAL BAJO"
+  },
+  {
+    "id": "EWLIE7IP",
+    "nombre": "SUMAPAZ-NUEVA GRANADA"
+  },
+  {
+    "id": "YSL86AH4",
+    "nombre": "SUMAPAZ-LAGUNITAS"
+  },
+  {
+    "id": "UHZO6J4Q",
+    "nombre": "SUMAPAZ-LA UNION"
+  },
+  {
+    "id": "R4AGCZIB",
+    "nombre": "SUMAPAZ-SAN JOSE"
+  }
+]
