@@ -92,7 +92,7 @@ function cargarDatosEnGuia(datos) {
         // LOGÍSTICA
         document.getElementById('zona').textContent = datos.localidad || datos.zona || 'Por asignar';
         document.getElementById('mensajero').textContent = datos.mensajero || 'Por asignar';
-        document.getElementById('observaciones').textContent = datos.observaciones || 'LLAMAR ANTES DE ENTREGAR';
+        document.getElementById('observaciones').textContent = datos.observaciones || '';
         
         // FECHA
         document.getElementById('fechaGeneracion').textContent = fechaHora;
@@ -205,3 +205,4 @@ function mostrarError(mensaje) {
         </div>
     `;
 }
+
