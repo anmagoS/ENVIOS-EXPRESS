@@ -1,6 +1,6 @@
 [
   {
-    "ID": 1,
+    "ID": "1",
     "NOMBRE COMPLETO": "Anmago Store",
     "USUARIO": "kayser",
     "CONTRASEÑA": "2321",
@@ -15,7 +15,7 @@
     "ULTIMO LOGIN": ""
   },
   {
-    "ID": 2,
+    "ID": "2",
     "NOMBRE COMPLETO": "alex",
     "USUARIO": "alex",
     "CONTRASEÑA": "12345",
@@ -30,7 +30,7 @@
     "ULTIMO LOGIN": ""
   },
   {
-    "ID": 3,
+    "ID": "3",
     "NOMBRE COMPLETO": "ANGELA MARIA",
     "USUARIO": "MARIANITA",
     "CONTRASEÑA": "232142",
