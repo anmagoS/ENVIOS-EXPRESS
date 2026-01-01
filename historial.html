@@ -630,32 +630,41 @@
                         const formaPago = envio["FORMA DE PAGO"] || envio.formaPago || '';
                         const pagadoRemitente = envio["PAGADO A REMITENTE"] || envio.pagadoRemitente || false;
                         
-                        return {
-                            // Copiar todos los campos del envío
-                            ...envio,
-                            // Campos normalizados
-                            "ENVIO ID": envio["ENVIO ID"] || envio.id || `ENV-${Date.now()}`,
-                            "DESTINO": envio["DESTINO"] || envio.destino || 'N/A',
-                            "BARRIO": envio["BARRIO"] || envio.barrio || '',
-                            "FORMA DE PAGO": formaPago,
-                            "PAGADO A REMITENTE": pagadoRemitente,
-                            "FECHA PAGO": envio["FECHA PAGO"] || envio.fechaPago || null,
-                            "REMITE": envio["REMITE"] || envio.remite || 'N/A',
-                            "TELEFONO": envio["TELEFONO"] || envio.telefono || 'N/A',
-                            "DIRECCION": envio["DIRECCION"] || envio.direccion || 'N/A',
-                            "CORREO REMITENTE": envio["CORREO REMITENTE"] || envio.correo || 'N/A',
-                            "TELEFONOCLIENTE": envio["TELEFONOCLIENTE"] || envio.telefonoCliente || 'N/A',
-                            "DIRECCION DESTINO": envio["DIRECCION"] || envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A',
-                            "LOCALIDAD": envio["LOCALIDAD"] || envio.localidad || 'N/A',
-                            "CIUDAD DESTINO": envio["CIUDAD DESTINO"] || envio.ciudadDestino || 'N/A',
-                            "MENSAJERO": envio["MENSAJERO"] || envio.mensajero || 'Por asignar',
-                            "OBS": envio["OBS"] || envio.observaciones || 'Ninguna',
-                            // Campos numéricos
-                            valorRecaudar: isNaN(valorRecaudar) ? 0 : valorRecaudar,
-                            totalPagar: isNaN(totalPagar) ? 0 : totalPagar,
-                            // Usuario
-                            usuarioId: envio.usuarioId || envio["USUARIO ID"] || usuarioActual.USUARIO
-                        };
+                       return {
+    // Copiar todos los campos del envío
+    ...envio,
+    // Campos normalizados
+    "ENVIO ID": envio["ENVIO ID"] || envio.id || `ENV-${Date.now()}`,
+    "DESTINO": envio["DESTINO"] || envio.destino || 'N/A',
+    "BARRIO": envio["BARRIO"] || envio.barrio || '',
+    "FORMA DE PAGO": formaPago,
+    "PAGADO A REMITENTE": pagadoRemitente,
+    "FECHA PAGO": envio["FECHA PAGO"] || envio.fechaPago || null,
+    "REMITE": envio["REMITE"] || envio.remite || 'N/A',
+    "TELEFONO": envio["TELEFONO"] || envio.telefono || 'N/A',
+    
+    // ¡IMPORTANTE! Ya viene con el nombre correcto
+    "DIRECCION DESTINO": envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A',
+    
+    "CORREO REMITENTE": envio["CORREO REMITENTE"] || envio.correo || 'N/A',
+    "TELEFONOCLIENTE": envio["TELEFONOCLIENTE"] || envio.telefonoCliente || 'N/A',
+    "LOCALIDAD": envio["LOCALIDAD"] || envio.localidad || 'N/A',
+    "CIUDAD DESTINO": envio["CIUDAD DESTINO"] || envio.ciudadDestino || 'N/A',
+    "MENSAJERO": envio["MENSAJERO"] || envio.mensajero || 'Por asignar',
+    "OBS": envio["OBS"] || envio.observaciones || 'Ninguna',
+    
+    // ¡¡¡FECHA DE CREACIÓN ORIGINAL!!!
+    fechaCreacion: envio["FECHA DE CREACION"] || envio.fechaCreacion || new Date().toISOString(),
+    fecha: envio["FECHA DE CREACION"] || envio.fechaCreacion || new Date().toISOString(),
+    "FECHA DE CREACION": envio["FECHA DE CREACION"] || envio.fechaCreacion || new Date().toISOString(),
+    
+    // Campos numéricos
+    valorRecaudar: isNaN(valorRecaudar) ? 0 : valorRecaudar,
+    totalPagar: isNaN(totalPagar) ? 0 : totalPagar,
+    
+    // Usuario
+    usuarioId: envio["USUARIO ID"] || envio.usuarioId || usuarioActual.USUARIO
+};
                     });
                     
                     console.log(`✅ ${todosEnvios.length} envíos cargados desde Web App`);
