@@ -1,1731 +1,210 @@
 <!DOCTYPE html>
-<html class="light" lang="es">
+<html lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sistema de Envíos - Contraentrega</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#135bec",
-                        "primary-dark": "#0f4bc4",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#101622",
-                        "surface-light": "#ffffff",
-                        "surface-dark": "#1a202c",
-                        "input-light": "#e7ebf3",
-                        "input-dark": "#2d3748",
-                        "success": "#10b981",
-                        "warning": "#f59e0b",
-                        "danger": "#ef4444"
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Envío - Expres Contraentrega</title>
+    <!-- QR Code library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <!-- Nuestros estilos -->
+    <link rel="stylesheet" href="guia.css">
+    <style>
+    /* Estilos para visualización en pantalla */
+    @media screen {
+        body {
+            background: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-    </script>
-<!-- EN EL HEAD DEL index.html -->
-<script>
-    // VERIFICACIÓN DE AUTENTICACIÓN - DEBE SER LO PRIMERO
-    (function() {
-        console.log("🔐 Verificando autenticación...");
         
+        .guia-container {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px dashed #ccc;
+            height: 155mm;
+        }
+        
+        .no-print {
+            display: block;
+        }
+        
+        .print-instructions {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .print-instructions p:first-child {
+            color: #135bec;
+            font-weight: bold;
+        }
+    }
+    
+    /* Para impresión - tamaño 8x15 cm */
+    @media print {
+        @page {
+            size: 79mm 149mm;
+            margin: 2mm;
+        }
+    }
+</style>
+<!-- EN EL HEAD DE guia.html -->
+<script>
+    // VERIFICACIÓN DE AUTENTICACIÓN
+    (function() {
         const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
         
         if (!usuario) {
-            console.log("❌ No hay sesión activa, redirigiendo a login...");
-            // Usar replace para evitar que el usuario pueda volver atrás
+            console.log("❌ No autorizado para ver guías");
             window.location.replace("login.html");
             return;
         }
         
-        // Verificar que el usuario esté activo
-        if (usuario.ESTADO !== "ACTIVO") {
-            console.log("⚠️ Usuario inactivo, cerrando sesión...");
-            localStorage.removeItem("usuarioLogueado");
-            window.location.replace("login.html");
-            return;
-        }
-        
-        console.log("✅ Sesión verificada para:", usuario.USUARIO);
-        
-        // Configurar timeout de inactividad (opcional)
-        let tiempoInactividad = 30 * 60 * 1000; // 30 minutos
-        
-        function reiniciarTemporizador() {
-            if (window.tiempoInactivo) {
-                clearTimeout(window.tiempoInactivo);
-            }
-            
-            window.tiempoInactivo = setTimeout(() => {
-                alert("Sesión expirada por inactividad");
-                localStorage.removeItem("usuarioLogueado");
-                window.location.replace("login.html");
-            }, tiempoInactividad);
-        }
-        
-        // Reiniciar temporizador en eventos de usuario
-        ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(evento => {
-            document.addEventListener(evento, reiniciarTemporizador);
-        });
-        
-        // Iniciar temporizador
-        reiniciarTemporizador();
-        
+        console.log("✅ Usuario autorizado para guías:", usuario.USUARIO);
     })();
 </script>
-    <style>
-        /* Estilos para campos deshabilitados */
-        input:disabled, select:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        .dark input:disabled, .dark select:disabled {
-            opacity: 0.5;
-        }
-        
-        /* Estilos para campos de solo lectura para clientes */
-        .cliente-readonly {
-            background-color: #f3f4f6 !important;
-            border-color: #d1d5db !important;
-            cursor: not-allowed;
-        }
-        
-        .dark .cliente-readonly {
-            background-color: #374151 !important;
-            border-color: #4b5563 !important;
-        }
-        
-        /* Indicador de campo fijo para cliente */
-        .campo-cliente-fijo::after {
-            content: " (Fijo para cliente)";
-            font-size: 0.75rem;
-            color: #6b7280;
-            font-style: italic;
-            margin-left: 4px;
-        }
-        
-        /* Estilos para transiciones */
-        .payment-option {
-            transition: all 0.2s ease;
-        }
-        
-        .payment-option.selected {
-            border-color: #135bec;
-            background-color: rgba(19, 91, 236, 0.05);
-        }
-        
-        /* Estilos mejorados para el dropdown de autocomplete */
-        .autocomplete-dropdown {
-            position: absolute;
-            z-index: 1000;
-            width: 100%;
-            max-height: 250px;
-            overflow-y: auto;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            margin-top: 0.5rem;
-            display: none;
-            top: 100%;
-            left: 0;
-        }
-
-        .dark .autocomplete-dropdown {
-            background: #1f2937;
-            border-color: #4b5563;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-        }
-
-        .autocomplete-item {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-        }
-
-        .autocomplete-item:last-child {
-            border-bottom: none;
-        }
-
-        .autocomplete-item:hover {
-            background-color: #f3f4f6;
-        }
-
-        .dark .autocomplete-item {
-            border-bottom-color: #374151;
-        }
-
-        .dark .autocomplete-item:hover {
-            background-color: #374151;
-        }
-
-        .autocomplete-item.highlighted {
-            background-color: #e5e7eb;
-        }
-
-        .dark .autocomplete-item.highlighted {
-            background-color: #4b5563;
-        }
-
-        .autocomplete-item .barrio-id {
-            font-size: 0.75rem;
-            color: #6b7280;
-            font-family: monospace;
-            background-color: #f3f4f6;
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            margin-right: 0.75rem;
-            min-width: 60px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .dark .autocomplete-item .barrio-id {
-            color: #9ca3af;
-            background-color: #374151;
-        }
-
-        .autocomplete-item .barrio-nombre {
-            flex-grow: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Scrollbar personalizada */
-        .autocomplete-dropdown::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .autocomplete-dropdown::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-
-        .autocomplete-dropdown::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 3px;
-        }
-
-        .dark .autocomplete-dropdown::-webkit-scrollbar-track {
-            background: #374151;
-        }
-
-        .dark .autocomplete-dropdown::-webkit-scrollbar-thumb {
-            background: #6b7280;
-        }
-        
-        /* Spinner para botón de envío */
-        .spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Campos requeridos inválidos */
-        .invalid {
-            border-color: #ef4444 !important;
-            border-width: 2px;
-        }
-        
-        /* Para ocultar elementos */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Loading screen */
-        #loadingScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .dark #loadingScreen {
-            background: #101622;
-        }
-    </style>
 </head>
-
-<!-- Intro animada tipo persiana con degradado -->
-<div id="intro" style="
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: linear-gradient(to bottom, #1b4557, #ffffff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: slideUp 1.5s ease-in forwards;
-">
-  <img src="logo.png" alt="ANMAGO Store" style="width: 120px; animation: bounce 1s infinite;">
-</div>
-
-<style>
-@keyframes slideUp {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-100%); }
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-</style>
-
-<body class="bg-background-light dark:bg-background-dark font-display flex flex-col min-h-screen text-[#0d121b] dark:text-white transition-colors duration-200">
-    
-    <!-- Pantalla de carga para verificar login -->
-    <div id="loadingScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-gray-900">
-        <div class="text-center">
-            <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mb-6"></div>
-            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Verificando acceso</h2>
-            <p class="text-gray-600 dark:text-gray-400">Por favor espera mientras validamos tu sesión...</p>
+<body>
+    <!-- Controles solo para pantalla -->
+    <div class="no-print screen-controls">
+        <button onclick="window.print()" class="btn-print">🖨️ Imprimir Guía</button>
+        <button onclick="window.close()" class="btn-close">✖️ Cerrar</button>
+        <div class="print-instructions">
+            <p><strong></strong></p>
+            <p></p>
         </div>
     </div>
 
-    <!-- Contenido principal (oculto inicialmente) -->
-    <div id="mainContent" class="hidden">
-        <!-- Top Navigation Bar -->
-        <header class="sticky top-0 z-50 w-full bg-surface-light dark:bg-surface-dark border-b border-solid border-[#e7ebf3] dark:border-gray-800 px-6 py-3 shadow-sm">
-    <div class="mx-auto max-w-7xl flex items-center justify-between whitespace-nowrap">
-        <!-- Logo y título -->
-        <div class="flex items-center gap-4 text-[#0d121b] dark:text-white">
-            <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
-                <span class="material-symbols-outlined text-2xl">local_shipping</span>
-            </div>
-            <h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Expres Contraentrega</h2>
-        </div>
-
-        <!-- Sección derecha: usuario y botones -->
-        <div class="flex items-center gap-4">
-            <!-- Información del usuario (solo desktop) -->
-            <div class="hidden md:flex flex-col items-end mr-2">
-                <span class="text-sm font-semibold text-[#0d121b] dark:text-white" id="nombreUsuario">Cargando...</span>
-                <span class="text-xs text-[#4c669a] dark:text-gray-400" id="rolUsuario">Verificando...</span>
+    <!-- CONTENEDOR PRINCIPAL DE LA GUÍA -->
+    <div class="guia-container">
+        
+        <!-- ENCABEZADO -->
+        <header class="guia-header">
+            <div class="logo-section">
+                <div class="logo">🚚</div>
+                <div class="empresa-info">
+                    <h1>EXPRES CONTRAENTREGA</h1>
+                    <p class="slogan">Tu envío rápido y seguro</p>
+                </div>
             </div>
             
-            <!-- Avatar del usuario -->
-            <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary" 
-                 data-alt="User profile avatar" 
-                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHdncnvfU7TsNmWeUeUJ0UYPAz9BzBx81lq4UEwtgmGBCdZmv4uXnF_3Tx8oE8bSYPqkYSLGSQsBc3VJM6lrLe4iFzAQC287vN3rhtGYCEdoKOkbOtxnxxD1oReP8LrM8i5sZycdxRVlxcikXb1SssTAUPO1_Z8lVAcIZAdBo7-51A_cFNIDS22SZ04WLRRQomqB7gNcwwGHQRh-XuV9GNIkBZe2gjZPo6vSSx5iXD_PPYNffE2XiiZgXT_vzYezxgBe_tkyD1MoXp");'>
-            </div>
-            
-            <!-- Botón de historial -->
-<button id="historialButton" 
-        class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        title="Ver mi historial de envíos">
-    <span class="material-symbols-outlined text-[#4c669a]">history</span>
-</button>
-
-<!-- MODAL PARA HISTORIAL -->
-<div id="modalHistorial" class="fixed inset-0 z-[100] hidden overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onclick="cerrarModalHistorial()"></div>
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full">
-            <div class="px-6 py-4 bg-primary text-white">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-bold">📋 Historial de Envíos</h3>
-                    <button onclick="cerrarModalHistorial()" class="text-white hover:text-gray-200">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
+            <div class="guia-info">
+                <div class="info-row">
+                    <span class="label">GUÍA No:</span>
+                    <span class="value guia-id" id="guiaId">Cargando...</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">FECHA:</span>
+                    <span class="value" id="fecha">Cargando...</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">FORMA DE PAGO:</span>
+                    <span class="value forma-pago" id="formaPago">Cargando...</span>
                 </div>
             </div>
-            <div class="px-6 py-4 max-h-[70vh] overflow-y-auto">
-                <div id="modalHistorialContenido">
-                    <!-- Loading dentro del modal -->
-                    <div id="modalLoading" class="p-8 text-center">
-                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mb-2"></div>
-                        <p class="text-gray-500 dark:text-gray-400">Cargando historial...</p>
-                    </div>
+        </header>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN REMITENTE -->
+        <section class="seccion remitente">
+            <h2 class="seccion-title">📍 REMITENTE</h2>
+            <div class="datos">
+                <div class="dato-line">
+                    <strong id="remitenteNombre">Cargando...</strong>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Tel:</span>
+                    <span id="remitenteTelefono">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Ciudad:</span>
+                    <span id="remitenteCiudad">Cargando...</span>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-            
-            <!-- Botón de logout -->
-            <button id="logoutButton" 
-                    class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    title="Cerrar sesión">
-                <span class="material-symbols-outlined text-[#4c669a]">logout</span>
-            </button>
-        </div>
-    </div>
-</header>
-        <!-- Main Content Area -->
-        <main class="flex-1 w-full px-4 py-8 md:px-8 lg:px-12 flex justify-center">
-            <div class="w-full max-w-[1024px] flex flex-col gap-6">
-                <!-- Page Heading -->
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="flex flex-col gap-1">
-                        <h1 class="text-[#0d121b] dark:text-white text-3xl font-bold leading-tight tracking-tight">Nueva Entrega</h1>
-                        <p class="text-[#4c669a] dark:text-gray-400 text-sm font-normal">Complete el formulario para registrar y generar la guía de envío.</p>
-                    </div>
+        </section>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN DESTINATARIO -->
+       <section class="seccion destinatario">
+            <h2 class="seccion-title">👤 DESTINATARIO</h2>
+            <div class="datos">
+                <div class="dato-line">
+                    <strong id="destinatarioNombre">Cargando...</strong>
                 </div>
-
-                <!-- Form Card -->
-                <form id="deliveryForm" class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-[#e7ebf3] dark:border-gray-800 p-6 md:p-8 flex flex-col gap-8">
-                    <!-- Section: Order Info -->
-                    <div>
-                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
-                            <span class="material-symbols-outlined text-primary">inventory_2</span>
-                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Información del Pedido</h3>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <!-- Generated ID Field -->
-                            <div class="flex flex-col gap-2">
-                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">ID de Guía (Generado)</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">qr_code_2</span>
-                                    <input id="envioId" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-500 dark:text-gray-400 font-mono font-bold tracking-wider cursor-not-allowed focus:ring-0" readonly type="text"/>
-                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded font-bold">AUTO</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Forma de Pago Field -->
-                            <div class="flex flex-col gap-2 md:col-span-2">
-                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Forma de Pago</label>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contado">
-                                        <span class="material-symbols-outlined text-lg mr-2 text-green-600">payments</span>
-                                        <span class="font-medium">Contado</span>
-                                    </div>
-                                    <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contraentrega">
-                                        <span class="material-symbols-outlined text-lg mr-2 text-blue-600">package</span>
-                                        <span class="font-medium">Contraentrega</span>
-                                    </div>
-                                    <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contraentrega_recaudo">
-                                        <span class="material-symbols-outlined text-lg mr-2 text-orange-600">savings</span>
-                                        <span class="font-medium">Con Recaudo</span>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="formaPago" name="formaPago" value="contado">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section: Sender Info -->
-                    <div>
-                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
-                            <span class="material-symbols-outlined text-primary">person_pin_circle</span>
-                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Datos del Remitente</h3>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- 1. Campo de NOMBRE del remitente con autocomplete -->
-                            <label class="flex flex-col gap-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium" id="labelRemitente">Nombre Completo / Empresa</span>
-                                <div class="relative">
-                                    <input id="remitente" name="remitente" 
-                                           class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
-                                           placeholder="Ej. Distribuidora Central S.A." 
-                                           type="text" 
-                                           autocomplete="off"
-                                           required/>
-                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]" id="iconRemitente">search</span>
-                                    <!-- Dropdown para autocomplete -->
-                                    <div id="remitenteAutocomplete" class="autocomplete-dropdown"></div>
-                                </div>
-                            </label>
-                            
-                            <!-- 2. Campo de TELÉFONO del remitente -->
-                            <label class="flex flex-col gap-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium" id="labelTelefonoRemitente">Teléfono de Contacto</span>
-                                <div class="relative">
-                                    <input id="telefonoRemitente" name="telefonoRemitente" 
-                                           class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
-                                           placeholder="+57 300 123 4567" 
-                                           type="tel" 
-                                           required/>
-                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]" id="iconTelefonoRemitente">phone</span>
-                                </div>
-                            </label>
-                            
-                            <!-- 3. Campo de DIRECCIÓN del remitente -->
-                            <label class="flex flex-col gap-2 md:col-span-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium" id="labelDireccionRemitente">Dirección de Recogida</span>
-                                <div class="relative">
-                                    <input id="direccionRemitente" name="direccionRemitente"
-                                           class="w-full h-12 pl-4 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
-                                           placeholder="Calle 123 # 45 - 67, Oficina 202" 
-                                           type="text" 
-                                           required/>
-                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]" id="iconDireccionRemitente">my_location</span>
-                                </div>
-                            </label>
-                            
-                            <!-- Ciudad de Origen Fija -->
-                            <div class="flex flex-col gap-2">
-                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Ciudad de Origen</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">location_city</span>
-                                    <input id="ciudadOrigen" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-700 dark:text-gray-300 font-medium cursor-not-allowed focus:ring-0" readonly type="text" value="Bogotá D.C."/>
-                                </div>
-                            </div>
-                            
-                            <!-- Campo OCULTO para Correo Remitente -->
-                            <input type="hidden" id="correoRemitente" name="correoRemitente">
-                            
-                            <!-- Campo OCULTO para Usuario ID -->
-                            <input type="hidden" id="usuarioId" name="usuarioId">
-                            
-                            <!-- Campo OCULTO para Pagado a Remitente -->
-                            <input type="hidden" id="pagadoRemitente" name="pagadoRemitente" value="false">
-                        </div>
-                    </div>
-
-                    <!-- Section: Recipient Info -->
-                    <div>
-                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
-                            <span class="material-symbols-outlined text-primary">location_on</span>
-                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Datos del Destinatario</h3>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <label class="flex flex-col gap-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Nombre del Cliente</span>
-                                <input id="destinatario" name="destinatario" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Ej. Juan Pérez" type="text" required/>
-                            </label>
-                            
-                            <label class="flex flex-col gap-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Teléfono Cliente</span>
-                                <input id="telefonoCliente" name="telefonoCliente" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="+57 310 987 6543" type="tel" required/>
-                            </label>
-                            
-                            <label class="flex flex-col gap-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Ciudad Destino</span>
-                                <select id="ciudadDestino" name="ciudadDestino" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white transition-all appearance-none" required>
-                                    <option value="">Seleccione ciudad</option>
-                                    <option value="Bogotá D.C.">Bogotá D.C.</option>
-                                    <option value="Soacha">Soacha</option>
-                                </select>
-                            </label>
-                            
-                            <label class="flex flex-col gap-2 md:col-span-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Dirección de Entrega</span>
-                                <input id="direccionDestino" name="direccionDestino" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Carrera 80 # 12 - 34" type="text" required/>
-                            </label>
-                            
-                            <label class="flex flex-col gap-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Complemento de Dirección</span>
-                                <input id="complementoDireccion" name="complementoDireccion" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Apto 501, Torre 2" type="text"/>
-                            </label>
-                            
-                            <!-- Barrio y Localidad con Autocomplete -->
-                            <div class="flex flex-col gap-2 relative">
-                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Barrio y Localidad</label>
-                                <div class="relative">
-                                    <input id="barrioLocalidad" name="barrioLocalidad" class="w-full h-12 px-4 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Escriba para buscar barrio..." type="text" autocomplete="off" required/>
-                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a] pointer-events-none">search</span>
-                                    <input type="hidden" id="barrioId" name="barrioId">
-                                </div>
-                                <!-- Dropdown de autocomplete -->
-                                <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Escriba las primeras letras para buscar el barrio</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section: Payment Info -->
-                    <div>
-                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
-                            <span class="material-symbols-outlined text-primary">monetization_on</span>
-                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Información de Pago</h3>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <!-- Valor a Recaudar Field (Conditional) -->
-                            <div class="flex flex-col gap-2" id="valorRecaudarContainer">
-                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Valor a Recaudar ($)</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">attach_money</span>
-                                    <input id="valorRecaudar" name="valorRecaudar" class="w-full h-12 pl-12 pr-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="0.00" type="number" min="0" step="100" disabled/>
-                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded font-bold hidden" id="autoRecaudoLabel">AUTO</div>
-                                </div>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="valorRecaudarHelp"></p>
-                            </div>
-                            
-                            <!-- Summary Card -->
-                            <div class="md:col-span-2">
-                                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                                    <div class="flex items-center gap-2 mb-3">
-                                        <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">info</span>
-                                        <h4 class="text-blue-800 dark:text-blue-300 font-semibold">Resumen de Pago</h4>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm text-gray-600 dark:text-gray-400">Forma de Pago:</span>
-                                            <span class="font-semibold text-lg" id="resumenFormaPago">Contado</span>
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <span class="text-sm text-gray-600 dark:text-gray-400">Valor a Recaudar:</span>
-                                            <span class="font-semibold text-lg" id="resumenValorRecaudar">$0</span>
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <span class="text-sm text-gray-600 dark:text-gray-400">Estado:</span>
-                                            <span class="font-semibold text-green-600 dark:text-green-400" id="resumenEstado">Por confirmar</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer Actions -->
-                    <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-4 pt-6 mt-2 border-t border-[#e7ebf3] dark:border-gray-800">
-                        <button class="w-full sm:w-auto min-w-[140px] h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-600 bg-transparent text-[#4c669a] dark:text-gray-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" type="button" id="cancelButton">
-                            Cancelar
-                        </button>
-                        <button class="w-full sm:w-auto min-w-[180px] h-12 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-lg shadow-primary/30 transition-all flex items-center justify-center gap-2 group" type="submit" id="submitButton">
-                            <span id="submitText">Registrar Envío</span>
-                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform text-lg" id="submitIcon">arrow_forward</span>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Sección de Resultado (oculta inicialmente) -->
-                <div id="resultSection" class="hidden">
-                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6">
-                        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center justify-center size-12 rounded-full bg-green-100 dark:bg-green-900/30">
-                                    <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">check_circle</span>
-                                </div>
-                                <div>
-                                    <h3 class="text-green-800 dark:text-green-300 text-lg font-bold">¡Envío Registrado Exitosamente!</h3>
-                                    <p class="text-green-600 dark:text-green-400 text-sm mt-1" id="resultMessage">Guía generada exitosamente. Puedes imprimir la guía para el mensajero.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex flex-col sm:flex-row gap-3">
-                                <button type="button" id="printGuideBtn" 
-                                        class="min-w-[180px] h-12 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold px-6 flex items-center justify-center gap-2 transition-all">
-                                    <span class="material-symbols-outlined">print</span>
-                                    Imprimir Guía
-                                </button>
-                                <button type="button" id="newDeliveryBtn"
-                                        class="min-w-[140px] h-12 rounded-lg border border-green-600 text-green-600 dark:text-green-400 font-bold hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors">
-                                    Nuevo Envío
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Detalles del envío registrado -->
-                        <div class="mt-6 pt-6 border-t border-green-200 dark:border-green-800">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <span class="text-sm text-green-700 dark:text-green-500">Número de Guía:</span>
-                                    <div class="font-mono font-bold text-lg" id="resultGuideNumber">ABC12345</div>
-                                </div>
-                                <div>
-                                    <span class="text-sm text-green-700 dark:text-green-500">Destinatario:</span>
-                                    <div class="font-semibold" id="resultDestinatario">Juan Pérez</div>
-                                </div>
-                                <div>
-                                    <span class="text-sm text-green-700 dark:text-green-500">Valor:</span>
-                                    <div class="font-bold text-green-600 dark:text-green-400" id="resultValor">$10,000</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="dato-line">
+                    <span class="label">Tel:</span>
+                    <span id="destinatarioTelefono">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span id="destinatarioDireccion">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span id="destinatarioBarrio">Cargando...</span>
+                </div>
+                <div class="dato-line">
+                    <span class="label">Ciudad:</span>
+                    <span id="destinatarioCiudad">Cargando...</span>
+                </div>
+                <div class="dato-line complemento">
+                    <span class="label">Complemento:</span>
+                    <span id="complemento">Cargando...</span>
                 </div>
             </div>
-        </main>
+        </section>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN INFORMACIÓN DE PAGO -->
+        <section class="seccion pago">
+            <h2 class="seccion-title">💰 INFORMACIÓN DE PAGO</h2>
+            <div class="datos-pago">
+                <div class="pago-row">
+                    <span class="label">Valor a Recaudar:</span>
+                    <span class="value valor" id="valorRecaudar">Cargando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider"></div>
+
+        <!-- SECCIÓN INFORMACIÓN LOGÍSTICA -->
+        <section class="seccion logistica">
+            <div class="logistica-grid">
+                <div class="logistica-item">
+                    <span class="label">ZONA:</span>
+                    <span class="value" id="zona">Cargando...</span>
+                </div>
+                <div class="logistica-item">
+                    <span class="label">MENSAJERO:</span>
+                    <span class="value" id="mensajero">Cargando...</span>
+                </div>
+                <div class="logistica-item full-width">
+                    <span class="label">OBS:</span>
+                    <span class="value" id="observaciones"></span>
+                </div>
+            </div>
+        </section>
+                <!-- PIE DE PÁGINA -->
+        <footer class="guia-footer">
+            <div class="footer-line">
+                <span class="small">📞 Soporte: 3001234567</span>
+                <span class="small">🌐 www.exprescontraentrega.com</span>
+            </div>
+            <div class="footer-line">
+                <span class="small">Guía generada el: <span id="fechaGeneracion">Cargando...</span></span>
+            </div>
+        </footer>
     </div>
 
-    <!-- Script de validación de login Y autocomplete -->
-<script>
-    // Esperar a que el DOM esté completamente cargado
-    document.addEventListener('DOMContentLoaded', function() {
-        // Variables para precios por ciudad
-        const PRECIOS_CIUDAD = {
-            "Bogotá D.C.": 10000,
-            "Soacha": 12000
-        };
-
-        // Ocultar la intro rápidamente
-        setTimeout(() => {
-            const intro = document.getElementById('intro');
-            if (intro) intro.style.display = 'none';
-        }, 1500);
-
-        // Variables globales
-        let usuariosDisponibles = [];
-        let timeoutBusqueda = null;
-        
-        // ============================================
-        // 1. VERIFICACIÓN DE SEGURIDAD (lo que ya teníamos)
-        // ============================================
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-        const loadingScreen = document.getElementById('loadingScreen');
-        const mainContent = document.getElementById('mainContent');
-        
-        if (!usuario) {
-            setTimeout(() => {
-                alert("Debes iniciar sesión para acceder a esta página");
-                window.location.href = "login.html";
-            }, 1000);
-            return;
-        }
-        
-        // Si hay usuario, mostrar contenido principal
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            mainContent.classList.remove('hidden');
-            
-            // Actualizar información del usuario en la interfaz
-            const nombreUsuario = document.getElementById('nombreUsuario');
-            const rolUsuario = document.getElementById('rolUsuario');
-            
-            if (nombreUsuario) {
-                nombreUsuario.textContent = usuario["NOMBRE COMPLETO"] || usuario["NOMBRE"] || "Usuario";
-            }
-            
-            if (rolUsuario) {
-                rolUsuario.textContent = usuario.ROL === "CLIENTE" ? "Cliente" : 
-                                       usuario.ROL === "ADMIN" ? "Administrador" : 
-                                       usuario.ROL === "OPERADOR" ? "Operador Logístico" : 
-                                       "Usuario";
-            }
-            
-            // Configurar campos ocultos para TODOS los usuarios
-            const correoRemitente = document.getElementById('correoRemitente');
-            const usuarioIdField = document.getElementById('usuarioId');
-            
-            if (usuario) {
-                // Siempre enviar correo y usuario ID
-                if (correoRemitente) {
-                    correoRemitente.value = usuario["CORREO ELECTRONICO"] || usuario["CORREO"] || "";
-                }
-                
-                if (usuarioIdField) {
-                    usuarioIdField.value = usuario["USUARIO"] || usuario["ID"] || "";
-                }
-            }
-            
-            // Si es cliente, prellenar campos del remitente y hacerlos de solo lectura
-            if (usuario.ROL === "CLIENTE") {
-                const remitente = document.getElementById('remitente');
-                const direccionRemitente = document.getElementById('direccionRemitente');
-                const telefonoRemitente = document.getElementById('telefonoRemitente');
-                const iconRemitente = document.getElementById('iconRemitente');
-                const iconTelefonoRemitente = document.getElementById('iconTelefonoRemitente');
-                const iconDireccionRemitente = document.getElementById('iconDireccionRemitente');
-                
-                if (remitente) {
-                    remitente.value = usuario["NOMBRE REMITENTE"] || usuario["NOMBRE COMPLETO"] || "";
-                    remitente.setAttribute('readonly', 'true');
-                    remitente.classList.add('cliente-readonly');
-                    if (iconRemitente) iconRemitente.textContent = 'lock';
-                }
-                
-                if (direccionRemitente) {
-                    direccionRemitente.value = usuario["DIRECCION REMITENTE"] || "";
-                    direccionRemitente.setAttribute('readonly', 'true');
-                    direccionRemitente.classList.add('cliente-readonly');
-                    if (iconDireccionRemitente) iconDireccionRemitente.textContent = 'lock';
-                }
-                
-                if (telefonoRemitente) {
-                    telefonoRemitente.value = usuario["TELEFONO REMITENTE"] || usuario["TELEFONO"] || "";
-                    telefonoRemitente.setAttribute('readonly', 'true');
-                    telefonoRemitente.classList.add('cliente-readonly');
-                    if (iconTelefonoRemitente) iconTelefonoRemitente.textContent = 'lock';
-                }
-                
-                // Añadir indicadores visuales de que son campos fijos
-                const labelRemitente = document.getElementById('labelRemitente');
-                const labelTelefonoRemitente = document.getElementById('labelTelefonoRemitente');
-                const labelDireccionRemitente = document.getElementById('labelDireccionRemitente');
-                
-                if (labelRemitente) {
-                    labelRemitente.classList.add('campo-cliente-fijo');
-                    labelRemitente.innerHTML = 'Nombre Completo / Empresa <span class="text-xs text-gray-500">(Fijo para cliente)</span>';
-                }
-                if (labelTelefonoRemitente) {
-                    labelTelefonoRemitente.classList.add('campo-cliente-fijo');
-                    labelTelefonoRemitente.innerHTML = 'Teléfono de Contacto <span class="text-xs text-gray-500">(Fijo para cliente)</span>';
-                }
-                if (labelDireccionRemitente) {
-                    labelDireccionRemitente.classList.add('campo-cliente-fijo');
-                    labelDireccionRemitente.innerHTML = 'Dirección de Recogida <span class="text-xs text-gray-500">(Fijo para cliente)</span>';
-                }
-                
-                // Ocultar el autocomplete para clientes
-                const dropdown = document.getElementById('remitenteAutocomplete');
-                if (dropdown) {
-                    dropdown.style.display = 'none';
-                }
-            }
-            
-            // Si NO es cliente (ADMIN u OPERADOR), los campos son editables
-            else {
-                const remitente = document.getElementById('remitente');
-                const direccionRemitente = document.getElementById('direccionRemitente');
-                const telefonoRemitente = document.getElementById('telefonoRemitente');
-                const iconRemitente = document.getElementById('iconRemitente');
-                const iconTelefonoRemitente = document.getElementById('iconTelefonoRemitente');
-                const iconDireccionRemitente = document.getElementById('iconDireccionRemitente');
-                
-                if (remitente) {
-                    remitente.removeAttribute('readonly');
-                    remitente.classList.remove('cliente-readonly');
-                    remitente.placeholder = "Ej. Distribuidora Central S.A.";
-                    if (iconRemitente) iconRemitente.textContent = 'search';
-                    
-                    // Cargar usuarios para autocomplete solo para ADMIN/OPERADOR
-                    cargarUsuariosParaAutocomplete().then(() => {
-                        inicializarAutocompleteRemitente();
-                    });
-                }
-                
-                if (direccionRemitente) {
-                    direccionRemitente.removeAttribute('readonly');
-                    direccionRemitente.classList.remove('cliente-readonly');
-                    direccionRemitente.placeholder = "Calle 123 # 45 - 67, Oficina 202";
-                    if (iconDireccionRemitente) iconDireccionRemitente.textContent = 'my_location';
-                }
-                
-                if (telefonoRemitente) {
-                    telefonoRemitente.removeAttribute('readonly');
-                    telefonoRemitente.classList.remove('cliente-readonly');
-                    telefonoRemitente.placeholder = "+57 300 123 4567";
-                    if (iconTelefonoRemitente) iconTelefonoRemitente.textContent = 'phone';
-                }
-            }
-            
-            // Ahora inicializar el resto del formulario
-            inicializarFormulario();
-            
-        }, 1000);
-        
-        // ============================================
-        // 2. FUNCIONES PARA AUTOCOMPLETE
-        // ============================================
-        
-        // Función para cargar usuarios para autocomplete
-        async function cargarUsuariosParaAutocomplete() {
-            try {
-                const response = await fetch("usuarios.json?v=" + Date.now());
-                const usuarios = await response.json();
-                
-                // Filtrar solo clientes activos
-                usuariosDisponibles = usuarios.filter(u => 
-                    u.ESTADO === "ACTIVO" && 
-                    u.ROL === "CLIENTE" &&
-                    u["NOMBRE REMITENTE"]
-                );
-                
-                console.log("Usuarios para autocomplete cargados:", usuariosDisponibles.length);
-                
-            } catch (error) {
-                console.error("Error cargando usuarios para autocomplete:", error);
-            }
-        }
-
-        // Función para inicializar autocomplete para remitente
-        function inicializarAutocompleteRemitente() {
-            const inputRemitente = document.getElementById('remitente');
-            const dropdown = document.getElementById('remitenteAutocomplete');
-            
-            if (!inputRemitente || !dropdown) return;
-            
-            // Limpiar timeout anterior
-            clearTimeout(timeoutBusqueda);
-            
-            // Función para buscar remitentes
-            function buscarRemitentes(texto) {
-                if (!texto || texto.length < 2) return [];
-                
-                const busqueda = texto.toLowerCase().trim();
-                return usuariosDisponibles.filter(usuario => {
-                    const nombre = (usuario["NOMBRE REMITENTE"] || "").toLowerCase();
-                    const nombreCompleto = (usuario["NOMBRE COMPLETO"] || "").toLowerCase();
-                    const telefono = (usuario["TELEFONO REMITENTE"] || usuario["TELEFONO"] || "").toLowerCase();
-                    
-                    return nombre.includes(busqueda) || 
-                           nombreCompleto.includes(busqueda) ||
-                           telefono.includes(busqueda);
-                });
-            }
-            
-            // Función para mostrar sugerencias
-            function mostrarSugerencias(usuarios) {
-                dropdown.innerHTML = '';
-                
-                if (usuarios.length === 0) {
-                    dropdown.style.display = 'none';
-                    return;
-                }
-                
-                // Limitar a 5 sugerencias
-                const usuariosMostrar = usuarios.slice(0, 5);
-                
-                usuariosMostrar.forEach(usuario => {
-                    const item = document.createElement('div');
-                    item.className = 'autocomplete-item';
-                    item.innerHTML = `
-                        <div class="barrio-id">${usuario.USUARIO}</div>
-                        <div class="barrio-nombre">
-                            <div class="font-medium">${usuario["NOMBRE REMITENTE"]}</div>
-                            <div class="text-xs text-gray-500">${usuario["TELEFONO REMITENTE"] || usuario["TELEFONO"] || ""}</div>
-                        </div>
-                    `;
-                    
-                    item.addEventListener('click', function() {
-                        // Rellenar todos los campos del remitente
-                        document.getElementById('remitente').value = usuario["NOMBRE REMITENTE"] || "";
-                        document.getElementById('telefonoRemitente').value = usuario["TELEFONO REMITENTE"] || usuario["TELEFONO"] || "";
-                        document.getElementById('direccionRemitente').value = usuario["DIRECCION REMITENTE"] || "";
-                        
-                        // Ocultar dropdown
-                        dropdown.style.display = 'none';
-                        
-                        // Enfocar el siguiente campo
-                        document.getElementById('telefonoRemitente').focus();
-                    });
-                    
-                    dropdown.appendChild(item);
-                });
-                
-                dropdown.style.display = 'block';
-            }
-            
-            // Función para ocultar sugerencias
-            function ocultarSugerencias() {
-                dropdown.style.display = 'none';
-            }
-            
-            // Evento de input con debounce
-            inputRemitente.addEventListener('input', function() {
-                clearTimeout(timeoutBusqueda);
-                
-                timeoutBusqueda = setTimeout(() => {
-                    const resultados = buscarRemitentes(this.value);
-                    mostrarSugerencias(resultados);
-                }, 300);
-            });
-            
-            // Evento de focus
-            inputRemitente.addEventListener('focus', function() {
-                if (this.value.length >= 2) {
-                    const resultados = buscarRemitentes(this.value);
-                    mostrarSugerencias(resultados);
-                }
-            });
-            
-            // Evento de click fuera para ocultar
-            document.addEventListener('click', function(e) {
-                if (!inputRemitente.contains(e.target) && !dropdown.contains(e.target)) {
-                    ocultarSugerencias();
-                }
-            });
-            
-            // Evento de tecla Escape
-            inputRemitente.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    ocultarSugerencias();
-                }
-            });
-            
-            console.log("Autocomplete de remitente inicializado");
-        }
-        
-        // ============================================
-        // 3. FUNCIONES PARA EL FORMULARIO
-        // ============================================
-        
-        function inicializarFormulario() {
-            console.log("📝 Inicializando formulario...");
-            
-            // Generar ID único para el envío
-            const envioId = generarIDEnvio();
-            document.getElementById('envioId').value = envioId;
-            
-            // Configurar opciones de pago
-            const paymentOptions = document.querySelectorAll('.payment-option');
-            const formaPagoInput = document.getElementById('formaPago');
-            
-            paymentOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // Remover clase selected de todas las opciones
-                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // Agregar clase selected a la opción clickeada
-                    this.classList.add('selected');
-                    
-                    // Actualizar valor del input hidden
-                    const selectedValue = this.getAttribute('data-value');
-                    formaPagoInput.value = selectedValue;
-                    
-                    // Actualizar resumen
-                    actualizarResumen();
-                    
-                    // Manejar campo de valor a recaudar
-                    manejarValorRecaudar(selectedValue);
-                });
-            });
-
-            // Seleccionar "Contado" por defecto
-            if (paymentOptions[0]) {
-                paymentOptions[0].click();
-            }
-            
-            // Inicializar barrios para autocomplete
-            inicializarAutocompleteBarrios();
-            
-            // Configurar botón cancelar
-            document.getElementById('cancelButton').addEventListener('click', function() {
-                if (confirm('¿Estás seguro de que deseas cancelar este envío? Se perderán todos los datos ingresados.')) {
-                    resetearFormulario();
-                }
-            });
-            
-            // Configurar logout
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function() {
-                    if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-                        localStorage.removeItem("usuarioLogueado");
-                        window.location.href = "login.html";
-                    }
-                });
-            }
-            
-            // Configurar historial
-            const historialButton = document.getElementById('historialButton');
-            if (historialButton) {
-                historialButton.addEventListener('click', function() {
-                    const user = JSON.parse(localStorage.getItem("usuarioLogueado"));
-                    if (user && user.USUARIO) {
-                        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec";
-                        window.open(`historial.html?usuario=${encodeURIComponent(user.USUARIO)}`, '_blank');
-                    } else {
-                        alert('No se pudo identificar el usuario');
-                    }
-                });
-            }
-            
-            // Manejar envío del formulario
-            document.getElementById('deliveryForm').addEventListener('submit', manejarEnvioFormulario);
-            
-            console.log("✅ Formulario inicializado correctamente");
-        }
-        
-        // Función para generar ID único para el envío
-        function generarIDEnvio() {
-            const fecha = new Date();
-            const year = fecha.getFullYear().toString().slice(-2);
-            const month = (fecha.getMonth() + 1).toString().padStart(2, '0');
-            const day = fecha.getDate().toString().padStart(2, '0');
-            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            return `ENV${year}${month}${day}${random}`;
-        }
-        
-      // Función para manejar el campo de valor a recaudar según forma de pago
-function manejarValorRecaudar(formaPago) {
-    const valorRecaudarInput = document.getElementById('valorRecaudar');
-    const valorRecaudarHelp = document.getElementById('valorRecaudarHelp');
-    const autoRecaudoLabel = document.getElementById('autoRecaudoLabel');
-    const ciudadDestino = document.getElementById('ciudadDestino').value;
-    
-    if (formaPago === 'contraentrega' || formaPago === 'contraentrega_recaudo') {
-        // Habilitar campo
-        valorRecaudarInput.disabled = false;
-        valorRecaudarInput.placeholder = "Ej. 50,000";
-        valorRecaudarHelp.textContent = "Ingrese el valor a recaudar al destinatario";
-        
-        // Si es "Contraentrega" (no "Con Recaudo"), establecer valor automático
-        if (formaPago === 'contraentrega') {
-            // Establecer valor según ciudad
-            let valorAuto = 0;
-            if (ciudadDestino.includes("Bogotá")) {
-                valorAuto = 10000;
-            } else if (ciudadDestino.includes("Soacha")) {
-                valorAuto = 12000;
-            }
-            
-            valorRecaudarInput.value = valorAuto;
-            valorRecaudarInput.disabled = true; // Hacerlo de solo lectura
-            autoRecaudoLabel.classList.remove('hidden');
-            autoRecaudoLabel.textContent = 'AUTO';
-            valorRecaudarHelp.textContent = `Valor automático para ${ciudadDestino}`;
-            
-            // Estilos para indicar que es automático
-            valorRecaudarInput.classList.remove('bg-input-light', 'dark:bg-input-dark');
-            valorRecaudarInput.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
-        } else {
-            // Para "Contraentrega con Recaudo": campo editable
-            valorRecaudarInput.value = "";
-            autoRecaudoLabel.classList.add('hidden');
-            valorRecaudarHelp.textContent = "Ingrese el valor a recaudar al destinatario";
-            
-            // Estilos para indicar que es editable
-            valorRecaudarInput.classList.remove('bg-gray-100', 'dark:bg-gray-800');
-            valorRecaudarInput.classList.add('bg-input-light', 'dark:bg-input-dark', 'text-[#0d121b]', 'dark:text-white');
-        }
-        
-        // Agregar validación
-        valorRecaudarInput.addEventListener('input', function() {
-            const valor = parseFloat(this.value) || 0;
-            if (valor > 0) {
-                this.classList.remove('invalid');
-            } else {
-                this.classList.add('invalid');
-            }
-            actualizarResumen();
-        });
-        
-    } else if (formaPago === 'contado') {
-        // Deshabilitar campo y poner valor automático
-        valorRecaudarInput.disabled = true;
-        valorRecaudarInput.value = "";
-        valorRecaudarHelp.textContent = "No aplica para pagos de contado";
-        autoRecaudoLabel.classList.add('hidden');
-        
-        // Estilos para indicar que es deshabilitado
-        valorRecaudarInput.classList.remove('bg-input-light', 'dark:bg-input-dark', 'text-[#0d121b]', 'dark:text-white');
-        valorRecaudarInput.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-500', 'dark:text-gray-400');
-        
-        // Remover validación
-        valorRecaudarInput.classList.remove('invalid');
-    }
-    
-    // Actualizar resumen siempre
-    actualizarResumen();
-}
-        
-        // Función para calcular el VALOR A RECAUDAR según la ciudad
-        function calcularValorARecaudar() {
-            const ciudadDestino = document.getElementById('ciudadDestino').value;
-            let valorRecaudar = 0;
-            
-            if (ciudadDestino.includes("Bogotá")) {
-                valorRecaudar = 10000;
-            } else if (ciudadDestino.includes("Soacha")) {
-                valorRecaudar = 12000;
-            }
-            
-            // Actualizar el campo de valor a recaudar
-            const valorRecaudarInput = document.getElementById('valorRecaudar');
-            const formaPago = document.getElementById('formaPago').value;
-            
-            // Solo actualizar si es contraentrega (en contado no se muestra)
-            if (formaPago === 'contraentrega' || formaPago === 'contraentrega_recaudo') {
-                valorRecaudarInput.value = valorRecaudar;
-                valorRecaudarInput.classList.remove('invalid');
-            }
-            
-            return valorRecaudar;
-        }
-        
-        // Función para calcular el TOTAL A PAGAR al cliente remitente
-        function calcularTotalAPagar() {
-            const formaPago = document.getElementById('formaPago').value;
-            const valorRecaudar = parseFloat(document.getElementById('valorRecaudar').value) || 0;
-            const ciudadDestino = document.getElementById('ciudadDestino').value;
-            let totalAPagar = 0;
-            
-            if (formaPago === 'contraentrega_recaudo') {
-                // Para contraentrega con recaudo: valorRecaudar - tarifa de la ciudad
-                if (ciudadDestino.includes("Bogotá")) {
-                    totalAPagar = Math.max(0, valorRecaudar - 10000);
-                } else if (ciudadDestino.includes("Soacha")) {
-                    totalAPagar = Math.max(0, valorRecaudar - 12000);
-                }
-            }
-            // Para contado y contraentrega normal: total a pagar = 0
-            
-            return totalAPagar;
-        }
-        
-      // Escuchar cambios en la ciudad destino
-document.getElementById('ciudadDestino').addEventListener('change', function() {
-    const ciudad = this.value;
-    const formaPago = document.getElementById('formaPago').value;
-    
-    // Si la forma de pago es "Contraentrega", actualizar el valor automáticamente
-    if (formaPago === 'contraentrega') {
-        let valorAuto = 0;
-        if (ciudad.includes("Bogotá")) {
-            valorAuto = 10000;
-        } else if (ciudad.includes("Soacha")) {
-            valorAuto = 12000;
-        }
-        
-        document.getElementById('valorRecaudar').value = valorAuto;
-    }
-    
-    // Calcular y actualizar valor a recaudar
-    const valorRecaudar = calcularValorARecaudar();
-    
-    // Actualizar resumen
-    actualizarResumen();
-    
-    // Mostrar notificación del precio
-    if (ciudad && valorRecaudar > 0) {
-        console.log(`Ciudad: ${ciudad}, Valor a recaudar: $${valorRecaudar.toLocaleString()}`);
-    }
-});
-        
-        // Función para actualizar resumen
-        function actualizarResumen() {
-            const formaPago = document.getElementById('formaPago').value;
-            const ciudadDestino = document.getElementById('ciudadDestino').value;
-            const valorRecaudar = document.getElementById('valorRecaudar').value;
-            
-            // Actualizar texto de forma de pago
-            const formasPagoTexto = {
-                'contado': 'Contado',
-                'contraentrega': 'Contraentrega',
-                'contraentrega_recaudo': 'Con Recaudo'
-            };
-            document.getElementById('resumenFormaPago').textContent = formasPagoTexto[formaPago];
-            
-            // Actualizar valor a recaudar en resumen
-            let valorRecaudarTexto = 'No aplica';
-            if (formaPago !== 'contado' && valorRecaudar) {
-                const valorFormateado = new Intl.NumberFormat('es-CO', {
-                    style: 'currency',
-                    currency: 'COP',
-                    minimumFractionDigits: 0
-                }).format(parseFloat(valorRecaudar));
-                valorRecaudarTexto = valorFormateado;
-            }
-            document.getElementById('resumenValorRecaudar').textContent = valorRecaudarTexto;
-            
-            // Calcular total a pagar
-            const totalAPagar = calcularTotalAPagar();
-            let totalTexto = 'No aplica';
-            let estadoTexto = 'Por confirmar';
-            let estadoColor = 'text-yellow-600 dark:text-yellow-400';
-            
-            if (ciudadDestino) {
-                // Mostrar tarifa según ciudad
-                let tarifaCiudad = 0;
-                if (ciudadDestino.includes("Bogotá")) {
-                    tarifaCiudad = 10000;
-                } else if (ciudadDestino.includes("Soacha")) {
-                    tarifaCiudad = 12000;
-                }
-                
-                // Actualizar estado según forma de pago
-                if (formaPago === 'contado') {
-                    estadoTexto = 'Pendiente de pago';
-                    estadoColor = 'text-yellow-600 dark:text-yellow-400';
-                    totalTexto = '$0'; // No le pagas nada al cliente
-                } else if (formaPago === 'contraentrega') {
-                    estadoTexto = 'A recaudar';
-                    estadoColor = 'text-blue-600 dark:text-blue-400';
-                    totalTexto = '$0'; // No le pagas nada al cliente
-                } else if (formaPago === 'contraentrega_recaudo') {
-                    estadoTexto = 'Con recaudo';
-                    estadoColor = 'text-orange-600 dark:text-orange-400';
-                    const totalFormateado = new Intl.NumberFormat('es-CO', {
-                        style: 'currency',
-                        currency: 'COP',
-                        minimumFractionDigits: 0
-                    }).format(totalAPagar);
-                    totalTexto = totalFormateado;
-                }
-            }
-            
-            // Actualizar elemento de estado
-            let estadoElement = document.getElementById('resumenEstado');
-            if (!estadoElement) {
-                estadoElement = document.createElement('span');
-                estadoElement.id = 'resumenEstado';
-                estadoElement.className = 'font-semibold';
-                const resumenContainer = document.querySelector('.bg-blue-50');
-                if (resumenContainer) {
-                    const estadoDiv = resumenContainer.querySelector('div:last-child');
-                    if (estadoDiv) {
-                        estadoDiv.innerHTML = '<span class="text-sm text-gray-600 dark:text-gray-400">Estado:</span><br>';
-                        estadoDiv.appendChild(estadoElement);
-                    }
-                }
-            }
-            
-            estadoElement.textContent = estadoTexto;
-            estadoElement.className = `font-semibold ${estadoColor}`;
-            
-            // Mostrar total a pagar en el resumen
-            let totalElement = document.getElementById('resumenTotalPagar');
-            if (!totalElement) {
-                totalElement = document.createElement('span');
-                totalElement.id = 'resumenTotalPagar';
-                totalElement.className = 'font-bold text-lg text-green-600 dark:text-green-400';
-                const resumenGrid = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-3.gap-4');
-                if (resumenGrid) {
-                    const totalDiv = document.createElement('div');
-                    totalDiv.className = 'flex flex-col';
-                    totalDiv.innerHTML = '<span class="text-sm text-gray-600 dark:text-gray-400">Total a Pagar al Cliente:</span>';
-                    totalDiv.appendChild(totalElement);
-                    resumenGrid.appendChild(totalDiv);
-                }
-            }
-            
-            totalElement.textContent = totalTexto;
-        }
-        
-        // Inicializar barrios para autocomplete
-        function inicializarAutocompleteBarrios() {
-            const barrios = [
-                { id: "001", nombre: "Chapinero", ciudad: "Bogotá D.C." },
-                { id: "002", nombre: "Usaquén", ciudad: "Bogotá D.C." },
-                { id: "003", nombre: "Suba", ciudad: "Bogotá D.C." },
-                { id: "004", nombre: "Kennedy", ciudad: "Bogotá D.C." },
-                { id: "005", nombre: "Bosa", ciudad: "Bogotá D.C." },
-                { id: "006", nombre: "Soacha Centro", ciudad: "Soacha" },
-                { id: "007", nombre: "Ciudadela Sucre", ciudad: "Soacha" },
-                { id: "008", nombre: "San Mateo", ciudad: "Soacha" },
-                { id: "009", nombre: "San Humberto", ciudad: "Soacha" },
-                { id: "010", nombre: "Quintas de Santa Ana", ciudad: "Soacha" }
-            ];
-
-            const input = document.getElementById('barrioLocalidad');
-            const dropdown = document.getElementById('autocompleteDropdown');
-            const barrioIdInput = document.getElementById('barrioId');
-            let timeoutId = null;
-            let selectedIndex = -1;
-
-            function mostrarSugerencias(sugerencias) {
-                dropdown.innerHTML = '';
-                
-                if (sugerencias.length === 0) {
-                    dropdown.style.display = 'none';
-                    return;
-                }
-
-                sugerencias.forEach((barrio, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'autocomplete-item';
-                    item.innerHTML = `
-                        <div class="barrio-id">${barrio.id}</div>
-                        <div class="barrio-nombre">
-                            <div class="font-medium">${barrio.nombre}</div>
-                            <div class="text-xs text-gray-500">${barrio.ciudad}</div>
-                        </div>
-                    `;
-                    
-                    item.addEventListener('click', function() {
-                        input.value = barrio.nombre;
-                        barrioIdInput.value = barrio.id;
-                        dropdown.style.display = 'none';
-                        
-                        // Verificar si la ciudad seleccionada en el dropdown coincide con la ciudad destino
-                        const ciudadDestinoSelect = document.getElementById('ciudadDestino');
-                        if (ciudadDestinoSelect.value !== barrio.ciudad && barrio.ciudad) {
-                            ciudadDestinoSelect.value = barrio.ciudad;
-                            // Actualizar el valor a recaudar al cambiar la ciudad
-                            calcularValorARecaudar();
-                            actualizarResumen();
-                        }
-                    });
-                    
-                    dropdown.appendChild(item);
-                });
-                
-                dropdown.style.display = 'block';
-            }
-
-            function buscarBarrios(texto) {
-                if (!texto || texto.length < 2) return [];
-                
-                const busqueda = texto.toLowerCase();
-                return barrios.filter(barrio => 
-                    barrio.nombre.toLowerCase().includes(busqueda) || 
-                    barrio.ciudad.toLowerCase().includes(busqueda)
-                );
-            }
-
-            input.addEventListener('input', function() {
-                clearTimeout(timeoutId);
-                
-                timeoutId = setTimeout(() => {
-                    const resultados = buscarBarrios(this.value);
-                    mostrarSugerencias(resultados);
-                    selectedIndex = -1;
-                }, 300);
-            });
-
-            input.addEventListener('keydown', function(e) {
-                const items = dropdown.querySelectorAll('.autocomplete-item');
-                
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
-                    updateSelectedItem(items);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    selectedIndex = Math.max(selectedIndex - 1, 0);
-                    updateSelectedItem(items);
-                } else if (e.key === 'Enter' && selectedIndex >= 0) {
-                    e.preventDefault();
-                    items[selectedIndex].click();
-                } else if (e.key === 'Escape') {
-                    dropdown.style.display = 'none';
-                }
-            });
-
-            function updateSelectedItem(items) {
-                items.forEach((item, index) => {
-                    item.classList.toggle('highlighted', index === selectedIndex);
-                });
-            }
-
-            document.addEventListener('click', function(e) {
-                if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.style.display = 'none';
-                }
-            });
-        }
-        
-// ============================================
-// 4. FUNCIÓN PARA MANEJAR EL ENVÍO DEL FORMULARIO (CORREGIDA)
-// ============================================
-
-// Variable global para prevenir envíos múltiples
-let formularioEnviandose = false;
-
-async function manejarEnvioFormulario(e) {
-    e.preventDefault();
-    
-    // Prevenir envíos múltiples
-    if (formularioEnviandose) {
-        console.log('⚠️ Formulario ya enviándose, ignorando clic...');
-        return;
-    }
-    
-    console.log('📤 Iniciando envío de formulario...');
-    
-    // Validar formulario
-    if (!validarFormulario()) {
-        alert('Por favor complete todos los campos requeridos correctamente');
-        return;
-    }
-    
-    // Deshabilitar botón de envío y mostrar loading INMEDIATAMENTE
-    const submitButton = document.getElementById('submitButton');
-    const submitText = document.getElementById('submitText');
-    const submitIcon = document.getElementById('submitIcon');
-    
-    submitButton.disabled = true;
-    formularioEnviandose = true;
-    submitButton.classList.add('opacity-70', 'cursor-not-allowed');
-    submitText.textContent = 'Procesando...';
-    submitIcon.textContent = 'hourglass_top';
-    
-    try {
-        // Calcular valores
-        const formaPago = document.getElementById('formaPago').value;
-        const ciudadDestino = document.getElementById('ciudadDestino').value;
-        
-        // IMPORTANTE: Forzar el cálculo del valor a recaudar según ciudad
-        let valorRecaudar;
-        
-        if (formaPago === 'contraentrega') {
-            // Para "Contraentrega": valor fijo según ciudad
-            if (ciudadDestino.includes("Bogotá")) {
-                valorRecaudar = 10000;
-            } else if (ciudadDestino.includes("Soacha")) {
-                valorRecaudar = 12000;
-            }
-            // Actualizar el campo visualmente
-            document.getElementById('valorRecaudar').value = valorRecaudar;
-        } else if (formaPago === 'contraentrega_recaudo') {
-            // Para "Contraentrega con Recaudo": usar el valor del campo
-            valorRecaudar = parseFloat(document.getElementById('valorRecaudar').value) || 0;
-        } else {
-            valorRecaudar = 0;
-        }
-        
-        const totalAPagar = calcularTotalAPagar();
-        const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"));
-        
-        // IMPORTANTE: Preparar datos EXACTAMENTE como los espera Google Sheets
-        const datosEnvio = {
-            // Columna A: ENVIO ID
-            "ENVIO ID": document.getElementById('envioId').value,
-            
-            // Columna B: FORMA DE PAGO
-            "FORMA DE PAGO": formaPago,
-            
-            // Columna C: REMITE
-            "REMITE": document.getElementById('remitente').value,
-            
-            // Columna D: TELEFONO
-            "TELEFONO": document.getElementById('telefonoRemitente').value,
-            
-            // Columna E: DIRECCION
-            "DIRECCION": document.getElementById('direccionRemitente').value,
-            
-            // Columna F: CIUDAD
-            "CIUDAD": document.getElementById('ciudadOrigen').value,
-            
-            // Columna G: DESTINO
-            "DESTINO": document.getElementById('destinatario').value,
-            
-            // Columna H: DIRECCION DESTINO
-            "DIRECCION DESTINO": document.getElementById('direccionDestino').value,
-            
-            // Columna I: BARRIO
-            "BARRIO": document.getElementById('barrioLocalidad').value,
-            
-            // Columna J: TELEFONOCLIENTE
-            "TELEFONOCLIENTE": document.getElementById('telefonoCliente').value,
-            
-            // Columna K: COMPLEMENTO DE DIR
-            "COMPLEMENTO DE DIR": document.getElementById('complementoDireccion').value || "",
-            
-            // Columna L: CIUDAD DESTINO
-            "CIUDAD DESTINO": ciudadDestino,
-            
-            // Columna M: VALOR A RECAUDAR
-            "VALOR A RECAUDAR": valorRecaudar.toString(),
-            
-            // Columna N: TOTAL A PAGAR
-            "TOTAL A PAGAR": totalAPagar.toString(),
-            
-            // Columna O: PAGADO A REMITENTE
-            "PAGADO A REMITENTE": "NO", // Siempre NO al crear
-            
-            // Columna P: FECHA PAGO (vacío)
-            "FECHA PAGO": "",
-            
-            // Columna Q: FIRMA (vacío)
-            "FIRMA": "",
-            
-            // Columna R: OBS (vacío)
-            "OBS": "",
-            
-            // Columna S: LOCALIDAD (se llenará después)
-            "LOCALIDAD": "",
-            
-            // Columna T: MENSAJERO (se llenará después)
-            "MENSAJERO": "",
-            
-            // Columna U: CORREO REMITENTE
-            "CORREO REMITENTE": document.getElementById('correoRemitente').value || "",
-            
-            // Columna V: USUARIO ID
-            "USUARIO ID": usuarioActual ? usuarioActual.USUARIO : "",
-            
-            // Campos adicionales
-            "FECHA": new Date().toISOString(),
-            "BARRIO ID": document.getElementById('barrioId').value || "",
-            "ESTADO": "PENDIENTE"
-        };
-        
-        console.log('📝 Datos a enviar a Google Sheets:', datosEnvio);
-        
-        // MOSTRAR CONFIRMACION PERO MANTENER BOTÓN DESHABILITADO
-        const confirmMessage = `¿Confirmar registro de envío?\n\n📋 ID: ${datosEnvio["ENVIO ID"]}\n📍 Destino: ${datosEnvio["CIUDAD DESTINO"]}\n👤 Cliente: ${datosEnvio["DESTINO"]}\n💰 Valor a recaudar: $${parseInt(datosEnvio["VALOR A RECAUDAR"]).toLocaleString()}`;
-        
-        if (!confirm(confirmMessage)) {
-            // Si el usuario cancela, re-habilitar el botón
-            submitButton.disabled = false;
-            formularioEnviandose = false;
-            submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
-            submitText.textContent = 'Registrar Envío';
-            submitIcon.textContent = 'send';
-            return;
-        }
-        
-        // El botón YA está deshabilitado desde el inicio, no lo volvemos a tocar
-        
-        // URL del Web App de Google Apps Script
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec";
-        
-        // Enviar datos al Web App usando FormData
-        const formData = new FormData();
-        Object.keys(datosEnvio).forEach(key => {
-            formData.append(key, datosEnvio[key]);
-        });
-        
-        console.log('📡 Enviando datos a Google Apps Script...');
-        
-        // Usar mode: 'no-cors' como lo tenías
-        const response = await fetch(WEB_APP_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: formData
-        });
-
-        // Con 'no-cors' no podemos leer la respuesta, pero asumimos éxito
-        console.log('✅ Datos enviados a Google Sheets');
-        
-        // Mostrar mensaje de éxito (solo uno)
-        const successMessage = document.createElement('div');
-        successMessage.className = 'fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50';
-        successMessage.innerHTML = `
-            <div class="flex items-center">
-                <span class="material-icons mr-2">check_circle</span>
-                <span class="font-semibold">Envío registrado exitosamente!</span>
-            </div>
-            <div class="mt-2 text-sm">
-                ID: <span class="font-mono font-bold">${datosEnvio["ENVIO ID"]}</span><br>
-                Total a pagar: <span class="font-bold">$${totalAPagar.toLocaleString()}</span>
-            </div>
-        `;
-        document.body.appendChild(successMessage);
-        
-        // Ocultar mensaje después de 5 segundos
-        setTimeout(() => {
-            successMessage.remove();
-        }, 5000);
-        
-        // Resetear formulario después de éxito
-        setTimeout(() => {
-            resetearFormulario();
-            // Restablecer estado de envío
-            formularioEnviandose = false;
-        }, 2000);
-        
-    } catch (error) {
-        console.error('❌ Error en el envío:', error);
-        
-        // Mostrar mensaje de error
-        alert(`Error al registrar el envío: ${error.message}\n\nPor favor, intente nuevamente.`);
-        
-        // Rehabilitar botón
-        submitButton.disabled = false;
-        formularioEnviandose = false;
-        submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
-        submitText.textContent = 'Registrar Envío';
-        submitIcon.textContent = 'send';
-    }
-}
-        
-        // ============================================
-        // 5. FUNCIONES AUXILIARES
-        // ============================================
-        
-        function validarFormulario() {
-            let valido = true;
-            
-            // Lista de campos requeridos
-            const camposRequeridos = [
-                'remitente',
-                'telefonoRemitente',
-                'direccionRemitente',
-                'destinatario',
-                'direccionDestino',
-                'telefonoCliente',
-                'barrioLocalidad',
-                'ciudadDestino'
-            ];
-            
-            // Validar cada campo
-            camposRequeridos.forEach(id => {
-                const campo = document.getElementById(id);
-                if (campo && !campo.value.trim()) {
-                    campo.classList.add('invalid');
-                    valido = false;
-                } else if (campo) {
-                    campo.classList.remove('invalid');
-                }
-            });
-            
-            // Validar valor a recaudar si es contraentrega
-            const formaPago = document.getElementById('formaPago').value;
-            const valorRecaudar = document.getElementById('valorRecaudar');
-            
-            if ((formaPago === 'contraentrega' || formaPago === 'contraentrega_recaudo') && 
-                (!valorRecaudar.value || parseFloat(valorRecaudar.value) <= 0)) {
-                valorRecaudar.classList.add('invalid');
-                valido = false;
-            }
-            
-            return valido;
-        }
-        
-     function resetearFormulario() {
-    // Generar nuevo ID
-    const envioId = generarIDEnvio();
-    document.getElementById('envioId').value = envioId;
-    
-    // Resetear campos del formulario
-    document.getElementById('deliveryForm').reset();
-    
-    // Resetear campos ocultos
-    document.getElementById('barrioId').value = '';
-    
-    // Resetear selección de pago
-    const paymentOptions = document.querySelectorAll('.payment-option');
-    paymentOptions.forEach(opt => opt.classList.remove('selected'));
-    if (paymentOptions[0]) {
-        paymentOptions[0].click();
-    }
-    
-    // Resetear estilos de validación
-    document.querySelectorAll('.invalid').forEach(el => {
-        el.classList.remove('invalid');
-    });
-    
-    // IMPORTANTE: Restaurar estado de envío
-    formularioEnviandose = false;
-    
-    // Restaurar información del usuario si es cliente
-    const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-    if (usuario && usuario.ROL === "CLIENTE") {
-        const remitente = document.getElementById('remitente');
-        const direccionRemitente = document.getElementById('direccionRemitente');
-        const telefonoRemitente = document.getElementById('telefonoRemitente');
-        
-        if (remitente) remitente.value = usuario["NOMBRE REMITENTE"] || usuario["NOMBRE COMPLETO"] || "";
-        if (direccionRemitente) direccionRemitente.value = usuario["DIRECCION REMITENTE"] || "";
-        if (telefonoRemitente) telefonoRemitente.value = usuario["TELEFONO REMITENTE"] || usuario["TELEFONO"] || "";
-    }
-    
-    // Restaurar botón de envío
-    const submitButton = document.getElementById('submitButton');
-    const submitText = document.getElementById('submitText');
-    const submitIcon = document.getElementById('submitIcon');
-    
-    if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
-    }
-    if (submitText) submitText.textContent = 'Registrar Envío';
-    if (submitIcon) submitIcon.textContent = 'send';
-    
-    // Actualizar resumen
-    actualizarResumen();
-    
-    // Enfocar primer campo editable
-    const primerCampo = usuario && usuario.ROL === "CLIENTE" 
-        ? document.getElementById('destinatario') 
-        : document.getElementById('remitente');
-    
-    if (primerCampo) primerCampo.focus();
-     }
-    });
-</script>
-    
-    <!-- Scripts principales -->
-    <script src="script.js"></script>
+    <!-- Nuestro JavaScript -->
+    <script src="guia.js"></script>
     <script src="check-auth.js"></script>
 </body>
 </html>
