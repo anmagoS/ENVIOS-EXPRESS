@@ -138,14 +138,6 @@
                             </h3>
                             <div class="flex flex-wrap gap-4">
                                 <div class="flex items-center gap-2">
-                                    <label class="text-sm">Desde:</label>
-                                    <input type="date" id="fechaDesde" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <label class="text-sm">Hasta:</label>
-                                    <input type="date" id="fechaHasta" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
-                                </div>
-                                <div class="flex items-center gap-2">
                                     <label class="text-sm">Forma Pago:</label>
                                     <select id="formaPagoFilter" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
                                         <option value="todas">Todas</option>
@@ -182,7 +174,7 @@
                 </div>
                 
                 <!-- Tarjetas de estadísticas -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
                         <div class="flex items-center justify-between">
                             <div>
@@ -206,14 +198,12 @@
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Promedio a Pagar</p>
-                                <p class="text-2xl font-bold text-orange-600" id="promedioPagar">$0</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Total a Recaudar</p>
+                                <p class="text-2xl font-bold text-orange-600" id="totalRecaudar">$0</p>
                             </div>
-                            <span class="material-symbols-outlined text-3xl text-orange-500">trending_up</span>
+                            <span class="material-symbols-outlined text-3xl text-orange-500">attach_money</span>
                         </div>
                     </div>
-                    
-                    
                 </div>
                 
                 <!-- Tabla de envíos -->
@@ -418,9 +408,6 @@
             
             // 3. Configurar modo oscuro
             configurarModoOscuro();
-            
-            // 4. Configurar fechas por defecto (últimos 30 días)
-            configurarFechasPorDefecto();
         }
         
         function determinarUsuario() {
@@ -523,8 +510,6 @@
             document.getElementById('btnSiguiente').addEventListener('click', () => cambiarPagina(1));
             
             // Filtros automáticos
-            document.getElementById('fechaDesde').addEventListener('change', aplicarFiltros);
-            document.getElementById('fechaHasta').addEventListener('change', aplicarFiltros);
             document.getElementById('formaPagoFilter').addEventListener('change', aplicarFiltros);
             document.getElementById('estadoPagoFilter').addEventListener('change', aplicarFiltros);
             
@@ -570,19 +555,6 @@
                 localStorage.setItem('modoOscuro', 'true');
                 document.getElementById('darkModeIcon').textContent = 'light_mode';
             }
-        }
-        
-        function configurarFechasPorDefecto() {
-            const hoy = new Date();
-            const hace30Dias = new Date();
-            hace30Dias.setDate(hoy.getDate() - 30);
-            
-            // Formatear como YYYY-MM-DD
-            const hoyFormato = hoy.toISOString().split('T')[0];
-            const hace30DiasFormato = hace30Dias.toISOString().split('T')[0];
-            
-            document.getElementById('fechaDesde').value = hace30DiasFormato;
-            document.getElementById('fechaHasta').value = hoyFormato;
         }
         
         async function cargarHistorial() {
@@ -783,15 +755,11 @@
         
         // FUNCIÓN CORREGIDA: aplicarFiltros
         function aplicarFiltros() {
-            const fechaDesde = document.getElementById('fechaDesde').value;
-            const fechaHasta = document.getElementById('fechaHasta').value;
             const formaPago = document.getElementById('formaPagoFilter').value;
             const estadoPago = document.getElementById('estadoPagoFilter').value;
             const busqueda = document.getElementById('busqueda').value.toLowerCase().trim();
             
             console.log('🔍 Aplicando filtros:', { 
-                fechaDesde, 
-                fechaHasta, 
                 formaPago, 
                 estadoPago, 
                 busqueda,
@@ -802,35 +770,7 @@
             enviosFiltrados = todosEnvios.filter(envio => {
                 let cumple = true;
                 
-                // 1. Filtrar por fecha si hay fechas seleccionadas
-                if (fechaDesde || fechaHasta) {
-                    const fechaEnvio = obtenerFechaEnvio(envio);
-                    
-                    // Si solo hay fechaDesde
-                    if (fechaDesde && !fechaHasta) {
-                        const desde = new Date(fechaDesde);
-                        desde.setHours(0, 0, 0, 0);
-                        cumple = cumple && (fechaEnvio >= desde);
-                    }
-                    // Si solo hay fechaHasta
-                    else if (!fechaDesde && fechaHasta) {
-                        const hasta = new Date(fechaHasta);
-                        hasta.setHours(23, 59, 59, 999);
-                        cumple = cumple && (fechaEnvio <= hasta);
-                    }
-                    // Si hay ambas fechas
-                    else if (fechaDesde && fechaHasta) {
-                        const desde = new Date(fechaDesde);
-                        desde.setHours(0, 0, 0, 0);
-                        const hasta = new Date(fechaHasta);
-                        hasta.setHours(23, 59, 59, 999);
-                        cumple = cumple && (fechaEnvio >= desde && fechaEnvio <= hasta);
-                    }
-                    
-                    if (!cumple) return false;
-                }
-                
-                // 2. Filtrar por forma de pago
+                // 1. Filtrar por forma de pago
                 if (formaPago && formaPago !== 'todas') {
                     const formaPagoEnvio = (envio["FORMA DE PAGO"] || '').toLowerCase();
                     
@@ -854,7 +794,7 @@
                     }
                 }
                 
-                // 3. Filtrar por estado de pago
+                // 2. Filtrar por estado de pago
                 if (estadoPago && estadoPago !== 'todos') {
                     const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
                     const totalPagar = envio.totalPagar || 0;
@@ -879,7 +819,7 @@
                     }
                 }
                 
-                // 4. Filtrar por búsqueda de texto
+                // 3. Filtrar por búsqueda de texto
                 if (busqueda) {
                     // Lista de campos donde buscar
                     const camposBusqueda = [
@@ -1013,9 +953,7 @@
                 contador.textContent = '0 envíos';
                 
                 // Mensaje específico según filtros
-                const hayFiltros = document.getElementById('fechaDesde').value || 
-                                  document.getElementById('fechaHasta').value || 
-                                  document.getElementById('formaPagoFilter').value !== 'todas' || 
+                const hayFiltros = document.getElementById('formaPagoFilter').value !== 'todas' || 
                                   document.getElementById('estadoPagoFilter').value !== 'todos' ||
                                   document.getElementById('busqueda').value;
                 
@@ -1160,46 +1098,35 @@
             if (totalEnvios === 0) {
                 document.getElementById('totalEnvios').textContent = '0';
                 document.getElementById('totalPagar').textContent = '$0';
-                document.getElementById('promedioPagar').textContent = '$0';
-                document.getElementById('ultimoEnvio').textContent = '-';
+                document.getElementById('totalRecaudar').textContent = '$0';
                 return;
             }
             
             // Calcular total a pagar SOLO DE PENDIENTES
             let totalPagar = 0;
-            let enviosPendientes = 0;
+            let totalRecaudar = 0;
             
             enviosFiltrados.forEach(envio => {
                 const valorPagar = parseFloat(envio.totalPagar || envio["TOTAL A PAGAR"] || 0);
+                const valorRecaudar = parseFloat(envio.valorRecaudar || envio["VALOR A RECAUDAR"] || 0);
                 const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
                 
                 if (!isNaN(valorPagar)) {
                     // Solo sumar si NO está pagado
                     if (!estaPagado && valorPagar > 0) {
                         totalPagar += valorPagar;
-                        enviosPendientes++;
                     }
                 }
+                
+                if (!isNaN(valorRecaudar)) {
+                    totalRecaudar += valorRecaudar;
+                }
             });
-            
-            const promedioPagar = enviosPendientes > 0 ? totalPagar / enviosPendientes : 0;
-            
-            // Último envío
-            let ultimoEnvio = '-';
-            if (enviosFiltrados.length > 0) {
-                const ultimo = enviosFiltrados[0]; // Ya está ordenado por fecha_desc por defecto
-                const fecha = obtenerFechaEnvio(ultimo);
-                ultimoEnvio = fecha.toLocaleDateString('es-CO', {
-                    day: '2-digit',
-                    month: '2-digit'
-                });
-            }
             
             // Actualizar UI
             document.getElementById('totalEnvios').textContent = totalEnvios.toLocaleString();
             document.getElementById('totalPagar').textContent = `$${totalPagar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
-            document.getElementById('promedioPagar').textContent = `$${promedioPagar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
-            document.getElementById('ultimoEnvio').textContent = ultimoEnvio;
+            document.getElementById('totalRecaudar').textContent = `$${totalRecaudar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
         }
         
         function verDetalles(envioId) {
@@ -1236,7 +1163,7 @@
             }
             
             // Estado de pago
-            const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
+            const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITente"]);
             const estadoPagoTexto = estaPagado ? 'Pagado' : 'Pendiente';
             const estadoPagoColor = estaPagado ? 'text-green-600' : 'text-yellow-600';
             
@@ -1439,16 +1366,6 @@
         }
         
         function limpiarFiltros() {
-            // Establecer fechas por defecto (últimos 30 días)
-            const hoy = new Date();
-            const hace30Dias = new Date();
-            hace30Dias.setDate(hoy.getDate() - 30);
-            
-            const hoyFormato = hoy.toISOString().split('T')[0];
-            const hace30DiasFormato = hace30Dias.toISOString().split('T')[0];
-            
-            document.getElementById('fechaDesde').value = hace30DiasFormato;
-            document.getElementById('fechaHasta').value = hoyFormato;
             document.getElementById('formaPagoFilter').value = 'todas';
             document.getElementById('estadoPagoFilter').value = 'todos';
             document.getElementById('busqueda').value = '';
