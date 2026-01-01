@@ -21,7 +21,7 @@ function buscarEnSheets(envioId) {
     console.log('📡 Buscando en Sheets...');
     
     // ✅ CORRECTO: Usa la Web App 2 para buscar
-    const url = `https://script.google.com/macros/s/AKfycbwQalnfttGxp8prBg8FmSVtxCclnnBI-Ttvprk3DCKQW6fart5HllZuo9Q9wY8knBO1/exec?action=obtenerGuia&id=${envioId}`;
+    const url = `https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec?action=obtenerGuia&id=${envioId}`;
     
     console.log('🔗 URL de búsqueda:', url);
     
@@ -92,7 +92,7 @@ function cargarDatosEnGuia(datos) {
         // LOGÍSTICA
         document.getElementById('zona').textContent = datos.localidad || datos.zona || 'Por asignar';
         document.getElementById('mensajero').textContent = datos.mensajero || 'Por asignar';
-        document.getElementById('observaciones').textContent = datos.observaciones || '';
+        document.getElementById('observaciones').textContent = datos.observaciones || '           ';
         
         // FECHA
         document.getElementById('fechaGeneracion').textContent = fechaHora;
@@ -205,4 +205,3 @@ function mostrarError(mensaje) {
         </div>
     `;
 }
-
