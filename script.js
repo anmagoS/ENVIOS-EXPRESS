@@ -1,6 +1,6 @@
 // Configuración global
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzw43jHhDfngxhvc7HnCqP2BNEDpcUdwx3B-7I3W8uIbFYKMw9deMbzBtwgrFgbE7Mz/exec";
-const REMITENTES_URL = "https://script.google.com/macros/s/AKfycbzw43jHhDfngxhvc7HnCqP2BNEDpcUdwx3B-7I3W8uIbFYKMw9deMbzBtwgrFgbE7Mz/exec?action=getRemitentes";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec";
+const REMITENTES_URL = "https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec?action=getRemitentes";
 // Variables globales
 let barriosData = [];
 let remitentesData = [];
@@ -626,6 +626,9 @@ function getFormData() {
     else if (zona === "OCCIDENTE") mensajero = "PEDRO";
     else if (zona === "ORIENTE") mensajero = "ANDRÉS";
     
+    // OBTENER USUARIO DEL LOCALSTORAGE (AGREGAR ESTO)
+    const usuarioLogueado = JSON.parse(localStorage.getItem("usuarioLogueado"));
+    
     return {
         envioId: document.getElementById('envioId').value,
         formaPago: formaPagoInput.value,
@@ -650,7 +653,10 @@ function getFormData() {
         // NUEVOS CAMPOS:
         zona: zona,
         mensajero: mensajero,
-        observaciones: "LLAMAR ANTES DE ENTREGAR"
+        observaciones: "",
+        
+        // NUEVO CAMPO PARA HISTORIAL (AGREGAR ESTO):
+        usuario_id: usuarioLogueado ? usuarioLogueado.USUARIO : 'sin_usuario'
     };
 }
 
@@ -760,7 +766,10 @@ async function handleFormSubmit(e) {
             // Datos adicionales
             zona: formData.zona,
             mensajero: formData.mensajero,
-            observaciones: formData.observaciones
+            observaciones: formData.observaciones,
+            
+            // NUEVO: Guardar también el usuario
+            usuarioId: formData.usuario_id
         };
         
         console.log('💾 Guardando en localStorage:', datosGuia);
@@ -774,8 +783,14 @@ async function handleFormSubmit(e) {
         // Guardar el ID específico para la guía
         localStorage.setItem('envioParaGuia', formData.envioId);
         
+        // NUEVO: Guardar también en historial local del usuario
+        const usuarioHistorial = JSON.parse(localStorage.getItem('historialUsuario')) || [];
+        usuarioHistorial.push(datosGuia);
+        localStorage.setItem('historialUsuario', JSON.stringify(usuarioHistorial));
+        
         console.log('✅ Guardado en localStorage completo');
         console.log('📊 Total de envíos guardados:', envios.length);
+        console.log('👤 Envíos del usuario:', usuarioHistorial.length);
         
         // 3. Mostrar resultado exitoso
         mostrarResultado(datosGuia);
