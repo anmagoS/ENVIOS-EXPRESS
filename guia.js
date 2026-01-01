@@ -51,20 +51,20 @@ async function cargarDatosEnvio() {
 // OBTENER ID DEL ENVÍO
 // ============================================
 function obtenerEnvioId() {
-    // 1. Intentar desde localStorage
-    let envioId = localStorage.getItem('envioParaGuia');
-    
-    if (envioId) {
-        console.log('📋 ID obtenido de localStorage:', envioId);
-        return envioId;
-    }
-    
-    // 2. Intentar desde URL
+    // 1. Intentar desde URL (para reimpresión desde historial)
     const urlParams = new URLSearchParams(window.location.search);
-    envioId = urlParams.get('envio');
+    let envioId = urlParams.get('id') || urlParams.get('envio');
     
     if (envioId) {
         console.log('📋 ID obtenido de URL:', envioId);
+        return envioId;
+    }
+    
+    // 2. Intentar desde localStorage
+    envioId = localStorage.getItem('envioParaGuia');
+    
+    if (envioId) {
+        console.log('📋 ID obtenido de localStorage:', envioId);
         return envioId;
     }
     
@@ -73,7 +73,7 @@ function obtenerEnvioId() {
     if (datosCompletos) {
         try {
             const datos = JSON.parse(datosCompletos);
-            envioId = datos.envioId || datos["ENVIO ID"];
+            envioId = datos.envioId || datos["ENVIO ID"] || datos.id;
             console.log('📋 ID obtenido de datos completos:', envioId);
             return envioId;
         } catch (e) {
@@ -91,13 +91,13 @@ function obtenerEnvioId() {
 async function cargarDatos(envioId) {
     console.log('📡 Cargando datos para ID:', envioId);
     
-    // 1. Intentar desde localStorage (datos completos)
+    // 1. Intentar desde localStorage (datos completos recientes)
     const datosCompletos = localStorage.getItem('ultimoEnvioCompleto');
     if (datosCompletos) {
         try {
             const datos = JSON.parse(datosCompletos);
-            if (datos.envioId === envioId || datos["ENVIO ID"] === envioId) {
-                console.log('✅ Datos cargados desde localStorage');
+            if (datos.envioId === envioId || datos["ENVIO ID"] === envioId || datos.id === envioId) {
+                console.log('✅ Datos cargados desde localStorage (recientes)');
                 return procesarDatos(datos);
             }
         } catch (e) {
@@ -105,7 +105,28 @@ async function cargarDatos(envioId) {
         }
     }
     
-    // 2. Intentar desde Web App
+    // 2. Intentar desde historial en localStorage
+    try {
+        const historial = JSON.parse(localStorage.getItem('historialCompleto')) || [];
+        console.log(`🔍 Buscando ${envioId} en historial de ${historial.length} envíos`);
+        
+        // Buscar envío en el historial
+        const envio = historial.find(e => 
+            e["ENVIO ID"] === envioId || 
+            e.id === envioId || 
+            e.envioId === envioId ||
+            (e.ID && e.ID.toString() === envioId.toString())
+        );
+        
+        if (envio) {
+            console.log('✅ Datos cargados desde historial local:', envio);
+            return procesarDatos(envio);
+        }
+    } catch (e) {
+        console.error('Error buscando en historial:', e);
+    }
+    
+    // 3. Intentar desde Web App
     try {
         console.log('🌐 Intentando cargar desde Web App...');
         const response = await fetch(`${WEB_APP_URL}?action=getEnvio&envioId=${encodeURIComponent(envioId)}`);
@@ -119,21 +140,15 @@ async function cargarDatos(envioId) {
         console.log('⚠️ No se pudo cargar desde Web App:', error.message);
     }
     
-    // 3. Intentar desde historial en localStorage
-    try {
-        const historial = JSON.parse(localStorage.getItem('historialCompleto')) || [];
-        const envio = historial.find(e => e["ENVIO ID"] === envioId || e.id === envioId);
-        
-        if (envio) {
-            console.log('✅ Datos cargados desde historial local');
-            return procesarDatos(envio);
-        }
-    } catch (e) {
-        console.error('Error buscando en historial:', e);
-    }
-    
-    // 4. Crear datos de ejemplo
+    // 4. Crear datos de ejemplo si todo falla
     console.log('⚠️ Usando datos de ejemplo');
+    return crearDatosEjemplo(envioId);
+}
+
+// ============================================
+// CREAR DATOS DE EJEMPLO
+// ============================================
+function crearDatosEjemplo(envioId) {
     return {
         "ENVIO ID": envioId,
         "REMITE": "CLIENTE DE EJEMPLO",
@@ -146,9 +161,7 @@ async function cargarDatos(envioId) {
         "COMPLEMENTO DE DIR": "Oficina 202",
         "CIUDAD DESTINO": "Bogotá D.C.",
         "FORMA DE PAGO": "Contraentrega",
-        "VALOR A RECAUDAR": "10000",
-        "LOCALIDAD": "NORTE",
-        "MENSAJERO": "CARLOS",
+        "VALOR A RECAUDAR": "100000",
         "OBS": "Entregar antes de las 6 PM",
         fecha: new Date().toISOString()
     };
@@ -160,32 +173,54 @@ async function cargarDatos(envioId) {
 function procesarDatos(datos) {
     console.log('🔧 Procesando datos:', datos);
     
-    // Calcular zona y mensajero si no están
-    if (!datos.LOCALIDAD || !datos.MENSAJERO) {
-        const { zona, mensajero } = calcularZonaYMensajero(datos.BARRIO);
-        datos.LOCALIDAD = datos.LOCALIDAD || zona;
-        datos.MENSAJERO = datos.MENSAJERO || mensajero;
-    }
+    // Normalizar nombres de campos
+    const datosNormalizados = {
+        // ID
+        "ENVIO ID": datos["ENVIO ID"] || datos.envioId || datos.id || datos.ID || "N/A",
+        
+        // Remitente
+        "REMITE": datos["REMITE"] || datos.remite || datos.REMITE || "N/A",
+        "TELEFONO": datos["TELEFONO"] || datos.telefono || datos.TELEFONO || "N/A",
+        "CIUDAD": datos["CIUDAD"] || datos.ciudad || datos.CIUDAD || "Bogotá D.C.",
+        
+        // Destinatario
+        "DESTINO": datos["DESTINO"] || datos.destino || datos.DESTINO || "N/A",
+        "TELEFONOCLIENTE": datos["TELEFONOCLIENTE"] || datos.telefonoCliente || datos.TELEFONOCLIENTE || "N/A",
+        "DIRECCION DESTINO": datos["DIRECCION DESTINO"] || datos.direccionDestino || datos["DIRECCION DESTINO"] || "N/A",
+        "BARRIO": datos["BARRIO"] || datos.barrio || datos.BARRIO || "N/A",
+        "COMPLEMENTO DE DIR": datos["COMPLEMENTO DE DIR"] || datos.complementoDir || datos["COMPLEMENTO DE DIR"] || "Ninguno",
+        "CIUDAD DESTINO": datos["CIUDAD DESTINO"] || datos.ciudadDestino || datos["CIUDAD DESTINO"] || "Bogotá D.C.",
+        
+        // Pago
+        "FORMA DE PAGO": datos["FORMA DE PAGO"] || datos.formaPago || datos["FORMA DE PAGO"] || "Contraentrega",
+        "VALOR A RECAUDAR": datos["VALOR A RECAUDAR"] || datos.valorRecaudar || datos["VALOR A RECAUDAR"] || "0",
+        
+        // Observaciones
+        "OBS": datos["OBS"] || datos.observaciones || datos.OBS || "",
+        
+        // Fecha
+        fecha: datos.fecha || datos.fechaCreacion || new Date().toISOString()
+    };
     
     // Formatear valor a recaudar
-    if (datos["VALOR A RECAUDAR"]) {
-        const valor = parseFloat(datos["VALOR A RECAUDAR"]);
+    if (datosNormalizados["VALOR A RECAUDAR"]) {
+        const valor = parseFloat(datosNormalizados["VALOR A RECAUDAR"]);
         if (!isNaN(valor)) {
-            datos.valorFormateado = `$${valor.toLocaleString('es-CO')}`;
+            datosNormalizados.valorFormateado = `$${valor.toLocaleString('es-CO')}`;
+        } else {
+            datosNormalizados.valorFormateado = "$0";
         }
     }
     
     // Formatear fecha
-    if (datos.fecha) {
-        const fecha = new Date(datos.fecha);
-        datos.fechaFormateada = fecha.toLocaleDateString('es-CO', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-    }
+    const fecha = new Date(datosNormalizados.fecha);
+    datosNormalizados.fechaFormateada = fecha.toLocaleDateString('es-CO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
     
-    return datos;
+    return datosNormalizados;
 }
 
 // ============================================
@@ -208,6 +243,9 @@ function generarCodigoBarras(envioId) {
             mostrarError('No se pudo cargar la librería de código de barras');
             return;
         }
+        
+        // Limpiar SVG existente
+        svgElement.innerHTML = '';
         
         // Generar código de barras
         JsBarcode("#codigoBarras", envioId, {
@@ -247,12 +285,12 @@ function generarGuia(datos) {
     console.log('🎨 Generando interfaz de guía...');
     
     // Actualizar elementos de la guía
-    actualizarElemento('guiaId', datos["ENVIO ID"] || datos.envioId || 'N/A');
-    actualizarElemento('fecha', datos.fechaFormateada || new Date().toLocaleDateString('es-CO'));
+    actualizarElemento('guiaId', datos["ENVIO ID"]);
+    actualizarElemento('fecha', datos.fechaFormateada);
     actualizarElemento('fechaGeneracion', new Date().toLocaleString('es-CO'));
     
     // Forma de pago
-    const formaPago = datos["FORMA DE PAGO"] || datos.formaPago || '';
+    const formaPago = datos["FORMA DE PAGO"] || '';
     let formaPagoTexto = '';
     switch(formaPago.toLowerCase()) {
         case 'contado': formaPagoTexto = 'Contado'; break;
@@ -266,25 +304,20 @@ function generarGuia(datos) {
     actualizarElemento('formaPago', formaPagoTexto);
     
     // Remitente
-    actualizarElemento('remitenteNombre', datos["REMITE"] || datos.remite || 'N/A');
-    actualizarElemento('remitenteTelefono', datos["TELEFONO"] || datos.telefono || 'N/A');
-    actualizarElemento('remitenteCiudad', datos["CIUDAD"] || datos.ciudad || 'Bogotá D.C.');
+    actualizarElemento('remitenteNombre', datos["REMITE"]);
+    actualizarElemento('remitenteTelefono', datos["TELEFONO"]);
+    actualizarElemento('remitenteCiudad', datos["CIUDAD"]);
     
     // Destinatario
-    actualizarElemento('destinatarioNombre', datos["DESTINO"] || datos.destino || 'N/A');
-    actualizarElemento('destinatarioTelefono', datos["TELEFONOCLIENTE"] || datos.telefonoCliente || 'N/A');
-    actualizarElemento('destinatarioDireccion', datos["DIRECCION DESTINO"] || datos.direccionDestino || 'N/A');
-    actualizarElemento('destinatarioBarrio', datos["BARRIO"] || datos.barrio || 'N/A');
-    actualizarElemento('destinatarioCiudad', datos["CIUDAD DESTINO"] || datos.ciudadDestino || 'Bogotá D.C.');
-    actualizarElemento('complemento', datos["COMPLEMENTO DE DIR"] || datos.complementoDir || 'Ninguno');
+    actualizarElemento('destinatarioNombre', datos["DESTINO"]);
+    actualizarElemento('destinatarioTelefono', datos["TELEFONOCLIENTE"]);
+    actualizarElemento('destinatarioDireccion', datos["DIRECCION DESTINO"]);
+    actualizarElemento('destinatarioBarrio', datos["BARRIO"]);
+    actualizarElemento('destinatarioCiudad', datos["CIUDAD DESTINO"]);
+    actualizarElemento('complemento', datos["COMPLEMENTO DE DIR"]);
     
     // Información de pago
     actualizarElemento('valorRecaudar', datos.valorFormateado || `$${parseInt(datos["VALOR A RECAUDAR"] || 0).toLocaleString('es-CO')}`);
-    
-    // Información logística
-    actualizarElemento('zona', datos["LOCALIDAD"] || datos.localidad || 'N/A');
-    actualizarElemento('mensajero', datos["MENSAJERO"] || datos.mensajero || 'Por asignar');
-    actualizarElemento('observaciones', datos["OBS"] || datos.observaciones || '');
     
     console.log('✅ Interfaz de guía actualizada');
 }
@@ -296,30 +329,10 @@ function actualizarElemento(id, valor) {
     const elemento = document.getElementById(id);
     if (elemento) {
         elemento.textContent = valor || '';
+        console.log(`✓ ${id}: ${valor}`);
     } else {
         console.warn(`⚠️ Elemento no encontrado: ${id}`);
     }
-}
-
-function calcularZonaYMensajero(barrio) {
-    if (!barrio) return { zona: "NORTE", mensajero: "CARLOS" };
-    
-    const barrioUpper = barrio.toUpperCase();
-    let zona = "NORTE";
-    let mensajero = "CARLOS";
-    
-    if (barrioUpper.includes("SOACHA")) {
-        zona = "SUR";
-        mensajero = "JUAN";
-    } else if (barrioUpper.includes("KENNEDY") || barrioUpper.includes("USAQUÉN")) {
-        zona = "";
-        mensajero = "";
-    } else if (barrioUpper.includes("CHAPINERO")) {
-        zona = "ORIENTE";
-        mensajero = "ANDRÉS";
-    }
-    
-    return { zona, mensajero };
 }
 
 function mostrarError(mensaje) {
@@ -345,14 +358,25 @@ function mostrarError(mensaje) {
 }
 
 // ============================================
-// INICIALIZAR AUTO-IMPRESIÓN (OPCIONAL)
+// PARA DEBUGGING
 // ============================================
-// Descomenta si quieres que se imprima automáticamente
-/*
-setTimeout(() => {
-    if (window.location.search.includes('autoprint')) {
-        console.log('🖨️ Auto-impresión activada');
-        window.print();
-    }
-}, 1000);
-*/
+window.debugGuia = function() {
+    console.log('=== DEBUG GUÍA ===');
+    console.log('URL:', window.location.href);
+    console.log('ID de envío:', obtenerEnvioId());
+    console.log('Elementos encontrados:');
+    
+    const elementosIds = [
+        'guiaId', 'fecha', 'formaPago', 'remitenteNombre',
+        'remitenteTelefono', 'remitenteCiudad', 'destinatarioNombre',
+        'destinatarioTelefono', 'destinatarioDireccion', 'destinatarioBarrio',
+        'destinatarioCiudad', 'complemento', 'valorRecaudar'
+    ];
+    
+    elementosIds.forEach(id => {
+        const elem = document.getElementById(id);
+        console.log(`  ${id}:`, elem ? 'ENCONTRADO' : 'NO ENCONTRADO', elem ? `("${elem.textContent}")` : '');
+    });
+    
+    console.log('=== FIN DEBUG ===');
+};
