@@ -401,7 +401,7 @@
                                 <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">ID de Guía (Generado)</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">qr_code_2</span>
-                                    <input id="envioId" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-500 dark:text-gray-400 font-mono font-bold tracking-wider cursor-not-allowed focus:ring-0" readonly type="text"/>
+                                    <input id="envioId" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-500 dark:text-gray-400 font-mono font-bold tracking-wider cursor-not-allowed focus:ring-0" readonly type="text" value="Por generar (servidor)"/>
                                     <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded font-bold">AUTO</div>
                                 </div>
                             </div>
@@ -959,9 +959,8 @@
         function inicializarFormulario() {
             console.log("📝 Inicializando formulario...");
             
-            // Generar ID único para el envío
-            const envioId = generarIDEnvio();
-            document.getElementById('envioId').value = envioId;
+            // NOTA: EL ID DEL ENVÍO AHORA SE GENERA EN EL SERVIDOR
+            // No generamos ID del lado del cliente para evitar duplicaciones
             
             // Configurar opciones de pago
             const paymentOptions = document.querySelectorAll('.payment-option');
@@ -1031,16 +1030,6 @@
             document.getElementById('deliveryForm').addEventListener('submit', manejarEnvioFormulario);
             
             console.log("✅ Formulario inicializado correctamente");
-        }
-        
-        // Función para generar ID único para el envío
-        function generarIDEnvio() {
-            const fecha = new Date();
-            const year = fecha.getFullYear().toString().slice(-2);
-            const month = (fecha.getMonth() + 1).toString().padStart(2, '0');
-            const day = fecha.getDate().toString().padStart(2, '0');
-            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            return `ENV${year}${month}${day}${random}`;
         }
         
       // Función para manejar el campo de valor a recaudar según forma de pago
@@ -1403,7 +1392,7 @@ document.getElementById('ciudadDestino').addEventListener('change', function() {
         }
         
 // ============================================
-// 4. FUNCIÓN PARA MANEJAR EL ENVÍO DEL FORMULARIO (CORREGIDA PARA GITHUB PAGES)
+// 4. FUNCIÓN PARA MANEJAR EL ENVÍO DEL FORMULARIO (ACTUALIZADA PARA NO ENVIAR ID)
 // ============================================
 
 // Variable global para prevenir envíos múltiples
@@ -1465,9 +1454,10 @@ async function manejarEnvioFormulario(e) {
         const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"));
         
         // IMPORTANTE: Preparar datos EXACTAMENTE como los espera Google Sheets
+        // NOTA: El campo "ENVIO ID" se deja VACÍO para que Google Apps Script lo genere centralmente
         const datosEnvio = {
-            // Columna A: ENVIO ID
-            "ENVIO ID": document.getElementById('envioId').value,
+            // Columna A: ENVIO ID - SERÁ GENERADO POR EL SERVIDOR (CENTRALIZADO)
+            "ENVIO ID": "",  // ← ¡VACÍO! El servidor generará uno único centralizado
             
             // Columna B: FORMA DE PAGO
             "FORMA DE PAGO": formaPago,
@@ -1539,9 +1529,10 @@ async function manejarEnvioFormulario(e) {
         };
         
         console.log('📝 Datos a enviar a Google Sheets:', datosEnvio);
+        console.log('✅ NOTA: El ENVIO ID se generará centralmente en el servidor');
         
         // MOSTRAR CONFIRMACION PERO MANTENER BOTÓN DESHABILITADO
-        const confirmMessage = `¿Confirmar registro de envío?\n\n📋 ID: ${datosEnvio["ENVIO ID"]}\n📍 Destino: ${datosEnvio["CIUDAD DESTINO"]}\n👤 Cliente: ${datosEnvio["DESTINO"]}\n💰 Valor a recaudar: $${parseInt(datosEnvio["VALOR A RECAUDAR"]).toLocaleString()}`;
+        const confirmMessage = `¿Confirmar registro de envío?\n\n📍 Destino: ${datosEnvio["CIUDAD DESTINO"]}\n👤 Cliente: ${datosEnvio["DESTINO"]}\n💰 Valor a recaudar: $${parseInt(datosEnvio["VALOR A RECAUDAR"]).toLocaleString()}\n\n✅ NOTA: El ID de guía será generado centralmente para evitar duplicaciones`;
         
         if (!confirm(confirmMessage)) {
             // Si el usuario cancela, re-habilitar el botón
@@ -1558,10 +1549,9 @@ async function manejarEnvioFormulario(e) {
         
         console.log('📡 Enviando datos a Google Apps Script...');
         
-        // ========== NUEVA ESTRATEGIA PARA GITHUB PAGES ==========
-        // Método 1: Usar FormData con fetch (intentar primero)
+        // ========== ESTRATEGIA PARA ENVÍO DE DATOS ==========
         try {
-            console.log('🔄 Intentando envío con FormData...');
+            console.log('🔄 Enviando datos con FormData...');
             
             // Crear FormData
             const formData = new FormData();
@@ -1572,121 +1562,116 @@ async function manejarEnvioFormulario(e) {
             // Enviar con fetch
             const response = await fetch(WEB_APP_URL, {
                 method: 'POST',
-                mode: 'cors', // Cambiado de 'no-cors' a 'cors'
+                mode: 'cors',
                 body: formData
             });
             
             console.log('📨 Respuesta recibida:', response);
             
-            if (response.ok) {
-                console.log('✅ Datos enviados exitosamente');
-            } else {
-                console.warn('⚠️ Respuesta no OK, intentando método alternativo...');
-                throw new Error('Fetch no OK');
+            let respuestaJSON;
+            try {
+                const textoRespuesta = await response.text();
+                console.log('📝 Texto de respuesta:', textoRespuesta);
+                
+                // Intentar parsear como JSON
+                respuestaJSON = JSON.parse(textoRespuesta);
+                console.log('✅ Datos enviados exitosamente:', respuestaJSON);
+                
+                // Mostrar mensaje de éxito con el ID generado por el servidor
+                if (respuestaJSON.success && respuestaJSON.envioId) {
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50';
+                    successMessage.innerHTML = `
+                        <div class="flex items-center">
+                            <span class="material-icons mr-2">check_circle</span>
+                            <span class="font-semibold">Envío registrado exitosamente!</span>
+                        </div>
+                        <div class="mt-2 text-sm">
+                            ✅ ID generado centralmente:<br>
+                            <span class="font-mono font-bold">${respuestaJSON.envioId}</span><br>
+                            Total a pagar: <span class="font-bold">$${totalAPagar.toLocaleString()}</span><br>
+                            ${respuestaJSON.idGeneradoCentralmente ? '🆔 ID generado por el sistema central' : ''}
+                        </div>
+                    `;
+                    document.body.appendChild(successMessage);
+                    
+                    // Guardar en localStorage como respaldo
+                    guardarEnvioEnLocalStorage({
+                        ...datosEnvio,
+                        "ENVIO ID": respuestaJSON.envioId
+                    });
+                    
+                    // Ocultar mensaje después de 5 segundos
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 5000);
+                    
+                    // Resetear formulario después de éxito
+                    setTimeout(() => {
+                        resetearFormulario();
+                        formularioEnviandose = false;
+                    }, 2000);
+                    
+                } else {
+                    throw new Error('No se recibió ID del servidor');
+                }
+                
+            } catch (parseError) {
+                console.warn('⚠️ No se pudo parsear respuesta como JSON, asumiendo éxito:', parseError);
+                
+                // Aún así mostrar éxito
+                const successMessage = document.createElement('div');
+                successMessage.className = 'fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50';
+                successMessage.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="material-icons mr-2">check_circle</span>
+                        <span class="font-semibold">Envío registrado exitosamente!</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        ✅ Datos enviados al sistema central.<br>
+                        El ID se generará en el servidor para evitar duplicaciones.
+                    </div>
+                `;
+                document.body.appendChild(successMessage);
+                
+                // Guardar en localStorage como respaldo
+                guardarEnvioEnLocalStorage(datosEnvio);
+                
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 5000);
+                
+                // Resetear formulario después de éxito
+                setTimeout(() => {
+                    resetearFormulario();
+                    formularioEnviandose = false;
+                }, 2000);
             }
             
         } catch (fetchError) {
-            console.log('🔄 Fetch falló, intentando método alternativo...', fetchError.message);
+            console.error('❌ Error en el envío:', fetchError);
             
-            // Método 2: Usar URLSearchParams (más compatible)
-            try {
-                console.log('🔄 Intentando con URLSearchParams...');
-                
-                const params = new URLSearchParams();
-                Object.keys(datosEnvio).forEach(key => {
-                    params.append(key, datosEnvio[key]);
-                });
-                
-                // Enviar como x-www-form-urlencoded
-                const response2 = await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: params.toString()
-                });
-                
-                console.log('📨 Respuesta método 2:', response2);
-                
-            } catch (paramsError) {
-                console.log('🔄 Método 2 falló, intentando método 3...', paramsError.message);
-                
-                // Método 3: Usar JSON (si tu Google Apps Script lo soporta)
-                try {
-                    console.log('🔄 Intentando con JSON...');
-                    
-                    const response3 = await fetch(WEB_APP_URL, {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(datosEnvio)
-                    });
-                    
-                    console.log('📨 Respuesta método 3:', response3);
-                    
-                } catch (jsonError) {
-                    console.log('🔄 Método 3 falló, usando método de respaldo...', jsonError.message);
-                    
-                    // Método 4: Enviar mediante formulario HTML oculto (truco para CORS)
-                    enviarConFormularioOculto(datosEnvio, WEB_APP_URL);
-                }
-            }
-        }
-        
-        // ========== INDEPENDIENTEMENTE DEL RESULTADO, MOSTRAR ÉXITO ==========
-        // (Porque con 'no-cors' no podemos ver si realmente funcionó)
-        console.log('✅ Datos enviados a Google Sheets (asumiendo éxito)');
-        
-        // Mostrar mensaje de éxito
-        const successMessage = document.createElement('div');
-        successMessage.className = 'fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50';
-        successMessage.innerHTML = `
-            <div class="flex items-center">
-                <span class="material-icons mr-2">check_circle</span>
-                <span class="font-semibold">Envío registrado exitosamente!</span>
-            </div>
-            <div class="mt-2 text-sm">
-                ID: <span class="font-mono font-bold">${datosEnvio["ENVIO ID"]}</span><br>
-                Total a pagar: <span class="font-bold">$${totalAPagar.toLocaleString()}</span>
-            </div>
-        `;
-        document.body.appendChild(successMessage);
-        
-        // Guardar en localStorage como respaldo
-        guardarEnvioEnLocalStorage(datosEnvio);
-        
-        // Ocultar mensaje después de 5 segundos
-        setTimeout(() => {
-            successMessage.remove();
-        }, 5000);
-        
-        // Resetear formulario después de éxito
-        setTimeout(() => {
-            resetearFormulario();
-            // Restablecer estado de envío
+            // Mostrar mensaje de error amigable
+            const errorMessage = `Hubo un problema al conectar con el servidor.\n\nSe ha guardado el envío localmente.\n\nPuedes intentar nuevamente más tarde.`;
+            alert(errorMessage);
+            
+            // Guardar en localStorage como respaldo
+            guardarEnvioEnLocalStorage(datosEnvio);
+            
+            // Rehabilitar botón
+            submitButton.disabled = false;
             formularioEnviandose = false;
-        }, 2000);
+            submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+            submitText.textContent = 'Registrar Envío';
+            submitIcon.textContent = 'send';
+        }
         
     } catch (error) {
         console.error('❌ Error crítico en el envío:', error);
         
-        // Mostrar mensaje de error amigable
-        const errorMessage = `Hubo un problema al conectar con el servidor.\n\nSe ha guardado el envío localmente.\n\nID: ${document.getElementById('envioId').value}\n\nPuedes intentar nuevamente más tarde.`;
-        alert(errorMessage);
-        
-        // Guardar en localStorage como respaldo
-        const datosEnvio = {
-            "ENVIO ID": document.getElementById('envioId').value,
-            "DESTINO": document.getElementById('destinatario').value,
-            "CIUDAD DESTINO": document.getElementById('ciudadDestino').value,
-            "VALOR A RECAUDAR": document.getElementById('valorRecaudar').value,
-            timestamp: new Date().toISOString(),
-            error: true
-        };
-        guardarEnvioEnLocalStorage(datosEnvio);
+        // Mostrar mensaje de error
+        alert(`Error: ${error.message}\n\nPor favor intenta nuevamente.`);
         
         // Rehabilitar botón
         submitButton.disabled = false;
@@ -1699,33 +1684,6 @@ async function manejarEnvioFormulario(e) {
 
 // ========== FUNCIONES AUXILIARES NUEVAS ==========
 
-function enviarConFormularioOculto(datos, url) {
-    console.log('📤 Enviando con formulario oculto...');
-    
-    // Crear formulario oculto
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = url;
-    form.target = '_blank'; // Abrir en nueva pestaña
-    form.style.display = 'none';
-    
-    // Agregar campos
-    Object.keys(datos).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = datos[key];
-        form.appendChild(input);
-    });
-    
-    // Agregar al documento y enviar
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-    
-    console.log('✅ Formulario oculto enviado');
-}
-
 function guardarEnvioEnLocalStorage(datosEnvio) {
     try {
         // Guardar en localStorage como respaldo
@@ -1737,7 +1695,7 @@ function guardarEnvioEnLocalStorage(datosEnvio) {
         });
         
         localStorage.setItem('enviosPendientes', JSON.stringify(enviosGuardados));
-        console.log('💾 Envío guardado en localStorage:', datosEnvio["ENVIO ID"]);
+        console.log('💾 Envío guardado en localStorage:', datosEnvio["ENVIO ID"] || "(ID por generar)");
         
     } catch (error) {
         console.error('Error guardando en localStorage:', error);
@@ -1788,9 +1746,9 @@ function guardarEnvioEnLocalStorage(datosEnvio) {
         }
         
      function resetearFormulario() {
-    // Generar nuevo ID
-    const envioId = generarIDEnvio();
-    document.getElementById('envioId').value = envioId;
+    // NOTA: NO generamos ID del lado del cliente
+    // El campo mostrará "Por generar (servidor)"
+    document.getElementById('envioId').value = "Por generar (servidor)";
     
     // Resetear campos del formulario
     document.getElementById('deliveryForm').reset();
@@ -1855,3 +1813,4 @@ function guardarEnvioEnLocalStorage(datosEnvio) {
     <script src="check-auth.js"></script>
 </body>
 </html>
+
