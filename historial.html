@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Favicon SVG personalizado para logística/envíos -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%233B82F6%22/><path d=%22M30 40 L70 40 L80 60 L20 60 Z%22 fill=%22white%22/><circle cx=%2250%22 cy=%2275%22 r=%228%22 fill=%22white%22/></svg>">
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -643,7 +645,7 @@
                             "DIRECCION": envio["DIRECCION"] || envio.direccion || 'N/A',
                             "CORREO REMITENTE": envio["CORREO REMITENTE"] || envio.correo || 'N/A',
                             "TELEFONOCLIENTE": envio["TELEFONOCLIENTE"] || envio.telefonoCliente || 'N/A',
-                            "DIRECCION DESTINO": envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A',
+                            "DIRECCION DESTINO": envio["DIRECCION"] || envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A',
                             "LOCALIDAD": envio["LOCALIDAD"] || envio.localidad || 'N/A',
                             "CIUDAD DESTINO": envio["CIUDAD DESTINO"] || envio.ciudadDestino || 'N/A',
                             "MENSAJERO": envio["MENSAJERO"] || envio.mensajero || 'Por asignar',
@@ -1225,7 +1227,7 @@
                             <div class="space-y-2 text-sm">
                                 <p><span class="font-medium">Nombre:</span> ${envio["DESTINO"] || envio.destino || 'N/A'}</p>
                                 <p><span class="font-medium">Teléfono:</span> ${envio["TELEFONOCLIENTE"] || envio.telefonoCliente || 'N/A'}</p>
-                                <p><span class="font-medium">Dirección:</span> ${envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A'}</p>
+                                <p><span class="font-medium">Dirección:</span> ${envio["DIRECCION"] || envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A'}</p>
                                 <p><span class="font-medium">Barrio:</span> ${envio["BARRIO"] || envio.barrio || 'N/A'}</p>
                                 <p><span class="font-medium">Localidad:</span> ${envio["LOCALIDAD"] || envio.localidad || 'N/A'}</p>
                                 <p><span class="font-medium">Ciudad:</span> ${envio["CIUDAD DESTINO"] || envio.ciudadDestino || 'N/A'}</p>
@@ -1455,6 +1457,6 @@
             };
         }
     </script>
-    <script src="check-auth.js"></script>
+    <script type="module" src="AUTH.JS"></script>
 </body>
 </html>
