@@ -6,6 +6,8 @@
     <title>Guía de Envío - Expres Contraentrega</title>
     <!-- QR Code library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <!-- Código de barras library -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <!-- Nuestros estilos -->
     <link rel="stylesheet" href="guia.css">
     <style>
@@ -107,6 +109,15 @@
 
         <!-- LÍNEA DIVISORIA -->
         <div class="divider"></div>
+
+        <!-- CÓDIGO DE BARRAS -->
+        <div class="codigo-barras-section">
+            <svg id="codigoBarras" class="codigo-barras"></svg>
+            <div class="numero-guia-barras" id="numeroGuiaBarras">Cargando...</div>
+        </div>
+
+        <!-- LÍNEA DIVISORIA -->
+        <div class="divider thin"></div>
 
         <!-- SECCIÓN REMITENTE -->
         <section class="seccion remitente">
