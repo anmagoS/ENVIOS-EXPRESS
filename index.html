@@ -83,191 +83,7 @@
         
     })();
 </script>
-    <style>
-        /* Estilos para campos deshabilitados */
-        input:disabled, select:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        .dark input:disabled, .dark select:disabled {
-            opacity: 0.5;
-        }
-        
-        /* Estilos para campos de solo lectura para clientes */
-        .cliente-readonly {
-            background-color: #f3f4f6 !important;
-            border-color: #d1d5db !important;
-            cursor: not-allowed;
-        }
-        
-        .dark .cliente-readonly {
-            background-color: #374151 !important;
-            border-color: #4b5563 !important;
-        }
-        
-        /* Indicador de campo fijo para cliente */
-        .campo-cliente-fijo::after {
-            content: " (Fijo para cliente)";
-            font-size: 0.75rem;
-            color: #6b7280;
-            font-style: italic;
-            margin-left: 4px;
-        }
-        
-        /* Estilos para transiciones */
-        .payment-option {
-            transition: all 0.2s ease;
-        }
-        
-        .payment-option.selected {
-            border-color: #135bec;
-            background-color: rgba(19, 91, 236, 0.05);
-        }
-        
-        /* Estilos mejorados para el dropdown de autocomplete */
-        .autocomplete-dropdown {
-            position: absolute;
-            z-index: 1000;
-            width: 100%;
-            max-height: 250px;
-            overflow-y: auto;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            margin-top: 0.5rem;
-            display: none;
-            top: 100%;
-            left: 0;
-        }
 
-        .dark .autocomplete-dropdown {
-            background: #1f2937;
-            border-color: #4b5563;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-        }
-
-        .autocomplete-item {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-        }
-
-        .autocomplete-item:last-child {
-            border-bottom: none;
-        }
-
-        .autocomplete-item:hover {
-            background-color: #f3f4f6;
-        }
-
-        .dark .autocomplete-item {
-            border-bottom-color: #374151;
-        }
-
-        .dark .autocomplete-item:hover {
-            background-color: #374151;
-        }
-
-        .autocomplete-item.highlighted {
-            background-color: #e5e7eb;
-        }
-
-        .dark .autocomplete-item.highlighted {
-            background-color: #4b5563;
-        }
-
-        .autocomplete-item .barrio-id {
-            font-size: 0.75rem;
-            color: #6b7280;
-            font-family: monospace;
-            background-color: #f3f4f6;
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            margin-right: 0.75rem;
-            min-width: 60px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .dark .autocomplete-item .barrio-id {
-            color: #9ca3af;
-            background-color: #374151;
-        }
-
-        .autocomplete-item .barrio-nombre {
-            flex-grow: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Scrollbar personalizada */
-        .autocomplete-dropdown::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .autocomplete-dropdown::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-
-        .autocomplete-dropdown::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 3px;
-        }
-
-        .dark .autocomplete-dropdown::-webkit-scrollbar-track {
-            background: #374151;
-        }
-
-        .dark .autocomplete-dropdown::-webkit-scrollbar-thumb {
-            background: #6b7280;
-        }
-        
-        /* Spinner para botón de envío */
-        .spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Campos requeridos inválidos */
-        .invalid {
-            border-color: #ef4444 !important;
-            border-width: 2px;
-        }
-        
-        /* Para ocultar elementos */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Loading screen */
-        #loadingScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .dark #loadingScreen {
-            background: #101622;
-        }
-    </style>
 </head>
 
 <!-- Intro animada tipo persiana con degradado -->
@@ -293,6 +109,68 @@
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+}
+/* ESTILOS PARA AUTOCOMPLETE - AGREGAR AL HTML */
+#autocompleteDropdown {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 99999 !important;
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
+    max-height: 250px !important;
+    overflow-y: auto !important;
+    margin-top: 2px !important;
+    display: none;
+}
+
+#autocompleteDropdown .autocomplete-item {
+    padding: 12px 16px !important;
+    cursor: pointer !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    font-size: 14px !important;
+    transition: background 0.2s !important;
+}
+
+#autocompleteDropdown .autocomplete-item:hover {
+    background: #f9fafb !important;
+}
+
+#autocompleteDropdown .autocomplete-item:last-child {
+    border-bottom: none !important;
+}
+
+/* OCULTAR LOS IDs DE BARRIO */
+#autocompleteDropdown .barrio-id {
+    display: none !important;
+}
+
+/* MOSTRAR SOLO EL NOMBRE */
+#autocompleteDropdown .barrio-nombre {
+    font-weight: 500 !important;
+    color: #1f2937 !important;
+}
+
+/* Dark mode */
+.dark #autocompleteDropdown {
+    background: #1f2937 !important;
+    border-color: #4b5563 !important;
+}
+
+.dark #autocompleteDropdown .autocomplete-item {
+    border-bottom-color: #374151 !important;
+    color: #f9fafb !important;
+}
+
+.dark #autocompleteDropdown .autocomplete-item:hover {
+    background: #374151 !important;
+}
+
+.dark #autocompleteDropdown .barrio-nombre {
+    color: #f9fafb !important;
 }
 </style>
 
@@ -1279,118 +1157,11 @@ document.getElementById('ciudadDestino').addEventListener('change', function() {
         }
         
         // Inicializar barrios para autocomplete
-        function inicializarAutocompleteBarrios() {
-            const barrios = [
-                { id: "001", nombre: "Chapinero", ciudad: "Bogotá D.C." },
-                { id: "002", nombre: "Usaquén", ciudad: "Bogotá D.C." },
-                { id: "003", nombre: "Suba", ciudad: "Bogotá D.C." },
-                { id: "004", nombre: "Kennedy", ciudad: "Bogotá D.C." },
-                { id: "005", nombre: "Bosa", ciudad: "Bogotá D.C." },
-                { id: "006", nombre: "Soacha Centro", ciudad: "Soacha" },
-                { id: "007", nombre: "Ciudadela Sucre", ciudad: "Soacha" },
-                { id: "008", nombre: "San Mateo", ciudad: "Soacha" },
-                { id: "009", nombre: "San Humberto", ciudad: "Soacha" },
-                { id: "010", nombre: "Quintas de Santa Ana", ciudad: "Soacha" }
-            ];
-
-            const input = document.getElementById('barrioLocalidad');
-            const dropdown = document.getElementById('autocompleteDropdown');
-            const barrioIdInput = document.getElementById('barrioId');
-            let timeoutId = null;
-            let selectedIndex = -1;
-
-            function mostrarSugerencias(sugerencias) {
-                dropdown.innerHTML = '';
-                
-                if (sugerencias.length === 0) {
-                    dropdown.style.display = 'none';
-                    return;
-                }
-
-                sugerencias.forEach((barrio, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'autocomplete-item';
-                    item.innerHTML = `
-                        <div class="barrio-id">${barrio.id}</div>
-                        <div class="barrio-nombre">
-                            <div class="font-medium">${barrio.nombre}</div>
-                            <div class="text-xs text-gray-500">${barrio.ciudad}</div>
-                        </div>
-                    `;
-                    
-                    item.addEventListener('click', function() {
-                        input.value = barrio.nombre;
-                        barrioIdInput.value = barrio.id;
-                        dropdown.style.display = 'none';
-                        
-                        // Verificar si la ciudad seleccionada en el dropdown coincide con la ciudad destino
-                        const ciudadDestinoSelect = document.getElementById('ciudadDestino');
-                        if (ciudadDestinoSelect.value !== barrio.ciudad && barrio.ciudad) {
-                            ciudadDestinoSelect.value = barrio.ciudad;
-                            // Actualizar el valor a recaudar al cambiar la ciudad
-                            calcularValorARecaudar();
-                            actualizarResumen();
-                        }
-                    });
-                    
-                    dropdown.appendChild(item);
-                });
-                
-                dropdown.style.display = 'block';
-            }
-
-            function buscarBarrios(texto) {
-                if (!texto || texto.length < 2) return [];
-                
-                const busqueda = texto.toLowerCase();
-                return barrios.filter(barrio => 
-                    barrio.nombre.toLowerCase().includes(busqueda) || 
-                    barrio.ciudad.toLowerCase().includes(busqueda)
-                );
-            }
-
-            input.addEventListener('input', function() {
-                clearTimeout(timeoutId);
-                
-                timeoutId = setTimeout(() => {
-                    const resultados = buscarBarrios(this.value);
-                    mostrarSugerencias(resultados);
-                    selectedIndex = -1;
-                }, 300);
-            });
-
-            input.addEventListener('keydown', function(e) {
-                const items = dropdown.querySelectorAll('.autocomplete-item');
-                
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
-                    updateSelectedItem(items);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    selectedIndex = Math.max(selectedIndex - 1, 0);
-                    updateSelectedItem(items);
-                } else if (e.key === 'Enter' && selectedIndex >= 0) {
-                    e.preventDefault();
-                    items[selectedIndex].click();
-                } else if (e.key === 'Escape') {
-                    dropdown.style.display = 'none';
-                }
-            });
-
-            function updateSelectedItem(items) {
-                items.forEach((item, index) => {
-                    item.classList.toggle('highlighted', index === selectedIndex);
-                });
-            }
-
-            document.addEventListener('click', function(e) {
-                if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.style.display = 'none';
-                }
-            });
-        }
-        
+function inicializarAutocompleteBarrios() {
+    console.log('⚠️ Autocomplete manejado por script.js');
+    // NO HACER NADA - script.js maneja esto
+    return;
+}
 // ============================================
 // 4. FUNCIÓN PARA MANEJAR EL ENVÍO DEL FORMULARIO (ACTUALIZADA PARA NO ENVIAR ID)
 // ============================================
