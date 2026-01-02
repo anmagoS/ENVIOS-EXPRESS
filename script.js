@@ -1993,12 +1993,12 @@ function getFormData() {
     const barrioNombre = barrioInput ? barrioInput.value : '';
     const localidad = barrioNombre.split('-')[0] || barrioNombre;
     
-    let zona = "NORTE";
+    let zona = "";
     if (localidad.includes("SOACHA")) zona = "SUR";
     else if (localidad.includes("KENNEDY") || localidad.includes("USAQUÉN")) zona = "OCCIDENTE";
     else if (localidad.includes("CHAPINERO")) zona = "ORIENTE";
     
-    let mensajero = "CARLOS";
+    let mensajero = "";
     if (zona === "SUR") mensajero = "JUAN";
     else if (zona === "OCCIDENTE") mensajero = "PEDRO";
     else if (zona === "ORIENTE") mensajero = "ANDRÉS";
@@ -2183,7 +2183,105 @@ function generarIDLocal() {
     
     return `ENV${año}${mes}${dia}${hora}${minutos}${segundos}${milisegundos}`;
 }
+// ============================================
+// FUNCIÓN PARA MOSTRAR/OCULTAR BOTÓN ADMIN
+// ============================================
+function configurarBotonesAdmin() {
+    try {
+        const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+        
+        if (!usuarioLogueado) {
+            console.log('⚠️ Usuario no autenticado');
+            return;
+        }
+        
+        const adminButton = document.getElementById('adminPlanillaButton');
+        const nombreUsuario = document.getElementById('nombreUsuario');
+        const rolUsuario = document.getElementById('rolUsuario');
+        
+        // Actualizar información del usuario
+        if (nombreUsuario) {
+            nombreUsuario.textContent = usuarioLogueado.USUARIO || 'Usuario';
+        }
+        
+        if (rolUsuario) {
+            const rol = usuarioLogueado.ROL || 'Usuario';
+            rolUsuario.textContent = rol;
+            
+            // Destacar si es ADMIN
+            if (rol === 'ADMIN') {
+                rolUsuario.classList.add('font-bold', 'text-purple-600', 'dark:text-purple-400');
+            }
+        }
+        
+        // Mostrar botón de admin si el rol es ADMIN
+        if (usuarioLogueado.ROL === 'ADMIN' && adminButton) {
+            adminButton.classList.remove('hidden');
+            console.log('✅ Mostrando botón de Planillas Mensajeros para ADMIN:', usuarioLogueado.USUARIO);
+            
+            // Agregar evento click al botón
+            adminButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('🔗 Redirigiendo a planilla-mensajeros.html');
+                window.location.href = 'planilla-mensajeros.html';
+            });
+        } else if (adminButton) {
+            // Ocultar completamente si no es admin
+            adminButton.style.display = 'none';
+        }
+        
+    } catch (error) {
+        console.error('❌ Error configurando botones admin:', error);
+    }
+}
 
+// ============================================
+// FUNCIÓN PARA EL BOTÓN DE HISTORIAL
+// ============================================
+function configurarBotonHistorial() {
+    const historialButton = document.getElementById('historialButton');
+    
+    if (historialButton) {
+        historialButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'historial.html';
+        });
+    }
+}
+
+// ============================================
+// VERIFICAR AUTENTICACIÓN AL CARGAR
+// ============================================
+function verificarAutenticacion() {
+    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+    
+    if (!usuarioLogueado) {
+        console.log('❌ Usuario no autenticado, redirigiendo a login');
+        window.location.href = 'login.html';
+        return false;
+    }
+    
+    console.log('✅ Usuario autenticado:', usuarioLogueado.USUARIO, 'Rol:', usuarioLogueado.ROL);
+    return true;
+}
+
+// ============================================
+// EJECUTAR AL CARGAR LA PÁGINA
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar autenticación (opcional, si quieres proteger index.html)
+    // verificarAutenticacion();
+    
+    // Configurar botones
+    configurarBotonesAdmin();
+    configurarBotonHistorial();
+    
+    // Opcional: Agregar clase al body según el rol para estilos específicos
+    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+    if (usuarioLogueado && usuarioLogueado.ROL === 'ADMIN') {
+        document.body.classList.add('user-admin');
+    }
+});
 // ============================================
 // INICIALIZACIÓN PRINCIPAL
 // ============================================
@@ -2206,3 +2304,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
 });
+
