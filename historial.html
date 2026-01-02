@@ -1,14 +1,16 @@
+
 <!DOCTYPE html>
 <html class="light" lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Historial de Envíos - Sistema de Entrega</title>
+    <title>Historial de Envíos</title>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <!-- Favicon SVG personalizado para logística/envíos -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%233B82F6%22/><path d=%22M30 40 L70 40 L80 60 L20 60 Z%22 fill=%22white%22/><circle cx=%2250%22 cy=%2275%22 r=%228%22 fill=%22white%22/></svg>">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%233B82F6%22/><path d=%22M30 40 L70 40 L80 60 L20 60 Z%22 fill=%22white%22/><circle cx=%2250%22 cy=%2275%22 r=%228%22 fill=%22white%22/></svg>">
+    
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -32,34 +34,17 @@
             },
         }
     </script>
-    <!-- EN EL HEAD DE guia.html -->
-<script>
-    // VERIFICACIÓN DE AUTENTICACIÓN
-    (function() {
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-        
-        if (!usuario) {
-            console.log("❌ No autorizado para ver guías");
-            window.location.replace("login.html");
-            return;
-        }
-        
-        console.log("✅ Usuario autorizado para guías:", usuario.USUARIO);
-    })();
-</script>
+    
     <style>
-        .spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        .spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .badge-pagado { background-color: #10b981; color: white; }
         .badge-pendiente { background-color: #f59e0b; color: white; }
         .badge-sin-pago { background-color: #ef4444; color: white; }
+        
+        .badge-admin { background-color: #8b5cf6; color: white; }
+        .badge-cliente { background-color: #3b82f6; color: white; }
         
         /* Scrollbar personalizada */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -67,26 +52,6 @@
         ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
         .dark ::-webkit-scrollbar-track { background: #374151; }
         .dark ::-webkit-scrollbar-thumb { background: #6b7280; }
-        
-        /* Animaciones para modales */
-        .modal-enter {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        .modal-enter-active {
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 300ms, transform 300ms;
-        }
-        .modal-exit {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .modal-exit-active {
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 300ms, transform 300ms;
-        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display min-h-screen text-gray-800 dark:text-gray-200">
@@ -110,8 +75,11 @@
                         <span class="material-symbols-outlined text-primary">arrow_back</span>
                     </a>
                     <div>
-                        <h1 class="text-xl font-bold">📋 Historial de Envíos</h1>
-                        <p class="text-sm text-gray-600 dark:text-gray-400" id="usuarioInfo">Cargando información...</p>
+                        <h1 class="text-xl font-bold" id="tituloPagina">📋 Historial de Envíos</h1>
+                        <div class="flex items-center gap-2 mt-1">
+                            <p class="text-sm text-gray-600 dark:text-gray-400" id="usuarioInfo">Cargando información...</p>
+                            <span id="badgeRol" class="text-xs px-2 py-0.5 rounded-full hidden"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
@@ -130,94 +98,310 @@
         <main class="w-full px-4 py-6 md:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
                 
-                <!-- Filtros rápidos -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div>
-                            <h3 class="font-bold flex items-center gap-2 mb-2">
+                <!-- Sección de filtros (cambia según rol) -->
+                <div id="filtrosCliente" class="hidden">
+                    <!-- Filtros para CLIENTE (simplificados) -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold flex items-center gap-2">
                                 <span class="material-symbols-outlined text-primary">filter_alt</span>
-                                Filtros de búsqueda
+                                Mis Envíos - Filtros
                             </h3>
-                            <div class="flex flex-wrap gap-4">
-                                <div class="flex items-center gap-2">
-                                    <label class="text-sm">Forma Pago:</label>
-                                    <select id="formaPagoFilter" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
-                                        <option value="todas">Todas</option>
-                                        <option value="contado">Contado</option>
-                                        <option value="contraentrega">Contraentrega</option>
-                                        <option value="contraentrega_recaudo">Con Recaudo</option>
-                                    </select>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <label class="text-sm">Estado Pago:</label>
-                                    <select id="estadoPagoFilter" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
-                                        <option value="todos">Todos</option>
-                                        <option value="pagado">Pagados</option>
-                                        <option value="pendiente">Pendientes</option>
-                                        <option value="sin_pago">Sin pago</option>
-                                    </select>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <label class="text-sm">Buscar:</label>
-                                    <input type="text" id="busqueda" placeholder="ID, Destinatario, Barrio..." class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
-                                </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <!-- Filtro por Forma de Pago -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">payments</span>
+                                    Forma de Pago
+                                </label>
+                                <select id="formaPagoFilterCliente" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todas">Todas</option>
+                                    <option value="contado">Contado</option>
+                                    <option value="contraentrega">Contraentrega</option>
+                                    <option value="contraentrega_recaudo">Con Recaudo</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Filtro por Estado de Pago -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">check_circle</span>
+                                    Estado Pago
+                                </label>
+                                <select id="estadoPagoFilterCliente" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todos">Todos los estados</option>
+                                    <option value="pagado">Pagados</option>
+                                    <option value="pendiente">Pendientes</option>
+                                    <option value="sin_pago">Sin pago</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Filtro por Mensajero -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">local_shipping</span>
+                                    Mensajero
+                                </label>
+                                <select id="mensajeroFilterCliente" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todos">Todos los mensajeros</option>
+                                    <option value="Sin asignar">Sin asignar</option>
+                                    <!-- Se llena dinámicamente -->
+                                </select>
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button id="btnAplicarFiltros" class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors">
-                                <span class="material-symbols-outlined text-sm">search</span>
-                                Aplicar
-                            </button>
-                            <button id="btnLimpiarFiltros" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-sm transition-colors">
-                                Limpiar
-                            </button>
+                        
+                        <!-- Segunda fila: Búsqueda -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">search</span>
+                                    Buscar envíos
+                                </label>
+                                <input type="text" id="busquedaCliente" 
+                                       placeholder="Buscar por ID, Destinatario, Barrio..." 
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="aplicarFiltrosCliente()" class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-sm">search</span>
+                                    Aplicar
+                                </button>
+                                <button onclick="limpiarFiltrosCliente()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-sm transition-colors whitespace-nowrap">
+                                    Limpiar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Tarjetas de estadísticas -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Total Envíos</p>
-                                <p class="text-2xl font-bold" id="totalEnvios">0</p>
+                <div id="filtrosAdmin" class="hidden">
+                    <!-- Filtros para ADMIN (completos) -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">filter_alt</span>
+                                Filtros Avanzados - Administrador
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <span id="estadoFiltros" class="text-xs px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded">
+                                    Sin filtros
+                                </span>
                             </div>
-                            <span class="material-symbols-outlined text-3xl text-blue-500">local_shipping</span>
                         </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                        <div class="flex items-center justify-between">
+                        
+                        <!-- Primera fila de filtros -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                            <!-- Filtro por Usuario -->
                             <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Pendiente Total a Pagar</p>
-                                <p class="text-2xl font-bold text-green-600" id="totalPagar">$0</p>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">person</span>
+                                    Usuario ID
+                                </label>
+                                <select id="usuarioFilterAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todos">Todos los usuarios</option>
+                                    <!-- Se llena dinámicamente -->
+                                </select>
                             </div>
-                            <span class="material-symbols-outlined text-3xl text-green-500">payments</span>
+                            
+                            <!-- Filtro por Mensajero -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">local_shipping</span>
+                                    Mensajero
+                                </label>
+                                <select id="mensajeroFilterAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todos">Todos los mensajeros</option>
+                                    <option value="Sin asignar">Sin asignar</option>
+                                    <!-- Se llena dinámicamente -->
+                                </select>
+                            </div>
+                            
+                            <!-- Filtro por Ciudad Destino -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">location_city</span>
+                                    Ciudad Destino
+                                </label>
+                                <select id="ciudadFilterAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todas">Todas las ciudades</option>
+                                    <option value="Bogotá D.C.">Bogotá D.C.</option>
+                                    <option value="Soacha">Soacha</option>
+                                    <!-- Se llena dinámicamente -->
+                                </select>
+                            </div>
+                            
+                            <!-- Filtro por Forma de Pago -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">payments</span>
+                                    Forma de Pago
+                                </label>
+                                <select id="formaPagoFilterAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todas">Todas</option>
+                                    <option value="contado">Contado</option>
+                                    <option value="contraentrega">Contraentrega</option>
+                                    <option value="contraentrega_recaudo">Con Recaudo</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                        <div class="flex items-center justify-between">
+                        
+                        <!-- Segunda fila de filtros -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <!-- Rango de fechas -->
                             <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Total a Recaudar</p>
-                                <p class="text-2xl font-bold text-orange-600" id="totalRecaudar">$0</p>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">calendar_today</span>
+                                    Fecha desde
+                                </label>
+                                <input type="date" id="fechaDesdeAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
                             </div>
-                            <span class="material-symbols-outlined text-3xl text-orange-500">attach_money</span>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">event_available</span>
+                                    Fecha hasta
+                                </label>
+                                <input type="date" id="fechaHastaAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                            </div>
+                            
+                            <!-- Estado de Pago -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">check_circle</span>
+                                    Estado Pago
+                                </label>
+                                <select id="estadoPagoFilterAdmin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="todos">Todos los estados</option>
+                                    <option value="pagado">Pagados</option>
+                                    <option value="pendiente">Pendientes</option>
+                                    <option value="sin_pago">Sin pago</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Tercera fila: Búsqueda y botones -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium mb-1">
+                                    <span class="material-symbols-outlined text-sm align-text-bottom mr-1">search</span>
+                                    Búsqueda avanzada
+                                </label>
+                                <input type="text" id="busquedaAdmin" 
+                                       placeholder="Buscar por ID, Destinatario, Barrio, Dirección, Teléfono..." 
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="aplicarFiltrosAdmin()" class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-sm">search</span>
+                                    Aplicar Filtros
+                                </button>
+                                <button onclick="limpiarFiltrosAdmin()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-sm transition-colors whitespace-nowrap">
+                                    Limpiar Todo
+                                </button>
+                                <button onclick="exportarExcel()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-sm">download</span>
+                                    Exportar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Tabla de envíos -->
+                <!-- Tarjetas de estadísticas (cambian según rol) -->
+                <div id="estadisticasCliente" class="hidden">
+                    <!-- Estadísticas para CLIENTE -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Mis Envíos</p>
+                                    <p class="text-2xl font-bold" id="totalEnviosCliente">0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-blue-500">local_shipping</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Pendiente a Pagar</p>
+                                    <p class="text-2xl font-bold text-green-600" id="totalPagarCliente">$0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-green-500">payments</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Total a Recaudar</p>
+                                    <p class="text-2xl font-bold text-orange-600" id="totalRecaudarCliente">$0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-orange-500">attach_money</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="estadisticasAdmin" class="hidden">
+                    <!-- Estadísticas para ADMIN -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Total Envíos</p>
+                                    <p class="text-2xl font-bold" id="totalEnviosAdmin">0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-blue-500">local_shipping</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Usuarios Activos</p>
+                                    <p class="text-2xl font-bold text-purple-600" id="totalUsuariosAdmin">0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-purple-500">groups</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Pendiente a Pagar</p>
+                                    <p class="text-2xl font-bold text-green-600" id="totalPagarAdmin">$0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-green-500">payments</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Total a Recaudar</p>
+                                    <p class="text-2xl font-bold text-orange-600" id="totalRecaudarAdmin">$0</p>
+                                </div>
+                                <span class="material-symbols-outlined text-3xl text-orange-500">attach_money</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabla de envíos (común para ambos) -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
                     <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <h3 class="font-bold flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary">list_alt</span>
-                            Envíos Registrados
+                            <span id="tituloTabla">Envíos Registrados</span>
+                            <span class="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2" id="contadorEnvios">(0 envíos)</span>
                         </h3>
                         <div class="flex items-center gap-2">
-                            <span class="text-sm text-gray-600 dark:text-gray-400" id="contadorEnvios">0 envíos</span>
-                            <select id="ordenarPor" class="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm dark:bg-gray-700 dark:text-white">
+                            <select id="ordenarPor" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-lg text-sm dark:bg-gray-700 dark:text-white">
                                 <option value="fecha_desc">Más recientes</option>
                                 <option value="fecha_asc">Más antiguos</option>
                                 <option value="valor_desc">Mayor valor</option>
@@ -225,21 +409,18 @@
                                 <option value="destino_asc">Destino (A-Z)</option>
                                 <option value="destino_desc">Destino (Z-A)</option>
                             </select>
+                            <button id="btnActualizarDatos" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">sync</span>
+                                Actualizar
+                            </button>
                         </div>
                     </div>
                     
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-gray-50 dark:bg-gray-700">
-                                <tr>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">ID Guía</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Fecha</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Destinatario</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Forma Pago</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Valor a Recaudar</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Total a Pagar</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Estado</th>
-                                    <th class="py-3 px-4 text-left text-sm font-medium">Acciones</th>
+                                <tr id="cabeceraTabla">
+                                    <!-- Se llena dinámicamente según rol -->
                                 </tr>
                             </thead>
                             <tbody id="tablaEnvios" class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -251,9 +432,9 @@
                     <!-- Sin resultados -->
                     <div id="sinResultados" class="hidden p-8 text-center">
                         <span class="material-symbols-outlined text-4xl text-gray-400 mb-2">inbox</span>
-                        <h4 class="text-lg font-medium text-gray-700 dark:text-gray-300">No hay envíos registrados</h4>
-                        <p class="text-gray-500 dark:text-gray-400 mt-1">No se encontraron envíos con los filtros aplicados</p>
-                        <button id="btnResetearFiltros" class="mt-4 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium">
+                        <h4 class="text-lg font-medium text-gray-700 dark:text-gray-300" id="tituloSinResultados">No hay envíos registrados</h4>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1" id="mensajeSinResultados">No se encontraron envíos con los filtros aplicados</p>
+                        <button onclick="limpiarFiltros()" class="mt-4 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium">
                             Resetear filtros
                         </button>
                     </div>
@@ -290,11 +471,11 @@
     <div id="modalDetalles" class="fixed inset-0 z-[100] hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" id="modalBackdrop"></div>
-            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                 <div class="px-6 py-4 bg-primary text-white">
                     <div class="flex justify-between items-center">
                         <h3 class="text-lg font-bold">📄 Detalles del Envío</h3>
-                        <button id="btnCerrarModal" class="text-white hover:text-gray-200 transition-colors">
+                        <button onclick="cerrarModalDetalles()" class="text-white hover:text-gray-200 transition-colors">
                             <span class="material-symbols-outlined">close</span>
                         </button>
                     </div>
@@ -302,34 +483,6 @@
                 <div class="px-6 py-4 max-h-[70vh] overflow-y-auto">
                     <div id="modalDetallesContenido">
                         <!-- Cargado dinámicamente -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de confirmación -->
-    <div id="modalConfirmacion" class="fixed inset-0 z-[110] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" id="confirmacionBackdrop"></div>
-            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
-                <div class="px-6 py-4 bg-warning text-white">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-lg font-bold">⚠️ Confirmación</h3>
-                        <button onclick="cerrarModalConfirmacion()" class="text-white hover:text-gray-200">
-                            <span class="material-symbols-outlined">close</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="px-6 py-4">
-                    <p id="confirmacionMensaje"></p>
-                    <div class="mt-6 flex justify-end gap-3">
-                        <button onclick="cerrarModalConfirmacion()" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                            Cancelar
-                        </button>
-                        <button id="btnConfirmarAccion" class="px-4 py-2 bg-warning hover:bg-amber-600 text-white rounded-lg">
-                            Confirmar
-                        </button>
                     </div>
                 </div>
             </div>
@@ -359,98 +512,52 @@
         
         // Variables globales
         let usuarioActual = null;
+        let esAdmin = false;
         let todosEnvios = [];
         let enviosFiltrados = [];
         let paginaActual = 1;
         const itemsPorPagina = 15;
-        let confirmacionCallback = null;
+        
+        // Listas para filtros (solo admin)
+        let listaUsuarios = [];
+        let listaMensajeros = [];
+        let listaCiudades = [];
         
         // Inicializar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
             inicializarAplicacion();
         });
         
-        // Función para determinar si un envío está pagado
-        function determinarSiEstaPagado(estado) {
-            if (estado === undefined || estado === null || estado === "") {
-                return false;
-            }
-            
-            // Si es booleano
-            if (typeof estado === 'boolean') {
-                return estado === true;
-            }
-            
-            // Si es string
-            if (typeof estado === 'string') {
-                const estadoUpper = estado.toUpperCase().trim();
-                return estadoUpper === 'SI' || 
-                       estadoUpper === 'TRUE' || 
-                       estadoUpper === 'VERDADERO' || 
-                       estadoUpper === '1' || 
-                       estadoUpper === 'YES' || 
-                       estadoUpper === 'PAGADO' ||
-                       estadoUpper === 'PAGO';
-            }
-            
-            // Si es número
-            if (typeof estado === 'number') {
-                return estado === 1;
-            }
-            
-            return false;
-        }
-        
         function inicializarAplicacion() {
-            // 1. Determinar usuario
-            determinarUsuario();
+            // 1. Determinar usuario y rol
+            determinarUsuarioYRol();
             
             // 2. Configurar eventos
             configurarEventos();
             
             // 3. Configurar modo oscuro
             configurarModoOscuro();
+            
+            // 4. Configurar interfaz según rol
+            configurarInterfazPorRol();
+            
+            // 5. Cargar datos iniciales
+            cargarDatosIniciales();
         }
         
-        function determinarUsuario() {
+        function determinarUsuarioYRol() {
             try {
-                // Intentar obtener usuario de la URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const usuarioParam = urlParams.get('usuario');
-                
-                // Intentar obtener de localStorage
-                let usuarioLogueado = null;
-                try {
-                    const usuarioStorage = localStorage.getItem('usuarioLogueado');
-                    if (usuarioStorage) {
-                        usuarioLogueado = JSON.parse(usuarioStorage);
-                    }
-                } catch (e) {
-                    console.warn('No se pudo parsear usuario de localStorage:', e);
-                }
-                
-                // Priorizar parámetro de URL
-                if (usuarioParam) {
-                    usuarioActual = { 
-                        USUARIO: usuarioParam, 
-                        ROL: 'CLIENTE',
-                        "NOMBRE COMPLETO": usuarioParam 
-                    };
-                    document.getElementById('loadingText').textContent = `Cargando historial de ${usuarioParam}...`;
-                } else if (usuarioLogueado && usuarioLogueado.USUARIO) {
-                    usuarioActual = usuarioLogueado;
-                } else {
-                    // Redirigir si no hay usuario
-                    console.log('No hay usuario identificado, redirigiendo a login...');
+                // Obtener usuario de localStorage
+                const usuarioStorage = localStorage.getItem('usuarioLogueado');
+                if (!usuarioStorage) {
                     window.location.href = 'login.html';
                     return;
                 }
                 
-                // Actualizar info del usuario
-                actualizarInfoUsuario();
+                usuarioActual = JSON.parse(usuarioStorage);
+                esAdmin = usuarioActual.ROL === 'ADMIN';
                 
-                // Cargar historial
-                cargarHistorial();
+                console.log(`👤 Usuario: ${usuarioActual.USUARIO}, Rol: ${usuarioActual.ROL}, Admin: ${esAdmin}`);
                 
             } catch (error) {
                 console.error('Error determinando usuario:', error);
@@ -461,46 +568,83 @@
             }
         }
         
-        function actualizarInfoUsuario() {
-            try {
-                const texto = usuarioActual["NOMBRE COMPLETO"] || usuarioActual.USUARIO || 'Usuario';
-                const rol = usuarioActual.ROL || 'CLIENTE';
-                document.getElementById('usuarioInfo').textContent = `${texto} • ${rol}`;
+        function configurarInterfazPorRol() {
+            // Actualizar título y badge según rol
+            const tituloPagina = document.getElementById('tituloPagina');
+            const usuarioInfo = document.getElementById('usuarioInfo');
+            const badgeRol = document.getElementById('badgeRol');
+            
+            if (esAdmin) {
+                tituloPagina.textContent = '📋 Historial de Envíos - Administrador';
+                badgeRol.textContent = 'ADMIN';
+                badgeRol.className = 'text-xs px-2 py-0.5 rounded-full badge-admin';
+                usuarioInfo.textContent = `${usuarioActual["NOMBRE COMPLETO"] || usuarioActual.USUARIO} • Administrador`;
+                document.title = `Historial Admin - ${usuarioActual.USUARIO}`;
                 
-                // Si es ADMIN, cambiar título
-                if (usuarioActual.ROL === 'ADMIN') {
-                    document.title = `Historial - ${texto} (Admin)`;
-                } else {
-                    document.title = `Historial de Envíos - ${texto}`;
-                }
-            } catch (error) {
-                console.error('Error actualizando info usuario:', error);
+                // Mostrar secciones de admin
+                document.getElementById('filtrosAdmin').classList.remove('hidden');
+                document.getElementById('estadisticasAdmin').classList.remove('hidden');
+                
+                // Configurar fechas por defecto para admin
+                configurarFechasPorDefecto();
+                
+            } else {
+                tituloPagina.textContent = '📋 Mis Envíos';
+                badgeRol.textContent = 'CLIENTE';
+                badgeRol.className = 'text-xs px-2 py-0.5 rounded-full badge-cliente';
+                usuarioInfo.textContent = `${usuarioActual["NOMBRE COMPLETO"] || usuarioActual.USUARIO}`;
+                document.title = `Mis Envíos - ${usuarioActual.USUARIO}`;
+                
+                // Mostrar secciones de cliente
+                document.getElementById('filtrosCliente').classList.remove('hidden');
+                document.getElementById('estadisticasCliente').classList.remove('hidden');
+            }
+            
+            badgeRol.classList.remove('hidden');
+            
+            // Configurar cabecera de tabla según rol
+            configurarCabeceraTabla();
+        }
+        
+        function configurarCabeceraTabla() {
+            const cabecera = document.getElementById('cabeceraTabla');
+            const tituloTabla = document.getElementById('tituloTabla');
+            
+            if (esAdmin) {
+                tituloTabla.textContent = 'Todos los Envíos';
+                cabecera.innerHTML = `
+                    <th class="py-3 px-4 text-left text-sm font-medium">ID Guía</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Fecha</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Usuario</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Destinatario</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Forma Pago</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Valor</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Total Pagar</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Mensajero</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Estado</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Acciones</th>
+                `;
+            } else {
+                tituloTabla.textContent = 'Mis Envíos';
+                cabecera.innerHTML = `
+                    <th class="py-3 px-4 text-left text-sm font-medium">ID Guía</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Fecha</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Destinatario</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Forma Pago</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Valor</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Total Pagar</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Mensajero</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Estado</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium">Acciones</th>
+                `;
             }
         }
         
         function configurarEventos() {
-            // Botón refrescar
-            document.getElementById('btnRefresh').addEventListener('click', cargarHistorial);
-            
-            // Botón modo oscuro
+            // Botones comunes
+            document.getElementById('btnRefresh').addEventListener('click', cargarDatosIniciales);
+            document.getElementById('btnActualizarDatos').addEventListener('click', cargarDatosIniciales);
             document.getElementById('btnDarkMode').addEventListener('click', toggleModoOscuro);
-            
-            // Filtros
-            document.getElementById('btnAplicarFiltros').addEventListener('click', function(e) {
-                e.preventDefault();
-                aplicarFiltros();
-            });
-            document.getElementById('btnLimpiarFiltros').addEventListener('click', function(e) {
-                e.preventDefault();
-                limpiarFiltros();
-            });
-            document.getElementById('btnResetearFiltros').addEventListener('click', function(e) {
-                e.preventDefault();
-                limpiarFiltros();
-            });
-            
-            // Buscar al escribir
-            document.getElementById('busqueda').addEventListener('input', debounce(aplicarFiltros, 300));
             
             // Ordenar
             document.getElementById('ordenarPor').addEventListener('change', function() {
@@ -511,29 +655,38 @@
             document.getElementById('btnAnterior').addEventListener('click', () => cambiarPagina(-1));
             document.getElementById('btnSiguiente').addEventListener('click', () => cambiarPagina(1));
             
-            // Filtros automáticos
-            document.getElementById('formaPagoFilter').addEventListener('change', aplicarFiltros);
-            document.getElementById('estadoPagoFilter').addEventListener('change', aplicarFiltros);
-            
             // Modal
             document.getElementById('modalBackdrop').addEventListener('click', cerrarModalDetalles);
-            document.getElementById('btnCerrarModal').addEventListener('click', cerrarModalDetalles);
-            
-            // Confirmación modal
-            document.getElementById('confirmacionBackdrop').addEventListener('click', cerrarModalConfirmacion);
             
             // Tecla Escape para cerrar modales
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     cerrarModalDetalles();
-                    cerrarModalConfirmacion();
                     cerrarToast();
                 }
             });
+            
+            // Eventos específicos para admin
+            if (esAdmin) {
+                // Filtros admin
+                document.getElementById('busquedaAdmin').addEventListener('input', debounce(aplicarFiltrosAdmin, 300));
+                document.getElementById('usuarioFilterAdmin').addEventListener('change', aplicarFiltrosAdmin);
+                document.getElementById('mensajeroFilterAdmin').addEventListener('change', aplicarFiltrosAdmin);
+                document.getElementById('ciudadFilterAdmin').addEventListener('change', aplicarFiltrosAdmin);
+                document.getElementById('formaPagoFilterAdmin').addEventListener('change', aplicarFiltrosAdmin);
+                document.getElementById('estadoPagoFilterAdmin').addEventListener('change', aplicarFiltrosAdmin);
+                document.getElementById('fechaDesdeAdmin').addEventListener('change', aplicarFiltrosAdmin);
+                document.getElementById('fechaHastaAdmin').addEventListener('change', aplicarFiltrosAdmin);
+            } else {
+                // Filtros cliente
+                document.getElementById('busquedaCliente').addEventListener('input', debounce(aplicarFiltrosCliente, 300));
+                document.getElementById('formaPagoFilterCliente').addEventListener('change', aplicarFiltrosCliente);
+                document.getElementById('estadoPagoFilterCliente').addEventListener('change', aplicarFiltrosCliente);
+                document.getElementById('mensajeroFilterCliente').addEventListener('change', aplicarFiltrosCliente);
+            }
         }
         
         function configurarModoOscuro() {
-            // Verificar preferencia guardada
             const modoOscuro = localStorage.getItem('modoOscuro') === 'true';
             
             if (modoOscuro) {
@@ -543,6 +696,17 @@
                 document.documentElement.classList.remove('dark');
                 document.getElementById('darkModeIcon').textContent = 'dark_mode';
             }
+        }
+        
+        function configurarFechasPorDefecto() {
+            const hoy = new Date();
+            const hace7Dias = new Date();
+            hace7Dias.setDate(hoy.getDate() - 7);
+            
+            const formatoFecha = (fecha) => fecha.toISOString().split('T')[0];
+            
+            document.getElementById('fechaDesdeAdmin').value = formatoFecha(hace7Dias);
+            document.getElementById('fechaHastaAdmin').value = formatoFecha(hoy);
         }
         
         function toggleModoOscuro() {
@@ -559,41 +723,36 @@
             }
         }
         
-        async function cargarHistorial() {
+        async function cargarDatosIniciales() {
             try {
-                if (!usuarioActual || !usuarioActual.USUARIO) {
-                    throw new Error('Usuario no identificado');
-                }
-                
                 // Mostrar loading
                 document.getElementById('loadingScreen').classList.remove('hidden');
                 document.getElementById('mainContent').classList.add('hidden');
-                
-                // Mostrar loading en tabla
                 document.getElementById('tablaLoading').classList.remove('hidden');
                 document.getElementById('sinResultados').classList.add('hidden');
                 document.getElementById('tablaEnvios').innerHTML = '';
                 
-                console.log('🔄 Cargando historial para usuario:', usuarioActual.USUARIO);
+                console.log(`🔄 Cargando datos para ${esAdmin ? 'ADMIN' : 'CLIENTE'}: ${usuarioActual.USUARIO}`);
                 
-                // Cargar desde Web App
-                await cargarDesdeWebApp();
-                
-                // Si no hay datos, intentar localStorage
-                if (todosEnvios.length === 0) {
-                    await cargarDesdeLocalStorage();
+                if (esAdmin) {
+                    // Admin: cargar TODOS los envíos
+                    await cargarTodosLosEnviosAdmin();
+                    extraerListasFiltrosAdmin();
+                    actualizarSelectsFiltrosAdmin();
+                    aplicarFiltrosAdmin();
+                } else {
+                    // Cliente: cargar solo sus envíos
+                    await cargarEnviosCliente();
+                    extraerListasFiltrosCliente();
+                    actualizarSelectsFiltrosCliente();
+                    aplicarFiltrosCliente();
                 }
                 
-                // Procesar datos
-                procesarDatos();
-                
-                // Mostrar notificación
-                mostrarToast('success', 'Historial cargado', `Se cargaron ${todosEnvios.length} envíos`);
+                mostrarToast('success', 'Datos cargados', `Se cargaron ${todosEnvios.length} envíos`);
                 
             } catch (error) {
-                console.error('❌ Error cargando historial:', error);
-                mostrarError('Error al cargar historial: ' + error.message);
-                mostrarToast('error', 'Error', 'No se pudo cargar el historial');
+                console.error('❌ Error cargando datos:', error);
+                mostrarError('Error al cargar datos: ' + error.message);
             } finally {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('mainContent').classList.remove('hidden');
@@ -601,77 +760,32 @@
             }
         }
         
-        async function cargarDesdeWebApp() {
+        // ============================================
+        // FUNCIONES PARA ADMIN
+        // ============================================
+        
+        async function cargarTodosLosEnviosAdmin() {
             try {
-                console.log('📡 Cargando historial desde Web App...');
+                console.log('📡 Admin: Cargando TODOS los envíos...');
                 
-                const url = `${WEB_APP_URL}?action=getHistorialCliente&usuarioId=${encodeURIComponent(usuarioActual.USUARIO)}`;
-                console.log('URL de consulta:', url);
-                
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
+                const url = `${WEB_APP_URL}?action=getAllEnvios`;
+                const response = await fetch(url);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 const data = await response.json();
-                console.log('📊 Datos recibidos:', data);
+                console.log('📊 Datos recibidos (admin):', data);
                 
-                if (data && Array.isArray(data)) {
-                    todosEnvios = data.map(envio => {
-                        // Extraer valores correctamente
-                        const valorRecaudar = parseFloat(envio["VALOR A RECAUDAR"] || envio.valorRecaudar || 0);
-                        const totalPagar = parseFloat(envio["TOTAL A PAGAR"] || envio.totalPagar || 0);
-                        const formaPago = envio["FORMA DE PAGO"] || envio.formaPago || '';
-                        const pagadoRemitente = envio["PAGADO A REMITENTE"] || envio.pagadoRemitente || false;
-                        
-                       return {
-    // Copiar todos los campos del envío
-    ...envio,
-    // Campos normalizados
-    "ENVIO ID": envio["ENVIO ID"] || envio.id || `ENV-${Date.now()}`,
-    "DESTINO": envio["DESTINO"] || envio.destino || 'N/A',
-    "BARRIO": envio["BARRIO"] || envio.barrio || '',
-    "FORMA DE PAGO": formaPago,
-    "PAGADO A REMITENTE": pagadoRemitente,
-    "FECHA PAGO": envio["FECHA PAGO"] || envio.fechaPago || null,
-    "REMITE": envio["REMITE"] || envio.remite || 'N/A',
-    "TELEFONO": envio["TELEFONO"] || envio.telefono || 'N/A',
-    
-    // ¡IMPORTANTE! Ya viene con el nombre correcto
-    "DIRECCION DESTINO": envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A',
-    
-    "CORREO REMITENTE": envio["CORREO REMITENTE"] || envio.correo || 'N/A',
-    "TELEFONOCLIENTE": envio["TELEFONOCLIENTE"] || envio.telefonoCliente || 'N/A',
-    "LOCALIDAD": envio["LOCALIDAD"] || envio.localidad || 'N/A',
-    "CIUDAD DESTINO": envio["CIUDAD DESTINO"] || envio.ciudadDestino || 'N/A',
-    "MENSAJERO": envio["MENSAJERO"] || envio.mensajero || 'Por asignar',
-    "OBS": envio["OBS"] || envio.observaciones || 'Ninguna',
-    
-    // ¡¡¡FECHA DE CREACIÓN ORIGINAL!!!
-    fechaCreacion: envio["FECHA DE CREACION"] || envio.fechaCreacion || new Date().toISOString(),
-    fecha: envio["FECHA DE CREACION"] || envio.fechaCreacion || new Date().toISOString(),
-    "FECHA DE CREACION": envio["FECHA DE CREACION"] || envio.fechaCreacion || new Date().toISOString(),
-    
-    // Campos numéricos
-    valorRecaudar: isNaN(valorRecaudar) ? 0 : valorRecaudar,
-    totalPagar: isNaN(totalPagar) ? 0 : totalPagar,
-    
-    // Usuario
-    usuarioId: envio["USUARIO ID"] || envio.usuarioId || usuarioActual.USUARIO
-};
-                    });
+                if (data.success && Array.isArray(data.data)) {
+                    todosEnvios = data.data.map(envio => ({
+                        ...envio,
+                        valorRecaudar: parseFloat(envio["VALOR A RECAUDAR"] || 0),
+                        totalPagar: parseFloat(envio["TOTAL A PAGAR"] || 0)
+                    }));
                     
-                    console.log(`✅ ${todosEnvios.length} envíos cargados desde Web App`);
-                    console.log('Muestra de envíos:', todosEnvios.slice(0, 3));
-                    
-                    // Guardar en localStorage para futuras consultas
-                    guardarEnLocalStorage();
+                    console.log(`✅ ${todosEnvios.length} envíos cargados para administrador`);
                     
                 } else {
                     console.log('⚠️ Respuesta vacía o no es array');
@@ -679,267 +793,485 @@
                 }
                 
             } catch (error) {
-                console.log('⚠️ No se pudo cargar desde Web App:', error.message);
+                console.log('⚠️ Error cargando desde API:', error.message);
                 todosEnvios = [];
             }
         }
         
-        async function cargarDesdeLocalStorage() {
-            try {
-                const historialGuardado = JSON.parse(localStorage.getItem('historialCompleto')) || [];
+        function extraerListasFiltrosAdmin() {
+            const usuariosSet = new Set();
+            const mensajerosSet = new Set();
+            const ciudadesSet = new Set();
+            
+            todosEnvios.forEach(envio => {
+                // Usuarios
+                const usuario = envio["USUARIO ID"] || '';
+                if (usuario) usuariosSet.add(usuario.trim());
                 
-                if (historialGuardado.length === 0) {
-                    console.log('📂 No hay datos en localStorage');
-                    return;
+                // Mensajeros
+                const mensajero = envio["MENSAJERO"] || '';
+                if (mensajero && mensajero !== 'Por asignar') {
+                    mensajerosSet.add(mensajero.trim());
                 }
                 
-                // Filtrar por usuario actual
-                todosEnvios = historialGuardado.filter(envio => {
-                    const envioUsuarioId = envio.usuarioId || envio["USUARIO ID"];
-                    return envioUsuarioId === usuarioActual.USUARIO;
-                }).map(envio => ({
-                    ...envio,
-                    // Convertir valores numéricos
-                    valorRecaudar: parseFloat(envio["VALOR A RECAUDAR"] || envio.valorRecaudar || 0),
-                    totalPagar: parseFloat(envio["TOTAL A PAGAR"] || envio.totalPagar || 0)
-                }));
-                
-                console.log(`📂 ${todosEnvios.length} envíos cargados desde localStorage`);
-                
-            } catch (error) {
-                console.error('Error cargando desde localStorage:', error);
-                todosEnvios = [];
-            }
-        }
-        
-        function guardarEnLocalStorage() {
-            try {
-                if (todosEnvios.length === 0) return;
-                
-                let historialExistente = [];
-                try {
-                    const historialStorage = localStorage.getItem('historialCompleto');
-                    if (historialStorage) {
-                        historialExistente = JSON.parse(historialStorage);
-                    }
-                } catch (e) {
-                    console.warn('No se pudo parsear historial existente:', e);
-                    historialExistente = [];
-                }
-                
-                // Crear mapa de envíos existentes por ID
-                const enviosMap = new Map();
-                historialExistente.forEach(envio => {
-                    const id = envio["ENVIO ID"] || envio.id;
-                    if (id) enviosMap.set(id, envio);
-                });
-                
-                // Actualizar o agregar nuevos envíos
-                todosEnvios.forEach(envio => {
-                    const id = envio["ENVIO ID"] || envio.id;
-                    if (id) {
-                        enviosMap.set(id, {
-                            ...envio,
-                            fechaActualizacion: new Date().toISOString()
-                        });
-                    }
-                });
-                
-                // Convertir mapa a array
-                const historialActualizado = Array.from(enviosMap.values());
-                
-                localStorage.setItem('historialCompleto', JSON.stringify(historialActualizado));
-                console.log('💾 Historial guardado en localStorage');
-                
-            } catch (error) {
-                console.error('Error guardando en localStorage:', error);
-            }
-        }
-        
-        function procesarDatos() {
-            // Aplicar filtros iniciales
-            aplicarFiltros();
-            
-            // Actualizar estadísticas
-            actualizarEstadisticas();
-        }
-        
-        // FUNCIÓN CORREGIDA: aplicarFiltros
-        function aplicarFiltros() {
-            const formaPago = document.getElementById('formaPagoFilter').value;
-            const estadoPago = document.getElementById('estadoPagoFilter').value;
-            const busqueda = document.getElementById('busqueda').value.toLowerCase().trim();
-            
-            console.log('🔍 Aplicando filtros:', { 
-                formaPago, 
-                estadoPago, 
-                busqueda,
-                totalEnvios: todosEnvios.length 
+                // Ciudades
+                const ciudad = envio["CIUDAD DESTINO"] || '';
+                if (ciudad) ciudadesSet.add(ciudad.trim());
             });
             
-            // Filtrar
+            listaUsuarios = Array.from(usuariosSet).sort();
+            listaMensajeros = Array.from(mensajerosSet).sort();
+            listaCiudades = Array.from(ciudadesSet).sort();
+            
+            console.log(`📊 Filtros admin extraídos: ${listaUsuarios.length} usuarios, ${listaMensajeros.length} mensajeros, ${listaCiudades.length} ciudades`);
+        }
+        
+        function actualizarSelectsFiltrosAdmin() {
+            // Usuarios
+            const selectUsuario = document.getElementById('usuarioFilterAdmin');
+            selectUsuario.innerHTML = '<option value="todos">Todos los usuarios</option>';
+            listaUsuarios.forEach(usuario => {
+                const option = document.createElement('option');
+                option.value = usuario;
+                option.textContent = usuario;
+                selectUsuario.appendChild(option);
+            });
+            
+            // Mensajeros
+            const selectMensajero = document.getElementById('mensajeroFilterAdmin');
+            selectMensajero.innerHTML = '<option value="todos">Todos los mensajeros</option>';
+            selectMensajero.innerHTML += '<option value="Sin asignar">Sin asignar</option>';
+            listaMensajeros.forEach(mensajero => {
+                const option = document.createElement('option');
+                option.value = mensajero;
+                option.textContent = mensajero;
+                selectMensajero.appendChild(option);
+            });
+            
+            // Ciudades
+            const selectCiudad = document.getElementById('ciudadFilterAdmin');
+            selectCiudad.innerHTML = '<option value="todas">Todas las ciudades</option>';
+            listaCiudades.forEach(ciudad => {
+                const option = document.createElement('option');
+                option.value = ciudad;
+                option.textContent = ciudad;
+                selectCiudad.appendChild(option);
+            });
+        }
+        
+        function aplicarFiltrosAdmin() {
+            const usuarioSeleccionado = document.getElementById('usuarioFilterAdmin').value;
+            const mensajeroSeleccionado = document.getElementById('mensajeroFilterAdmin').value;
+            const ciudadSeleccionada = document.getElementById('ciudadFilterAdmin').value;
+            const formaPago = document.getElementById('formaPagoFilterAdmin').value;
+            const estadoPago = document.getElementById('estadoPagoFilterAdmin').value;
+            const fechaDesde = document.getElementById('fechaDesdeAdmin').value;
+            const fechaHasta = document.getElementById('fechaHastaAdmin').value;
+            const busqueda = document.getElementById('busquedaAdmin').value.toLowerCase().trim();
+            
+            // Filtrar envíos
             enviosFiltrados = todosEnvios.filter(envio => {
                 let cumple = true;
                 
-                // 1. Filtrar por forma de pago
-                if (formaPago && formaPago !== 'todas') {
+                // 1. Usuario
+                if (usuarioSeleccionado !== 'todos') {
+                    const usuarioEnvio = (envio["USUARIO ID"] || '').trim();
+                    cumple = cumple && (usuarioEnvio === usuarioSeleccionado);
+                }
+                
+                // 2. Mensajero
+                if (mensajeroSeleccionado !== 'todos') {
+                    const mensajeroEnvio = (envio["MENSAJERO"] || '').trim();
+                    if (mensajeroSeleccionado === 'Sin asignar') {
+                        cumple = cumple && (!mensajeroEnvio || mensajeroEnvio === 'Por asignar');
+                    } else {
+                        cumple = cumple && (mensajeroEnvio === mensajeroSeleccionado);
+                    }
+                }
+                
+                // 3. Ciudad
+                if (ciudadSeleccionada !== 'todas') {
+                    const ciudadEnvio = (envio["CIUDAD DESTINO"] || '').trim();
+                    cumple = cumple && (ciudadEnvio === ciudadSeleccionada);
+                }
+                
+                // 4. Forma de pago
+                if (formaPago !== 'todas') {
                     const formaPagoEnvio = (envio["FORMA DE PAGO"] || '').toLowerCase();
-                    
-                    console.log(`Comparando forma de pago: "${formaPago}" vs "${formaPagoEnvio}"`);
-                    
-                    // Mapear valores para coincidencia
                     if (formaPago === 'contraentrega_recaudo') {
-                        // Buscar "con recaudo" o "contraentrega_recaudo"
-                        cumple = cumple && (
-                            formaPagoEnvio.includes('recaudo') || 
-                            formaPagoEnvio === 'contraentrega_recaudo' ||
-                            formaPagoEnvio === 'con recaudo'
-                        );
+                        cumple = cumple && formaPagoEnvio.includes('recaudo');
                     } else {
                         cumple = cumple && (formaPagoEnvio === formaPago);
                     }
-                    
-                    if (!cumple) {
-                        console.log(`❌ No coincide forma de pago: ${formaPagoEnvio} != ${formaPago}`);
-                        return false;
-                    }
                 }
                 
-                // 2. Filtrar por estado de pago
-                if (estadoPago && estadoPago !== 'todos') {
+                // 5. Estado de pago
+                if (estadoPago !== 'todos') {
                     const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
                     const totalPagar = envio.totalPagar || 0;
                     
-                    console.log(`Estado de pago: pagado=${estaPagado}, totalPagar=${totalPagar}, filtro=${estadoPago}`);
-                    
                     switch(estadoPago) {
-                        case 'pagado':
-                            cumple = cumple && estaPagado;
-                            break;
-                        case 'pendiente':
-                            cumple = cumple && !estaPagado && (totalPagar > 0);
-                            break;
-                        case 'sin_pago':
-                            cumple = cumple && (totalPagar === 0);
-                            break;
-                    }
-                    
-                    if (!cumple) {
-                        console.log(`❌ No coincide estado de pago`);
-                        return false;
+                        case 'pagado': cumple = cumple && estaPagado; break;
+                        case 'pendiente': cumple = cumple && !estaPagado && totalPagar > 0; break;
+                        case 'sin_pago': cumple = cumple && totalPagar === 0; break;
                     }
                 }
                 
-                // 3. Filtrar por búsqueda de texto
+                // 6. Rango de fechas
+                if (fechaDesde || fechaHasta) {
+                    const fechaEnvio = parsearFechaEnvio(envio["FECHA DE CREACION"]);
+                    if (fechaEnvio) {
+                        if (fechaDesde) {
+                            const desde = new Date(fechaDesde);
+                            cumple = cumple && (fechaEnvio >= desde);
+                        }
+                        if (fechaHasta) {
+                            const hasta = new Date(fechaHasta);
+                            hasta.setDate(hasta.getDate() + 1);
+                            cumple = cumple && (fechaEnvio < hasta);
+                        }
+                    }
+                }
+                
+                // 7. Búsqueda
                 if (busqueda) {
-                    // Lista de campos donde buscar
                     const camposBusqueda = [
                         envio["ENVIO ID"] || '',
-                        envio.id || '',
                         envio["DESTINO"] || '',
-                        envio.destino || '',
                         envio["BARRIO"] || '',
-                        envio.barrio || '',
                         envio["REMITE"] || '',
-                        envio.remite || '',
-                        envio["TELEFONO"] || '',
-                        envio.telefono || '',
-                        envio["TELEFONOCLIENTE"] || '',
-                        envio.telefonoCliente || ''
+                        envio["USUARIO ID"] || ''
                     ];
                     
-                    // Convertir todos a string y buscar
-                    const textoBusqueda = busqueda.toLowerCase();
-                    const coincide = camposBusqueda.some(campo => {
-                        if (!campo) return false;
-                        return campo.toString().toLowerCase().includes(textoBusqueda);
-                    });
-                    
+                    const coincide = camposBusqueda.some(campo => 
+                        campo.toString().toLowerCase().includes(busqueda)
+                    );
                     cumple = cumple && coincide;
                 }
                 
                 return cumple;
             });
             
-            console.log(`✅ ${enviosFiltrados.length} envíos después de filtrar (de ${todosEnvios.length} totales)`);
+            console.log(`✅ Admin: ${enviosFiltrados.length} envíos después de filtrar`);
             
-            // Ordenar
+            // Actualizar estado de filtros
+            actualizarEstadoFiltrosAdmin();
+            
+            // Mostrar resultados
             ordenarEnvios();
-            
-            // Mostrar primera página
             paginaActual = 1;
             mostrarPagina();
-            
-            // Actualizar estadísticas
-            actualizarEstadisticas();
+            actualizarEstadisticasAdmin();
         }
         
-        function obtenerFechaEnvio(envio) {
-            // Intentar diferentes formatos de fecha
-            const posiblesFechas = [
-                envio["FECHA PAGO"],
-                envio.fechaPago,
-                envio["FECHA REGISTRO"],
-                envio.fechaRegistro,
-                envio.fecha,
-                envio.fechaCreacion,
-                envio.timestamp,
-                envio["FECHA ENVIO"],
-                envio.fechaEnvio
-            ];
+        function actualizarEstadoFiltrosAdmin() {
+            const filtrosActivos = [];
             
-            for (let fechaStr of posiblesFechas) {
-                if (fechaStr) {
-                    let fecha = new Date(fechaStr);
-                    
-                    // Si es inválida, intentar otros formatos
-                    if (isNaN(fecha.getTime()) && typeof fechaStr === 'string') {
-                        // Formato dd/mm/yyyy
-                        const match = fechaStr.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-                        if (match) {
-                            fecha = new Date(`${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}`);
-                        }
-                    }
-                    
-                    // Si la fecha es válida, retornarla
-                    if (!isNaN(fecha.getTime())) {
-                        return fecha;
-                    }
-                }
+            if (document.getElementById('usuarioFilterAdmin').value !== 'todos') filtrosActivos.push('Usuario');
+            if (document.getElementById('mensajeroFilterAdmin').value !== 'todos') filtrosActivos.push('Mensajero');
+            if (document.getElementById('ciudadFilterAdmin').value !== 'todas') filtrosActivos.push('Ciudad');
+            if (document.getElementById('formaPagoFilterAdmin').value !== 'todas') filtrosActivos.push('Forma Pago');
+            if (document.getElementById('estadoPagoFilterAdmin').value !== 'todos') filtrosActivos.push('Estado Pago');
+            if (document.getElementById('fechaDesdeAdmin').value || document.getElementById('fechaHastaAdmin').value) filtrosActivos.push('Fecha');
+            if (document.getElementById('busquedaAdmin').value) filtrosActivos.push('Búsqueda');
+            
+            const estadoElement = document.getElementById('estadoFiltros');
+            if (filtrosActivos.length > 0) {
+                estadoElement.textContent = `${filtrosActivos.length} filtro(s) activo(s)`;
+                estadoElement.className = 'text-xs px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded';
+            } else {
+                estadoElement.textContent = 'Sin filtros';
+                estadoElement.className = 'text-xs px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded';
+            }
+        }
+        
+        function limpiarFiltrosAdmin() {
+            document.getElementById('usuarioFilterAdmin').value = 'todos';
+            document.getElementById('mensajeroFilterAdmin').value = 'todos';
+            document.getElementById('ciudadFilterAdmin').value = 'todas';
+            document.getElementById('formaPagoFilterAdmin').value = 'todas';
+            document.getElementById('estadoPagoFilterAdmin').value = 'todos';
+            document.getElementById('busquedaAdmin').value = '';
+            document.getElementById('ordenarPor').value = 'fecha_desc';
+            configurarFechasPorDefecto();
+            
+            aplicarFiltrosAdmin();
+            mostrarToast('info', 'Filtros limpiados', 'Se mostraron todos los envíos');
+        }
+        
+        function actualizarEstadisticasAdmin() {
+            const totalEnvios = enviosFiltrados.length;
+            
+            if (totalEnvios === 0) {
+                document.getElementById('totalEnviosAdmin').textContent = '0';
+                document.getElementById('totalUsuariosAdmin').textContent = '0';
+                document.getElementById('totalPagarAdmin').textContent = '$0';
+                document.getElementById('totalRecaudarAdmin').textContent = '$0';
+                return;
             }
             
-            // Si no hay fecha válida, usar fecha de ayer
-            const fechaDefault = new Date();
-            fechaDefault.setDate(fechaDefault.getDate() - 1);
-            return fechaDefault;
+            let totalPagar = 0;
+            let totalRecaudar = 0;
+            const usuariosSet = new Set();
+            
+            enviosFiltrados.forEach(envio => {
+                const valorPagar = envio.totalPagar || 0;
+                const valorRecaudar = envio.valorRecaudar || 0;
+                const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
+                const usuario = envio["USUARIO ID"] || '';
+                
+                if (!estaPagado && valorPagar > 0) {
+                    totalPagar += valorPagar;
+                }
+                
+                totalRecaudar += valorRecaudar;
+                if (usuario) usuariosSet.add(usuario);
+            });
+            
+            document.getElementById('totalEnviosAdmin').textContent = totalEnvios.toLocaleString();
+            document.getElementById('totalUsuariosAdmin').textContent = usuariosSet.size.toLocaleString();
+            document.getElementById('totalPagarAdmin').textContent = `$${totalPagar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
+            document.getElementById('totalRecaudarAdmin').textContent = `$${totalRecaudar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
+        }
+        
+        // ============================================
+        // FUNCIONES PARA CLIENTE
+        // ============================================
+        
+        async function cargarEnviosCliente() {
+            try {
+                console.log('📡 Cliente: Cargando envíos del usuario...');
+                
+                const url = `${WEB_APP_URL}?action=getHistorialCliente&usuarioId=${encodeURIComponent(usuarioActual.USUARIO)}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('📊 Datos recibidos (cliente):', data);
+                
+                if (data && Array.isArray(data)) {
+                    todosEnvios = data.map(envio => ({
+                        ...envio,
+                        valorRecaudar: parseFloat(envio["VALOR A RECAUDAR"] || envio.valorRecaudar || 0),
+                        totalPagar: parseFloat(envio["TOTAL A PAGAR"] || envio.totalPagar || 0),
+                        // Asegurar que tenga el usuario correcto
+                        "USUARIO ID": usuarioActual.USUARIO
+                    }));
+                    
+                    console.log(`✅ Cliente: ${todosEnvios.length} envíos cargados para ${usuarioActual.USUARIO}`);
+                    
+                } else {
+                    console.log('⚠️ Respuesta vacía o no es array');
+                    todosEnvios = [];
+                }
+                
+            } catch (error) {
+                console.log('⚠️ Error cargando desde API:', error.message);
+                todosEnvios = [];
+            }
+        }
+        
+        function extraerListasFiltrosCliente() {
+            const mensajerosSet = new Set();
+            
+            todosEnvios.forEach(envio => {
+                const mensajero = envio["MENSAJERO"] || '';
+                if (mensajero && mensajero !== 'Por asignar') {
+                    mensajerosSet.add(mensajero.trim());
+                }
+            });
+            
+            listaMensajeros = Array.from(mensajerosSet).sort();
+            console.log(`📊 Cliente: ${listaMensajeros.length} mensajeros encontrados`);
+        }
+        
+        function actualizarSelectsFiltrosCliente() {
+            const selectMensajero = document.getElementById('mensajeroFilterCliente');
+            selectMensajero.innerHTML = '<option value="todos">Todos los mensajeros</option>';
+            selectMensajero.innerHTML += '<option value="Sin asignar">Sin asignar</option>';
+            
+            listaMensajeros.forEach(mensajero => {
+                const option = document.createElement('option');
+                option.value = mensajero;
+                option.textContent = mensajero;
+                selectMensajero.appendChild(option);
+            });
+        }
+        
+        function aplicarFiltrosCliente() {
+            const formaPago = document.getElementById('formaPagoFilterCliente').value;
+            const estadoPago = document.getElementById('estadoPagoFilterCliente').value;
+            const mensajeroSeleccionado = document.getElementById('mensajeroFilterCliente').value;
+            const busqueda = document.getElementById('busquedaCliente').value.toLowerCase().trim();
+            
+            // Filtrar envíos (solo los del cliente)
+            enviosFiltrados = todosEnvios.filter(envio => {
+                let cumple = true;
+                
+                // 1. Forma de pago
+                if (formaPago !== 'todas') {
+                    const formaPagoEnvio = (envio["FORMA DE PAGO"] || '').toLowerCase();
+                    if (formaPago === 'contraentrega_recaudo') {
+                        cumple = cumple && formaPagoEnvio.includes('recaudo');
+                    } else {
+                        cumple = cumple && (formaPagoEnvio === formaPago);
+                    }
+                }
+                
+                // 2. Estado de pago
+                if (estadoPago !== 'todos') {
+                    const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
+                    const totalPagar = envio.totalPagar || 0;
+                    
+                    switch(estadoPago) {
+                        case 'pagado': cumple = cumple && estaPagado; break;
+                        case 'pendiente': cumple = cumple && !estaPagado && totalPagar > 0; break;
+                        case 'sin_pago': cumple = cumple && totalPagar === 0; break;
+                    }
+                }
+                
+                // 3. Mensajero
+                if (mensajeroSeleccionado !== 'todos') {
+                    const mensajeroEnvio = (envio["MENSAJERO"] || '').trim();
+                    if (mensajeroSeleccionado === 'Sin asignar') {
+                        cumple = cumple && (!mensajeroEnvio || mensajeroEnvio === 'Por asignar');
+                    } else {
+                        cumple = cumple && (mensajeroEnvio === mensajeroSeleccionado);
+                    }
+                }
+                
+                // 4. Búsqueda
+                if (busqueda) {
+                    const camposBusqueda = [
+                        envio["ENVIO ID"] || '',
+                        envio["DESTINO"] || '',
+                        envio["BARRIO"] || '',
+                        envio["REMITE"] || ''
+                    ];
+                    
+                    const coincide = camposBusqueda.some(campo => 
+                        campo.toString().toLowerCase().includes(busqueda)
+                    );
+                    cumple = cumple && coincide;
+                }
+                
+                return cumple;
+            });
+            
+            console.log(`✅ Cliente: ${enviosFiltrados.length} envíos después de filtrar`);
+            
+            // Mostrar resultados
+            ordenarEnvios();
+            paginaActual = 1;
+            mostrarPagina();
+            actualizarEstadisticasCliente();
+        }
+        
+        function limpiarFiltrosCliente() {
+            document.getElementById('formaPagoFilterCliente').value = 'todas';
+            document.getElementById('estadoPagoFilterCliente').value = 'todos';
+            document.getElementById('mensajeroFilterCliente').value = 'todos';
+            document.getElementById('busquedaCliente').value = '';
+            document.getElementById('ordenarPor').value = 'fecha_desc';
+            
+            aplicarFiltrosCliente();
+            mostrarToast('info', 'Filtros limpiados', 'Se mostraron todos tus envíos');
+        }
+        
+        function actualizarEstadisticasCliente() {
+            const totalEnvios = enviosFiltrados.length;
+            
+            if (totalEnvios === 0) {
+                document.getElementById('totalEnviosCliente').textContent = '0';
+                document.getElementById('totalPagarCliente').textContent = '$0';
+                document.getElementById('totalRecaudarCliente').textContent = '$0';
+                return;
+            }
+            
+            let totalPagar = 0;
+            let totalRecaudar = 0;
+            
+            enviosFiltrados.forEach(envio => {
+                const valorPagar = envio.totalPagar || 0;
+                const valorRecaudar = envio.valorRecaudar || 0;
+                const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
+                
+                if (!estaPagado && valorPagar > 0) {
+                    totalPagar += valorPagar;
+                }
+                
+                totalRecaudar += valorRecaudar;
+            });
+            
+            document.getElementById('totalEnviosCliente').textContent = totalEnvios.toLocaleString();
+            document.getElementById('totalPagarCliente').textContent = `$${totalPagar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
+            document.getElementById('totalRecaudarCliente').textContent = `$${totalRecaudar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
+        }
+        
+        // ============================================
+        // FUNCIONES COMUNES
+        // ============================================
+        
+        function determinarSiEstaPagado(estado) {
+            if (!estado) return false;
+            
+            if (typeof estado === 'string') {
+                const estadoUpper = estado.toUpperCase().trim();
+                return estadoUpper === 'SI' || 
+                       estadoUpper === 'TRUE' || 
+                       estadoUpper === '1' || 
+                       estadoUpper === 'YES' || 
+                       estadoUpper === 'PAGADO';
+            }
+            
+            return false;
+        }
+        
+        function parsearFechaEnvio(fechaStr) {
+            if (!fechaStr) return null;
+            
+            try {
+                // Formato DD/MM/YYYY HH:MM:SS
+                const match = fechaStr.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/);
+                if (match) {
+                    const [, dia, mes, año, hora, minuto, segundo] = match;
+                    return new Date(`${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}`);
+                }
+                
+                const fecha = new Date(fechaStr);
+                if (!isNaN(fecha.getTime())) {
+                    return fecha;
+                }
+                
+                return null;
+            } catch (error) {
+                console.error('Error parseando fecha:', fechaStr, error);
+                return null;
+            }
         }
         
         function ordenarEnvios() {
             const orden = document.getElementById('ordenarPor').value;
             
             enviosFiltrados.sort((a, b) => {
-                const fechaA = obtenerFechaEnvio(a);
-                const fechaB = obtenerFechaEnvio(b);
-                const valorA = parseFloat(a.totalPagar || a["TOTAL A PAGAR"] || 0);
-                const valorB = parseFloat(b.totalPagar || b["TOTAL A PAGAR"] || 0);
-                const destinoA = (a["DESTINO"] || a.destino || '').toLowerCase();
-                const destinoB = (b["DESTINO"] || b.destino || '').toLowerCase();
+                const fechaA = parsearFechaEnvio(a["FECHA DE CREACION"]) || new Date(0);
+                const fechaB = parsearFechaEnvio(b["FECHA DE CREACION"]) || new Date(0);
+                const valorA = a.totalPagar || 0;
+                const valorB = b.totalPagar || 0;
+                const destinoA = (a["DESTINO"] || '').toLowerCase();
+                const destinoB = (b["DESTINO"] || '').toLowerCase();
                 
                 switch (orden) {
-                    case 'fecha_desc':
-                        return fechaB.getTime() - fechaA.getTime(); // Más reciente primero
-                    case 'fecha_asc':
-                        return fechaA.getTime() - fechaB.getTime(); // Más antiguo primero
-                    case 'valor_desc':
-                        return valorB - valorA; // Mayor valor primero
-                    case 'valor_asc':
-                        return valorA - valorB; // Menor valor primero
-                    case 'destino_asc':
-                        return destinoA.localeCompare(destinoB); // A-Z
-                    case 'destino_desc':
-                        return destinoB.localeCompare(destinoA); // Z-A
-                    default:
-                        return fechaB.getTime() - fechaA.getTime(); // Por defecto: más reciente primero
+                    case 'fecha_desc': return fechaB.getTime() - fechaA.getTime();
+                    case 'fecha_asc': return fechaA.getTime() - fechaB.getTime();
+                    case 'valor_desc': return valorB - valorA;
+                    case 'valor_asc': return valorA - valorB;
+                    case 'destino_asc': return destinoA.localeCompare(destinoB);
+                    case 'destino_desc': return destinoB.localeCompare(destinoA);
+                    default: return fechaB.getTime() - fechaA.getTime();
                 }
             });
             
@@ -952,6 +1284,8 @@
             const tablaLoading = document.getElementById('tablaLoading');
             const paginacion = document.getElementById('paginacion');
             const contador = document.getElementById('contadorEnvios');
+            const tituloSinResultados = document.getElementById('tituloSinResultados');
+            const mensajeSinResultados = document.getElementById('mensajeSinResultados');
             
             // Ocultar loading
             tablaLoading.classList.add('hidden');
@@ -963,17 +1297,12 @@
                 paginacion.classList.add('hidden');
                 contador.textContent = '0 envíos';
                 
-                // Mensaje específico según filtros
-                const hayFiltros = document.getElementById('formaPagoFilter').value !== 'todas' || 
-                                  document.getElementById('estadoPagoFilter').value !== 'todos' ||
-                                  document.getElementById('busqueda').value;
-                
-                if (hayFiltros) {
-                    sinResultados.querySelector('h4').textContent = 'No hay envíos con los filtros aplicados';
-                    sinResultados.querySelector('p').textContent = 'Intenta con otros criterios de búsqueda';
+                if (esAdmin) {
+                    tituloSinResultados.textContent = 'No hay envíos con los filtros aplicados';
+                    mensajeSinResultados.textContent = 'Intenta con otros criterios de búsqueda';
                 } else {
-                    sinResultados.querySelector('h4').textContent = 'No hay envíos registrados';
-                    sinResultados.querySelector('p').textContent = 'No se encontraron envíos en el historial';
+                    tituloSinResultados.textContent = 'No tienes envíos registrados';
+                    mensajeSinResultados.textContent = 'No se encontraron envíos con los filtros aplicados';
                 }
                 
                 return;
@@ -1007,7 +1336,7 @@
             // Generar filas de la tabla
             let html = '';
             enviosPagina.forEach((envio, index) => {
-                const fecha = obtenerFechaEnvio(envio);
+                const fecha = parsearFechaEnvio(envio["FECHA DE CREACION"]) || new Date();
                 const fechaFormateada = fecha.toLocaleDateString('es-CO', {
                     day: '2-digit',
                     month: '2-digit',
@@ -1029,8 +1358,8 @@
                 
                 // Estado de pago
                 const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
-                const valorRecaudar = parseFloat(envio.valorRecaudar || envio["VALOR A RECAUDAR"] || 0);
-                const totalPagar = parseFloat(envio.totalPagar || envio["TOTAL A PAGAR"] || 0);
+                const valorRecaudar = envio.valorRecaudar || 0;
+                const totalPagar = envio.totalPagar || 0;
                 
                 let estadoHTML = '';
                 let estadoClase = '';
@@ -1046,40 +1375,83 @@
                     estadoClase = 'badge-sin-pago';
                 }
                 
-                // ID del envío (escapear caracteres especiales)
-                const envioId = (envio["ENVIO ID"] || envio.id || 'N/A').replace(/'/g, "\\'");
+                // ID del envío
+                const envioId = (envio["ENVIO ID"] || '').replace(/'/g, "\\'");
                 
-                html += `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <td class="py-3 px-4">
-                            <span class="font-mono font-bold text-sm">${envio["ENVIO ID"] || envio.id || 'N/A'}</span>
-                        </td>
-                        <td class="py-3 px-4 text-sm">${fechaFormateada}</td>
-                        <td class="py-3 px-4">
-                            <div class="font-medium">${envio["DESTINO"] || envio.destino || 'N/A'}</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">${envio["BARRIO"] || envio.barrio || ''}</div>
-                        </td>
-                        <td class="py-3 px-4 text-sm">${formaPagoTexto}</td>
-                        <td class="py-3 px-4 font-medium text-blue-600 dark:text-blue-400">
-                            $${valorRecaudar.toLocaleString('es-CO')}
-                        </td>
-                        <td class="py-3 px-4 font-bold text-green-600 dark:text-green-400">
-                            $${totalPagar.toLocaleString('es-CO')}
-                        </td>
-                        <td class="py-3 px-4">
-                            <span class="px-2 py-1 rounded-full text-xs font-medium ${estadoClase}">
-                                ${estadoHTML}
-                            </span>
-                        </td>
-                        <td class="py-3 px-4">
-                            <button onclick="verDetalles('${envioId}')" 
-                                    class="px-3 py-1 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm flex items-center gap-1 transition-colors">
-                                <span class="material-symbols-outlined text-sm">visibility</span>
-                                Ver
-                            </button>
-                        </td>
-                    </tr>
-                `;
+                if (esAdmin) {
+                    html += `
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="py-3 px-4">
+                                <span class="font-mono font-bold text-sm">${envio["ENVIO ID"] || ''}</span>
+                            </td>
+                            <td class="py-3 px-4 text-sm">${fechaFormateada}</td>
+                            <td class="py-3 px-4">
+                                <div class="font-medium text-sm">${envio["USUARIO ID"] || ''}</div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <div class="font-medium">${envio["DESTINO"] || ''}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">${envio["BARRIO"] || ''}</div>
+                            </td>
+                            <td class="py-3 px-4 text-sm">${formaPagoTexto}</td>
+                            <td class="py-3 px-4 font-medium text-blue-600 dark:text-blue-400">
+                                $${valorRecaudar.toLocaleString('es-CO')}
+                            </td>
+                            <td class="py-3 px-4 font-bold text-green-600 dark:text-green-400">
+                                $${totalPagar.toLocaleString('es-CO')}
+                            </td>
+                            <td class="py-3 px-4 text-sm">
+                                ${envio["MENSAJERO"] || 'Sin asignar'}
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 rounded-full text-xs font-medium ${estadoClase}">
+                                    ${estadoHTML}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <button onclick="verDetalles('${envioId}')" 
+                                        class="px-3 py-1 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm flex items-center gap-1 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>
+                                    Ver
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    html += `
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <td class="py-3 px-4">
+                                <span class="font-mono font-bold text-sm">${envio["ENVIO ID"] || ''}</span>
+                            </td>
+                            <td class="py-3 px-4 text-sm">${fechaFormateada}</td>
+                            <td class="py-3 px-4">
+                                <div class="font-medium">${envio["DESTINO"] || ''}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">${envio["BARRIO"] || ''}</div>
+                            </td>
+                            <td class="py-3 px-4 text-sm">${formaPagoTexto}</td>
+                            <td class="py-3 px-4 font-medium text-blue-600 dark:text-blue-400">
+                                $${valorRecaudar.toLocaleString('es-CO')}
+                            </td>
+                            <td class="py-3 px-4 font-bold text-green-600 dark:text-green-400">
+                                $${totalPagar.toLocaleString('es-CO')}
+                            </td>
+                            <td class="py-3 px-4 text-sm">
+                                ${envio["MENSAJERO"] || 'Sin asignar'}
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 rounded-full text-xs font-medium ${estadoClase}">
+                                    ${estadoHTML}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <button onclick="verDetalles('${envioId}')" 
+                                        class="px-3 py-1 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm flex items-center gap-1 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>
+                                    Ver
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }
             });
             
             tbody.innerHTML = html;
@@ -1090,7 +1462,6 @@
             const totalPaginas = Math.ceil(enviosFiltrados.length / itemsPorPagina);
             const nuevaPagina = paginaActual + direccion;
             
-            // Limitar entre 1 y totalPaginas
             if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
                 paginaActual = nuevaPagina;
                 mostrarPagina();
@@ -1103,55 +1474,15 @@
             }
         }
         
-        function actualizarEstadisticas() {
-            const totalEnvios = enviosFiltrados.length;
-            
-            if (totalEnvios === 0) {
-                document.getElementById('totalEnvios').textContent = '0';
-                document.getElementById('totalPagar').textContent = '$0';
-                document.getElementById('totalRecaudar').textContent = '$0';
-                return;
-            }
-            
-            // Calcular total a pagar SOLO DE PENDIENTES
-            let totalPagar = 0;
-            let totalRecaudar = 0;
-            
-            enviosFiltrados.forEach(envio => {
-                const valorPagar = parseFloat(envio.totalPagar || envio["TOTAL A PAGAR"] || 0);
-                const valorRecaudar = parseFloat(envio.valorRecaudar || envio["VALOR A RECAUDAR"] || 0);
-                const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
-                
-                if (!isNaN(valorPagar)) {
-                    // Solo sumar si NO está pagado
-                    if (!estaPagado && valorPagar > 0) {
-                        totalPagar += valorPagar;
-                    }
-                }
-                
-                if (!isNaN(valorRecaudar)) {
-                    totalRecaudar += valorRecaudar;
-                }
-            });
-            
-            // Actualizar UI
-            document.getElementById('totalEnvios').textContent = totalEnvios.toLocaleString();
-            document.getElementById('totalPagar').textContent = `$${totalPagar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
-            document.getElementById('totalRecaudar').textContent = `$${totalRecaudar.toLocaleString('es-CO', {minimumFractionDigits: 0})}`;
-        }
-        
         function verDetalles(envioId) {
-            const envio = todosEnvios.find(e => 
-                e["ENVIO ID"] === envioId || 
-                e.id === envioId
-            );
+            const envio = todosEnvios.find(e => e["ENVIO ID"] === envioId);
             
             if (!envio) {
                 mostrarError('No se encontraron detalles del envío');
                 return;
             }
             
-            const fecha = obtenerFechaEnvio(envio);
+            const fecha = parsearFechaEnvio(envio["FECHA DE CREACION"]) || new Date();
             const fechaFormateada = fecha.toLocaleString('es-CO', {
                 day: '2-digit',
                 month: '2-digit',
@@ -1174,24 +1505,9 @@
             }
             
             // Estado de pago
-            const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITente"]);
+            const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
             const estadoPagoTexto = estaPagado ? 'Pagado' : 'Pendiente';
             const estadoPagoColor = estaPagado ? 'text-green-600' : 'text-yellow-600';
-            
-            // Fecha de pago si existe
-            let fechaPagoTexto = '';
-            if (envio["FECHA PAGO"]) {
-                try {
-                    const fechaPago = new Date(envio["FECHA PAGO"]);
-                    fechaPagoTexto = fechaPago.toLocaleDateString('es-CO', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                } catch (e) {
-                    fechaPagoTexto = envio["FECHA PAGO"];
-                }
-            }
             
             let html = `
                 <div class="space-y-4">
@@ -1199,7 +1515,7 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
                             <div>
-                                <div class="font-bold text-lg mb-1">ID: ${envio["ENVIO ID"] || envio.id}</div>
+                                <div class="font-bold text-lg mb-1">ID: ${envio["ENVIO ID"] || ''}</div>
                                 <div class="text-sm text-gray-600 dark:text-gray-400">
                                     <span class="material-symbols-outlined align-text-bottom text-sm">schedule</span>
                                     Registrado: ${fechaFormateada}
@@ -1213,17 +1529,18 @@
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Remitente -->
+                        <!-- Información del Usuario -->
                         <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
                             <h4 class="font-bold mb-3 text-primary flex items-center gap-2">
                                 <span class="material-symbols-outlined">person</span>
-                                Remitente
+                                Información del ${esAdmin ? 'Usuario' : 'Remitente'}
                             </h4>
                             <div class="space-y-2 text-sm">
-                                <p><span class="font-medium">Nombre:</span> ${envio["REMITE"] || envio.remite || 'N/A'}</p>
-                                <p><span class="font-medium">Teléfono:</span> ${envio["TELEFONO"] || envio.telefono || 'N/A'}</p>
-                                <p><span class="font-medium">Dirección:</span> ${envio["DIRECCION"] || envio.direccion || 'N/A'}</p>
-                                <p><span class="font-medium">Correo:</span> ${envio["CORREO REMITENTE"] || envio.correo || 'N/A'}</p>
+                                ${esAdmin ? `<p><span class="font-medium">Usuario ID:</span> ${envio["USUARIO ID"] || ''}</p>` : ''}
+                                <p><span class="font-medium">Remitente:</span> ${envio["REMITE"] || ''}</p>
+                                <p><span class="font-medium">Teléfono:</span> ${envio["TELEFONO"] || ''}</p>
+                                <p><span class="font-medium">Correo:</span> ${envio["CORREO REMITENTE"] || ''}</p>
+                                <p><span class="font-medium">Dirección:</span> ${envio["DIRECCION"] || ''}</p>
                             </div>
                         </div>
                         
@@ -1234,12 +1551,11 @@
                                 Destinatario
                             </h4>
                             <div class="space-y-2 text-sm">
-                                <p><span class="font-medium">Nombre:</span> ${envio["DESTINO"] || envio.destino || 'N/A'}</p>
-                                <p><span class="font-medium">Teléfono:</span> ${envio["TELEFONOCLIENTE"] || envio.telefonoCliente || 'N/A'}</p>
-                                <p><span class="font-medium">Dirección:</span> ${envio["DIRECCION"] || envio["DIRECCION DESTINO"] || envio.direccionDestino || 'N/A'}</p>
-                                <p><span class="font-medium">Barrio:</span> ${envio["BARRIO"] || envio.barrio || 'N/A'}</p>
-                                <p><span class="font-medium">Localidad:</span> ${envio["LOCALIDAD"] || envio.localidad || 'N/A'}</p>
-                                <p><span class="font-medium">Ciudad:</span> ${envio["CIUDAD DESTINO"] || envio.ciudadDestino || 'N/A'}</p>
+                                <p><span class="font-medium">Nombre:</span> ${envio["DESTINO"] || ''}</p>
+                                <p><span class="font-medium">Teléfono:</span> ${envio["TELEFONOCLIENTE"] || ''}</p>
+                                <p><span class="font-medium">Dirección:</span> ${envio["DIRECCION DESTINO"] || ''}</p>
+                                <p><span class="font-medium">Barrio:</span> ${envio["BARRIO"] || ''}</p>
+                                <p><span class="font-medium">Ciudad:</span> ${envio["CIUDAD DESTINO"] || ''}</p>
                             </div>
                         </div>
                         
@@ -1254,7 +1570,6 @@
                                 <p><span class="font-medium">Valor a recaudar:</span> $${(envio.valorRecaudar || 0).toLocaleString('es-CO')}</p>
                                 <p><span class="font-medium">Total a pagar:</span> <span class="font-bold text-green-600">$${(envio.totalPagar || 0).toLocaleString('es-CO')}</span></p>
                                 <p><span class="font-medium">Estado pago:</span> <span class="font-bold ${estadoPagoColor}">${estadoPagoTexto}</span></p>
-                                ${fechaPagoTexto ? `<p><span class="font-medium">Fecha pago:</span> ${fechaPagoTexto}</p>` : ''}
                             </div>
                         </div>
                         
@@ -1265,20 +1580,20 @@
                                 Información Logística
                             </h4>
                             <div class="space-y-2 text-sm">
-                                <p><span class="font-medium">Mensajero:</span> ${envio["MENSAJERO"] || envio.mensajero || 'Por asignar'}</p>
-                                <p><span class="font-medium">Usuario ID:</span> ${envio["USUARIO ID"] || envio.usuarioId || 'N/A'}</p>
-                                <p><span class="font-medium">Observaciones:</span> ${envio["OBS"] || envio.observaciones || 'Ninguna'}</p>
+                                <p><span class="font-medium">Mensajero:</span> ${envio["MENSAJERO"] || 'Por asignar'}</p>
+                                <p><span class="font-medium">Observaciones:</span> ${envio["OBS"] || ''}</p>
+                                <p><span class="font-medium">Localidad:</span> ${envio["LOCALIDAD"] || ''}</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap gap-2">
-                        <button onclick="imprimirGuia('${envioId.replace(/'/g, "\\'")}')" 
+                        <button onclick="imprimirGuia('${envio["ENVIO ID"] || ''}')" 
                                 class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg flex items-center gap-2 transition-colors">
                             <span class="material-symbols-outlined">print</span>
                             Imprimir Guía
                         </button>
-                        <button onclick="copiarEnlace('${envioId.replace(/'/g, "\\'")}')" 
+                        <button onclick="copiarEnlace('${envio["ENVIO ID"] || ''}')" 
                                 class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg flex items-center gap-2 transition-colors">
                             <span class="material-symbols-outlined">link</span>
                             Copiar Enlace
@@ -1293,20 +1608,12 @@
             
             document.getElementById('modalDetallesContenido').innerHTML = html;
             document.getElementById('modalDetalles').classList.remove('hidden');
-            
-            // Prevenir scroll del body
             document.body.style.overflow = 'hidden';
         }
         
         function cerrarModalDetalles() {
             document.getElementById('modalDetalles').classList.add('hidden');
             document.body.style.overflow = 'auto';
-        }
-        
-        function cerrarModalConfirmacion() {
-            document.getElementById('modalConfirmacion').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            confirmacionCallback = null;
         }
         
         function imprimirGuia(envioId) {
@@ -1324,7 +1631,6 @@
             navigator.clipboard.writeText(url).then(() => {
                 mostrarToast('success', 'Enlace copiado', 'El enlace se copió al portapapeles');
             }).catch(() => {
-                // Fallback para navegadores antiguos
                 const textArea = document.createElement('textarea');
                 textArea.value = url;
                 document.body.appendChild(textArea);
@@ -1335,73 +1641,34 @@
             });
         }
         
-        function exportarHistorial() {
-            if (enviosFiltrados.length === 0) {
-                mostrarError('No hay datos para exportar');
-                return;
-            }
+        function exportarExcel() {
+            if (!esAdmin || enviosFiltrados.length === 0) return;
             
-            mostrarConfirmacion(
-                'Exportar Historial',
-                `¿Desea exportar ${enviosFiltrados.length} envíos a formato CSV?`,
-                () => {
-                    // Crear CSV
-                    let csv = 'ID,Fecha,Destinatario,Barrio,Forma Pago,Valor a Recaudar,Total a Pagar,Estado,Remitente,Teléfono\n';
-                    
-                    enviosFiltrados.forEach(envio => {
-                        const fecha = obtenerFechaEnvio(envio);
-                        const fechaFormateada = fecha.toLocaleDateString('es-CO');
-                        const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
-                        const estado = estaPagado ? 'Pagado' : 'Pendiente';
-                        
-                        csv += `"${envio["ENVIO ID"] || ''}","${fechaFormateada}","${envio["DESTINO"] || ''}","${envio["BARRIO"] || ''}","${envio["FORMA DE PAGO"] || ''}","${envio.valorRecaudar || 0}","${envio.totalPagar || 0}","${estado}","${envio["REMITE"] || ''}","${envio["TELEFONO"] || ''}"\n`;
-                    });
-                    
-                    // Crear y descargar archivo
-                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                    const link = document.createElement('a');
-                    const url = URL.createObjectURL(blob);
-                    
-                    const fechaExportacion = new Date().toISOString().split('T')[0];
-                    link.setAttribute('href', url);
-                    link.setAttribute('download', `historial_${usuarioActual.USUARIO}_${fechaExportacion}.csv`);
-                    link.style.visibility = 'hidden';
-                    
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    mostrarToast('success', 'Exportación exitosa', 'El archivo CSV se ha descargado');
-                }
-            );
-        }
-        
-        function limpiarFiltros() {
-            document.getElementById('formaPagoFilter').value = 'todas';
-            document.getElementById('estadoPagoFilter').value = 'todos';
-            document.getElementById('busqueda').value = '';
-            document.getElementById('ordenarPor').value = 'fecha_desc';
+            let csv = 'ID,Fecha,Usuario,Destinatario,Barrio,Forma Pago,Valor a Recaudar,Total a Pagar,Estado,Mensajero,Ciudad Destino\n';
             
-            enviosFiltrados = [...todosEnvios];
-            ordenarEnvios();
-            actualizarEstadisticas();
+            enviosFiltrados.forEach(envio => {
+                const fecha = parsearFechaEnvio(envio["FECHA DE CREACION"]) || new Date();
+                const fechaFormateada = fecha.toLocaleDateString('es-CO');
+                const estaPagado = determinarSiEstaPagado(envio["PAGADO A REMITENTE"]);
+                const estado = estaPagado ? 'Pagado' : 'Pendiente';
+                
+                csv += `"${envio["ENVIO ID"] || ''}","${fechaFormateada}","${envio["USUARIO ID"] || ''}","${envio["DESTINO"] || ''}","${envio["BARRIO"] || ''}","${envio["FORMA DE PAGO"] || ''}","${envio.valorRecaudar || 0}","${envio.totalPagar || 0}","${estado}","${envio["MENSAJERO"] || ''}","${envio["CIUDAD DESTINO"] || ''}"\n`;
+            });
             
-            mostrarToast('info', 'Filtros limpiados', 'Se mostraron todos los envíos');
-        }
-        
-        function mostrarConfirmacion(titulo, mensaje, callback) {
-            document.getElementById('confirmacionMensaje').textContent = mensaje;
-            confirmacionCallback = callback;
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
             
-            document.getElementById('modalConfirmacion').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            const fechaExportacion = new Date().toISOString().split('T')[0];
+            link.setAttribute('href', url);
+            link.setAttribute('download', `envios_${fechaExportacion}.csv`);
+            link.style.visibility = 'hidden';
             
-            document.getElementById('btnConfirmarAccion').onclick = () => {
-                cerrarModalConfirmacion();
-                if (confirmacionCallback) {
-                    confirmacionCallback();
-                }
-            };
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            mostrarToast('success', 'Exportación exitosa', 'El archivo CSV se ha descargado');
         }
         
         function mostrarToast(tipo, titulo, mensaje) {
@@ -1410,7 +1677,6 @@
             const toastTitle = document.getElementById('toastTitle');
             const toastMessage = document.getElementById('toastMessage');
             
-            // Configurar icono y colores según el tipo
             let icono = 'info';
             let color = 'text-blue-500';
             
@@ -1427,7 +1693,6 @@
                     icono = 'warning';
                     color = 'text-yellow-500';
                     break;
-                case 'info':
                 default:
                     icono = 'info';
                     color = 'text-blue-500';
@@ -1440,7 +1705,6 @@
             
             toast.classList.remove('hidden');
             
-            // Auto-ocultar después de 5 segundos
             setTimeout(() => {
                 cerrarToast();
             }, 5000);
@@ -1466,6 +1730,5 @@
             };
         }
     </script>
-    <script type="module" src="AUTH.JS"></script>
 </body>
 </html>
