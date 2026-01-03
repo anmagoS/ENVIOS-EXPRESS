@@ -51,26 +51,28 @@ function inicializarGooglePlacesAutocomplete() {
     }
     
     try {
-    // Área más específica para Bogotá + Soacha
-    const bogotaSoachaBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(4.48, -74.25),  // Soacha
-        new google.maps.LatLng(4.85, -74.00)   // Bogotá norte
-    );
-    
-    const autocomplete = new google.maps.places.Autocomplete(direccionInput, {
-        componentRestrictions: { 
-            country: 'co'
-        },
-        bounds: bogotaSoachaBounds,
-        strictBounds: true,  // ← ¡SOLO resultados dentro del área!
-        fields: [
-            'address_components', 
-            'formatted_address', 
-            'geometry',
-            'name'
-        ]
-    });
+        // Área más específica para Bogotá + Soacha
+        const bogotaSoachaBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(4.48, -74.25),  // Soacha
+            new google.maps.LatLng(4.85, -74.00)   // Bogotá norte
+        );
         
+        const autocomplete = new google.maps.places.Autocomplete(direccionInput, {
+            componentRestrictions: { 
+                country: 'co'
+            },
+            bounds: bogotaSoachaBounds,
+            strictBounds: true,  // ← CORRECCIÓN: Cambiado de 'strictBounds' a 'strictBounds'
+            fields: [
+                'address_components', 
+                'formatted_address', 
+                'geometry',
+                'name'
+            ],
+            // Agrega esto para evitar el error de tipos mixtos:
+            types: ['address']  // ← AÑADE ESTA LÍNEA
+        });
+            
         // Deshabilitar el autocomplete nativo del navegador
         direccionInput.setAttribute('autocomplete', 'off');
         
@@ -296,10 +298,8 @@ function initApp() {
             initializeUI();
             
             // ========== INICIALIZAR GOOGLE PLACES AQUÍ ==========
-            // Esperar un poco para asegurar que Google Maps API esté cargada
-            setTimeout(() => {
-                console.log('🌍 Verificando Google Maps API...');
-                
+            // Esperar a que Google Maps esté completamente cargado
+            const checkGoogleMaps = () => {
                 if (typeof google !== 'undefined' && google.maps && google.maps.places) {
                     console.log('✅ Google Maps API disponible');
                     try {
@@ -310,17 +310,13 @@ function initApp() {
                         mostrarErrorGoogleMaps();
                     }
                 } else {
-                    console.warn('⚠️ Google Maps API no está disponible todavía');
-                    // Intentar de nuevo después de 2 segundos
-                    setTimeout(() => {
-                        if (typeof google !== 'undefined' && google.maps) {
-                            inicializarGooglePlacesAutocomplete();
-                        } else {
-                            mostrarErrorGoogleMaps();
-                        }
-                    }, 2000);
+                    // Intentar de nuevo después de 500ms
+                    setTimeout(checkGoogleMaps, 500);
                 }
-            }, 1000); // Aumentado a 1 segundo
+            };
+            
+            // Iniciar verificación
+            checkGoogleMaps();
             // ========== FIN DE GOOGLE PLACES ==========
             
             console.log('✅ Aplicación inicializada');
