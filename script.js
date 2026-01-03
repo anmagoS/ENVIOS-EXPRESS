@@ -289,7 +289,7 @@ function initApp() {
     
     initializeDOMElements();
     
-    loadBarriosData().then(() => {
+   
         loadRemitentesData();
         loadUsuariosParaAutocomplete().then(() => {
             setupEventListeners();
@@ -2380,3 +2380,4 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarBotonesAdmin();
     configurarBotonHistorial();
 });
+
