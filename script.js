@@ -1777,7 +1777,10 @@ async function manejarEnvioFormulario(e) {
         // ============================================
         // PASO 2: CREAR URL DE GOOGLE MAPS AUTOMÁTICAMENTE
         // ============================================
-        const direccionDestino = document.getElementById('direccionDestino').value;
+       // ============================================
+// PASO 2: CREAR URL DE GOOGLE MAPS CON COORDENADAS
+// ============================================
+const direccionDestino = document.getElementById('direccionDestino').value;
 
 // Obtener coordenadas de Google Places
 let latitud = "";
@@ -1793,11 +1796,26 @@ if (window.ultimaDireccionSeleccionada) {
     console.warn("⚠️ No hay coordenadas disponibles");
 }
 
-// Crear URL de Google Maps
-const direccionCodificada = encodeURIComponent(direccionDestino.trim());
-const urlGoogleMaps = `https://www.google.com/maps/search/?api=1&query=${direccionCodificada}`;
+// ¡¡¡IMPORTANTE: CREAR URL CON COORDENADAS DIRECTAMENTE!!!
+let urlGoogleMaps;
 
-console.log('📍 URL Google Maps generada:', urlGoogleMaps);
+if (latitud && longitud && latitud.trim() !== "" && longitud.trim() !== "" && 
+    !isNaN(parseFloat(latitud)) && !isNaN(parseFloat(longitud))) {
+    
+    // FORMATO 1: URL con coordenadas exactas (RECOMENDADO)
+    urlGoogleMaps = `https://www.google.com/maps?q=${latitud.trim()},${longitud.trim()}&z=17`;
+    
+    // FORMATO ALTERNATIVO: Con API de Google Maps
+    // urlGoogleMaps = `https://www.google.com/maps/search/?api=1&query=${latitud.trim()},${longitud.trim()}`;
+    
+    console.log("✅ URL generada CON COORDENADAS:", urlGoogleMaps);
+} else {
+    // Fallback: Usar dirección si no hay coordenadas
+    const direccionCodificada = encodeURIComponent(direccionDestino.trim());
+    urlGoogleMaps = `https://www.google.com/maps/search/?api=1&query=${direccionCodificada}`;
+    console.warn("⚠️ URL generada con dirección (sin coordenadas):", urlGoogleMaps);
+}
+
 console.log('📍 Coordenadas para hoja:', `${latitud}, ${longitud}`);
         
         // ============================================
@@ -2438,4 +2456,5 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarBotonesAdmin();
     configurarBotonHistorial();
 });
+
 
