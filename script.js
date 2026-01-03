@@ -86,6 +86,29 @@ function inicializarGooglePlacesAutocomplete() {
             }
             
             console.log("✅ Dirección Google seleccionada:", place.formatted_address);
+                // ¡¡¡AGREGAR ESTO PARA VER LAS COORDENADAS!!!
+    console.log("📍 COORDENADAS OBTENIDAS:");
+    console.log("  Latitud:", place.geometry.location.lat());
+    console.log("  Longitud:", place.geometry.location.lng());
+    console.log("  Formato para hoja:", 
+        place.geometry.location.lat() + ", " + place.geometry.location.lng());
+    
+    // ¡¡¡TAMBIÉN VERIFICAR SI SE GUARDAN CORRECTAMENTE!!!
+    console.log("🔍 Verificación de guardado:");
+    console.log("  ¿window.ultimaDireccionSeleccionada existe?", 
+        window.ultimaDireccionSeleccionada ? "✅ SÍ" : "❌ NO");
+    
+    // Guardar datos para posible uso futuro
+    window.ultimaDireccionSeleccionada = {
+        direccion_completa: place.formatted_address,
+        latitud: place.geometry.location.lat(),
+        longitud: place.geometry.location.lng(),
+        nombre_lugar: place.name || ''
+    };
+    
+    console.log("💾 Datos guardados en window.ultimaDireccionSeleccionada:");
+    console.log("  - Latitud:", window.ultimaDireccionSeleccionada.latitud);
+    console.log("  - Longitud:", window.ultimaDireccionSeleccionada.longitud);
             
             // Guardar datos para posible uso futuro
             window.ultimaDireccionSeleccionada = {
@@ -2415,3 +2438,4 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarBotonesAdmin();
     configurarBotonHistorial();
 });
+
