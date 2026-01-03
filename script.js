@@ -30,6 +30,252 @@ let resumenFormaPago, resumenValorRecaudar, resumenEstado;
 let submitButton, submitText, submitIcon;
 
 // ============================================
+// GOOGLE PLACES AUTOCOMPLETE - COMPLETO
+// ============================================
+
+function inicializarGooglePlacesAutocomplete() {
+    console.log("📍 Inicializando Google Places Autocomplete...");
+    
+    const direccionInput = document.getElementById('direccionDestino');
+    
+    if (!direccionInput) {
+        console.error("❌ No se encontró el campo 'direccionDestino'");
+        return;
+    }
+    
+    // Verificar si Google Maps está disponible
+    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+        console.warn("⚠️ Google Places API no está disponible. Verifica tu API Key.");
+        mostrarErrorGoogleMaps();
+        return;
+    }
+    
+    try {
+        // Crear el autocomplete de Google Places
+        const autocomplete = new google.maps.places.Autocomplete(direccionInput, {
+            types: ['address'],
+            componentRestrictions: { 
+                country: 'co',
+                locality: ['Bogotá', 'Soacha']
+            },
+            fields: [
+                'address_components', 
+                'formatted_address', 
+                'geometry',
+                'name'
+            ]
+        });
+        
+        // Deshabilitar el autocomplete nativo del navegador
+        direccionInput.setAttribute('autocomplete', 'off');
+        
+        // Configurar evento cuando se selecciona una dirección
+        autocomplete.addListener('place_changed', function() {
+            const place = autocomplete.getPlace();
+            
+            if (!place.geometry) {
+                console.log("❌ No se seleccionó un lugar válido");
+                return;
+            }
+            
+            console.log("✅ Dirección Google seleccionada:", place.formatted_address);
+            
+            // Guardar datos para posible uso futuro
+            window.ultimaDireccionSeleccionada = {
+                direccion_completa: place.formatted_address,
+                latitud: place.geometry.location.lat(),
+                longitud: place.geometry.location.lng(),
+                nombre_lugar: place.name || ''
+            };
+            
+            // Extraer componentes de la dirección
+            place.address_components.forEach(component => {
+                const tipos = component.types;
+                
+                // Barrio
+                if (tipos.includes('neighborhood') || tipos.includes('sublocality_level_1')) {
+                    const barrioInput = document.getElementById('barrioLocalidad');
+                    if (barrioInput && (!barrioInput.value.trim())) {
+                        barrioInput.value = component.long_name;
+                        barrioInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                }
+                
+                // Ciudad
+                if (tipos.includes('locality')) {
+                    const ciudadSelect = document.getElementById('ciudadDestino');
+                    if (ciudadSelect) {
+                        const ciudadEncontrada = component.long_name.toLowerCase();
+                        
+                        // Buscar coincidencia en las opciones
+                        Array.from(ciudadSelect.options).forEach(option => {
+                            if (option.value && option.value.toLowerCase().includes(ciudadEncontrada)) {
+                                ciudadSelect.value = option.value;
+                                ciudadSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                                console.log(`✅ Ciudad auto-seleccionada: ${option.value}`);
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Mostrar notificación
+            mostrarNotificacionDireccion(place.formatted_address);
+            
+            // Enfocar el siguiente campo automáticamente
+            setTimeout(() => {
+                const complementoInput = document.getElementById('complementoDireccion');
+                if (complementoInput) {
+                    complementoInput.focus();
+                }
+            }, 500);
+        });
+        
+        // Prevenir submit del formulario al presionar Enter
+        direccionInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.activeElement === direccionInput) {
+                e.preventDefault();
+                if (this.value.length > 3) {
+                    this.blur();
+                    setTimeout(() => this.focus(), 10);
+                }
+            }
+        });
+        
+        console.log("✅ Google Places Autocomplete inicializado exitosamente");
+        
+    } catch (error) {
+        console.error("❌ Error inicializando Google Places:", error);
+        mostrarErrorGoogleMaps();
+    }
+}
+
+function mostrarNotificacionDireccion(direccion) {
+    // Crear notificación flotante
+    const notificacion = document.createElement('div');
+    notificacion.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl z-50 flex items-center gap-3 animate-slideUp';
+    notificacion.style.cssText = `
+        animation: slideUp 0.3s ease-out forwards;
+        max-width: 90%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    `;
+    
+    notificacion.innerHTML = `
+        <span class="material-symbols-outlined text-lg">check_circle</span>
+        <span class="text-sm font-medium">Dirección encontrada: ${direccion.substring(0, 40)}${direccion.length > 40 ? '...' : ''}</span>
+    `;
+    
+    document.body.appendChild(notificacion);
+    
+    // Eliminar después de 4 segundos
+    setTimeout(() => {
+        notificacion.style.animation = 'slideDown 0.3s ease-in forwards';
+        setTimeout(() => {
+            if (notificacion.parentElement) notificacion.remove();
+        }, 300);
+    }, 4000);
+}
+
+function mostrarErrorGoogleMaps() {
+    const direccionInput = document.getElementById('direccionDestino');
+    if (direccionInput) {
+        // Verificar si ya hay un mensaje de error
+        const existingError = direccionInput.parentNode.querySelector('.google-maps-error');
+        if (!existingError) {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'google-maps-error text-xs text-orange-600 dark:text-orange-400 mt-1 flex items-center gap-1';
+            errorMsg.innerHTML = `
+                <span class="material-symbols-outlined text-sm">warning</span>
+                <span>Google Maps no disponible. Escribe la dirección manualmente.</span>
+            `;
+            
+            direccionInput.parentNode.appendChild(errorMsg);
+            
+            // Eliminar después de 10 segundos
+            setTimeout(() => {
+                if (errorMsg.parentElement) errorMsg.remove();
+            }, 10000);
+        }
+    }
+}
+
+// Añadir animaciones CSS dinámicamente
+function agregarAnimacionesCSS() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+        }
+        
+        .animate-slideUp {
+            animation: slideUp 0.3s ease-out forwards;
+        }
+        
+        /* Estilos para el autocomplete de Google */
+        .pac-container {
+            z-index: 10002 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border: 1px solid #e5e7eb !important;
+            margin-top: 4px !important;
+        }
+        
+        .pac-item {
+            padding: 8px 12px !important;
+            cursor: pointer !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            font-size: 14px !important;
+        }
+        
+        .pac-item:hover {
+            background-color: #f9fafb !important;
+        }
+        
+        .pac-item-selected {
+            background-color: #eff6ff !important;
+        }
+        
+        .pac-icon {
+            margin-right: 8px !important;
+        }
+        
+        @media (max-width: 767px) {
+            .pac-container {
+                position: fixed !important;
+                top: auto !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                max-height: 50vh !important;
+                border-radius: 12px 12px 0 0 !important;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ============================================
 // FUNCIÓN PRINCIPAL DE INICIALIZACIÓN
 // ============================================
 
@@ -43,6 +289,35 @@ function initApp() {
         loadUsuariosParaAutocomplete().then(() => {
             setupEventListeners();
             initializeUI();
+            
+            // ========== INICIALIZAR GOOGLE PLACES AQUÍ ==========
+            // Esperar un poco para asegurar que Google Maps API esté cargada
+            setTimeout(() => {
+                console.log('🌍 Verificando Google Maps API...');
+                
+                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    console.log('✅ Google Maps API disponible');
+                    try {
+                        inicializarGooglePlacesAutocomplete();
+                        console.log('🎯 Google Places Autocomplete inicializado');
+                    } catch (error) {
+                        console.error('❌ Error inicializando Google Places:', error);
+                        mostrarErrorGoogleMaps();
+                    }
+                } else {
+                    console.warn('⚠️ Google Maps API no está disponible todavía');
+                    // Intentar de nuevo después de 2 segundos
+                    setTimeout(() => {
+                        if (typeof google !== 'undefined' && google.maps) {
+                            inicializarGooglePlacesAutocomplete();
+                        } else {
+                            mostrarErrorGoogleMaps();
+                        }
+                    }, 2000);
+                }
+            }, 1000); // Aumentado a 1 segundo
+            // ========== FIN DE GOOGLE PLACES ==========
+            
             console.log('✅ Aplicación inicializada');
         });
     }).catch(error => {
@@ -287,41 +562,33 @@ function configurarCamposSegunRol(usuario) {
         if (dropdown) {
             dropdown.style.display = 'none';
         }
-    }
-    
-    // Si NO es cliente (ADMIN u OPERADOR), los campos son editables
-else {
-    const remitente = document.getElementById('remitente');
-    const direccionRemitente = document.getElementById('direccionRemitente');
-    const telefonoRemitente = document.getElementById('telefonoRemitente');
-    const iconRemitente = document.getElementById('iconRemitente');
-    const iconTelefonoRemitente = document.getElementById('iconTelefonoRemitente');
-    const iconDireccionRemitente = document.getElementById('iconDireccionRemitente');
-    
-    if (remitente) {
-        remitente.removeAttribute('readonly');
-        remitente.classList.remove('cliente-readonly');
-        remitente.placeholder = "Ej. Distribuidora Central S.A.";
-        if (iconRemitente) iconRemitente.textContent = 'search';
+    } else {
+        // Si NO es cliente (ADMIN u OPERADOR), los campos son editables
+        const remitente = document.getElementById('remitente');
+        const iconRemitente = document.getElementById('iconRemitente');
         
-        // Asegurarnos de que los usuarios estén cargados antes de inicializar
-        setTimeout(() => {
-            if (usuariosDisponibles && usuariosDisponibles.length > 0) {
-                console.log(`🎯 Inicializando autocomplete con ${usuariosDisponibles.length} usuarios`);
-                inicializarAutocompleteRemitente();
-            } else {
-                console.log("🔄 Usuarios no cargados, cargando ahora...");
-                loadUsuariosParaAutocomplete().then(() => {
-                    if (usuariosDisponibles.length > 0) {
-                        inicializarAutocompleteRemitente();
-                    }
-                });
-            }
-        }, 1000); // Dar tiempo a que la UI se cargue completamente
+        if (remitente) {
+            remitente.removeAttribute('readonly');
+            remitente.classList.remove('cliente-readonly');
+            remitente.placeholder = "Ej. Distribuidora Central S.A.";
+            if (iconRemitente) iconRemitente.textContent = 'search';
+            
+            // Asegurarnos de que los usuarios estén cargados antes de inicializar
+            setTimeout(() => {
+                if (usuariosDisponibles && usuariosDisponibles.length > 0) {
+                    console.log(`🎯 Inicializando autocomplete con ${usuariosDisponibles.length} usuarios`);
+                    inicializarAutocompleteRemitente();
+                } else {
+                    console.log("🔄 Usuarios no cargados, cargando ahora...");
+                    loadUsuariosParaAutocomplete().then(() => {
+                        if (usuariosDisponibles.length > 0) {
+                            inicializarAutocompleteRemitente();
+                        }
+                    });
+                }
+            }, 1000);
+        }
     }
-    
-    // ... resto del código para otros campos
-}
 }
 
 function configurarTemporizadorInactividad() {
@@ -362,7 +629,6 @@ function handleBarrioInput() {
         return;
     }
     
-    // MOSTRAR DROPDOWN INMEDIATAMENTE AL ESCRIBIR
     if (searchText.length >= 1) {
         filteredBarrios = filterBarrios(searchText);
         console.log(`✅ ${filteredBarrios.length} resultados`);
@@ -370,7 +636,6 @@ function handleBarrioInput() {
         if (filteredBarrios.length > 0) {
             showAutocomplete(filteredBarrios);
         } else {
-            // Aún mostrar dropdown vacío para mantener la interfaz consistente
             showAutocomplete([]);
         }
     } else {
@@ -419,7 +684,6 @@ function handleBarrioFocus() {
     console.log('🎯 Campo barrio enfocado');
     const searchText = barrioInput.value.trim();
     
-    // MOSTRAR SUGERENCIAS INMEDIATAMENTE AL ENFOCAR
     if (searchText.length >= 1) {
         filteredBarrios = filterBarrios(searchText);
         showAutocomplete(filteredBarrios);
@@ -513,7 +777,6 @@ function showDropdown() {
 function hideDropdown() {
     if (!autocompleteDropdown) return;
     
-    // Verificar si deberíamos realmente cerrar
     const estilo = window.getComputedStyle(autocompleteDropdown);
     const isVisible = estilo.display === 'block' || 
                       autocompleteDropdown.style.display === 'block';
@@ -537,142 +800,6 @@ function moveFocus(direction, items) {
         items[currentFocus].classList.add('highlighted');
         items[currentFocus].scrollIntoView({ block: 'nearest' });
     }
-}
-
-// ============================================
-// MANEJO DE CIERRE DEL DROPDOWN
-// ============================================
-
-function setupDropdownCloseBehavior() {
-    console.log('🔧 Configurando comportamiento MEJORADO del dropdown...');
-    
-    let escribiendo = false;
-    let dropdownJustClicked = false;
-    let ignoreBlur = false;
-    
-    // Click en dropdown - No cerrar
-    document.addEventListener('mousedown', function(e) {
-        if (!autocompleteDropdown || !autocompleteDropdown.contains(e.target)) {
-            return;
-        }
-        
-        console.log('🎯 Click en dropdown - previniendo cierre');
-        dropdownJustClicked = true;
-        ignoreBlur = true;
-        
-        setTimeout(() => {
-            dropdownJustClicked = false;
-            ignoreBlur = false;
-        }, 300);
-    });
-    
-    // Click fuera - Cerrar solo si no está interactuando
-    document.addEventListener('click', function(e) {
-        if (!autocompleteDropdown || !barrioInput) return;
-        
-        if (dropdownJustClicked || escribiendo) {
-            console.log('⏸️ No cerrar - usuario interactuando');
-            return;
-        }
-        
-        const clickedInput = barrioInput.contains(e.target);
-        const clickedDropdown = autocompleteDropdown.contains(e.target);
-        
-        const isVisible = autocompleteDropdown.style.display === 'block' || 
-                         window.getComputedStyle(autocompleteDropdown).display === 'block';
-        
-        if (isVisible && !clickedInput && !clickedDropdown) {
-            console.log('👆 Click fuera - cerrando dropdown');
-            hideDropdown();
-        }
-    });
-    
-    // Tecla Escape
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            const isVisible = autocompleteDropdown && 
-                (autocompleteDropdown.style.display === 'block' || 
-                 window.getComputedStyle(autocompleteDropdown).display === 'block');
-            
-            if (isVisible) {
-                console.log('⎋ Escape - cerrando dropdown');
-                hideDropdown();
-                if (barrioInput) barrioInput.focus();
-            }
-        }
-    });
-    
-    if (barrioInput) {
-        // Detectar escritura
-        barrioInput.addEventListener('input', function() {
-            escribiendo = true;
-            ignoreBlur = true;
-            
-            console.log('📝 Escribiendo - manteniendo dropdown visible');
-            
-            clearTimeout(this._writingTimeout);
-            this._writingTimeout = setTimeout(() => {
-                escribiendo = false;
-                ignoreBlur = false;
-                console.log('⏹️ Terminó de escribir');
-            }, 500);
-        });
-        
-        // Blur inteligente - ¡LA CLAVE!
-        barrioInput.addEventListener('blur', function() {
-            console.log('⚠️ Blur detectado - escribiendo:', escribiendo, '- ignoreBlur:', ignoreBlur);
-            
-            if (escribiendo || ignoreBlur || dropdownJustClicked) {
-                console.log('🚫 Ignorando blur - recuperando foco');
-                
-                // Recuperar foco inmediatamente
-                setTimeout(() => {
-                    if (barrioInput) {
-                        barrioInput.focus();
-                        // Poner cursor al final
-                        const len = barrioInput.value.length;
-                        barrioInput.setSelectionRange(len, len);
-                    }
-                }, 10);
-                
-                return;
-            }
-            
-            // Solo cerrar después de verificar
-            setTimeout(() => {
-                if (!dropdownJustClicked && !escribiendo) {
-                    const isVisible = autocompleteDropdown && 
-                        (autocompleteDropdown.style.display === 'block' || 
-                         window.getComputedStyle(autocompleteDropdown).display === 'block');
-                    
-                    if (isVisible) {
-                        const activeElement = document.activeElement;
-                        const focusInDropdown = activeElement && 
-                            autocompleteDropdown.contains(activeElement);
-                        
-                        if (!focusInDropdown) {
-                            console.log('🔒 Cerrando dropdown (blur normal)');
-                            hideDropdown();
-                        }
-                    }
-                }
-            }, 150);
-        });
-        
-        // Focus - mostrar dropdown si hay texto
-        barrioInput.addEventListener('focus', function() {
-            console.log('🎯 Campo enfocado');
-            const searchText = this.value.trim();
-            
-            if (searchText.length >= 1) {
-                setTimeout(() => {
-                    handleBarrioInput.call(this);
-                }, 50);
-            }
-        });
-    }
-    
-    console.log('✅ Comportamiento mejorado configurado');
 }
 
 // ============================================
@@ -790,7 +917,7 @@ function inicializarAutocompleteRemitente() {
                         </div>
                         <div style="font-size: 12px; color: #6b7280;">
                             <div>📞 ${telefonoStr || "Sin teléfono"}</div>
-                            ${usuario["DIRECCION REMITENTE"] ? `<div>📍 ${usuario["DIRECCION REMITENTE"].substring(0, 40)}...</div>` : ''}
+                            ${usuario["DIRECCION REMITente"] ? `<div>📍 ${usuario["DIRECCION REMITENTE"].substring(0, 40)}...</div>` : ''}
                         </div>
                     </div>
                     <div style="color: #10b981; font-size: 12px; font-weight: bold; padding: 4px 8px; background: #d1fae5; border-radius: 4px;">
@@ -878,7 +1005,7 @@ function inicializarAutocompleteRemitente() {
         
         // Posicionar dropdown
         const inputRect = inputRemitente.getBoundingClientRect();
-        dropdown.style.position = 'fixed'; // Usar fixed para mejor posicionamiento
+        dropdown.style.position = 'fixed';
         dropdown.style.top = `${inputRect.bottom + window.scrollY}px`;
         dropdown.style.left = `${inputRect.left + window.scrollX}px`;
         dropdown.style.width = `${inputRect.width}px`;
@@ -981,46 +1108,7 @@ function inicializarAutocompleteRemitente() {
     });
     
     console.log("✅ Auto-complete inicializado - ¡LISTO PARA PROBAR!");
-    console.log("🎯 INSTRUCCIONES:");
-    console.log("   1. Escribe 'AN' en 'Remitente'");
-    console.log("   2. HAZ CLIC en la opción 'ANMAGO STORE'");
-    console.log("   3. Debe llenarse automáticamente teléfono y dirección");
 }
-
-// ============================================
-// CÓDIGO PARA FORZAR PRUEBA INMEDIATA
-// ============================================
-
-
-
-// Ejecutar cuando la página cargue
-
-
-// También crear una función global para pruebas manuales
-window.probarAutoComplete = function() {
-    console.log("🔧 Forzando reinicialización del autocomplete...");
-    
-    // Limpiar listeners previos
-    const inputRemitente = document.getElementById('remitente');
-    if (inputRemitente) {
-        const newInput = inputRemitente.cloneNode(true);
-        inputRemitente.parentNode.replaceChild(newInput, inputRemitente);
-    }
-    
-    // Remover dropdown existente
-    const oldDropdown = document.getElementById('remitenteAutocomplete');
-    if (oldDropdown) {
-        oldDropdown.remove();
-    }
-    
-    // Reinicializar
-    inicializarAutocompleteRemitente();
-    
-    console.log("✅ Reinicialización completa. Ahora prueba:");
-    console.log("   1. Escribe 'AN' en el campo Remitente");
-    console.log("   2. HAZ CLIC DIRECTAMENTE en 'ANMAGO STORE'");
-    console.log("   3. O haz clic en el botón morado '🚀 PROBAR AUTO-COMPLETE'");
-};
 
 // ============================================
 // FUNCIONES PARA EL FORMULARIO
@@ -1082,7 +1170,6 @@ function inicializarFormulario() {
         historialButton.addEventListener('click', function() {
             const user = JSON.parse(localStorage.getItem("usuarioLogueado"));
             if (user && user.USUARIO) {
-                const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec";
                 window.open(`historial.html?usuario=${encodeURIComponent(user.USUARIO)}`, '_blank');
             } else {
                 alert('No se pudo identificar el usuario');
@@ -1241,11 +1328,6 @@ function setupEventListeners() {
             
             // Actualizar resumen
             actualizarResumen();
-            
-            // Mostrar notificación del precio
-            if (ciudad && valorRecaudar > 0) {
-                console.log(`Ciudad: ${ciudad}, Valor a recaudar: $${valorRecaudar.toLocaleString()}`);
-            }
         });
     }
     
@@ -1287,6 +1369,138 @@ function setupEventListeners() {
     if (cancelBtn) cancelBtn.addEventListener('click', handleCancel);
     
     console.log('✅ Listeners configurados');
+}
+
+function setupDropdownCloseBehavior() {
+    console.log('🔧 Configurando comportamiento MEJORADO del dropdown...');
+    
+    let escribiendo = false;
+    let dropdownJustClicked = false;
+    let ignoreBlur = false;
+    
+    // Click en dropdown - No cerrar
+    document.addEventListener('mousedown', function(e) {
+        if (!autocompleteDropdown || !autocompleteDropdown.contains(e.target)) {
+            return;
+        }
+        
+        console.log('🎯 Click en dropdown - previniendo cierre');
+        dropdownJustClicked = true;
+        ignoreBlur = true;
+        
+        setTimeout(() => {
+            dropdownJustClicked = false;
+            ignoreBlur = false;
+        }, 300);
+    });
+    
+    // Click fuera - Cerrar solo si no está interactuando
+    document.addEventListener('click', function(e) {
+        if (!autocompleteDropdown || !barrioInput) return;
+        
+        if (dropdownJustClicked || escribiendo) {
+            console.log('⏸️ No cerrar - usuario interactuando');
+            return;
+        }
+        
+        const clickedInput = barrioInput.contains(e.target);
+        const clickedDropdown = autocompleteDropdown.contains(e.target);
+        
+        const isVisible = autocompleteDropdown.style.display === 'block' || 
+                         window.getComputedStyle(autocompleteDropdown).display === 'block';
+        
+        if (isVisible && !clickedInput && !clickedDropdown) {
+            console.log('👆 Click fuera - cerrando dropdown');
+            hideDropdown();
+        }
+    });
+    
+    // Tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const isVisible = autocompleteDropdown && 
+                (autocompleteDropdown.style.display === 'block' || 
+                 window.getComputedStyle(autocompleteDropdown).display === 'block');
+            
+            if (isVisible) {
+                console.log('⎋ Escape - cerrando dropdown');
+                hideDropdown();
+                if (barrioInput) barrioInput.focus();
+            }
+        }
+    });
+    
+    if (barrioInput) {
+        // Detectar escritura
+        barrioInput.addEventListener('input', function() {
+            escribiendo = true;
+            ignoreBlur = true;
+            
+            console.log('📝 Escribiendo - manteniendo dropdown visible');
+            
+            clearTimeout(this._writingTimeout);
+            this._writingTimeout = setTimeout(() => {
+                escribiendo = false;
+                ignoreBlur = false;
+                console.log('⏹️ Terminó de escribir');
+            }, 500);
+        });
+        
+        // Blur inteligente - ¡LA CLAVE!
+        barrioInput.addEventListener('blur', function() {
+            console.log('⚠️ Blur detectado - escribiendo:', escribiendo, '- ignoreBlur:', ignoreBlur);
+            
+            if (escribiendo || ignoreBlur || dropdownJustClicked) {
+                console.log('🚫 Ignorando blur - recuperando foco');
+                
+                // Recuperar foco inmediatamente
+                setTimeout(() => {
+                    if (barrioInput) {
+                        barrioInput.focus();
+                        // Poner cursor al final
+                        const len = barrioInput.value.length;
+                        barrioInput.setSelectionRange(len, len);
+                    }
+                }, 10);
+                
+                return;
+            }
+            
+            // Solo cerrar después de verificar
+            setTimeout(() => {
+                if (!dropdownJustClicked && !escribiendo) {
+                    const isVisible = autocompleteDropdown && 
+                        (autocompleteDropdown.style.display === 'block' || 
+                         window.getComputedStyle(autocompleteDropdown).display === 'block');
+                    
+                    if (isVisible) {
+                        const activeElement = document.activeElement;
+                        const focusInDropdown = activeElement && 
+                            autocompleteDropdown.contains(activeElement);
+                        
+                        if (!focusInDropdown) {
+                            console.log('🔒 Cerrando dropdown (blur normal)');
+                            hideDropdown();
+                        }
+                    }
+                }
+            }, 150);
+        });
+        
+        // Focus - mostrar dropdown si hay texto
+        barrioInput.addEventListener('focus', function() {
+            console.log('🎯 Campo enfocado');
+            const searchText = this.value.trim();
+            
+            if (searchText.length >= 1) {
+                setTimeout(() => {
+                    handleBarrioInput.call(this);
+                }, 50);
+            }
+        });
+    }
+    
+    console.log('✅ Comportamiento mejorado configurado');
 }
 
 // ============================================
@@ -1537,7 +1751,7 @@ async function manejarEnvioFormulario(e) {
         // ============================================
         const datosEnvio = {
             // Columna A: ENVIO ID - ¡USAR EL MISMO ID LOCAL!
-            "ENVIO ID": idLocal,  // ← ¡IMPORTANTE! EL MISMO ID PARA TODO
+            "ENVIO ID": idLocal,
             
             // Columna B: FORMA DE PAGO
             "FORMA DE PAGO": formaPago,
@@ -1578,8 +1792,8 @@ async function manejarEnvioFormulario(e) {
             // Columna N: TOTAL A PAGAR
             "TOTAL A PAGAR": totalAPagar.toString(),
             
-            // Columna O: PAGADO A REMITENTE - ¡IMPORTANTE! Debe ser "false" o "true"
-            "PAGADO A REMITENTE": "false", // ← CORRECCIÓN CRÍTICA: string "false"
+            // Columna O: PAGADO A REMITENTE
+            "PAGADO A REMITENTE": "false",
             
             // Columna P: FECHA PAGO (vacío)
             "FECHA PAGO": "",
@@ -1640,13 +1854,12 @@ async function manejarEnvioFormulario(e) {
         
         console.log('📡 Enviando datos a Google Apps Script...');
         
-        // ========== ESTRATEGIA PARA ENVÍO DE DATOS ==========
         try {
             // Crear FormData con los nombres EXACTOS que espera GAS
             const formData = new FormData();
             
             // IMPORTANTE: Usar los nombres EXACTOS del array fila en GAS
-            formData.append("envioId", datosEnvio["ENVIO ID"]);  // ← EL MISMO ID
+            formData.append("envioId", datosEnvio["ENVIO ID"]);
             formData.append("formaPago", datosEnvio["FORMA DE PAGO"]);
             formData.append("remite", datosEnvio["REMITE"]);
             formData.append("telefono", datosEnvio["TELEFONO"]);
@@ -1660,7 +1873,7 @@ async function manejarEnvioFormulario(e) {
             formData.append("ciudadDestino", datosEnvio["CIUDAD DESTINO"]);
             formData.append("valorRecaudar", datosEnvio["VALOR A RECAUDAR"]);
             formData.append("totalAPagar", datosEnvio["TOTAL A PAGAR"]);
-            formData.append("pagadoRemitente", datosEnvio["PAGADO A REMITENTE"]); // ← "false"
+            formData.append("pagadoRemitente", datosEnvio["PAGADO A REMITENTE"]);
             formData.append("correoRemitente", datosEnvio["CORREO REMITENTE"]);
             formData.append("usuarioId", datosEnvio["USUARIO ID"]);
             
@@ -1673,7 +1886,7 @@ async function manejarEnvioFormulario(e) {
             // Enviar con fetch
             const response = await fetch(WEB_APP_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Cambiar a 'no-cors' si hay problemas de CORS
+                mode: 'no-cors',
                 body: formData
             });
             
@@ -1684,8 +1897,8 @@ async function manejarEnvioFormulario(e) {
             // ============================================
             const datosCompletosParaGuia = {
                 ...datosEnvio,
-                "ENVIO ID": idLocal,  // MISMO ID
-                envioId: idLocal,     // MISMO ID
+                "ENVIO ID": idLocal,
+                envioId: idLocal,
                 // Guardar también los campos que usa guia.js
                 formaPago: datosEnvio["FORMA DE PAGO"],
                 remite: datosEnvio["REMITE"],
@@ -1934,125 +2147,7 @@ function resetearFormulario() {
 
 function handleCancel() {
     if (confirm('¿Cancelar? Se perderán los datos.')) {
-        resetForm();
-    }
-}
-
-function resetForm() {
-    resetearFormulario();
-}
-
-function showToast(type, title, message) {
-    const toast = document.createElement('div');
-    toast.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
-        type === 'success' ? 'bg-green-100 text-green-800' :
-        type === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
-    } border-l-4 max-w-sm`;
-    
-    toast.innerHTML = `
-        <div class="flex items-center">
-            <span class="material-symbols-outlined mr-2">${type === 'success' ? 'check_circle' : 'error'}</span>
-            <div class="flex-1">
-                <strong class="font-semibold">${title}</strong>
-                <p class="text-sm mt-1">${message}</p>
-            </div>
-            <button class="ml-4 text-gray-500" onclick="this.parentElement.parentElement.remove()">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        if (toast.parentElement) toast.remove();
-    }, 5000);
-}
-
-function showLoading(loading) {
-    if (!submitButton || !submitText || !submitIcon) return;
-    
-    if (loading) {
-        submitText.textContent = 'Procesando...';
-        submitIcon.innerHTML = 'refresh';
-        submitIcon.classList.add('spinner');
-        submitButton.disabled = true;
-    } else {
-        submitText.textContent = 'Registrar Envío';
-        submitIcon.innerHTML = 'arrow_forward';
-        submitIcon.classList.remove('spinner');
-        submitButton.disabled = false;
-    }
-}
-
-function validateForm() {
-    return validarFormulario();
-}
-
-function getFormData() {
-    const barrioNombre = barrioInput ? barrioInput.value : '';
-    const localidad = barrioNombre.split('-')[0] || barrioNombre;
-    
-    let zona = "";
-    if (localidad.includes("SOACHA")) zona = "SUR";
-    else if (localidad.includes("KENNEDY") || localidad.includes("USAQUÉN")) zona = "OCCIDENTE";
-    else if (localidad.includes("CHAPINERO")) zona = "ORIENTE";
-    
-    let mensajero = "";
-    if (zona === "SUR") mensajero = "JUAN";
-    else if (zona === "OCCIDENTE") mensajero = "PEDRO";
-    else if (zona === "ORIENTE") mensajero = "ANDRÉS";
-    
-    const usuarioLogueado = JSON.parse(localStorage.getItem("usuarioLogueado"));
-    
-    return {
-        envioId: document.getElementById('envioId')?.value || '',
-        formaPago: formaPagoInput?.value || '',
-        remite: document.getElementById('remitente')?.value || '',
-        telefono: document.getElementById('telefonoRemitente')?.value || '',
-        direccion: document.getElementById('direccionRemitente')?.value || '',
-        ciudad: 'Bogotá D.C.',
-        destino: document.getElementById('destinatario')?.value || '',
-        direccionDestino: document.getElementById('direccionDestino')?.value || '',
-        barrio: barrioNombre,
-        barrioId: barrioIdInput?.value || '',
-        telefonoCliente: document.getElementById('telefonoCliente')?.value || '',
-        complementoDir: document.getElementById('complementoDireccion')?.value || '',
-        ciudadDestino: document.getElementById('ciudadDestino')?.value || '',
-        localidad: localidad,
-        valorRecaudar: valorRecaudarInput?.value || '0',
-        pagadoRemitente: formaPagoInput?.value === 'contado' ? 'true' : 'false',
-        fechaRegistro: new Date().toISOString().split('T')[0],
-        horaRegistro: new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }),
-        usuario: 'Alex',
-        zona: zona,
-        mensajero: mensajero,
-        observaciones: "",
-        usuario_id: usuarioLogueado?.USUARIO || 'sin_usuario'
-    };
-}
-
-async function handleFormSubmit(e) { 
-    return manejarEnvioFormulario(e);
-}
-
-function mostrarResultado(envio) {
-    const deliveryForm = document.getElementById('deliveryForm');
-    const resultSection = document.getElementById('resultSection');
-    
-    if (deliveryForm) deliveryForm.style.display = 'none';
-    if (resultSection) {
-        resultSection.classList.remove('hidden');
-        
-        const guideNumber = document.getElementById('resultGuideNumber');
-        const destinatario = document.getElementById('resultDestinatario');
-        const valor = document.getElementById('resultValor');
-        
-        if (guideNumber) guideNumber.textContent = envio.id;
-        if (destinatario) destinatario.textContent = envio.destinatarioNombre;
-        if (valor) valor.textContent = `$${parseInt(envio.valorRecaudar || 0).toLocaleString()}`;
-        
-        localStorage.setItem('envioParaGuia', envio.id);
+        resetearFormulario();
     }
 }
 
@@ -2178,11 +2273,11 @@ function generarIDLocal() {
     const segundos = ahora.getSeconds().toString().padStart(2, '0');
     
     // Usar solo 4 dígitos para milisegundos (en lugar de 3)
-    // Esto reduce la posibilidad de que cambie entre generaciones
     const milisegundos = ahora.getMilliseconds().toString().padStart(4, '0').slice(0, 4);
     
     return `ENV${año}${mes}${dia}${hora}${minutos}${segundos}${milisegundos}`;
 }
+
 // ============================================
 // FUNCIÓN PARA MOSTRAR/OCULTAR BOTÓN ADMIN
 // ============================================
@@ -2250,50 +2345,22 @@ function configurarBotonHistorial() {
 }
 
 // ============================================
-// VERIFICAR AUTENTICACIÓN AL CARGAR
-// ============================================
-function verificarAutenticacion() {
-    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-    
-    if (!usuarioLogueado) {
-        console.log('❌ Usuario no autenticado, redirigiendo a login');
-        window.location.href = 'login.html';
-        return false;
-    }
-    
-    console.log('✅ Usuario autenticado:', usuarioLogueado.USUARIO, 'Rol:', usuarioLogueado.ROL);
-    return true;
-}
-
-// ============================================
-// EJECUTAR AL CARGAR LA PÁGINA
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    // Verificar autenticación (opcional, si quieres proteger index.html)
-    // verificarAutenticacion();
-    
-    // Configurar botones
-    configurarBotonesAdmin();
-    configurarBotonHistorial();
-    
-    // Opcional: Agregar clase al body según el rol para estilos específicos
-    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-    if (usuarioLogueado && usuarioLogueado.ROL === 'ADMIN') {
-        document.body.classList.add('user-admin');
-    }
-});
-// ============================================
 // INICIALIZACIÓN PRINCIPAL
 // ============================================
 
-// Ocultar la intro rápidamente
-setTimeout(() => {
-    const intro = document.getElementById('intro');
-    if (intro) intro.style.display = 'none';
-}, 1500);
-
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 DOM cargado - Iniciando aplicación');
+    
+    // Agregar animaciones CSS primero
+    agregarAnimacionesCSS();
+    
+    // Ocultar la intro rápidamente
+    setTimeout(() => {
+        const intro = document.getElementById('intro');
+        if (intro) intro.style.display = 'none';
+    }, 1500);
+    
     // Primero verificar sesión
     const sesionValida = verificarSesionYConfigurarUI();
     
@@ -2303,5 +2370,8 @@ document.addEventListener('DOMContentLoaded', function() {
             initApp();
         }, 100);
     }
+    
+    // Configurar botones adicionales
+    configurarBotonesAdmin();
+    configurarBotonHistorial();
 });
-
