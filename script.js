@@ -51,20 +51,25 @@ function inicializarGooglePlacesAutocomplete() {
     }
     
     try {
-        // Crear el autocomplete de Google Places
-        const autocomplete = new google.maps.places.Autocomplete(direccionInput, {
-            types: ['address'],
-            componentRestrictions: { 
-                country: 'co',
-                locality: ['Bogotá', 'Soacha']
-            },
-            fields: [
-                'address_components', 
-                'formatted_address', 
-                'geometry',
-                'name'
-            ]
-        });
+    // Área más específica para Bogotá + Soacha
+    const bogotaSoachaBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(4.48, -74.25),  // Soacha
+        new google.maps.LatLng(4.85, -74.00)   // Bogotá norte
+    );
+    
+    const autocomplete = new google.maps.places.Autocomplete(direccionInput, {
+        componentRestrictions: { 
+            country: 'co'
+        },
+        bounds: bogotaSoachaBounds,
+        strictBounds: true,  // ← ¡SOLO resultados dentro del área!
+        fields: [
+            'address_components', 
+            'formatted_address', 
+            'geometry',
+            'name'
+        ]
+    });
         
         // Deshabilitar el autocomplete nativo del navegador
         direccionInput.setAttribute('autocomplete', 'off');
