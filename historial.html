@@ -1215,20 +1215,76 @@
         // FUNCIONES COMUNES
         // ============================================
         
-        function determinarSiEstaPagado(estado) {
-            if (!estado) return false;
-            
-            if (typeof estado === 'string') {
-                const estadoUpper = estado.toUpperCase().trim();
-                return estadoUpper === 'SI' || 
-                       estadoUpper === 'TRUE' || 
-                       estadoUpper === '1' || 
-                       estadoUpper === 'YES' || 
-                       estadoUpper === 'PAGADO';
-            }
-            
-            return false;
+      function determinarSiEstaPagado(estadoPago, estadoEnvio) {
+    if (!estadoPago) return false;
+    
+    if (typeof estadoPago === 'string') {
+        const estadoUpper = estadoPago.toUpperCase().trim();
+        return estadoUpper === 'SI' || 
+               estadoUpper === 'TRUE' || 
+               estadoUpper === '1' || 
+               estadoUpper === 'YES' || 
+               estadoUpper === 'PAGADO';
+    }
+    
+    return false;
+}
+
+function determinarEstadoPago(envio) {
+    const estadoPago = envio["PAGADO A REMITENTE"];
+    const estadoEnvio = (envio["ESTADO ENVIO"] || '').toUpperCase().trim();
+    const totalPagar = envio.totalPagar || 0;
+    const formaPago = (envio["FORMA DE PAGO"] || '').toLowerCase();
+    
+    // 1. Verificar si ya está pagado
+    const estaPagado = determinarSiEstaPagado(estadoPago, estadoEnvio);
+    
+    // 2. Si ya está pagado, retornar "pagado" sin importar el estado
+    if (estaPagado) {
+        return { texto: 'Pagado', clase: 'badge-pagado', pendientePago: false };
+    }
+    
+    // 3. Si es contado o contraentrega sin recaudo, siempre es "sin pago"
+    if (formaPago === 'contado' || formaPago === 'contraentrega') {
+        return { texto: 'Sin pago', clase: 'badge-sin-pago', pendientePago: false };
+    }
+    
+    // 4. Solo para envíos con recaudo ("contraentrega_recaudo" o similar)
+    const esConRecaudo = formaPago.includes('recaudo') || 
+                         formaPago === 'contraentrega_recaudo' || 
+                         formaPago === 'con recaudo';
+    
+    if (esConRecaudo) {
+        // Verificar estado del envío
+        const estadosEntregado = ['ENTREGADO', 'ENTREGA EXITOSA', 'COMPLETADO', 'FINALIZADO'];
+        const estadosProceso = ['RECIBIDO', 'EN BODEGA', 'EN REPARTO', 'REPARTO', 'NOVEDAD', 'PROCESO'];
+        
+        const esEntregado = estadosEntregado.some(estado => 
+            estadoEnvio.includes(estado)
+        );
+        
+        const estaEnProceso = estadosProceso.some(estado => 
+            estadoEnvio.includes(estado)
+        );
+        
+        if (esEntregado) {
+            // Entregado pero no pagado aún
+            return { texto: 'Pendiente', clase: 'badge-pendiente', pendientePago: true };
+        } else if (estaEnProceso) {
+            // Aún en proceso (recibido, reparto, etc.)
+            return { texto: 'En proceso', clase: 'badge-proceso', pendientePago: false };
+        } else if (!estadoEnvio || estadoEnvio === '') {
+            // Sin estado definido
+            return { texto: 'Sin estado', clase: 'badge-sin-pago', pendientePago: false };
+        } else {
+            // Cualquier otro estado
+            return { texto: estadoEnvio, clase: 'badge-sin-pago', pendientePago: false };
         }
+    }
+    
+    // 5. Caso por defecto
+    return { texto: 'Sin pago', clase: 'badge-sin-pago', pendientePago: false };
+}
         
         function parsearFechaEnvio(fechaStr) {
             if (!fechaStr) return null;
