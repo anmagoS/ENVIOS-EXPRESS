@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Sistema de Envíos - Contraentrega</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTsiYHoiF33tViQHkKxBUL2ZTAcgS-HO8&libraries=places&language=es&region=CO"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚚</text></svg>">
@@ -34,570 +35,348 @@
             },
         }
     </script>
+    <style>
+        /* ============================================
+           ESTILOS PARA GOOGLE PLACES AUTOCOMPLETE
+           ============================================ */
+        .pac-container {
+            z-index: 10002 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border: 1px solid #e5e7eb !important;
+            margin-top: 4px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .pac-item {
+            padding: 10px 12px !important;
+            cursor: pointer !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            font-size: 14px !important;
+            transition: background-color 0.2s !important;
+        }
+
+        .pac-item:hover {
+            background-color: #f9fafb !important;
+        }
+
+        .pac-item-selected {
+            background-color: #eff6ff !important;
+        }
+
+        .pac-icon {
+            margin-right: 8px !important;
+        }
+
+        .pac-item-query {
+            font-size: 14px !important;
+            color: #1f2937 !important;
+        }
+
+        /* Para móvil */
+        @media (max-width: 767px) {
+            .pac-container {
+                position: fixed !important;
+                top: auto !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                max-height: 50vh !important;
+                border-radius: 12px 12px 0 0 !important;
+            }
+        }
+
+        /* Modo oscuro */
+        .dark .pac-container {
+            background-color: #1e293b !important;
+            border-color: #475569 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        }
+
+        .dark .pac-item {
+            border-bottom-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+
+        .dark .pac-item:hover {
+            background-color: #334155 !important;
+        }
+
+        .dark .pac-item-selected {
+            background-color: #2563eb !important;
+        }
+
+        .dark .pac-item-query {
+            color: #f1f5f9 !important;
+        }
+
+        /* ============================================
+           ANIMACIONES
+           ============================================ */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           ESTILOS BASE RESPONSIVOS
+           ============================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           AUTOCOMPLETE PARA BARRAS - MEJORADO RESPONSIVE
+           ============================================ */
+        #autocompleteDropdown {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100vw !important;
+            max-height: 50vh !important;
+            z-index: 10000 !important;
+            background: white !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 12px 12px 0 0 !important;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
+            overflow-y: auto !important;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        /* En tablets y desktop */
+        @media (min-width: 768px) {
+            #autocompleteDropdown {
+                position: absolute !important;
+                top: 100% !important;
+                bottom: auto !important;
+                width: 100% !important;
+                max-height: 250px !important;
+                border-radius: 8px !important;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            }
+        }
+
+        #autocompleteDropdown .autocomplete-item {
+            padding: 14px 16px !important;
+            cursor: pointer !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            font-size: 16px !important;
+            transition: all 0.2s ease !important;
+            touch-action: manipulation;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Último item sin borde */
+        #autocompleteDropdown .autocomplete-item:last-child {
+            border-bottom: none !important;
+        }
+
+        /* Efecto hover y active */
+        #autocompleteDropdown .autocomplete-item:hover,
+        #autocompleteDropdown .autocomplete-item:active {
+            background: #f3f4f6 !important;
+        }
+
+        /* Para móviles con hover forzado */
+        @media (hover: none) and (pointer: coarse) {
+            #autocompleteDropdown .autocomplete-item:active {
+                background: #e5e7eb !important;
+                transform: scale(0.98);
+            }
+        }
+
+        /* Ocultar IDs */
+        #autocompleteDropdown .barrio-id {
+            display: none !important;
+        }
+
+        /* Estilo del nombre */
+        #autocompleteDropdown .barrio-nombre {
+            font-weight: 500 !important;
+            color: #1f2937 !important;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        /* Indicador de selección */
+        #autocompleteDropdown .autocomplete-item.selected {
+            background: #eff6ff !important;
+            border-left: 4px solid #3b82f6 !important;
+        }
+
+        /* ============================================
+           AUTOCOMPLETE PARA REMITENTES
+           ============================================ */
+        #remitenteAutocomplete {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100vw !important;
+            max-height: 60vh !important;
+            z-index: 10001 !important;
+            background: white !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 16px 16px 0 0 !important;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2) !important;
+            overflow-y: auto !important;
+            display: none;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        @media (min-width: 768px) {
+            #remitenteAutocomplete {
+                position: absolute !important;
+                top: 100% !important;
+                bottom: auto !important;
+                width: 100% !important;
+                max-height: 300px !important;
+                border-radius: 12px !important;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+            }
+        }
+
+        /* Items del dropdown de remitentes */
+        #remitenteAutocomplete .autocomplete-item {
+            padding: 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 64px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            position: relative;
+        }
+
+        #remitenteAutocomplete .autocomplete-item:active {
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+
+        #remitenteAutocomplete .autocomplete-item.highlighted {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* ============================================
+           ESTILOS PARA CAMPOS DE CLIENTE
+           ============================================ */
+        .cliente-readonly {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: #475569 !important;
+            cursor: not-allowed !important;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           ESTILOS PARA MÓVIL - MEJORAS TÁCTILES
+           ============================================ */
+        @media (max-width: 767px) {
+            input, select, button, .autocomplete-item {
+                min-height: 44px !important;
+            }
+            
+            .form-group, .form-control {
+                margin-bottom: 16px !important;
+            }
+            
+            input, select, .autocomplete-item {
+                font-size: 16px !important;
+            }
+            
+            .autocomplete-dropdown {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-y: contain;
+            }
+            
+            .autocomplete-item {
+                user-select: none;
+                -webkit-user-select: none;
+            }
+        }
+
+        /* ============================================
+           MODOS OSCURO
+           ============================================ */
+        @media (prefers-color-scheme: dark) {
+            .dark #autocompleteDropdown,
+            .dark #remitenteAutocomplete {
+                background: #1e293b !important;
+                border-color: #475569 !important;
+                color: #f1f5f9 !important;
+            }
+            
+            .dark #autocompleteDropdown .autocomplete-item,
+            .dark #remitenteAutocomplete .autocomplete-item {
+                border-bottom-color: #334155 !important;
+                color: #f1f5f9 !important;
+            }
+            
+            .dark #autocompleteDropdown .autocomplete-item:hover,
+            .dark #autocompleteDropdown .autocomplete-item:active,
+            .dark #remitenteAutocomplete .autocomplete-item:hover,
+            .dark #remitenteAutocomplete .autocomplete-item:active {
+                background: #334155 !important;
+            }
+            
+            .dark .cliente-readonly {
+                background-color: #1e293b !important;
+                border-color: #475569 !important;
+                color: #94a3b8 !important;
+            }
+        }
+    </style>
 </head>
-
-<!-- Intro animada tipo persiana con degradado -->
-<div id="intro" style="
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: linear-gradient(to bottom, #1b4557, #ffffff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: slideUp 1.9s ease-in forwards;
-">
-  <img src="logo envios.jpg" alt="ANMAGO Store" style="width: 500px; animation: bounce 1s infinite;">
-</div>
-
-<style>
-/* ============================================
-   ANIMACIONES
-   ============================================ */
-@keyframes slideUp {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-100%); }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-/* ============================================
-   ESTILOS BASE RESPONSIVOS
-   ============================================ */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* ============================================
-   AUTOCOMPLETE PARA BARRAS - MEJORADO RESPONSIVE
-   ============================================ */
-#autocompleteDropdown {
-  position: fixed !important; /* Cambiado a fixed para mejor manejo en móvil */
-  top: auto !important;
-  bottom: 0 !important; /* Se posiciona desde abajo en móvil */
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  max-height: 50vh !important; /* Máximo 50% de la pantalla en móvil */
-  z-index: 10000 !important;
-  background: white !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 12px 12px 0 0 !important; /* Bordes redondeados arriba */
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important; /* Sombra hacia arriba */
-  overflow-y: auto !important;
-  display: none;
-  animation: fadeIn 0.3s ease-out;
-  -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
-  overscroll-behavior: contain; /* Mejor comportamiento de scroll */
-}
-
-/* En tablets y desktop */
-@media (min-width: 768px) {
-  #autocompleteDropdown {
-    position: absolute !important;
-    top: 100% !important;
-    bottom: auto !important;
-    width: 100% !important;
-    max-height: 250px !important;
-    border-radius: 8px !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
-  }
-}
-
-#autocompleteDropdown .autocomplete-item {
-  padding: 14px 16px !important;
-  cursor: pointer !important;
-  border-bottom: 1px solid #f3f4f6 !important;
-  font-size: 16px !important; /* Tamaño más grande para móvil */
-  transition: all 0.2s ease !important;
-  touch-action: manipulation; /* Mejora la respuesta táctil */
-  min-height: 44px; /* Altura mínima para mejores toques */
-  display: flex;
-  align-items: center;
-}
-
-/* Último item sin borde */
-#autocompleteDropdown .autocomplete-item:last-child {
-  border-bottom: none !important;
-}
-
-/* Efecto hover y active */
-#autocompleteDropdown .autocomplete-item:hover,
-#autocompleteDropdown .autocomplete-item:active {
-  background: #f3f4f6 !important;
-}
-
-/* Para móviles con hover forzado */
-@media (hover: none) and (pointer: coarse) {
-  #autocompleteDropdown .autocomplete-item:active {
-    background: #e5e7eb !important;
-    transform: scale(0.98);
-  }
-}
-
-/* Ocultar IDs */
-#autocompleteDropdown .barrio-id {
-  display: none !important;
-}
-
-/* Estilo del nombre */
-#autocompleteDropdown .barrio-nombre {
-  font-weight: 500 !important;
-  color: #1f2937 !important;
-  flex: 1;
-  font-size: 16px;
-}
-
-/* Indicador de selección */
-#autocompleteDropdown .autocomplete-item.selected {
-  background: #eff6ff !important;
-  border-left: 4px solid #3b82f6 !important;
-}
-
-/* ============================================
-   AUTOCOMPLETE PARA REMITENTES
-   ============================================ */
-#remitenteAutocomplete {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  max-height: 60vh !important;
-  z-index: 10001 !important;
-  background: white !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 16px 16px 0 0 !important;
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2) !important;
-  overflow-y: auto !important;
-  display: none;
-  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
-
-@media (min-width: 768px) {
-  #remitenteAutocomplete {
-    position: absolute !important;
-    top: 100% !important;
-    bottom: auto !important;
-    width: 100% !important;
-    max-height: 300px !important;
-    border-radius: 12px !important;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
-  }
-}
-
-/* Header del dropdown de remitentes */
-.remitente-dropdown-header {
-  padding: 16px;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.remitente-dropdown-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0;
-}
-
-.close-dropdown-btn {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-
-.close-dropdown-btn:active {
-  background: #e2e8f0;
-}
-
-/* Items del dropdown de remitentes */
-#remitenteAutocomplete .autocomplete-item {
-  padding: 16px;
-  cursor: pointer;
-  border-bottom: 1px solid #f1f5f9;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 64px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  position: relative;
-}
-
-#remitenteAutocomplete .autocomplete-item:active {
-  background: #f1f5f9;
-  transform: translateX(4px);
-}
-
-#remitenteAutocomplete .autocomplete-item.highlighted {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border-left: 4px solid #3b82f6;
-}
-
-/* Estructura del item */
-.autocomplete-item-content {
-  flex: 1;
-  min-width: 0; /* Para evitar overflow */
-}
-
-.barrio-id {
-  font-size: 12px;
-  color: #64748b;
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: inline-block;
-  padding: 2px 8px;
-  background: #f1f5f9;
-  border-radius: 12px;
-}
-
-.barrio-nombre {
-  font-size: 15px;
-  color: #1e293b;
-  font-weight: 600;
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-
-.barrio-details {
-  font-size: 13px;
-  color: #64748b;
-  line-height: 1.5;
-}
-
-.barrio-details div {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 2px;
-}
-
-/* Indicador de selección */
-.autocomplete-item .select-indicator {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #3b82f6;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.autocomplete-item.highlighted .select-indicator,
-.autocomplete-item:hover .select-indicator {
-  opacity: 1;
-}
-
-/* ============================================
-   ESTILOS PARA CAMPOS DE CLIENTE
-   ============================================ */
-.cliente-readonly {
-  background-color: #f8fafc !important;
-  border-color: #cbd5e1 !important;
-  color: #475569 !important;
-  cursor: not-allowed !important;
-  opacity: 0.9;
-}
-
-/* Etiquetas para campos fijos */
-.campo-cliente-fijo {
-  color: #475569 !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.campo-cliente-fijo::before {
-  content: "🔒";
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-/* Badge para indicar campo fijo */
-.cliente-fixed-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  background: #f1f5f9;
-  color: #475569;
-  font-size: 11px;
-  font-weight: 500;
-  border-radius: 10px;
-  margin-left: 8px;
-}
-
-/* ============================================
-   ESTILOS PARA MÓVIL - MEJORAS TÁCTILES
-   ============================================ */
-@media (max-width: 767px) {
-  /* Aumentar áreas táctiles */
-  input, select, button, .autocomplete-item {
-    min-height: 44px !important; /* Altura mínima recomendada por Apple */
-  }
-  
-  /* Mejorar espaciado */
-  .form-group, .form-control {
-    margin-bottom: 16px !important;
-  }
-  
-  /* Aumentar tamaño de fuente en móvil */
-  input, select, .autocomplete-item {
-    font-size: 16px !important; /* Previene zoom en iOS */
-  }
-  
-  /* Mejor scroll en dropdowns */
-  .autocomplete-dropdown {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
-  
-  /* Evitar selección de texto accidental */
-  .autocomplete-item {
-    user-select: none;
-    -webkit-user-select: none;
-  }
-}
-
-/* ============================================
-   MODOS OSCURO
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  .dark #autocompleteDropdown,
-  .dark #remitenteAutocomplete {
-    background: #1e293b !important;
-    border-color: #475569 !important;
-    color: #f1f5f9 !important;
-  }
-  
-  .dark #autocompleteDropdown .autocomplete-item,
-  .dark #remitenteAutocomplete .autocomplete-item {
-    border-bottom-color: #334155 !important;
-    color: #f1f5f9 !important;
-  }
-  
-  .dark #autocompleteDropdown .autocomplete-item:hover,
-  .dark #autocompleteDropdown .autocomplete-item:active,
-  .dark #remitenteAutocomplete .autocomplete-item:hover,
-  .dark #remitenteAutocomplete .autocomplete-item:active {
-    background: #334155 !important;
-  }
-  
-  .dark .barrio-nombre {
-    color: #f1f5f9 !important;
-  }
-  
-  .dark .barrio-id {
-    background: #475569;
-    color: #cbd5e1;
-  }
-  
-  .dark .barrio-details {
-    color: #94a3b8;
-  }
-  
-  .dark .cliente-readonly {
-    background-color: #1e293b !important;
-    border-color: #475569 !important;
-    color: #94a3b8 !important;
-  }
-  
-  .dark .campo-cliente-fijo {
-    color: #cbd5e1 !important;
-  }
-  
-  .dark .cliente-fixed-badge {
-    background: #334155;
-    color: #94a3b8;
-  }
-  
-  .dark .remitente-dropdown-header {
-    background: #0f172a;
-    border-bottom-color: #334155;
-  }
-  
-  .dark .remitente-dropdown-header h3 {
-    color: #e2e8f0;
-  }
-  
-  .dark .close-dropdown-btn {
-    color: #94a3b8;
-  }
-  
-  .dark .close-dropdown-btn:active {
-    background: #334155;
-  }
-}
-
-/* ============================================
-   ESTADOS DE CARGA Y DESHABILITADO
-   ============================================ */
-.autocomplete-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  color: #64748b;
-}
-
-.autocomplete-loading::after {
-  content: "";
-  width: 20px;
-  height: 20px;
-  border: 2px solid #e2e8f0;
-  border-top-color: #3b82f6;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-left: 10px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.autocomplete-empty {
-  padding: 20px;
-  text-align: center;
-  color: #94a3b8;
-  font-style: italic;
-}
-
-/* Deshabilitado */
-.autocomplete-disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* ============================================
-   EFECTOS VISUALES ADICIONALES
-   ============================================ */
-/* Sombra suave para inputs */
-.input-with-autocomplete {
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.input-with-autocomplete:focus-within {
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-  transform: translateY(-1px);
-}
-
-/* Indicador visual para dropdown activo */
-.dropdown-active {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  border-color: #3b82f6 !important;
-}
-
-/* Transiciones suaves */
-#autocompleteDropdown,
-#remitenteAutocomplete,
-.autocomplete-item,
-.input-with-autocomplete {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ============================================
-   ACCESIBILIDAD
-   ============================================ */
-/* Focus visible para navegación con teclado */
-.autocomplete-item:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: -2px;
-  background: #eff6ff !important;
-}
-
-/* Mejora para lectores de pantalla */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Alto contraste */
-@media (prefers-contrast: high) {
-  .autocomplete-item {
-    border-width: 2px !important;
-  }
-  
-  #autocompleteDropdown,
-  #remitenteAutocomplete {
-    border-width: 2px !important;
-  }
-}
-
-/* ============================================
-   ANIMACIONES DE ENTRADA/SALIDA
-   ============================================ */
-.dropdown-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.dropdown-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 200ms, transform 200ms;
-}
-
-.dropdown-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.dropdown-exit-active {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 200ms, transform 200ms;
-}
-</style>
 
 <body class="bg-background-light dark:bg-background-dark font-display flex flex-col min-h-screen text-[#0d121b] dark:text-white transition-colors duration-200">
     
+    <!-- Intro animada tipo persiana con degradado -->
+    <div id="intro" style="
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: linear-gradient(to bottom, #1b4557, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      ">
+      <img src="logo envios.jpg" alt="ANMAGO Store" style="width: 500px; animation: bounce 1s infinite;">
+    </div>
+
     <!-- Pantalla de carga para verificar login -->
     <div id="loadingScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-gray-900">
         <div class="text-center">
@@ -611,84 +390,57 @@ body {
     <div id="mainContent" class="hidden">
         <!-- Top Navigation Bar -->
         <header class="sticky top-0 z-50 w-full bg-surface-light dark:bg-surface-dark border-b border-solid border-[#e7ebf3] dark:border-gray-800 px-6 py-3 shadow-sm">
-    <div class="mx-auto max-w-7xl flex items-center justify-between whitespace-nowrap">
-        <!-- Logo y título -->
-        <div class="flex items-center gap-4 text-[#0d121b] dark:text-white">
-            <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
-                <span class="material-symbols-outlined text-2xl">local_shipping</span>
-            </div>
-            <h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">E.S.P</h2>
-        </div>
+            <div class="mx-auto max-w-7xl flex items-center justify-between whitespace-nowrap">
+                <!-- Logo y título -->
+                <div class="flex items-center gap-4 text-[#0d121b] dark:text-white">
+                    <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined text-2xl">local_shipping</span>
+                    </div>
+                    <h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">E.S.P</h2>
+                </div>
 
-        <!-- Sección derecha: usuario y botones -->
-<div class="flex items-center gap-4">
-    <!-- Información del usuario (solo desktop) -->
-    <div class="hidden md:flex flex-col items-end mr-2">
-        <span class="text-sm font-semibold text-[#0d121b] dark:text-white" id="nombreUsuario">Cargando...</span>
-        <span class="text-xs text-[#4c669a] dark:text-gray-400" id="rolUsuario">Verificando...</span>
-    </div>
-    
-    <!-- Avatar del usuario -->
-    <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary" 
-         data-alt="User profile avatar" 
-         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHdncnvfU7TsNmWeUeUJ0UYPAz9BzBx81lq4UEwtgmGBCdZmv4uXnF_3Tx8oE8bSYPqkYSLGSQsBc3VJM6lrLe4iFzAQC287vN3rhtGYCEdoKOkbOtxnxxD1oReP8LrM8i5sZycdxRVlxcikXb1SssTAUPO1_Z8lVAcIZAdBo7-51A_cFNIDS22SZ04WLRRQomqB7gNcwwGHQRh-XuV9GNIkBZe2gjZPo6vSSx5iXD_PPYNffE2XiiZgXT_vzYezxgBe_tkyD1MoXp");'>
-    </div>
-    
-    <!-- Botón de Planillas Mensajeros (solo visible para ADMIN) -->
-    <button id="adminPlanillaButton" 
-            class="hidden flex items-center justify-center size-10 rounded-full bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-900/50 transition-colors group relative"
-            title="Planillas de mensajeros (Admin)">
-        <span class="material-symbols-outlined text-purple-600 dark:text-purple-400">assignment</span>
-        <!-- Tooltip para móviles -->
-        <div class="absolute right-0 top-full mt-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
-            Planillas Mensajeros
-        </div>
-    </button>
-    
-    <!-- Botón de historial -->
-    <button id="historialButton" 
-            class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            title="Ver mi historial de envíos">
-        <span class="material-symbols-outlined text-[#4c669a]">history</span>
-    </button>
-
-
-
-<!-- MODAL PARA HISTORIAL -->
-<div id="modalHistorial" class="fixed inset-0 z-[100] hidden overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onclick="cerrarModalHistorial()"></div>
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full">
-            <div class="px-6 py-4 bg-primary text-white">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-bold">📋 Historial de Envíos</h3>
-                    <button onclick="cerrarModalHistorial()" class="text-white hover:text-gray-200">
-                        <span class="material-symbols-outlined">close</span>
+                <!-- Sección derecha: usuario y botones -->
+                <div class="flex items-center gap-4">
+                    <!-- Información del usuario (solo desktop) -->
+                    <div class="hidden md:flex flex-col items-end mr-2">
+                        <span class="text-sm font-semibold text-[#0d121b] dark:text-white" id="nombreUsuario">Cargando...</span>
+                        <span class="text-xs text-[#4c669a] dark:text-gray-400" id="rolUsuario">Verificando...</span>
+                    </div>
+                    
+                    <!-- Avatar del usuario -->
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary" 
+                         data-alt="User profile avatar" 
+                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHdncnvfU7TsNmWeUeUJ0UYPAz9BzBx81lq4UEwtgmGBCdZmv4uXnF_3Tx8oE8bSYPqkYSLGSQsBc3VJM6lrLe4iFzAQC287vN3rhtGYCEdoKOkbOtxnxxD1oReP8LrM8i5sZycdxRVlxcikXb1SssTAUPO1_Z8lVAcIZAdBo7-51A_cFNIDS22SZ04WLRRQomqB7gNcwwGHQRh-XuV9GNIkBZe2gjZPo6vSSx5iXD_PPYNffE2XiiZgXT_vzYezxgBe_tkyD1MoXp");'>
+                    </div>
+                    
+                    <!-- Botón de Planillas Mensajeros (solo visible para ADMIN) -->
+                    <button id="adminPlanillaButton" 
+                            class="hidden flex items-center justify-center size-10 rounded-full bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-900/50 transition-colors group relative"
+                            title="Planillas de mensajeros (Admin)">
+                        <span class="material-symbols-outlined text-purple-600 dark:text-purple-400">assignment</span>
+                        <!-- Tooltip para móviles -->
+                        <div class="absolute right-0 top-full mt-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                            Planillas Mensajeros
+                        </div>
+                    </button>
+                    
+                    <!-- Botón de historial -->
+                    <button id="historialButton" 
+                            class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            title="Ver mi historial de envíos">
+                        <span class="material-symbols-outlined text-[#4c669a]">history</span>
+                    </button>
+                    
+                    <!-- Botón de logout -->
+                    <button id="logoutButton" 
+                            class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            title="Cerrar sesión">
+                        <span class="material-symbols-outlined text-[#4c669a]">logout</span>
                     </button>
                 </div>
             </div>
-            <div class="px-6 py-4 max-h-[70vh] overflow-y-auto">
-                <div id="modalHistorialContenido">
-                    <!-- Loading dentro del modal -->
-                    <div id="modalLoading" class="p-8 text-center">
-                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mb-2"></div>
-                        <p class="text-gray-500 dark:text-gray-400">Cargando historial...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-            
-            <!-- Botón de logout -->
-            <button id="logoutButton" 
-                    class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    title="Cerrar sesión">
-                <span class="material-symbols-outlined text-[#4c669a]">logout</span>
-            </button>
-        </div>
-    </div>
-</header>
+        </header>
+        
         <!-- Main Content Area -->
         <main class="flex-1 w-full px-4 py-8 md:px-8 lg:px-12 flex justify-center">
             <div class="w-full max-w-[1024px] flex flex-col gap-6">
@@ -799,13 +551,9 @@ body {
                                 </div>
                             </div>
                             
-                            <!-- Campo OCULTO para Correo Remitente -->
+                            <!-- Campos ocultos -->
                             <input type="hidden" id="correoRemitente" name="correoRemitente">
-                            
-                            <!-- Campo OCULTO para Usuario ID -->
                             <input type="hidden" id="usuarioId" name="usuarioId">
-                            
-                            <!-- Campo OCULTO para Pagado a Remitente -->
                             <input type="hidden" id="pagadoRemitente" name="pagadoRemitente" value="false">
                         </div>
                     </div>
@@ -837,8 +585,24 @@ body {
                             </label>
                             
                             <label class="flex flex-col gap-2 md:col-span-2">
-                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Dirección de Entrega</span>
-                                <input id="direccionDestino" name="direccionDestino" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Carrera 80 # 12 - 34" type="text" required/>
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">
+                                    Dirección de Entrega 
+                                    <span class="text-xs text-green-600 dark:text-green-400 ml-1">(Google Autocomplete)</span>
+                                </span>
+                                <div class="relative">
+                                    <input id="direccionDestino" name="direccionDestino" 
+                                           class="w-full h-12 pl-12 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                           placeholder="Escriba dirección (Carrera 80 # 12 - 34)" 
+                                           type="text" 
+                                           autocomplete="off"
+                                           required/>
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c669a]">location_on</span>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-green-600 text-sm" title="Autocompletado con Google">pin_drop</span>
+                                </div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-xs">info</span>
+                                    Comience a escribir para ver sugerencias de Google Maps
+                                </p>
                             </label>
                             
                             <label class="flex flex-col gap-2">
@@ -970,5 +734,12 @@ body {
     <!-- Script principal unificado -->
     <script src="script.js"></script>
     
+    <script>
+        // Ocultar la intro después de 2 segundos
+        setTimeout(() => {
+            const intro = document.getElementById('intro');
+            if (intro) intro.style.display = 'none';
+        }, 2000);
+    </script>
 </body>
 </html>
