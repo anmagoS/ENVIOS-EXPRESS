@@ -1802,8 +1802,9 @@ let urlGoogleMaps;
 if (latitud && longitud && latitud.trim() !== "" && longitud.trim() !== "" && 
     !isNaN(parseFloat(latitud)) && !isNaN(parseFloat(longitud))) {
     
+   
     // FORMATO 1: URL con coordenadas exactas (RECOMENDADO)
-    urlGoogleMaps = `https://www.google.com/maps?q=${latitud.trim()},${longitud.trim()}&z=17`;
+urlGoogleMaps = "https://www.google.com/maps?q=" + latitud.trim() + "," + longitud.trim() + "&z=17";
     
     // FORMATO ALTERNATIVO: Con API de Google Maps
     // urlGoogleMaps = `https://www.google.com/maps/search/?api=1&query=${latitud.trim()},${longitud.trim()}`;
@@ -2456,5 +2457,6 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarBotonesAdmin();
     configurarBotonHistorial();
 });
+
 
 
