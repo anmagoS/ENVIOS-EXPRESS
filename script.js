@@ -32,6 +32,10 @@ let submitButton, submitText, submitIcon;
 // GOOGLE PLACES AUTOCOMPLETE - COMPLETO CON COORDENADAS
 // ============================================
 
+// ============================================
+// GOOGLE PLACES AUTOCOMPLETE - CORREGIDO
+// ============================================
+
 function inicializarGooglePlacesAutocomplete() {
     console.log("📍 Inicializando Google Places Autocomplete...");
     
@@ -50,7 +54,7 @@ function inicializarGooglePlacesAutocomplete() {
     }
     
     try {
-        // Área más específica para Bogotá + Soacha
+        // Área específica para Bogotá + Soacha
         const bogotaSoachaBounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(4.48, -74.25),  // Soacha
             new google.maps.LatLng(4.85, -74.00)   // Bogotá norte
@@ -61,31 +65,35 @@ function inicializarGooglePlacesAutocomplete() {
                 country: 'co'
             },
             bounds: bogotaSoachaBounds,
-            strictBounds: true,  // ← ¡SOLO resultados dentro del área!
+            strictBounds: false,  // Permitir algunos resultados fuera
             fields: [
                 'address_components', 
                 'formatted_address', 
                 'geometry',
-                'name'
-            ]
+                'name',
+                'types'
+            ],
+            types: ['address', 'geocode']  // Solo direcciones
         });
         
         // Deshabilitar el autocomplete nativo del navegador
         direccionInput.setAttribute('autocomplete', 'off');
         
         // ============================================
-        // 🔥 NUEVO: CREAR CAMPOS OCULTOS PARA COORDENADAS
+        // 🔥 CORRECCIÓN: CREAR CAMPOS DENTRO DEL FORMULARIO
         // ============================================
-        function crearCamposCoordenadasSiNoExisten() {
-            let form = document.querySelector('form');
-            if (!form) {
-                console.warn('⚠️ No se encontró formulario para agregar campos de coordenadas');
-                return;
-            }
+        function crearCamposCoordenadas() {
+            const form = document.getElementById('deliveryForm');
+            if (!form) return;
+            
+            // Verificar si ya existen
+            let latField = document.getElementById('latitud');
+            let lngField = document.getElementById('longitud');
+            let urlField = document.getElementById('urlMaps');
             
             // Crear campo para latitud si no existe
-            if (!document.getElementById('latitud')) {
-                const latField = document.createElement('input');
+            if (!latField) {
+                latField = document.createElement('input');
                 latField.type = 'hidden';
                 latField.id = 'latitud';
                 latField.name = 'latitud';
@@ -95,8 +103,8 @@ function inicializarGooglePlacesAutocomplete() {
             }
             
             // Crear campo para longitud si no existe
-            if (!document.getElementById('longitud')) {
-                const lngField = document.createElement('input');
+            if (!lngField) {
+                lngField = document.createElement('input');
                 lngField.type = 'hidden';
                 lngField.id = 'longitud';
                 lngField.name = 'longitud';
@@ -104,10 +112,21 @@ function inicializarGooglePlacesAutocomplete() {
                 form.appendChild(lngField);
                 console.log('✅ Campo oculto "longitud" creado');
             }
+            
+            // Crear campo para URL de Maps si no existe
+            if (!urlField) {
+                urlField = document.createElement('input');
+                urlField.type = 'hidden';
+                urlField.id = 'urlMaps';
+                urlField.name = 'urlMaps';
+                urlField.value = '';
+                form.appendChild(urlField);
+                console.log('✅ Campo oculto "urlMaps" creado');
+            }
         }
         
-        // Crear campos ocultos al inicializar
-        crearCamposCoordenadasSiNoExisten();
+        // Crear campos al inicializar
+        crearCamposCoordenadas();
         
         // ============================================
         // CONFIGURAR EVENTO CUANDO SE SELECCIONA UNA DIRECCIÓN
@@ -115,8 +134,10 @@ function inicializarGooglePlacesAutocomplete() {
         autocomplete.addListener('place_changed', function() {
             const place = autocomplete.getPlace();
             
+            console.log("📍 Lugar seleccionado de Google Places:", place);
+            
             if (!place.geometry) {
-                console.log("❌ No se seleccionó un lugar válido");
+                console.log("❌ No se seleccionó un lugar válido o usuario escribió manualmente");
                 return;
             }
             
@@ -131,98 +152,94 @@ function inicializarGooglePlacesAutocomplete() {
                 longitud: longitud
             });
             
-            // Guardar datos para posible uso futuro
-            window.ultimaDireccionSeleccionada = {
-                direccion_completa: place.formatted_address,
-                latitud: latitud,
-                longitud: longitud,
-                nombre_lugar: place.name || ''
-            };
-            
             // ============================================
-            // 🔥 NUEVO: GUARDAR COORDENADAS EN CAMPOS OCULTOS
+            // 🔥 CORRECCIÓN: GUARDAR COORDENADAS EN CAMPOS OCULTOS
             // ============================================
             const latField = document.getElementById('latitud');
             const lngField = document.getElementById('longitud');
+            const urlField = document.getElementById('urlMaps');
             
-            if (latField && lngField) {
+            if (latField && lngField && urlField) {
                 latField.value = latitud;
                 lngField.value = longitud;
-                console.log('✅ Coordenadas guardadas en campos ocultos');
                 
-                // Mostrar en consola para verificación
-                console.log('📋 Valores actuales:', {
-                    'campo latitud.value': latField.value,
-                    'campo longitud.value': lngField.value,
-                    'campo latitud.name': latField.name,
-                    'campo longitud.name': lngField.name
+                // Generar URL de Maps con coordenadas EXACTAS
+                const urlMaps = `https://www.google.com/maps?q=${latitud},${longitud}&z=17`;
+                urlField.value = urlMaps;
+                
+                console.log('✅ Coordenadas y URL guardadas:', {
+                    latitud: latField.value,
+                    longitud: lngField.value,
+                    urlMaps: urlField.value
                 });
             } else {
-                console.error('❌ Campos ocultos no encontrados. Creándolos...');
-                crearCamposCoordenadasSiNoExisten();
-                
-                // Intentar asignar valores nuevamente
-                const latFieldNew = document.getElementById('latitud');
-                const lngFieldNew = document.getElementById('longitud');
-                if (latFieldNew && lngFieldNew) {
-                    latFieldNew.value = latitud;
-                    lngFieldNew.value = longitud;
-                }
+                console.error('❌ Campos ocultos no encontrados');
+                crearCamposCoordenadas();
             }
             
             // ============================================
-            // EXTRAER COMPONENTES DE LA DIRECCIÓN (Tu código original)
+            // EXTRAER BARRIO AUTOMÁTICAMENTE (CORREGIDO)
             // ============================================
+            let barrioEncontrado = '';
+            let localidadEncontrada = '';
+            
             place.address_components.forEach(component => {
                 const tipos = component.types;
                 
-                // Barrio
-                if (tipos.includes('neighborhood') || tipos.includes('sublocality_level_1')) {
-                    const barrioInput = document.getElementById('barrioLocalidad');
-                    if (barrioInput && (!barrioInput.value.trim())) {
-                        barrioInput.value = component.long_name;
-                        barrioInput.dispatchEvent(new Event('input', { bubbles: true }));
+                console.log("🔍 Componente de dirección:", {
+                    tipos: tipos,
+                    nombre: component.long_name,
+                    nombre_corto: component.short_name
+                });
+                
+                // Barrio (sublocality_level_1 o neighborhood)
+                if (tipos.includes('sublocality_level_1') || 
+                    tipos.includes('neighborhood') ||
+                    tipos.includes('sublocality')) {
+                    
+                    if (!barrioEncontrado) {
+                        barrioEncontrado = component.long_name;
+                        console.log("🏘️ Barrio encontrado:", barrioEncontrado);
                     }
                 }
                 
-                // Ciudad
-                if (tipos.includes('locality')) {
-                    const ciudadSelect = document.getElementById('ciudadDestino');
-                    if (ciudadSelect) {
-                        const ciudadEncontrada = component.long_name.toLowerCase();
-                        
-                        // Buscar coincidencia en las opciones
-                        Array.from(ciudadSelect.options).forEach(option => {
-                            if (option.value && option.value.toLowerCase().includes(ciudadEncontrada)) {
-                                ciudadSelect.value = option.value;
-                                ciudadSelect.dispatchEvent(new Event('change', { bubbles: true }));
-                                console.log(`✅ Ciudad auto-seleccionada: ${option.value}`);
-                            }
-                        });
+                // Localidad (locality o administrative_area_level_2)
+                if (tipos.includes('locality') || 
+                    tipos.includes('administrative_area_level_2')) {
+                    
+                    if (!localidadEncontrada) {
+                        localidadEncontrada = component.long_name;
+                        console.log("📍 Localidad encontrada:", localidadEncontrada);
                     }
                 }
             });
             
-            // Mostrar notificación con coordenadas
+            // Poblar campo de barrio
+            const barrioInput = document.getElementById('barrioLocalidad');
+            if (barrioInput && barrioEncontrado) {
+                barrioInput.value = barrioEncontrado;
+                console.log("✅ Barrio autocompletado:", barrioEncontrado);
+                
+                // También buscar en la base de datos de barrios
+                buscarBarrioEnBaseDatos(barrioEncontrado);
+            }
+            
+            // Mostrar notificación
             mostrarNotificacionDireccion(place.formatted_address, latitud, longitud);
             
-            // Enfocar el siguiente campo automáticamente
+            // Enfocar siguiente campo
             setTimeout(() => {
                 const complementoInput = document.getElementById('complementoDireccion');
                 if (complementoInput) {
                     complementoInput.focus();
                 }
-            }, 500);
+            }, 300);
         });
         
         // Prevenir submit del formulario al presionar Enter
         direccionInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && document.activeElement === direccionInput) {
                 e.preventDefault();
-                if (this.value.length > 3) {
-                    this.blur();
-                    setTimeout(() => this.focus(), 10);
-                }
             }
         });
         
@@ -233,64 +250,6 @@ function inicializarGooglePlacesAutocomplete() {
         mostrarErrorGoogleMaps();
     }
 }
-
-// ============================================
-// FUNCIÓN MEJORADA DE NOTIFICACIÓN CON COORDENADAS
-// ============================================
-function mostrarNotificacionDireccion(direccion, latitud, longitud) {
-    // Crear notificación flotante
-    const notificacion = document.createElement('div');
-    notificacion.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl z-50 flex items-center gap-3 animate-slideUp';
-    notificacion.style.cssText = `
-        animation: slideUp 0.3s ease-out forwards;
-        max-width: 90%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    `;
-    
-    let texto = `📍 Dirección encontrada: ${direccion.substring(0, 40)}${direccion.length > 40 ? '...' : ''}`;
-    
-    if (latitud && longitud) {
-        texto += `<br><small class="opacity-80">Coordenadas: ${latitud.toFixed(6)}, ${longitud.toFixed(6)}</small>`;
-    }
-    
-    notificacion.innerHTML = `
-        <span class="material-symbols-outlined text-lg">check_circle</span>
-        <div class="text-sm font-medium">${texto}</div>
-    `;
-    
-    document.body.appendChild(notificacion);
-    
-    // Eliminar después de 4 segundos
-    setTimeout(() => {
-        notificacion.style.animation = 'slideDown 0.3s ease-in forwards';
-        setTimeout(() => {
-            if (notificacion.parentElement) notificacion.remove();
-        }, 300);
-    }, 4000);
-}
-
-// ============================================
-// FUNCIÓN PARA VERIFICAR CAMPOS DE COORDENADAS
-// ============================================
-function verificarCamposCoordenadas() {
-    console.log('🔍 Verificando campos de coordenadas...');
-    
-    const campos = [
-        { id: 'latitud', name: 'latitud', value: document.getElementById('latitud')?.value },
-        { id: 'longitud', name: 'longitud', value: document.getElementById('longitud')?.value }
-    ];
-    
-    campos.forEach(campo => {
-        if (document.getElementById(campo.id)) {
-            console.log(`✅ Campo "${campo.id}" encontrado. Valor: "${campo.value}"`);
-        } else {
-            console.log(`❌ Campo "${campo.id}" NO encontrado`);
-        }
-    });
-}
-
 // ============================================
 // AGREGAR ESTA FUNCIÓN AL EVENTO DE ENVÍO DEL FORMULARIO
 // ============================================
@@ -2535,4 +2494,5 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarBotonesAdmin();
     configurarBotonHistorial();
 });
+
 
