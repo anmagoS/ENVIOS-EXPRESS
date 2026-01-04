@@ -1254,12 +1254,30 @@ function determinarSiEstaPagado(estadoPago) {
 }
 
 function determinarEstadoPago(envio) {
+    // ========== DEBUG CRÍTICO ==========
+    console.log('🔴 DEBUG para envío:', envio["ENVIO ID"]);
+    console.log('🔴 Campo PAGADO A REMITENTE crudo:', envio["PAGADO A REMITENTE"]);
+    console.log('🔴 Tipo:', typeof envio["PAGADO A REMITENTE"]);
+    console.log('🔴 ¿Existe el campo?:', '"PAGADO A REMITENTE"' in envio);
+    
+    // Buscar cualquier campo que contenga "pago" o "pagado"
+    Object.keys(envio).forEach(key => {
+        const keyLower = key.toLowerCase();
+        if (keyLower.includes('pago') || keyLower.includes('pagado') || keyLower.includes('paid')) {
+            console.log(`🔴 Campo encontrado: "${key}" =`, envio[key], `(tipo: ${typeof envio[key]})`);
+        }
+    });
+    // ========== FIN DEBUG ==========
+    
     // Campos del envío
     const estadoPagoCelda = envio["PAGADO A REMITENTE"] || envio.pagadoRemitente || envio.pagado || 'NO';
     const estadoEnvio = (envio["estado"] || envio["ESTADO"] || envio["ESTADO ENVIO"] || '').toUpperCase().trim();
     const totalPagar = parseFloat(envio["TOTAL A PAGAR"] || envio.totalPagar || envio.totalAPagar || 0);
     const formaPago = (envio["FORMA DE PAGO"] || envio.formaPago || '').toLowerCase();
     const valorRecaudar = parseFloat(envio["VALOR A RECAUDAR"] || envio.valorRecaudar || 0);
+    
+    console.log('🔴 estadoPagoCelda después de ||:', estadoPagoCelda);
+    console.log('🔴 DeterminarSiEstaPagado será llamado con:', estadoPagoCelda);
     
     console.log('🔍 Analizando envío:', {
         id: envio["ENVIO ID"],
@@ -1272,6 +1290,7 @@ function determinarEstadoPago(envio) {
     
     // 1. Verificar si está marcado como PAGADO en la celda
     const estaPagado = determinarSiEstaPagado(estadoPagoCelda);
+    console.log('🔴 Resultado de determinarSiEstaPagado:', estaPagado);
     
     // ============================================
     // LÓGICA POR FORMA DE PAGO
