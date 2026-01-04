@@ -1255,6 +1255,22 @@ function determinarSiEstaPagado(estadoPago) {
 }
 
 function determinarEstadoPago(envio) {
+
+    // Buscar el campo de pago de manera más robusta
+    const estadoPagoCelda = 
+        envio["PAGADO A REMITENTE"] || 
+        envio["Pagado a Remitente"] || 
+        envio["pagado_a_remitente"] || 
+        envio["PAGADO"] || 
+        envio["pagado"] || 
+        envio["Pagado"] || 
+        envio["PAID"] || 
+        envio["paid"] || 
+        "NO";
+    
+    // ... resto del código igual ...
+
+    
     // ========== DEBUG CRÍTICO ==========
     console.log('🔴 DEBUG para envío:', envio["ENVIO ID"]);
     console.log('🔴 Campo PAGADO A REMITENTE crudo:', envio["PAGADO A REMITENTE"]);
