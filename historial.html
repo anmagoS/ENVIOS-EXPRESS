@@ -1239,6 +1239,7 @@ function determinarSiEstaPagado(estadoPago) {
                estadoUpper === 'YES' || 
                estadoUpper === 'PAGADO' ||
                estadoUpper === 'PAID';
+               estadoUpper === 'PAGO';
     }
     
     if (typeof estadoPago === 'boolean') {
@@ -1253,8 +1254,8 @@ function determinarSiEstaPagado(estadoPago) {
 }
 
 function determinarEstadoPago(envio) {
-    // Campos del envío (con diferentes posibles nombres)
-    const estadoPago = envio["PAGADO A REMITENTE"] || envio.pagadoRemitente || envio.pagado || 'NO';
+    // Campos del envío
+    const estadoPagoCelda = envio["PAGADO A REMITENTE"] || envio.pagadoRemitente || envio.pagado || 'NO';
     const estadoEnvio = (envio["estado"] || envio["ESTADO"] || envio["ESTADO ENVIO"] || '').toUpperCase().trim();
     const totalPagar = parseFloat(envio["TOTAL A PAGAR"] || envio.totalPagar || envio.totalAPagar || 0);
     const formaPago = (envio["FORMA DE PAGO"] || envio.formaPago || '').toLowerCase();
@@ -1262,70 +1263,86 @@ function determinarEstadoPago(envio) {
     
     console.log('🔍 Analizando envío:', {
         id: envio["ENVIO ID"],
-        estadoPago,
-        estadoEnvio,
-        totalPagar,
-        formaPago,
-        valorRecaudar
+        formaPago: formaPago,
+        estadoPagoCelda: estadoPagoCelda,
+        estadoEnvio: estadoEnvio,
+        totalPagar: totalPagar,
+        valorRecaudar: valorRecaudar
     });
     
-    // 1. Verificar si ya está pagado
-    const estaPagado = determinarSiEstaPagado(estadoPago);
+    // 1. Verificar si está marcado como PAGADO en la celda
+    const estaPagado = determinarSiEstaPagado(estadoPagoCelda);
     
-    // 2. Si ya está pagado, retornar "pagado" sin importar el estado
-    if (estaPagado) {
-        console.log(`✅ Envío ${envio["ENVIO ID"]} ya está PAGADO`);
-        return { texto: 'Pagado', clase: 'badge-pagado', pendientePago: false };
-    }
+    // ============================================
+    // LÓGICA POR FORMA DE PAGO
+    // ============================================
     
-    // 3. Si es contado o contraentrega sin recaudo, siempre es "sin pago"
-    if (formaPago === 'contado' || formaPago === 'contraentrega') {
-        console.log(`📝 Envío ${envio["ENVIO ID"]} es contado/contraentrega: SIN PAGO`);
+    // CASO A: CONTADO → Siempre "Sin pago"
+    if (formaPago === 'contado') {
+        console.log(`📄 Envío ${envio["ENVIO ID"]} es CONTADO → SIN PAGO`);
         return { texto: 'Sin pago', clase: 'badge-sin-pago', pendientePago: false };
     }
     
-    // 4. Solo para envíos con recaudo ("contraentrega_recaudo" o similar)
+    // CASO B: CONTRAENTREGA → Siempre "Sin pago" (fijo $10k/$12k)
+    if (formaPago === 'contraentrega') {
+        console.log(`📦 Envío ${envio["ENVIO ID"]} es CONTRAENTREGA → SIN PAGO`);
+        return { texto: 'Sin pago', clase: 'badge-sin-pago', pendientePago: false };
+    }
+    
+    // CASO C: CONTRAENTREGA CON RECAUDO (o similar) → Aquí aplican los estados
     const esConRecaudo = formaPago.includes('recaudo') || 
                          formaPago === 'contraentrega_recaudo' || 
                          formaPago === 'con recaudo' ||
                          (valorRecaudar > 0 && totalPagar > 0);
     
     if (esConRecaudo) {
-        // Verificar estado del envío
+        console.log(`💰 Envío ${envio["ENVIO ID"]} es CON RECAUDO → Verificar estados`);
+        
+        // 1. PRIMERO verificar si está PAGADO en la celda (esto es lo PRINCIPAL)
+        if (estaPagado) {
+            console.log(`✅ Envío ${envio["ENVIO ID"]} marcado como PAGADO en la celda`);
+            
+            // Si está pagado, mostrar "Pagado" sin importar el estado del envío
+            return { texto: 'Pagado', clase: 'badge-pagado', pendientePago: false };
+        }
+        
+        // 2. Si NO está pagado, verificar estado del envío
         const estadosEntregado = ['ENTREGADO', 'ENTREGA EXITOSA', 'COMPLETADO', 'FINALIZADO'];
-        const estadosProceso = ['RECIBIDO', 'EN BODEGA', 'EN REPARTO', 'REPARTO', 'NOVEDAD', 'PROCESO', 'EN PROCESO', 'PENDIENTE'];
+        const estadosProceso = ['RECIBIDO', 'EN BODEGA', 'EN REPARTO', 'REPARTO', 'NOVEDAD', 'PROCESO', 'EN PROCESO'];
+        const estadosPendiente = ['PENDIENTE', ''];
         
-        const esEntregado = estadosEntregado.some(estado => 
-            estadoEnvio.includes(estado)
-        );
+        const esEntregado = estadosEntregado.some(estado => estadoEnvio.includes(estado));
+        const estaEnProceso = estadosProceso.some(estado => estadoEnvio.includes(estado));
+        const estaPendiente = estadosPendiente.some(estado => estadoEnvio.includes(estado));
         
-        const estaEnProceso = estadosProceso.some(estado => 
-            estadoEnvio.includes(estado)
-        );
-        
-        console.log(`📦 Envío ${envio["ENVIO ID"]}: Estado "${estadoEnvio}", Entregado: ${esEntregado}, Proceso: ${estaEnProceso}`);
+        console.log(`📊 Estado del envío ${envio["ENVIO ID"]}: "${estadoEnvio}"`);
+        console.log(`   Entregado: ${esEntregado}, Proceso: ${estaEnProceso}, Pendiente: ${estaPendiente}`);
         
         if (esEntregado) {
-            // Entregado pero no pagado aún
-            console.log(`💰 Envío ${envio["ENVIO ID"]} ENTREGADO pero NO PAGADO: PENDIENTE`);
-            return { texto: 'Pendiente', clase: 'badge-pendiente', pendientePago: totalPagar > 0 };
+            // Si está ENTREGADO y NO está pagado → PENDIENTE de pago
+            console.log(`⏳ Envío ${envio["ENVIO ID"]} ENTREGADO pero NO PAGADO → PENDIENTE`);
+            return { 
+                texto: 'Pendiente', 
+                clase: 'badge-pendiente', 
+                pendientePago: totalPagar > 0 
+            };
         } else if (estaEnProceso) {
-            // Aún en proceso (recibido, reparto, etc.)
-            console.log(`⏳ Envío ${envio["ENVIO ID"]} EN PROCESO`);
+            // Si está en proceso (RECIBIDO, REPARTO, etc.)
+            console.log(`🔄 Envío ${envio["ENVIO ID"]} EN PROCESO`);
             return { texto: 'En proceso', clase: 'badge-proceso', pendientePago: false };
-        } else if (!estadoEnvio || estadoEnvio === '') {
-            // Sin estado definido
-            console.log(`❓ Envío ${envio["ENVIO ID"]} SIN ESTADO`);
-            return { texto: 'Sin estado', clase: 'badge-sin-pago', pendientePago: false };
+        } else if (estaPendiente || estadoEnvio === '') {
+            // Si está pendiente o sin estado
+            console.log(`⏸️ Envío ${envio["ENVIO ID"]} PENDIENTE o SIN ESTADO`);
+            return { texto: 'Pendiente', clase: 'badge-pendiente', pendientePago: totalPagar > 0 };
         } else {
             // Cualquier otro estado
-            console.log(`📌 Envío ${envio["ENVIO ID"]} con estado "${estadoEnvio}"`);
+            console.log(`❓ Envío ${envio["ENVIO ID"]} con estado desconocido: "${estadoEnvio}"`);
             return { texto: estadoEnvio, clase: 'badge-sin-pago', pendientePago: false };
         }
     }
     
-    // 5. Caso por defecto (no es con recaudo)
-    console.log(`📄 Envío ${envio["ENVIO ID"]} NO ES CON RECAUDO: SIN PAGO`);
+    // CASO D: Cualquier otra forma de pago no reconocida
+    console.log(`⚠️ Envío ${envio["ENVIO ID"]} forma de pago desconocida: "${formaPago}"`);
     return { texto: 'Sin pago', clase: 'badge-sin-pago', pendientePago: false };
 }
         
