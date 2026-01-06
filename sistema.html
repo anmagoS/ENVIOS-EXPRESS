@@ -1,1052 +1,746 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="light" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envíos Rápidos Bogotá - Entrega el Mismo Día</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sistema de Envíos - Contraentrega</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTsiYHoiF33tViQHkKxBUL2ZTAcgS-HO8&libraries=places&language=es&region=CO"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚚</text></svg>">
-    
-    <!-- CSS Institucional Personalizado -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-dark": "#0f4bc4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a202c",
+                        "input-light": "#e7ebf3",
+                        "input-dark": "#2d3748",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "danger": "#ef4444"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
     <style>
         /* ============================================
-           ESTILOS INSTITUCIONALES - Tu CSS personalizado
+           ESTILOS PARA GOOGLE PLACES AUTOCOMPLETE
            ============================================ */
-        :root {
-            /* Colores institucionales según tus requisitos */
-            --azul-oscuro: #0d121b;    /* Confianza */
-            --azul-primario: #135bec;  /* Principal */
-            --verde-rapidez: #10b981;  /* Rapidez */
-            --blanco-fondo: #ffffff;   /* Fondo limpio */
-            --gris-claro: #f6f6f8;
-            --gris-medio: #4c669a;
-            
-            /* Espaciados y bordes */
-            --radio-borde: 0.5rem;
-            --radio-borde-grande: 1rem;
-            --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --sombra-fuerte: 0 8px 24px rgba(19, 91, 236, 0.15);
-            
-            /* Transiciones */
-            --transicion-rapida: 0.2s ease;
-            --transicion-media: 0.3s ease;
+        .pac-container {
+            z-index: 10002 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border: 1px solid #e5e7eb !important;
+            margin-top: 4px !important;
+            font-family: 'Inter', sans-serif !important;
         }
-        
+
+        .pac-item {
+            padding: 10px 12px !important;
+            cursor: pointer !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            font-size: 14px !important;
+            transition: background-color 0.2s !important;
+        }
+
+        .pac-item:hover {
+            background-color: #f9fafb !important;
+        }
+
+        .pac-item-selected {
+            background-color: #eff6ff !important;
+        }
+
+        .pac-icon {
+            margin-right: 8px !important;
+        }
+
+        .pac-item-query {
+            font-size: 14px !important;
+            color: #1f2937 !important;
+        }
+
+        /* Para móvil */
+        @media (max-width: 767px) {
+            .pac-container {
+                position: fixed !important;
+                top: auto !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                max-height: 50vh !important;
+                border-radius: 12px 12px 0 0 !important;
+            }
+        }
+
+        /* Modo oscuro */
+        .dark .pac-container {
+            background-color: #1e293b !important;
+            border-color: #475569 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        }
+
+        .dark .pac-item {
+            border-bottom-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+
+        .dark .pac-item:hover {
+            background-color: #334155 !important;
+        }
+
+        .dark .pac-item-selected {
+            background-color: #2563eb !important;
+        }
+
+        .dark .pac-item-query {
+            color: #f1f5f9 !important;
+        }
+
+        /* ============================================
+           ANIMACIONES
+           ============================================ */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           ESTILOS BASE RESPONSIVOS
+           ============================================ */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: var(--blanco-fondo);
-            color: var(--azul-oscuro);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        
+
         /* ============================================
-           TIPOGRAFÍA Y ELEMENTOS BÁSICOS
+           AUTOCOMPLETE PARA BARRAS - MEJORADO RESPONSIVE
            ============================================ */
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-        }
-        
-        h2 {
-            font-size: 2rem;
-        }
-        
-        h3 {
-            font-size: 1.5rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        /* ============================================
-           BOTONES INSTITUCIONALES (sin clases externas)
-           ============================================ */
-        .boton-primario {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2rem;
-            background-color: var(--azul-primario);
-            color: white;
-            font-weight: 600;
-            border-radius: var(--radio-borde);
-            border: none;
-            cursor: pointer;
-            transition: all var(--transicion-rapida);
-            box-shadow: var(--sombra-suave);
-            font-size: 1rem;
-            min-height: 3.5rem;
-        }
-        
-        .boton-primario:hover {
-            background-color: #0f4bc4;
-            transform: translateY(-2px);
-            box-shadow: var(--sombra-fuerte);
-        }
-        
-        .boton-secundario {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2rem;
-            background-color: var(--verde-rapidez);
-            color: white;
-            font-weight: 600;
-            border-radius: var(--radio-borde);
-            border: none;
-            cursor: pointer;
-            transition: all var(--transicion-rapida);
-            box-shadow: var(--sombra-suave);
-            font-size: 1rem;
-            min-height: 3.5rem;
-        }
-        
-        .boton-secundario:hover {
-            background-color: #0da271;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
-        }
-        
-        .boton-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2rem;
-            background-color: transparent;
-            color: var(--azul-primario);
-            font-weight: 600;
-            border-radius: var(--radio-borde);
-            border: 2px solid var(--azul-primario);
-            cursor: pointer;
-            transition: all var(--transicion-rapida);
-            font-size: 1rem;
-            min-height: 3.5rem;
-        }
-        
-        .boton-outline:hover {
-            background-color: rgba(19, 91, 236, 0.05);
-        }
-        
-        /* ============================================
-           ENCABEZADO Y NAVEGACIÓN
-           ============================================ */
-        .encabezado {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: var(--blanco-fondo);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1rem 0;
-        }
-        
-        .encabezado-contenido {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .logo-icono {
-            font-size: 2rem;
-            color: var(--azul-primario);
-        }
-        
-        .logo-texto {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--azul-oscuro);
-        }
-        
-        .navegacion {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        
-        .menu-movil {
+        #autocompleteDropdown {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100vw !important;
+            max-height: 50vh !important;
+            z-index: 10000 !important;
+            background: white !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 12px 12px 0 0 !important;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
+            overflow-y: auto !important;
             display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+            animation: fadeIn 0.3s ease-out;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
-        
-        /* ============================================
-           HERO SECTION - Encabezado llamativo
-           ============================================ */
-        .hero {
-            padding: 4rem 0;
-            background: linear-gradient(135deg, #f6f6f8 0%, #ffffff 100%);
-            position: relative;
-            overflow: hidden;
+
+        /* En tablets y desktop */
+        @media (min-width: 768px) {
+            #autocompleteDropdown {
+                position: absolute !important;
+                top: 100% !important;
+                bottom: auto !important;
+                width: 100% !important;
+                max-height: 250px !important;
+                border-radius: 8px !important;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            }
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40%;
-            height: 100%;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%23135bec" opacity="0.03"/></svg>');
-            background-size: cover;
-            z-index: 0;
-        }
-        
-        .hero-contenido {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-        }
-        
-        .hero-titulo {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: var(--azul-oscuro);
-        }
-        
-        .hero-subtitulo {
-            font-size: 1.25rem;
-            color: var(--gris-medio);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-        }
-        
-        .hero-destacado {
-            color: var(--verde-rapidez);
-            font-weight: 700;
-        }
-        
-        .hero-botones {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        /* ============================================
-           SECCIÓN DE BENEFICIOS
-           ============================================ */
-        .beneficios {
-            padding: 4rem 0;
-            background-color: var(--blanco-fondo);
-        }
-        
-        .beneficios-titulo {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .beneficios-lista {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        
-        .beneficio-item {
-            background-color: var(--blanco-fondo);
-            border-radius: var(--radio-borde-grande);
-            padding: 2rem;
-            box-shadow: var(--sombra-suave);
-            transition: transform var(--transicion-media);
-        }
-        
-        .beneficio-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .beneficio-icono {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--azul-primario);
-        }
-        
-        .beneficio-titulo {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        
-        .beneficio-descripcion {
-            color: var(--gris-medio);
-        }
-        
-        .beneficio-precio {
-            background-color: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid var(--verde-rapidez);
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 0 var(--radio-borde) var(--radio-borde) 0;
-        }
-        
-        /* ============================================
-           SECCIÓN DE COBERTURA (MAPA)
-           ============================================ */
-        .cobertura {
-            padding: 4rem 0;
-            background-color: var(--gris-claro);
-        }
-        
-        .cobertura-titulo {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        
-        .cobertura-subtitulo {
-            text-align: center;
-            color: var(--gris-medio);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .mapa-contenedor {
-            width: 100%;
-            height: 400px;
-            border-radius: var(--radio-borde-grande);
-            overflow: hidden;
-            box-shadow: var(--sombra-suave);
-            margin-bottom: 2rem;
-        }
-        
-        .mapa-estilizado {
-            width: 100%;
-            height: 100%;
-            background-color: #e9f2ff;
+
+        #autocompleteDropdown .autocomplete-item {
+            padding: 14px 16px !important;
+            cursor: pointer !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            font-size: 16px !important;
+            transition: all 0.2s ease !important;
+            touch-action: manipulation;
+            min-height: 44px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
         }
-        
-        .mapa-zonas {
-            position: relative;
-            width: 80%;
-            height: 80%;
+
+        /* Último item sin borde */
+        #autocompleteDropdown .autocomplete-item:last-child {
+            border-bottom: none !important;
         }
-        
-        .zona-central {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%;
-            height: 60%;
-            background-color: rgba(19, 91, 236, 0.1);
-            border: 2px solid var(--azul-primario);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: var(--azul-primario);
+
+        /* Efecto hover y active */
+        #autocompleteDropdown .autocomplete-item:hover,
+        #autocompleteDropdown .autocomplete-item:active {
+            background: #f3f4f6 !important;
         }
-        
-        .zona-norte, .zona-sur, .zona-este, .zona-oeste {
-            position: absolute;
-            background-color: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--verde-rapidez);
-            border-radius: var(--radio-borde);
-            padding: 0.5rem 1rem;
-            font-weight: 600;
-            color: var(--verde-rapidez);
+
+        /* Para móviles con hover forzado */
+        @media (hover: none) and (pointer: coarse) {
+            #autocompleteDropdown .autocomplete-item:active {
+                background: #e5e7eb !important;
+                transform: scale(0.98);
+            }
         }
-        
-        .zona-norte { top: 10%; left: 50%; transform: translateX(-50%); }
-        .zona-sur { bottom: 10%; left: 50%; transform: translateX(-50%); }
-        .zona-este { top: 50%; right: 10%; transform: translateY(-50%); }
-        .zona-oeste { top: 50%; left: 10%; transform: translateY(-50%); }
-        
+
+        /* Ocultar IDs */
+        #autocompleteDropdown .barrio-id {
+            display: none !important;
+        }
+
+        /* Estilo del nombre */
+        #autocompleteDropdown .barrio-nombre {
+            font-weight: 500 !important;
+            color: #1f2937 !important;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        /* Indicador de selección */
+        #autocompleteDropdown .autocomplete-item.selected {
+            background: #eff6ff !important;
+            border-left: 4px solid #3b82f6 !important;
+        }
+
         /* ============================================
-           SECCIÓN DE ACCESO AL SISTEMA
+           AUTOCOMPLETE PARA REMITENTES
            ============================================ */
-        .acceso-sistema {
-            padding: 4rem 0;
-            background-color: var(--blanco-fondo);
-        }
-        
-        .acceso-tarjeta {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: var(--blanco-fondo);
-            border-radius: var(--radio-borde-grande);
-            padding: 3rem;
-            box-shadow: var(--sombra-suave);
-            text-align: center;
-        }
-        
-        .acceso-titulo {
-            margin-bottom: 0.5rem;
-        }
-        
-        .acceso-subtitulo {
-            color: var(--gris-medio);
-            margin-bottom: 2rem;
-        }
-        
-        .formulario-grupo {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        
-        .formulario-etiqueta {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--azul-oscuro);
-        }
-        
-        .formulario-input {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #e7ebf3;
-            border-radius: var(--radio-borde);
-            font-size: 1rem;
-            transition: border-color var(--transicion-rapida);
-        }
-        
-        .formulario-input:focus {
-            outline: none;
-            border-color: var(--azul-primario);
-            box-shadow: 0 0 0 3px rgba(19, 91, 236, 0.1);
-        }
-        
-        .acceso-boton {
-            width: 100%;
-            margin-top: 1rem;
-        }
-        
-        /* ============================================
-           PIE DE PÁGINA
-           ============================================ */
-        .pie-pagina {
-            background-color: var(--azul-oscuro);
-            color: white;
-            padding: 3rem 0 2rem;
-        }
-        
-        .pie-contenido {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .pie-columna-titulo {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-        
-        .pie-lista {
-            list-style: none;
-        }
-        
-        .pie-lista li {
-            margin-bottom: 0.75rem;
-        }
-        
-        .pie-lista a {
-            color: rgba(255, 255, 255, 0.8);
-            transition: color var(--transicion-rapida);
-        }
-        
-        .pie-lista a:hover {
-            color: white;
-        }
-        
-        .contacto-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .contacto-icono {
-            color: var(--verde-rapidez);
-        }
-        
-        .pie-derechos {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.875rem;
-        }
-        
-        /* ============================================
-           RESPONSIVE DESIGN
-           ============================================ */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            h2 {
-                font-size: 1.75rem;
-            }
-            
-            .hero-titulo {
-                font-size: 2.25rem;
-            }
-            
-            .hero-botones {
-                flex-direction: column;
-            }
-            
-            .hero-botones .boton-primario,
-            .hero-botones .boton-secundario {
-                width: 100%;
-            }
-            
-            .navegacion {
-                display: none;
-            }
-            
-            .menu-movil {
-                display: block;
-            }
-            
-            .acceso-tarjeta {
-                padding: 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero-titulo {
-                font-size: 1.75rem;
-            }
-            
-            .beneficios-lista {
-                grid-template-columns: 1fr;
-            }
-            
-            .mapa-contenedor {
-                height: 300px;
-            }
-        }
-        
-        /* ============================================
-           ANIMACIONES Y EFECTOS
-           ============================================ */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .animado {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-        
-        .retraso-1 { animation-delay: 0.1s; }
-        .retraso-2 { animation-delay: 0.2s; }
-        .retraso-3 { animation-delay: 0.3s; }
-        .retraso-4 { animation-delay: 0.4s; }
-        
-        /* ============================================
-           SECCIONES OCULTAS (Login y Dashboard)
-           ============================================ */
-        .seccion-oculta {
+        #remitenteAutocomplete {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100vw !important;
+            max-height: 60vh !important;
+            z-index: 10001 !important;
+            background: white !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 16px 16px 0 0 !important;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2) !important;
+            overflow-y: auto !important;
             display: none;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
-        
-        /* Estilos para el dashboard (simplificado) */
-        .dashboard {
-            padding: 2rem 0;
+
+        @media (min-width: 768px) {
+            #remitenteAutocomplete {
+                position: absolute !important;
+                top: 100% !important;
+                bottom: auto !important;
+                width: 100% !important;
+                max-height: 300px !important;
+                border-radius: 12px !important;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+            }
         }
-        
-        .dashboard-cabecera {
+
+        /* Items del dropdown de remitentes */
+        #remitenteAutocomplete .autocomplete-item {
+            padding: 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 64px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+            align-items: flex-start;
+            gap: 12px;
+            position: relative;
         }
-        
-        .dashboard-titulo {
-            margin-bottom: 0;
+
+        #remitenteAutocomplete .autocomplete-item:active {
+            background: #f1f5f9;
+            transform: translateX(4px);
         }
-        
-        .dashboard-contenido {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+
+        #remitenteAutocomplete .autocomplete-item.highlighted {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-left: 4px solid #3b82f6;
         }
-        
-        .dashboard-tarjeta {
-            background-color: var(--blanco-fondo);
-            border-radius: var(--radio-borde-grande);
-            padding: 2rem;
-            box-shadow: var(--sombra-suave);
+
+        /* ============================================
+           ESTILOS PARA CAMPOS DE CLIENTE
+           ============================================ */
+        .cliente-readonly {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: #475569 !important;
+            cursor: not-allowed !important;
+            opacity: 0.9;
         }
-        
-        .dashboard-tarjeta-titulo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+
+        /* ============================================
+           ESTILOS PARA MÓVIL - MEJORAS TÁCTILES
+           ============================================ */
+        @media (max-width: 767px) {
+            input, select, button, .autocomplete-item {
+                min-height: 44px !important;
+            }
+            
+            .form-group, .form-control {
+                margin-bottom: 16px !important;
+            }
+            
+            input, select, .autocomplete-item {
+                font-size: 16px !important;
+            }
+            
+            .autocomplete-dropdown {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-y: contain;
+            }
+            
+            .autocomplete-item {
+                user-select: none;
+                -webkit-user-select: none;
+            }
         }
-        
-        .dashboard-tarjeta-icono {
-            color: var(--azul-primario);
-            font-size: 1.5rem;
-        }
-        
-        .cerrar-sesion {
-            margin-top: 2rem;
-            text-align: center;
+
+        /* ============================================
+           MODOS OSCURO
+           ============================================ */
+        @media (prefers-color-scheme: dark) {
+            .dark #autocompleteDropdown,
+            .dark #remitenteAutocomplete {
+                background: #1e293b !important;
+                border-color: #475569 !important;
+                color: #f1f5f9 !important;
+            }
+            
+            .dark #autocompleteDropdown .autocomplete-item,
+            .dark #remitenteAutocomplete .autocomplete-item {
+                border-bottom-color: #334155 !important;
+                color: #f1f5f9 !important;
+            }
+            
+            .dark #autocompleteDropdown .autocomplete-item:hover,
+            .dark #autocompleteDropdown .autocomplete-item:active,
+            .dark #remitenteAutocomplete .autocomplete-item:hover,
+            .dark #remitenteAutocomplete .autocomplete-item:active {
+                background: #334155 !important;
+            }
+            
+            .dark .cliente-readonly {
+                background-color: #1e293b !important;
+                border-color: #475569 !important;
+                color: #94a3b8 !important;
+            }
         }
     </style>
-    
-    <!-- Fuente Inter para consistencia -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Íconos de Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- ============================================
-         LANDING PAGE PÚBLICA
-         ============================================ -->
+
+<body class="bg-background-light dark:bg-background-dark font-display flex flex-col min-h-screen text-[#0d121b] dark:text-white transition-colors duration-200">
     
-    <!-- Encabezado -->
-    <header class="encabezado" id="encabezado">
-        <div class="container encabezado-contenido">
-            <div class="logo">
-                <span class="material-symbols-outlined logo-icono">local_shipping</span>
-                <span class="logo-texto">Mensajería Bogotá</span>
-            </div>
-            
-            <div class="navegacion">
-                <a href="#beneficios">Beneficios</a>
-                <a href="#cobertura">Cobertura</a>
-                <a href="#rastreo">Rastreo</a>
-                <button class="boton-outline" id="boton-login">Ingreso / Login</button>
-            </div>
-            
-            <div class="menu-movil" id="menu-movil">
-                <span class="material-symbols-outlined">menu</span>
-            </div>
+    <!-- Intro animada tipo persiana con degradado -->
+    <div id="intro" style="
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: linear-gradient(to bottom, #1b4557, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      ">
+      <img src="logo envios.jpg" alt="ANMAGO Store" style="width: 500px; animation: bounce 1s infinite;">
+    </div>
+
+    <!-- Pantalla de carga para verificar login -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-gray-900">
+        <div class="text-center">
+            <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mb-6"></div>
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Verificando acceso</h2>
+            <p class="text-gray-600 dark:text-gray-400">Por favor espera mientras validamos tu sesión...</p>
         </div>
-    </header>
-    
-    <!-- Sección Hero -->
-    <section class="hero" id="hero">
-        <div class="container">
-            <div class="hero-contenido animado">
-                <h1 class="hero-titulo">Envíos rápidos y confiables en Bogotá</h1>
-                <h2 class="hero-subtitulo">Entrega el mismo día con seguimiento en tiempo real y transparencia total en cada envío.</h2>
-                
-                <div class="hero-botones">
-                    <button class="boton-primario" id="boton-rastreo">
-                        <span class="material-symbols-outlined" style="margin-right: 0.5rem;">search</span>
-                        Rastreo de paquetes
-                    </button>
-                    <button class="boton-secundario" id="boton-ingreso">
-                        <span class="material-symbols-outlined" style="margin-right: 0.5rem;">login</span>
-                        Ingreso / Login
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Sección de Beneficios -->
-    <section class="beneficios" id="beneficios">
-        <div class="container">
-            <h2 class="beneficios-titulo animado">¿Por qué elegir nuestro servicio?</h2>
-            
-            <div class="beneficios-lista">
-                <div class="beneficio-item animado retraso-1">
-                    <span class="material-symbols-outlined beneficio-icono">schedule</span>
-                    <h3 class="beneficio-titulo">Entregas el mismo día</h3>
-                    <p class="beneficio-descripcion">Recogemos y entregamos tus paquetes en menos de 24 horas en toda Bogotá.</p>
-                </div>
-                
-                <div class="beneficio-item animado retraso-2">
-                    <span class="material-symbols-outlined beneficio-icono">track_changes</span>
-                    <h3 class="beneficio-titulo">Reportes en tiempo real</h3>
-                    <p class="beneficio-descripcion">Sigue en vivo el recorrido de tu envío con notificaciones en cada etapa del proceso.</p>
-                </div>
-                
-                <div class="beneficio-item animado retraso-3">
-                    <span class="material-symbols-outlined beneficio-icono">visibility</span>
-                    <h3 class="beneficio-titulo">Transparencia en recaudo</h3>
-                    <p class="beneficio-descripcion">Sabes exactamente cuándo y cómo se realiza cada recaudo con comprobantes digitales.</p>
-                </div>
-                
-                <div class="beneficio-item animado retraso-4">
-                    <span class="material-symbols-outlined beneficio-icono">sell</span>
-                    <h3 class="beneficio-titulo">Precio especial de lanzamiento</h3>
-                    <p class="beneficio-descripcion">Aprovecha nuestra promoción especial para nuevos clientes.</p>
-                    <div class="beneficio-precio">
-                        <strong>$8.000</strong> en los primeros 5 envíos
+    </div>
+
+    <!-- Contenido principal (oculto inicialmente) -->
+    <div id="mainContent" class="hidden">
+        <!-- Top Navigation Bar -->
+        <header class="sticky top-0 z-50 w-full bg-surface-light dark:bg-surface-dark border-b border-solid border-[#e7ebf3] dark:border-gray-800 px-6 py-3 shadow-sm">
+            <div class="mx-auto max-w-7xl flex items-center justify-between whitespace-nowrap">
+                <!-- Logo y título -->
+                <div class="flex items-center gap-4 text-[#0d121b] dark:text-white">
+                    <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined text-2xl">local_shipping</span>
                     </div>
+                    <h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">E.S.P</h2>
                 </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Sección de Cobertura -->
-    <section class="cobertura" id="cobertura">
-        <div class="container">
-            <h2 class="cobertura-titulo animado">Cobertura en toda Bogotá</h2>
-            <p class="cobertura-subtitulo animado">Llegamos a todas las localidades con nuestro servicio de entrega el mismo día</p>
-            
-            <div class="mapa-contenedor animado">
-                <!-- Mapa estilizado de Bogotá -->
-                <div class="mapa-estilizado">
-                    <div class="mapa-zonas">
-                        <div class="zona-central">Zona Central</div>
-                        <div class="zona-norte">Norte</div>
-                        <div class="zona-sur">Sur</div>
-                        <div class="zona-este">Este</div>
-                        <div class="zona-oeste">Oeste</div>
-                    </div>
-                </div>
-                
-                <!-- Opción alternativa: descomentar para usar Google Maps embed -->
-                <!--
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15906.854726253845!2d-74.083896!3d4.6482837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bfd2da6e29%3A0x5f5e5b5b5b5b5b5b!2sBogot%C3%A1!5e0!3m2!1ses!2sco!4v1620000000000!5m2!1ses!2sco" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
-                -->
-            </div>
-            
-            <div class="text-center animado retraso-1">
-                <button class="boton-outline" id="boton-ver-cobertura">
-                    <span class="material-symbols-outlined" style="margin-right: 0.5rem;">map</span>
-                    Ver zonas de cobertura detalladas
-                </button>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Sección de Acceso al Sistema (Login) -->
-    <section class="acceso-sistema seccion-oculta" id="seccion-login">
-        <div class="container">
-            <div class="acceso-tarjeta">
-                <h2 class="acceso-titulo">Acceso al Sistema</h2>
-                <p class="acceso-subtitulo">Ingresa con tus credenciales para gestionar tus envíos</p>
-                
-                <form id="formulario-login">
-                    <div class="formulario-grupo">
-                        <label class="formulario-etiqueta" for="usuario">Usuario</label>
-                        <input type="text" id="usuario" class="formulario-input" placeholder="Tu usuario o correo" required>
+
+                <!-- Sección derecha: usuario y botones -->
+                <div class="flex items-center gap-4">
+                    <!-- Información del usuario (solo desktop) -->
+                    <div class="hidden md:flex flex-col items-end mr-2">
+                        <span class="text-sm font-semibold text-[#0d121b] dark:text-white" id="nombreUsuario">Cargando...</span>
+                        <span class="text-xs text-[#4c669a] dark:text-gray-400" id="rolUsuario">Verificando...</span>
                     </div>
                     
-                    <div class="formulario-grupo">
-                        <label class="formulario-etiqueta" for="contrasena">Contraseña</label>
-                        <input type="password" id="contrasena" class="formulario-input" placeholder="Tu contraseña" required>
+                    <!-- Avatar del usuario -->
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary" 
+                         data-alt="User profile avatar" 
+                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHdncnvfU7TsNmWeUeUJ0UYPAz9BzBx81lq4UEwtgmGBCdZmv4uXnF_3Tx8oE8bSYPqkYSLGSQsBc3VJM6lrLe4iFzAQC287vN3rhtGYCEdoKOkbOtxnxxD1oReP8LrM8i5sZycdxRVlxcikXb1SssTAUPO1_Z8lVAcIZAdBo7-51A_cFNIDS22SZ04WLRRQomqB7gNcwwGHQRh-XuV9GNIkBZe2gjZPo6vSSx5iXD_PPYNffE2XiiZgXT_vzYezxgBe_tkyD1MoXp");'>
                     </div>
                     
-                    <button type="submit" class="boton-primario acceso-boton">
-                        <span class="material-symbols-outlined" style="margin-right: 0.5rem;">login</span>
-                        Iniciar Sesión
+                    <!-- Botón de Planillas Mensajeros (solo visible para ADMIN) -->
+                    <button id="adminPlanillaButton" 
+                            class="hidden flex items-center justify-center size-10 rounded-full bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-900/50 transition-colors group relative"
+                            title="Planillas de mensajeros (Admin)">
+                        <span class="material-symbols-outlined text-purple-600 dark:text-purple-400">assignment</span>
+                        <!-- Tooltip para móviles -->
+                        <div class="absolute right-0 top-full mt-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                            Planillas Mensajeros
+                        </div>
                     </button>
                     
-                    <button type="button" class="boton-outline acceso-boton" id="boton-volver-landing">
-                        Volver a la página principal
+                    
+                    <!-- Botón de historial -->
+                    <button id="historialButton" 
+                            class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            title="Ver mi historial de envíos">
+                        <span class="material-symbols-outlined text-[#4c669a]">history</span>
                     </button>
+                    
+                    <!-- Botón de logout -->
+                    <button id="logoutButton" 
+                            class="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            title="Cerrar sesión">
+                        <span class="material-symbols-outlined text-[#4c669a]">logout</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 w-full px-4 py-8 md:px-8 lg:px-12 flex justify-center">
+            <div class="w-full max-w-[1024px] flex flex-col gap-6">
+                <!-- Page Heading -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="flex flex-col gap-1">
+                        <h1 class="text-[#0d121b] dark:text-white text-3xl font-bold leading-tight tracking-tight">Nueva Entrega</h1>
+                        <p class="text-[#4c669a] dark:text-gray-400 text-sm font-normal">Complete el formulario para registrar y generar la guía de envío.</p>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <form id="deliveryForm" class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-[#e7ebf3] dark:border-gray-800 p-6 md:p-8 flex flex-col gap-8">
+                    <!-- Section: Order Info -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                            <span class="material-symbols-outlined text-primary">inventory_2</span>
+                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Información del Pedido</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Generated ID Field -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">ID de Guía (Generado)</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">qr_code_2</span>
+                                    <input id="envioId" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-500 dark:text-gray-400 font-mono font-bold tracking-wider cursor-not-allowed focus:ring-0" readonly type="text" value="Por generar (servidor)"/>
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded font-bold">AUTO</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Forma de Pago Field -->
+                            <div class="flex flex-col gap-2 md:col-span-2">
+                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Forma de Pago</label>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contado">
+                                        <span class="material-symbols-outlined text-lg mr-2 text-green-600">payments</span>
+                                        <span class="font-medium">Contado</span>
+                                    </div>
+                                    <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contraentrega">
+                                        <span class="material-symbols-outlined text-lg mr-2 text-blue-600">package</span>
+                                        <span class="font-medium">Contraentrega</span>
+                                    </div>
+                                    <div class="payment-option h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800" data-value="contraentrega_recaudo">
+                                        <span class="material-symbols-outlined text-lg mr-2 text-orange-600">savings</span>
+                                        <span class="font-medium">Con Recaudo</span>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="formaPago" name="formaPago" value="contado">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Sender Info -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                            <span class="material-symbols-outlined text-primary">person_pin_circle</span>
+                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Datos del Remitente</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 1. Campo de NOMBRE del remitente con autocomplete -->
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium" id="labelRemitente">Nombre Completo / Empresa</span>
+                                <div class="relative">
+                                    <input id="remitente" name="remitente" 
+                                           class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                           placeholder="Ej. Distribuidora Central S.A." 
+                                           type="text" 
+                                           autocomplete="off"
+                                           required/>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]" id="iconRemitente">search</span>
+                                    <!-- Dropdown para autocomplete -->
+                                    <div id="remitenteAutocomplete" class="autocomplete-dropdown"></div>
+                                </div>
+                            </label>
+                            
+                            <!-- 2. Campo de TELÉFONO del remitente -->
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium" id="labelTelefonoRemitente">Teléfono de Contacto</span>
+                                <div class="relative">
+                                    <input id="telefonoRemitente" name="telefonoRemitente" 
+                                           class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                           placeholder="+57 300 123 4567" 
+                                           type="tel" 
+                                           required/>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]" id="iconTelefonoRemitente">phone</span>
+                                </div>
+                            </label>
+                            
+                            <!-- 3. Campo de DIRECCIÓN del remitente -->
+                            <label class="flex flex-col gap-2 md:col-span-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium" id="labelDireccionRemitente">Dirección de Recogida</span>
+                                <div class="relative">
+                                    <input id="direccionRemitente" name="direccionRemitente"
+                                           class="w-full h-12 pl-4 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                           placeholder="Calle 123 # 45 - 67, Oficina 202" 
+                                           type="text" 
+                                           required/>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a]" id="iconDireccionRemitente">my_location</span>
+                                </div>
+                            </label>
+                            
+                            <!-- Ciudad de Origen Fija -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Ciudad de Origen</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">location_city</span>
+                                    <input id="ciudadOrigen" class="w-full h-12 pl-12 pr-4 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-gray-700 dark:text-gray-300 font-medium cursor-not-allowed focus:ring-0" readonly type="text" value="Bogotá D.C."/>
+                                </div>
+                            </div>
+                            
+                            <!-- Campos ocultos -->
+                            <input type="hidden" id="correoRemitente" name="correoRemitente">
+                            <input type="hidden" id="usuarioId" name="usuarioId">
+                            <input type="hidden" id="pagadoRemitente" name="pagadoRemitente" value="false">
+                        </div>
+                    </div>
+
+                    <!-- Section: Recipient Info -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                            <span class="material-symbols-outlined text-primary">location_on</span>
+                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Datos del Destinatario</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Nombre del Cliente</span>
+                                <input id="destinatario" name="destinatario" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Ej. Juan Pérez" type="text" required/>
+                            </label>
+                            
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Teléfono Cliente</span>
+                                <input id="telefonoCliente" name="telefonoCliente" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="+57 310 987 6543" type="tel" required/>
+                            </label>
+                            
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Ciudad Destino</span>
+                                <select id="ciudadDestino" name="ciudadDestino" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white transition-all appearance-none" required>
+                                    <option value="">Seleccione ciudad</option>
+                                    <option value="Bogotá D.C.">Bogotá D.C.</option>
+                                    <option value="Soacha">Soacha</option>
+                                </select>
+                            </label>
+                            
+                            <label class="flex flex-col gap-2 md:col-span-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">
+                                    Dirección de Entrega 
+                                    <span class="text-xs text-green-600 dark:text-green-400 ml-1">(Google Autocomplete)</span>
+                                </span>
+                                <div class="relative">
+                                    <input id="direccionDestino" name="direccionDestino" 
+                                           class="w-full h-12 pl-12 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" 
+                                           placeholder="Escriba dirección (Carrera 80 # 12 - 34)" 
+                                           type="text" 
+                                           autocomplete="off"
+                                           required/>
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c669a]">location_on</span>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-green-600 text-sm" title="Autocompletado con Google">pin_drop</span>
+                                </div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-xs">info</span>
+                                    Comience a escribir para ver sugerencias de Google Maps
+                                </p>
+                            </label>
+                            
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Complemento de Dirección</span>
+                                <input id="complementoDireccion" name="complementoDireccion" class="w-full h-12 px-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Apto 501, Torre 2" type="text"/>
+                            </label>
+                            
+                            <!-- Barrio y Localidad con Autocomplete -->
+                            <div class="flex flex-col gap-2 relative">
+                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Barrio y Localidad</label>
+                                <div class="relative">
+                                    <input id="barrioLocalidad" name="barrioLocalidad" class="w-full h-12 px-4 pr-10 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="Escriba para buscar barrio..." type="text" autocomplete="off" required/>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a] pointer-events-none">search</span>
+                                    <input type="hidden" id="barrioId" name="barrioId">
+                                </div>
+                                <!-- Dropdown de autocomplete -->
+                                <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Escriba las primeras letras para buscar el barrio</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Payment Info -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-[#e7ebf3] dark:border-gray-800">
+                            <span class="material-symbols-outlined text-primary">monetization_on</span>
+                            <h3 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">Información de Pago</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Valor a Recaudar Field (Conditional) -->
+                            <div class="flex flex-col gap-2" id="valorRecaudarContainer">
+                                <label class="text-[#0d121b] dark:text-gray-300 text-sm font-medium">Valor a Recaudar ($)</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#4c669a]">attach_money</span>
+                                    <input id="valorRecaudar" name="valorRecaudar" class="w-full h-12 pl-12 pr-4 bg-input-light dark:bg-input-dark border border-[#e7ebf3] dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg text-[#0d121b] dark:text-white placeholder-[#4c669a] transition-all" placeholder="0.00" type="number" min="0" step="100" disabled/>
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded font-bold hidden" id="autoRecaudoLabel">AUTO</div>
+                                </div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="valorRecaudarHelp"></p>
+                            </div>
+                            
+                            <!-- Summary Card -->
+                            <div class="md:col-span-2">
+                                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">info</span>
+                                        <h4 class="text-blue-800 dark:text-blue-300 font-semibold">Resumen de Pago</h4>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Forma de Pago:</span>
+                                            <span class="font-semibold text-lg" id="resumenFormaPago">Contado</span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Valor a Recaudar:</span>
+                                            <span class="font-semibold text-lg" id="resumenValorRecaudar">$0</span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Estado:</span>
+                                            <span class="font-semibold text-green-600 dark:text-green-400" id="resumenEstado">Por confirmar</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-4 pt-6 mt-2 border-t border-[#e7ebf3] dark:border-gray-800">
+                        <button class="w-full sm:w-auto min-w-[140px] h-12 rounded-lg border border-[#e7ebf3] dark:border-gray-600 bg-transparent text-[#4c669a] dark:text-gray-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" type="button" id="cancelButton">
+                            Cancelar
+                        </button>
+                        <button class="w-full sm:w-auto min-w-[180px] h-12 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold shadow-lg shadow-primary/30 transition-all flex items-center justify-center gap-2 group" type="submit" id="submitButton">
+                            <span id="submitText">Registrar Envío</span>
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform text-lg" id="submitIcon">arrow_forward</span>
+                        </button>
+                    </div>
                 </form>
+
+                <!-- Sección de Resultado (oculta inicialmente) -->
+                <div id="resultSection" class="hidden">
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center justify-center size-12 rounded-full bg-green-100 dark:bg-green-900/30">
+                                    <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">check_circle</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-green-800 dark:text-green-300 text-lg font-bold">¡Envío Registrado Exitosamente!</h3>
+                                    <p class="text-green-600 dark:text-green-400 text-sm mt-1" id="resultMessage">Guía generada exitosamente. Puedes imprimir la guía para el mensajero.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <button type="button" id="printGuideBtn" 
+                                        class="min-w-[180px] h-12 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold px-6 flex items-center justify-center gap-2 transition-all">
+                                    <span class="material-symbols-outlined">print</span>
+                                    Imprimir Guía
+                                </button>
+                                <button type="button" id="newDeliveryBtn"
+                                        class="min-w-[140px] h-12 rounded-lg border border-green-600 text-green-600 dark:text-green-400 font-bold hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors">
+                                    Nuevo Envío
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Detalles del envío registrado -->
+                        <div class="mt-6 pt-6 border-t border-green-200 dark:border-green-800">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <span class="text-sm text-green-700 dark:text-green-500">Número de Guía:</span>
+                                    <div class="font-mono font-bold text-lg" id="resultGuideNumber">ABC12345</div>
+                                </div>
+                                <div>
+                                    <span class="text-sm text-green-700 dark:text-green-500">Destinatario:</span>
+                                    <div class="font-semibold" id="resultDestinatario">Juan Pérez</div>
+                                </div>
+                                <div>
+                                    <span class="text-sm text-green-700 dark:text-green-500">Valor:</span>
+                                    <div class="font-bold text-green-600 dark:text-green-400" id="resultValor">$10,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </main>
+    </div>
+
+    <!-- Script principal unificado -->
+    <script src="script.js"></script>
     
-    <!-- Sección de Dashboard (Privada) -->
-    <section class="dashboard seccion-oculta" id="seccion-dashboard">
-        <div class="container">
-            <div class="dashboard-cabecera">
-                <h2 class="dashboard-titulo">Panel de Control</h2>
-                <button class="boton-outline" id="boton-cerrar-sesion">
-                    <span class="material-symbols-outlined" style="margin-right: 0.5rem;">logout</span>
-                    Cerrar Sesión
-                </button>
-            </div>
-            
-            <div class="dashboard-contenido">
-                <div class="dashboard-tarjeta">
-                    <div class="dashboard-tarjeta-titulo">
-                        <span class="material-symbols-outlined dashboard-tarjeta-icono">add_box</span>
-                        <h3>Nuevo Envío</h3>
-                    </div>
-                    <p>Genera una nueva guía de envío para tus paquetes.</p>
-                    <button class="boton-primario" style="margin-top: 1rem;" id="boton-nuevo-envio">
-                        Crear Envío
-                    </button>
-                </div>
-                
-                <div class="dashboard-tarjeta">
-                    <div class="dashboard-tarjeta-titulo">
-                        <span class="material-symbols-outlined dashboard-tarjeta-icono">list_alt</span>
-                        <h3>Envíos Recientes</h3>
-                    </div>
-                    <p>Revisa el estado de tus envíos anteriores.</p>
-                    <button class="boton-outline" style="margin-top: 1rem;" id="boton-historial">
-                        Ver Historial
-                    </button>
-                </div>
-                
-                <div class="dashboard-tarjeta">
-                    <div class="dashboard-tarjeta-titulo">
-                        <span class="material-symbols-outlined dashboard-tarjeta-icono">bar_chart</span>
-                        <h3>Reportes y Estadísticas</h3>
-                    </div>
-                    <p>Accede a reportes detallados de tus envíos y recaudos.</p>
-                    <button class="boton-outline" style="margin-top: 1rem;" id="boton-reportes">
-                        Ver Reportes
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Pie de Página -->
-    <footer class="pie-pagina" id="pie-pagina">
-        <div class="container">
-            <div class="pie-contenido">
-                <div>
-                    <h3 class="pie-columna-titulo">Mensajería Bogotá</h3>
-                    <p>Servicio de mensajería local confiable y rápido. Entregas el mismo día en toda Bogotá.</p>
-                </div>
-                
-                <div>
-                    <h3 class="pie-columna-titulo">Contacto</h3>
-                    <div class="contacto-item">
-                        <span class="material-symbols-outlined contacto-icono">phone</span>
-                        <span>WhatsApp: +57 300 123 4567</span>
-                    </div>
-                    <div class="contacto-item">
-                        <span class="material-symbols-outlined contacto-icono">mail</span>
-                        <span>info@mensajeriabogota.com</span>
-                    </div>
-                    <div class="contacto-item">
-                        <span class="material-symbols-outlined contacto-icono">location_on</span>
-                        <span>Bogotá D.C., Colombia</span>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="pie-columna-titulo">Enlaces Rápidos</h3>
-                    <ul class="pie-lista">
-                        <li><a href="#hero">Inicio</a></li>
-                        <li><a href="#beneficios">Beneficios</a></li>
-                        <li><a href="#cobertura">Cobertura</a></li>
-                        <li><a href="#rastreo">Rastreo</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="pie-derechos">
-                <p>&copy; 2023 Mensajería Bogotá. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- ============================================
-         JAVASCRIPT PARA FUNCIONALIDAD
-         ============================================ -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elementos del DOM
-            const seccionLanding = document.getElementById('hero').parentElement;
-            const seccionLogin = document.getElementById('seccion-login');
-            const seccionDashboard = document.getElementById('seccion-dashboard');
-            const botonLogin = document.getElementById('boton-login');
-            const botonIngreso = document.getElementById('boton-ingreso');
-            const botonVolver = document.getElementById('boton-volver-landing');
-            const botonCerrarSesion = document.getElementById('boton-cerrar-sesion');
-            const formularioLogin = document.getElementById('formulario-login');
-            const botonRastreo = document.getElementById('boton-rastreo');
-            const menuMovil = document.getElementById('menu-movil');
-            const navegacion = document.querySelector('.navegacion');
-            
-            // Mostrar sección de login
-            function mostrarLogin() {
-                seccionLanding.style.display = 'none';
-                seccionLogin.classList.remove('seccion-oculta');
-                document.getElementById('encabezado').style.display = 'none';
-                document.getElementById('pie-pagina').style.display = 'none';
-            }
-            
-            // Volver a landing page
-            function volverALanding() {
-                seccionLanding.style.display = 'block';
-                seccionLogin.classList.add('seccion-oculta');
-                seccionDashboard.classList.add('seccion-oculta');
-                document.getElementById('encabezado').style.display = 'block';
-                document.getElementById('pie-pagina').style.display = 'block';
-            }
-            
-            // Simular login exitoso
-            function iniciarSesion(event) {
-                event.preventDefault();
-                
-                const usuario = document.getElementById('usuario').value;
-                const contrasena = document.getElementById('contrasena').value;
-                
-                // Validación básica (en un sistema real, esto se haría en el backend)
-                if (usuario && contrasena) {
-                    // Simular autenticación exitosa
-                    seccionLogin.classList.add('seccion-oculta');
-                    seccionDashboard.classList.remove('seccion-oculta');
-                    
-                    // Aquí iría la lógica para cargar el dashboard real
-                    console.log('Login exitoso para:', usuario);
-                } else {
-                    alert('Por favor completa ambos campos');
-                }
-            }
-            
-            // Cerrar sesión
-            function cerrarSesion() {
-                seccionDashboard.classList.add('seccion-oculta');
-                volverALanding();
-                
-                // Limpiar formulario
-                document.getElementById('formulario-login').reset();
-            }
-            
-            // Funcionalidad de rastreo (simulada)
-            function mostrarRastreo() {
-                const numeroGuia = prompt('Ingresa el número de guía para rastrear tu paquete:');
-                if (numeroGuia) {
-                    alert(`Rastreando paquete con guía: ${numeroGuia}\n\nEstado: En tránsito\nUbicación: Centro de distribución Norte\nTiempo estimado: 2-3 horas`);
-                }
-            }
-            
-            // Toggle menú móvil
-            function toggleMenuMovil() {
-                if (navegacion.style.display === 'flex') {
-                    navegacion.style.display = 'none';
-                } else {
-                    navegacion.style.display = 'flex';
-                    navegacion.style.flexDirection = 'column';
-                    navegacion.style.position = 'absolute';
-                    navegacion.style.top = '100%';
-                    navegacion.style.left = '0';
-                    navegacion.style.right = '0';
-                    navegacion.style.backgroundColor = 'white';
-                    navegacion.style.padding = '1.5rem';
-                    navegacion.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                }
-            }
-            
-            // Animaciones al cargar
-            function animarElementos() {
-                const elementos = document.querySelectorAll('.animado');
-                elementos.forEach(elemento => {
-                    elemento.style.opacity = '0';
-                });
-                
-                // Trigger para animaciones después de un pequeño delay
-                setTimeout(() => {
-                    elementos.forEach(elemento => {
-                        elemento.style.opacity = '1';
-                    });
-                }, 100);
-            }
-            
-            // Event listeners
-            botonLogin.addEventListener('click', mostrarLogin);
-            botonIngreso.addEventListener('click', mostrarLogin);
-            botonVolver.addEventListener('click', volverALanding);
-            botonCerrarSesion.addEventListener('click', cerrarSesion);
-            formularioLogin.addEventListener('submit', iniciarSesion);
-            botonRastreo.addEventListener('click', mostrarRastreo);
-            menuMovil.addEventListener('click', toggleMenuMovil);
-            
-            // Cerrar menú móvil al hacer clic en un enlace
-            document.querySelectorAll('.navegacion a').forEach(enlace => {
-                enlace.addEventListener('click', () => {
-                    if (window.innerWidth <= 768) {
-                        navegacion.style.display = 'none';
-                    }
-                });
-            });
-            
-            // Inicializar animaciones
-            animarElementos();
-            
-            // Simular integración futura: redirigir a tu sistema existente
-            document.getElementById('boton-nuevo-envio').addEventListener('click', function() {
-                alert('Esta funcionalidad se integrará con tu sistema actual de generación de guías.');
-                // En producción: window.location.href = 'tu-sistema-existente.html';
-            });
-            
-            // Smooth scroll para enlaces internos
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Ajustar menú en resize
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    navegacion.style.display = 'flex';
-                    navegacion.style.flexDirection = 'row';
-                    navegacion.style.position = 'static';
-                    navegacion.style.backgroundColor = 'transparent';
-                    navegacion.style.padding = '0';
-                    navegacion.style.boxShadow = 'none';
-                } else {
-                    navegacion.style.display = 'none';
-                }
-            });
-        });
+        // Ocultar la intro después de 2 segundos
+        setTimeout(() => {
+            const intro = document.getElementById('intro');
+            if (intro) intro.style.display = 'none';
+        }, 2000);
     </script>
 </body>
 </html>
