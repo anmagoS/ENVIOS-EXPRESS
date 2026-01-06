@@ -55,10 +55,20 @@
       font-size: 16px;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin-bottom: 10px;
     }
 
     button:hover {
       background-color: #2a5298;
+    }
+
+    /* Estilos específicos para el botón de volver */
+    .back-button {
+      background-color: #6c757d;
+    }
+
+    .back-button:hover {
+      background-color: #5a6268;
     }
 
     .footer {
@@ -69,6 +79,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="login-container">
     <h2>Bienvenido a Contraentrega E.S.P</h2>
@@ -80,10 +91,35 @@
       <input type="password" id="password" name="password" required>
       
       <button type="submit">Ingresar</button>
+      
+      <!-- Botón para volver a la página principal -->
+      <button type="button" class="back-button" id="backButton">Volver a la página principal</button>
     </form>
-    <div class="footer">© 2025 ANMAGO Store</div>
+    
+    <div class="footer">© 2026 </div>
   </div>
 
-  <script src="login.js"></script>
+  <script>
+    // Script para manejar la redirección al hacer clic en el botón
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.location.href = 'https://anmagos.github.io/ENVIOS-EXPRESS/';
+    });
+
+    // Script para manejar el formulario de login (manteniendo la funcionalidad existente)
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Evita el envío del formulario
+      
+      // Aquí iría la lógica de autenticación
+      const usuario = document.getElementById('usuario').value;
+      const password = document.getElementById('password').value;
+      
+      console.log('Usuario:', usuario);
+      console.log('Contraseña:', password);
+      
+      // Aquí normalmente se haría una petición al servidor para validar las credenciales
+      // Por ahora, solo mostraremos un mensaje
+      alert(`Login enviado para usuario: ${usuario}\n\n(Esta es solo una simulación. En un sistema real, aquí se validarían las credenciales con el servidor.)`);
+    });
+  </script>
 </body>
 </html>
