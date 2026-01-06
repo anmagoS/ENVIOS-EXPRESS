@@ -48,8 +48,6 @@
     button {
       width: 100%;
       padding: 12px;
-      background-color: #1e3c72;
-      color: #fff;
       border: none;
       border-radius: 6px;
       font-size: 16px;
@@ -58,17 +56,29 @@
       margin-bottom: 10px;
     }
 
-    button:hover {
+    .login-btn {
+      background-color: #1e3c72;
+      color: #fff;
+    }
+
+    .login-btn:hover {
       background-color: #2a5298;
     }
 
     /* Estilos específicos para el botón de volver */
-    .back-button {
+    .back-btn {
       background-color: #6c757d;
+      color: #fff;
     }
 
-    .back-button:hover {
+    .back-btn:hover {
       background-color: #5a6268;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .footer {
@@ -90,36 +100,19 @@
       <label for="password">Contraseña:</label>
       <input type="password" id="password" name="password" required>
       
-      <button type="submit">Ingresar</button>
-      
-      <!-- Botón para volver a la página principal -->
-      <button type="button" class="back-button" id="backButton">Volver a la página principal</button>
+      <div class="button-container">
+        <button type="submit" class="login-btn">Ingresar</button>
+        <!-- Botón para volver a la página principal -->
+        <button type="button" class="back-btn" onclick="window.location.href='https://anmagos.github.io/ENVIOS-EXPRESS/'">
+          Volver a la página principal
+        </button>
+      </div>
     </form>
     
     <div class="footer">© 2026 </div>
   </div>
 
-  <script>
-    // Script para manejar la redirección al hacer clic en el botón
-    document.getElementById('backButton').addEventListener('click', function() {
-      window.location.href = 'https://anmagos.github.io/ENVIOS-EXPRESS/';
-    });
-
-    // Script para manejar el formulario de login (manteniendo la funcionalidad existente)
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Evita el envío del formulario
-      
-      // Aquí iría la lógica de autenticación
-      const usuario = document.getElementById('usuario').value;
-      const password = document.getElementById('password').value;
-      
-      console.log('Usuario:', usuario);
-      console.log('Contraseña:', password);
-      
-      // Aquí normalmente se haría una petición al servidor para validar las credenciales
-      // Por ahora, solo mostraremos un mensaje
-      alert(`Login enviado para usuario: ${usuario}\n\n(Esta es solo una simulación. En un sistema real, aquí se validarían las credenciales con el servidor.)`);
-    });
-  </script>
+  <!-- Manteniendo tu archivo login.js original -->
+  <script src="login.js"></script>
 </body>
 </html>
