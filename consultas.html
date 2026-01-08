@@ -486,6 +486,133 @@
         .scanner-success {
             animation: scannerSuccess 0.5s ease;
         }
+        /* 🆕 MODAL PARA FIRMA DE ENTREGA */
+.modal-firma-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-firma-container {
+  background: white;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: slideUp 0.3s ease;
+}
+
+.modal-firma-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-firma-header h3 {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-cerrar-modal {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.modal-firma-content {
+  padding: 25px;
+  text-align: center;
+  max-height: calc(90vh - 120px);
+  overflow-y: auto;
+}
+
+.firma-imagen-container {
+  margin: 20px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  max-width: 100%;
+}
+
+#imgFirmaEntrega {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.firma-info {
+  text-align: left;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.firma-info h4 {
+  color: #1e3c72;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carga-firma {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+}
+
+.error-firma {
+  background: #ffebee;
+  color: #d32f2f;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.btn-descargar-firma {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  transition: all 0.3s;
+}
+
+.btn-descargar-firma:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
     </style>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -510,10 +637,10 @@
                 <div class="search-box">
                     <input type="text" 
                            id="envioId" 
-                           placeholder="EJ: ENV2601031921520165"
+                           placeholder="EJ: ENV2601031921520165 o MAS26010700011922275"
                            autocomplete="off"
                            autocapitalize="characters"
-                           maxlength="20">
+                           maxlength="25">
                     <div class="search-buttons">
                         <button id="btnBuscar">
                             <i class="fas fa-search"></i>
@@ -528,7 +655,7 @@
                 
                 <div class="search-help">
                     <p><strong>¿Cómo consultar tu envío?</strong><br>
-                    - Escribe manualmente el número de guía (ej: ENV2601031921520165)<br>
+                    - Escribe manualmente el número de guía (ej: ENV2601031921520165 o MAS26010700011922275)<br>
                     - O usa el botón "Escanear Guía" para leer el código QR o de barras de tu guía física
                     </p>
                 </div>
@@ -626,6 +753,12 @@
         let html5QrCode = null;
         let isScanning = false;
         
+        // Función para validar el formato de la guía
+        function validarFormatoGuia(envioId) {
+            // Acepta ENV o MAS al inicio
+            return envioId.startsWith('ENV') || envioId.startsWith('MAS');
+        }
+        
         // Función para buscar envío
         async function buscarEnvio() {
             const envioId = envioIdInput.value.trim().toUpperCase();
@@ -637,9 +770,9 @@
                 return;
             }
             
-            // Validar formato básico
-            if (!envioId.startsWith('ENV')) {
-                showError('El número de guía debe comenzar con "ENV"');
+            // Validar formato - ahora acepta ENV o MAS
+            if (!validarFormatoGuia(envioId)) {
+                showError('El número de guía debe comenzar con "ENV" o "MAS"');
                 return;
             }
             
@@ -670,172 +803,237 @@
         }
         
         // Función para mostrar el envío
-        function mostrarEnvio(envio) {
-            // Determinar clase CSS según estado
-            const estadoClase = `estado-${envio.ESTADO || envio.estado || 'RECIBIDO'}`;
-            const estadoTexto = envio.ESTADO || envio.estado || 'RECIBIDO';
+       // Función para mostrar el envío
+function mostrarEnvio(envio) {
+  // Determinar clase CSS según estado
+  const estadoClase = `estado-${envio.ESTADO || envio.estado || 'RECIBIDO'}`;
+  const estadoTexto = envio.ESTADO || envio.estado || 'RECIBIDO';
+  
+  // Determinar icono según estado
+  let estadoIcono = 'fa-box';
+  switch(estadoTexto) {
+    case 'RECIBIDO':
+      estadoIcono = 'fa-inbox';
+      break;
+    case 'REPARTO':
+      estadoIcono = 'fa-truck';
+      break;
+    case 'ENTREGADO':
+      estadoIcono = 'fa-check-circle';
+      break;
+    case 'NOVEDAD':
+      estadoIcono = 'fa-exclamation-triangle';
+      break;
+    case 'CANCELADO':
+      estadoIcono = 'fa-times-circle';
+      break;
+  }
+  
+  // Formatear fecha
+  const fecha = envio['FECHA DE CREACION'] || envio.fechaCreacion || 'No disponible';
+  
+  // Determinar estado de pago
+  const pagado = envio['PAGADO A REMITENTE'] || envio.pagadoRemitente || 'NO';
+  const pagoClase = pagado === 'SI' ? 'estado-ENTREGADO' : 'estado-NOVEDAD';
+  const pagoTexto = pagado === 'SI' ? 'Pagado' : 'Pendiente de pago';
+  
+  // 🆕 VERIFICAR SI HAY FIRMA DISPONIBLE
+  const tieneFirma = envio.URL_FIRMA_ENTREGA && envio.URL_FIRMA_ENTREGA.trim() !== '';
+  const firmaUrl = envio.URL_FIRMA_ENTREGA || '';
+  
+  // 🆕 Información adicional del historial si existe
+  const fechaEntrega = envio.FECHA_ENTREGA_HISTORIAL || '';
+  const mensajeroHistorial = envio.MENSAJERO_HISTORIAL || '';
+  const obsHistorial = envio.OBSERVACIONES_HISTORIAL || '';
+  
+  // Crear HTML del envío
+  const html = `
+    <div class="envio-card">
+      <div class="envio-header">
+        <div class="envio-id">${envio['ENVIO ID'] || envio.id || 'Sin ID'}</div>
+        <div class="estado-badge ${estadoClase}">
+          <i class="fas ${estadoIcono}"></i>
+          ${estadoTexto}
+        </div>
+      </div>
+      
+      <div class="envio-content">
+        <!-- Información básica -->
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Fecha de creación</div>
+            <div class="info-value">${fecha}</div>
+          </div>
+          
+          ${fechaEntrega ? `
+          <div class="info-item">
+            <div class="info-label">Fecha de entrega</div>
+            <div class="info-value">${fechaEntrega}</div>
+          </div>
+          ` : ''}
+          
+          <div class="info-item">
+            <div class="info-label">Forma de pago</div>
+            <div class="info-value">${envio['FORMA DE PAGO'] || envio.formaPago || 'No especificado'}</div>
+          </div>
+          
+          <div class="info-item">
+            <div class="info-label">Estado del envío</div>
+            <div class="info-value ${estadoClase}" style="display: inline-block; padding: 5px 10px; border-radius: 5px;">
+              ${estadoTexto}
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <div class="info-label">Estado de pago</div>
+            <div class="info-value ${pagoClase}" style="display: inline-block; padding: 5px 10px; border-radius: 5px;">
+              ${pagoTexto}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Información del remitente/destinatario -->
+        <div class="shipping-section">
+          <div class="section-title">
+            <i class="fas fa-user"></i>
+            Información del envío
+          </div>
+          <div class="shipping-details">
+            <div class="info-item">
+              <div class="info-label">Remitente</div>
+              <div class="info-value">${envio.REMITE || 'No especificado'}</div>
+            </div>
             
-            // Determinar icono según estado
-            let estadoIcono = 'fa-box';
-            switch(estadoTexto) {
-                case 'RECIBIDO':
-                    estadoIcono = 'fa-inbox';
-                    break;
-                case 'REPARTO':
-                    estadoIcono = 'fa-truck';
-                    break;
-                case 'ENTREGADO':
-                    estadoIcono = 'fa-check-circle';
-                    break;
-                case 'NOVEDAD':
-                    estadoIcono = 'fa-exclamation-triangle';
-                    break;
-                case 'CANCELADO':
-                    estadoIcono = 'fa-times-circle';
-                    break;
-            }
+            <div class="info-item">
+              <div class="info-label">Destinatario</div>
+              <div class="info-value">${envio.DESTINO || 'No especificado'}</div>
+            </div>
             
-            // Formatear fecha
-            const fecha = envio['FECHA DE CREACION'] || envio.fechaCreacion || 'No disponible';
+            <div class="info-item">
+              <div class="info-label">Ciudad destino</div>
+              <div class="info-value">${envio['CIUDAD DESTINO'] || 'No especificado'}</div>
+            </div>
             
-            // Determinar estado de pago
-            const pagado = envio['PAGADO A REMITENTE'] || envio.pagadoRemitente || 'NO';
-            const pagoClase = pagado === 'SI' ? 'estado-ENTREGADO' : 'estado-NOVEDAD';
-            const pagoTexto = pagado === 'SI' ? 'Pagado' : 'Pendiente de pago';
+            <div class="info-item">
+              <div class="info-label">Mensajero asignado</div>
+              <div class="info-value">${envio.MENSAJERO || 'Por asignar'}</div>
+            </div>
             
-            // Crear HTML del envío
-            const html = `
-                <div class="envio-card">
-                    <div class="envio-header">
-                        <div class="envio-id">${envio['ENVIO ID'] || envio.id || 'Sin ID'}</div>
-                        <div class="estado-badge ${estadoClase}">
-                            <i class="fas ${estadoIcono}"></i>
-                            ${estadoTexto}
-                        </div>
-                    </div>
-                    
-                    <div class="envio-content">
-                        <!-- Información básica -->
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="info-label">Fecha de creación</div>
-                                <div class="info-value">${fecha}</div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">Forma de pago</div>
-                                <div class="info-value">${envio['FORMA DE PAGO'] || envio.formaPago || 'No especificado'}</div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">Estado del envío</div>
-                                <div class="info-value ${estadoClase}" style="display: inline-block; padding: 5px 10px; border-radius: 5px;">
-                                    ${estadoTexto}
-                                </div>
-                            </div>
-                            
-                            <div class="info-item">
-                                <div class="info-label">Estado de pago</div>
-                                <div class="info-value ${pagoClase}" style="display: inline-block; padding: 5px 10px; border-radius: 5px;">
-                                    ${pagoTexto}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Información del remitente/destinatario -->
-                        <div class="shipping-section">
-                            <div class="section-title">
-                                <i class="fas fa-user"></i>
-                                Información del envío
-                            </div>
-                            <div class="shipping-details">
-                                <div class="info-item">
-                                    <div class="info-label">Remitente</div>
-                                    <div class="info-value">${envio.REMITE || 'No especificado'}</div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-label">Destinatario</div>
-                                    <div class="info-value">${envio.DESTINO || 'No especificado'}</div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-label">Ciudad destino</div>
-                                    <div class="info-value">${envio['CIUDAD DESTINO'] || 'No especificado'}</div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-label">Mensajero asignado</div>
-                                    <div class="info-value">${envio.MENSAJERO || 'Por asignar'}</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Información de valor -->
-                        <div class="payment-section">
-                            <div class="section-title">
-                                <i class="fas fa-money-bill-wave"></i>
-                                Información de valores
-                            </div>
-                            <div class="payment-details">
-                                <div class="info-item">
-                                    <div class="info-label">Valor a recaudar</div>
-                                    <div class="info-value">$${parseFloat(envio['VALOR A RECAUDAR'] || envio.valorRecaudar || 0).toLocaleString()}</div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-label">Total a pagar</div>
-                                    <div class="info-value">$${parseFloat(envio['TOTAL A PAGAR'] || envio.totalPagar || 0).toLocaleString()}</div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-label">Localidad</div>
-                                    <div class="info-value">${envio.LOCALIDAD || 'Por asignar'}</div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-label">Barrio</div>
-                                    <div class="info-value">${envio.BARRIO || 'No especificado'}</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Observaciones -->
-                        ${envio.OBS ? `
-                        <div class="info-item">
-                            <div class="info-label">Observaciones</div>
-                            <div class="info-value">${envio.OBS}</div>
-                        </div>
-                        ` : ''}
-                        
-                        <!-- Botón de Google Maps (si existe URL) -->
-                        ${envio['URL DIRECCION MAPS'] ? `
-                        <div class="actions">
-                            <button class="btn-secondary" onclick="window.open('${envio['URL DIRECCION MAPS']}', '_blank')">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Ver en Google Maps
-                            </button>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-                
-                <div class="actions" style="margin-top: 20px;">
-                    <button class="btn-secondary" onclick="resetSearch()">
-                        <i class="fas fa-redo"></i>
-                        Nueva búsqueda
-                    </button>
-                    
-                    <button class="btn-secondary" onclick="imprimirEnvio()">
-                        <i class="fas fa-print"></i>
-                        Imprimir información
-                    </button>
-                </div>
-            `;
+            ${mensajeroHistorial ? `
+            <div class="info-item">
+              <div class="info-label">Mensajero que entregó</div>
+              <div class="info-value">${mensajeroHistorial}</div>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+        
+        <!-- Información de valor -->
+        <div class="payment-section">
+          <div class="section-title">
+            <i class="fas fa-money-bill-wave"></i>
+            Información de valores
+          </div>
+          <div class="payment-details">
+            <div class="info-item">
+              <div class="info-label">Valor a recaudar</div>
+              <div class="info-value">$${parseFloat(envio['VALOR A RECAUDAR'] || envio.valorRecaudar || 0).toLocaleString()}</div>
+            </div>
             
-            resultsSection.innerHTML = html;
-            resultsSection.style.display = 'block';
-        }
+            <div class="info-item">
+              <div class="info-label">Total a pagar</div>
+              <div class="info-value">$${parseFloat(envio['TOTAL A PAGAR'] || envio.totalPagar || 0).toLocaleString()}</div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-label">Localidad</div>
+              <div class="info-value">${envio.LOCALIDAD || 'Por asignar'}</div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-label">Barrio</div>
+              <div class="info-value">${envio.BARRIO || 'No especificado'}</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Observaciones -->
+        ${envio.OBS ? `
+        <div class="info-item">
+          <div class="info-label">Observaciones</div>
+          <div class="info-value">${envio.OBS}</div>
+        </div>
+        ` : ''}
+        
+        ${obsHistorial ? `
+        <div class="info-item">
+          <div class="info-label">Observaciones de entrega</div>
+          <div class="info-value">${obsHistorial}</div>
+        </div>
+        ` : ''}
+        
+        <!-- 🆕 SECCIÓN DE COMPROBANTE DE ENTREGA -->
+        ${tieneFirma ? `
+        <div class="comprobante-section" style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #4CAF50;">
+          <div class="section-title">
+            <i class="fas fa-file-signature"></i>
+            Comprobante de Entrega
+          </div>
+          <p style="margin-bottom: 15px; color: #666;">
+            Este envío fue entregado con firma digital del destinatario.
+          </p>
+          
+          <div style="text-align: center; margin: 20px 0;">
+            <button id="btnVerFirma" class="btn-secondary" style="padding: 12px 24px; font-size: 16px;" onclick="mostrarModalFirma('${firmaUrl}', '${envio['ENVIO ID'] || ''}')">
+              <i class="fas fa-eye"></i>
+              Ver Comprobante de Entrega
+            </button>
+          </div>
+          
+          <div style="font-size: 0.9rem; color: #888; text-align: center;">
+            <i class="fas fa-info-circle"></i>
+            La firma fue registrada el ${fechaEntrega || 'fecha no disponible'}
+          </div>
+        </div>
+        ` : estadoTexto === 'ENTREGADO' ? `
+        <div class="info-item" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px;">
+          <div class="info-label">Estado de entrega</div>
+          <div class="info-value">
+            <i class="fas fa-check-circle" style="color: #28a745;"></i>
+            Envío entregado exitosamente
+            ${!tieneFirma ? '<br><small style="color: #666;">(Comprobante de firma no disponible)</small>' : ''}
+          </div>
+        </div>
+        ` : ''}
+        
+        <!-- Botón de Google Maps (si existe URL) -->
+        ${envio['URL DIRECCION MAPS'] ? `
+        <div class="actions">
+          <button class="btn-secondary" onclick="window.open('${envio['URL DIRECCION MAPS']}', '_blank')">
+            <i class="fas fa-map-marker-alt"></i>
+            Ver en Google Maps
+          </button>
+        </div>
+        ` : ''}
+      </div>
+    </div>
+    
+    <div class="actions" style="margin-top: 20px;">
+      <button class="btn-secondary" onclick="resetSearch()">
+        <i class="fas fa-redo"></i>
+        Nueva búsqueda
+      </button>
+      
+      <button class="btn-secondary" onclick="imprimirEnvio()">
+        <i class="fas fa-print"></i>
+        Imprimir información
+      </button>
+    </div>
+  `;
+  
+  resultsSection.innerHTML = html;
+  resultsSection.style.display = 'block';
+}
         
         // FUNCIONES DEL ESCÁNER
         
@@ -892,10 +1090,11 @@
         // Cuando se escanea un código exitosamente
         function onScanSuccess(decodedText, decodedResult) {
             // Validar que el código escaneado sea una guía válida
-            if (decodedText && decodedText.toUpperCase().startsWith('ENV')) {
+            const texto = decodedText.toUpperCase();
+            if (decodedText && validarFormatoGuia(texto)) {
                 // Agregar efecto visual de éxito
                 scannerStatus.className = 'scanner-status success';
-                scannerStatus.innerHTML = `<i class="fas fa-check-circle"></i> Código detectado: ${decodedText}`;
+                scannerStatus.innerHTML = `<i class="fas fa-check-circle"></i> Código detectado: ${texto}`;
                 scannerStatus.classList.add('scanner-success');
                 
                 // Cerrar el escáner después de un breve delay
@@ -903,11 +1102,11 @@
                     cerrarScanner();
                     
                     // Poner el código en el input y buscar automáticamente
-                    envioIdInput.value = decodedText.toUpperCase();
+                    envioIdInput.value = texto;
                     buscarEnvio();
                 }, 1000);
             } else {
-                showScannerStatus('Código no válido. Busca un código de guía que comience con "ENV"', 'error');
+                showScannerStatus('Código no válido. Busca un código de guía que comience con "ENV" o "MAS"', 'error');
             }
         }
         
@@ -947,17 +1146,18 @@
                             const html5QrCodeFile = new Html5Qrcode("qr-reader");
                             html5QrCodeFile.scanFile(file, true)
                                 .then(decodedText => {
-                                    if (decodedText && decodedText.toUpperCase().startsWith('ENV')) {
-                                        showScannerStatus(`<i class="fas fa-check-circle"></i> Código detectado: ${decodedText}`, 'success');
+                                    const texto = decodedText.toUpperCase();
+                                    if (decodedText && validarFormatoGuia(texto)) {
+                                        showScannerStatus(`<i class="fas fa-check-circle"></i> Código detectado: ${texto}`, 'success');
                                         scannerStatus.classList.add('scanner-success');
                                         
                                         setTimeout(() => {
                                             cerrarScanner();
-                                            envioIdInput.value = decodedText.toUpperCase();
+                                            envioIdInput.value = texto;
                                             buscarEnvio();
                                         }, 1000);
                                     } else {
-                                        showScannerStatus('Código no válido en la imagen', 'error');
+                                        showScannerStatus('Código no válido en la imagen. Debe comenzar con ENV o MAS', 'error');
                                     }
                                 })
                                 .catch(err => {
@@ -1044,6 +1244,352 @@
                 this.value = this.value.trim().toUpperCase();
             }, 10);
         });
+        // 🆕 FUNCIONES PARA MANEJAR EL MODAL DE FIRMA
+
+// 🆕 FUNCIÓN CORREGIDA PARA MOSTRAR FIRMAS DE GOOGLE DRIVE
+function mostrarModalFirma(urlFirma, guia) {
+  console.log("📸 Mostrando firma - URL original:", urlFirma);
+  
+  const modal = document.getElementById('modalFirmaEntrega');
+  const carga = document.getElementById('cargaFirma');
+  const contenido = document.getElementById('contenidoFirma');
+  const errorDiv = document.getElementById('errorFirma');
+  const imgFirma = document.getElementById('imgFirmaEntrega');
+  const guiaSpan = document.getElementById('guiaFirma');
+  const tituloFirma = document.getElementById('tituloFirma');
+  
+  // Mostrar modal
+  modal.style.display = 'flex';
+  carga.style.display = 'block';
+  contenido.style.display = 'none';
+  errorDiv.style.display = 'none';
+  
+  // Actualizar información
+  guiaSpan.textContent = guia;
+  tituloFirma.textContent = `Comprobante de Entrega - ${guia}`;
+  
+  // 🔄 CONVERTIR URL DE GOOGLE DRIVE SI ES NECESARIO
+  let imagenUrl = urlFirma;
+  
+  // Si es una URL de Google Drive (/file/d/ID/view)
+  if (urlFirma.includes('drive.google.com/file/d/')) {
+    // Extraer el ID del archivo
+    const match = urlFirma.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      const fileId = match[1];
+      // URL directa para imágenes (formato uc?id=)
+      imagenUrl = `https://drive.google.com/uc?id=${fileId}&export=view`;
+      console.log("🔄 URL convertida para Drive:", imagenUrl);
+    }
+  }
+  // Si es una URL de Google Drive (/open?id=ID)
+  else if (urlFirma.includes('drive.google.com/open?id=')) {
+    const match = urlFirma.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      const fileId = match[1];
+      imagenUrl = `https://drive.google.com/uc?id=${fileId}&export=view`;
+      console.log("🔄 URL convertida para Drive (open):", imagenUrl);
+    }
+  }
+  
+  // Configurar imagen
+  imgFirma.onload = function() {
+    console.log("✅ Imagen cargada correctamente");
+    carga.style.display = 'none';
+    contenido.style.display = 'block';
+    
+    // Configurar botón de descarga
+    const btnDescargar = document.getElementById('btnDescargarFirma');
+    btnDescargar.onclick = function() {
+      // Usar la URL original para descargar
+      descargarImagenFirma(urlFirma, guia);
+    };
+  };
+  
+  imgFirma.onerror = function() {
+    console.error("❌ Error cargando imagen, probando métodos alternativos...");
+    
+    // INTENTAR MÉTODO ALTERNATIVO: proxy de imagen
+    cargarFirmaConProxy(urlFirma, guia, imgFirma, carga, contenido, errorDiv);
+  };
+  
+  // Intentar cargar la imagen
+  console.log("🖼️ Intentando cargar:", imagenUrl);
+  imgFirma.src = imagenUrl;
+}
+
+// 🆕 FUNCIÓN ALTERNATIVA PARA CARGAR CON PROXY
+function cargarFirmaConProxy(urlOriginal, guia, imgElement, cargaDiv, contenidoDiv, errorDiv) {
+  console.log("🔄 Usando método proxy para:", urlOriginal);
+  
+  // Extraer ID de Google Drive
+  let fileId = '';
+  
+  if (urlOriginal.includes('drive.google.com/file/d/')) {
+    const match = urlOriginal.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) fileId = match[1];
+  } else if (urlOriginal.includes('drive.google.com/open?id=')) {
+    const match = urlOriginal.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match) fileId = match[1];
+  }
+  
+  if (fileId) {
+    // Método 1: Usar thumbnail de Google Drive
+    const thumbnailUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+    console.log("📱 Probando thumbnail:", thumbnailUrl);
+    
+    const imgTest = new Image();
+    imgTest.onload = function() {
+      console.log("✅ Thumbnail cargado exitosamente");
+      imgElement.src = thumbnailUrl;
+      cargaDiv.style.display = 'none';
+      contenidoDiv.style.display = 'block';
+      
+      // Mostrar advertencia de calidad reducida
+      const infoDiv = document.querySelector('.firma-info');
+      if (infoDiv) {
+        const warning = document.createElement('p');
+        warning.innerHTML = '<strong>Nota:</strong> Se muestra versión de vista previa. Para mejor calidad, usa el botón de descarga.';
+        warning.style.color = '#ff9800';
+        warning.style.marginTop = '10px';
+        infoDiv.appendChild(warning);
+      }
+    };
+    
+    imgTest.onerror = function() {
+      console.error("❌ Thumbnail también falló");
+      mostrarErrorFirma(errorDiv, cargaDiv, 
+        'La imagen del comprobante no está disponible para vista previa. ' +
+        'Puedes descargarla usando el enlace original.');
+    };
+    
+    imgTest.src = thumbnailUrl;
+    
+  } else {
+    // Si no es Google Drive, mostrar error
+    mostrarErrorFirma(errorDiv, cargaDiv, 
+      'No se pudo cargar el comprobante. ' +
+      'Puede que la imagen no sea accesible públicamente.');
+  }
+}
+
+// 🆕 FUNCIÓN PARA MOSTRAR ERROR
+function mostrarErrorFirma(errorDiv, cargaDiv, mensaje) {
+  cargaDiv.style.display = 'none';
+  errorDiv.style.display = 'block';
+  document.getElementById('textoErrorFirma').textContent = mensaje;
+  
+  // Agregar botón para abrir en nueva pestaña
+  const btnAbrirEnlace = document.createElement('button');
+  btnAbrirEnlace.className = 'btn-secondary';
+  btnAbrirEnlace.style.marginLeft = '10px';
+  btnAbrirEnlace.innerHTML = '<i class="fas fa-external-link-alt"></i> Abrir enlace';
+  btnAbrirEnlace.onclick = function() {
+    // Obtener la URL del atributo data-url si existe
+    const modal = document.getElementById('modalFirmaEntrega');
+    const urlOriginal = modal.dataset.currentUrl || '';
+    if (urlOriginal) {
+      window.open(urlOriginal, '_blank');
+    }
+  };
+  
+  errorDiv.querySelector('button').parentNode.appendChild(btnAbrirEnlace);
+}
+
+function cerrarModalFirma() {
+  const modal = document.getElementById('modalFirmaEntrega');
+  modal.style.display = 'none';
+  
+  // Limpiar imagen para evitar cache
+  const imgFirma = document.getElementById('imgFirmaEntrega');
+  imgFirma.src = '';
+}
+
+function descargarImagenFirma(url, guia) {
+  console.log("📥 Descargando firma para:", guia);
+  
+  // Para Google Drive, usar enlace directo
+  if (url.includes('drive.google.com')) {
+    // Convertir a enlace de descarga directa
+    let downloadUrl = url;
+    
+    if (url.includes('/file/d/')) {
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        downloadUrl = `https://drive.google.com/uc?export=download&id=${match[1]}`;
+      }
+    } else if (url.includes('open?id=')) {
+      const match = url.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        downloadUrl = `https://drive.google.com/uc?export=download&id=${match[1]}`;
+      }
+    }
+    
+    console.log("🔗 URL de descarga:", downloadUrl);
+    
+    // Abrir en nueva pestaña
+    window.open(downloadUrl, '_blank');
+    
+  } else {
+    // Para otras URLs, usar método normal
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Firma_Entrega_${guia}.png`;
+    link.target = '_blank';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  
+  // Mostrar notificación
+  showNotificacionDescarga(guia);
+}
+
+function showNotificacionDescarga(guia) {
+  const notif = document.createElement('div');
+  notif.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 3000;
+    animation: slideInRight 0.3s ease;
+    max-width: 300px;
+  `;
+  notif.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="fas fa-check-circle"></i>
+      <div>
+        <strong>Descarga iniciada</strong><br>
+        <small>Guía: ${guia}</small>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(notif);
+  
+  setTimeout(() => {
+    notif.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => {
+      document.body.removeChild(notif);
+    }, 300);
+  }, 3000);
+}
+
+function showNotificacionDescarga() {
+  // Crear notificación temporal
+  const notif = document.createElement('div');
+  notif.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 3000;
+    animation: slideInRight 0.3s ease;
+  `;
+  notif.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="fas fa-check-circle"></i>
+      <span>Comprobante descargado correctamente</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notif);
+  
+  setTimeout(() => {
+    notif.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => {
+      document.body.removeChild(notif);
+    }, 300);
+  }, 3000);
+}
+
+// Agregar animaciones CSS para la notificación
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+
+// Cerrar modal con ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modalFirma = document.getElementById('modalFirmaEntrega');
+    if (modalFirma.style.display === 'flex') {
+      cerrarModalFirma();
+    }
+  }
+});
+
+// Cerrar modal haciendo clic fuera
+document.getElementById('modalFirmaEntrega').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modalFirmaEntrega')) {
+    cerrarModalFirma();
+  }
+});
     </script>
+    <!-- 🆕 MODAL PARA VISUALIZAR FIRMA DE ENTREGA -->
+<div id="modalFirmaEntrega" class="modal-firma-overlay">
+  <div class="modal-firma-container">
+    <div class="modal-firma-header">
+      <h3><i class="fas fa-file-signature"></i> Comprobante de Entrega</h3>
+      <button class="btn-cerrar-modal" onclick="cerrarModalFirma()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-firma-content">
+      <div id="cargaFirma" class="carga-firma">
+        <i class="fas fa-spinner fa-spin fa-2x pulse" style="color: #1e3c72;"></i>
+        <p style="margin-top: 15px;">Cargando comprobante de entrega...</p>
+      </div>
+      
+      <div id="contenidoFirma" style="display: none;">
+        <h4 id="tituloFirma">Firma de Entrega</h4>
+        
+        <div class="firma-imagen-container">
+          <img id="imgFirmaEntrega" src="" alt="Firma de entrega">
+        </div>
+        
+        <div class="firma-info">
+          <h4><i class="fas fa-info-circle"></i> Información del Comprobante</h4>
+          <p><strong>Guía:</strong> <span id="guiaFirma"></span></p>
+          <p><strong>Estado:</strong> <span class="estado-ENTREGADO" style="padding: 3px 10px; border-radius: 12px;">ENTREGADO</span></p>
+          <p><strong>Nota:</strong> Esta firma fue capturada digitalmente al momento de la entrega y sirve como comprobante de recepción.</p>
+        </div>
+        
+        <button id="btnDescargarFirma" class="btn-descargar-firma">
+          <i class="fas fa-download"></i>
+          Descargar Comprobante
+        </button>
+      </div>
+      
+      <div id="errorFirma" class="error-firma" style="display: none;">
+        <i class="fas fa-exclamation-triangle fa-2x"></i>
+        <h4>Error al cargar el comprobante</h4>
+        <p id="textoErrorFirma">No se pudo cargar la imagen del comprobante.</p>
+        <button class="btn-secondary" onclick="cerrarModalFirma()" style="margin-top: 15px;">
+          <i class="fas fa-times"></i>
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
