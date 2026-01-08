@@ -82,8 +82,13 @@
             box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
         }
         
+        .search-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
         #btnBuscar {
-            padding: 15px 30px;
+            padding: 15px 20px;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             border: none;
@@ -95,14 +100,33 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            min-width: 120px;
+            justify-content: center;
         }
         
-        #btnBuscar:hover {
+        #btnScanner {
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 140px;
+            justify-content: center;
+        }
+        
+        #btnBuscar:hover, #btnScanner:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         
-        #btnBuscar:active {
+        #btnBuscar:active, #btnScanner:active {
             transform: translateY(0);
         }
         
@@ -113,6 +137,105 @@
             font-size: 0.9rem;
             color: #666;
             border-left: 4px solid #1e3c72;
+            margin-top: 15px;
+        }
+        
+        /* Modal del escáner */
+        .scanner-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .scanner-container {
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        
+        .scanner-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .scanner-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scanner-content {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        #qr-reader {
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .scanner-instructions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .scanner-instructions ol {
+            text-align: left;
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .scanner-instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .close-scanner {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .scanner-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .scanner-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .scanner-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
         }
         
         /* Resultados */
@@ -320,6 +443,10 @@
                 flex-direction: column;
             }
             
+            .search-buttons {
+                flex-direction: column;
+            }
+            
             .header h1 {
                 font-size: 1.8rem;
             }
@@ -333,6 +460,10 @@
             .actions {
                 flex-direction: column;
             }
+            
+            .scanner-container {
+                width: 95%;
+            }
         }
         
         /* Animaciones */
@@ -345,9 +476,21 @@
         .pulse {
             animation: pulse 1.5s infinite;
         }
+        
+        @keyframes scannerSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .scanner-success {
+            animation: scannerSuccess 0.5s ease;
+        }
     </style>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- HTML5 QR Code Scanner -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 <body>
     <div class="container">
@@ -357,7 +500,7 @@
                 <i class="fas fa-box"></i>
                 Consulta de Envíos
             </h1>
-            <p>Ingresa tu número de guía para verificar el estado de tu envío</p>
+            <p>Ingresa tu número de guía o escanéalo</p>
         </div>
         
         <!-- Contenido principal -->
@@ -371,15 +514,22 @@
                            autocomplete="off"
                            autocapitalize="characters"
                            maxlength="20">
-                    <button id="btnBuscar">
-                        <i class="fas fa-search"></i>
-                        Consultar
-                    </button>
+                    <div class="search-buttons">
+                        <button id="btnBuscar">
+                            <i class="fas fa-search"></i>
+                            Consultar
+                        </button>
+                        <button id="btnScanner">
+                            <i class="fas fa-qrcode"></i>
+                            Escanear Guía
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="search-help">
-                    <p><strong>¿Dónde encuentro mi número de guía?</strong><br>
-                    El número de guía te lo proporcionó la empresa al momento de generar el envío. 
+                    <p><strong>¿Cómo consultar tu envío?</strong><br>
+                    - Escribe manualmente el número de guía (ej: ENV2601031921520165)<br>
+                    - O usa el botón "Escanear Guía" para leer el código QR o de barras de tu guía física
                     </p>
                 </div>
             </div>
@@ -414,23 +564,67 @@
         
         <!-- Footer -->
         <div class="footer">
-            <p>© 2026 Sistema de Envíos - Consulta en línea</p>
+            <p>© 2024 Sistema de Envíos - Consulta en línea</p>
             <p style="font-size: 0.8rem; margin-top: 5px;">Si tienes problemas, contacta a soporte: anmagostore@gmail.com/3006498710</p>
+        </div>
+    </div>
+    
+    <!-- Modal del Escáner -->
+    <div id="scannerModal" class="scanner-modal">
+        <div class="scanner-container">
+            <div class="scanner-header">
+                <h3><i class="fas fa-qrcode"></i> Escanear Guía</h3>
+                <button class="close-scanner" id="closeScanner">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="scanner-content">
+                <div id="qr-reader" style="width: 100%;"></div>
+                <div id="scannerStatus" class="scanner-status"></div>
+                
+                <div class="scanner-instructions">
+                    <p><strong>Instrucciones:</strong></p>
+                    <ol>
+                        <li>Apunta la cámara hacia el código QR o de barras de tu guía</li>
+                        <li>Asegúrate de que el código esté bien iluminado</li>
+                        <li>Mantén la cámara estable hasta que se detecte el código</li>
+                        <li>El escáner se cerrará automáticamente al detectar el código</li>
+                    </ol>
+                    <p style="margin-top: 10px; font-size: 0.8rem;">
+                        <i class="fas fa-info-circle"></i> También puedes seleccionar una imagen del código si tu cámara no funciona
+                    </p>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button id="btnFileScanner" class="btn-secondary" style="width: 100%;">
+                        <i class="fas fa-image"></i> Seleccionar imagen del código
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         // Configuración
-        const API_URL = 'https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec'; // Reemplaza con tu URL
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxIipuPmVAvaTt7_oUQzMLNtXIah19dcq2CWkaoglQvFivqY-wBYEw64tvUmL4-1k62/exec';
         
         // Elementos del DOM
         const envioIdInput = document.getElementById('envioId');
         const btnBuscar = document.getElementById('btnBuscar');
+        const btnScanner = document.getElementById('btnScanner');
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
         const loading = document.getElementById('loading');
         const resultsSection = document.getElementById('resultsSection');
         const notFound = document.getElementById('notFound');
+        const scannerModal = document.getElementById('scannerModal');
+        const closeScanner = document.getElementById('closeScanner');
+        const scannerStatus = document.getElementById('scannerStatus');
+        const btnFileScanner = document.getElementById('btnFileScanner');
+        
+        // Variables para el escáner
+        let html5QrCode = null;
+        let isScanning = false;
         
         // Función para buscar envío
         async function buscarEnvio() {
@@ -643,6 +837,140 @@
             resultsSection.style.display = 'block';
         }
         
+        // FUNCIONES DEL ESCÁNER
+        
+        // Abrir el escáner
+        function abrirScanner() {
+            scannerModal.style.display = 'flex';
+            iniciarScanner();
+        }
+        
+        // Cerrar el escáner
+        function cerrarScanner() {
+            scannerModal.style.display = 'none';
+            detenerScanner();
+        }
+        
+        // Iniciar el escáner
+        function iniciarScanner() {
+            if (isScanning) return;
+            
+            html5QrCode = new Html5Qrcode("qr-reader");
+            const config = { 
+                fps: 10, 
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            };
+            
+            html5QrCode.start(
+                { facingMode: "environment" },
+                config,
+                onScanSuccess,
+                onScanError
+            ).then(() => {
+                isScanning = true;
+                scannerStatus.className = 'scanner-status';
+                scannerStatus.textContent = '';
+            }).catch(err => {
+                console.error("Error al iniciar escáner:", err);
+                showScannerStatus('Error al acceder a la cámara. Usa la opción de imagen.', 'error');
+            });
+        }
+        
+        // Detener el escáner
+        function detenerScanner() {
+            if (html5QrCode && isScanning) {
+                html5QrCode.stop().then(() => {
+                    isScanning = false;
+                    html5QrCode = null;
+                }).catch(err => {
+                    console.error("Error al detener escáner:", err);
+                });
+            }
+        }
+        
+        // Cuando se escanea un código exitosamente
+        function onScanSuccess(decodedText, decodedResult) {
+            // Validar que el código escaneado sea una guía válida
+            if (decodedText && decodedText.toUpperCase().startsWith('ENV')) {
+                // Agregar efecto visual de éxito
+                scannerStatus.className = 'scanner-status success';
+                scannerStatus.innerHTML = `<i class="fas fa-check-circle"></i> Código detectado: ${decodedText}`;
+                scannerStatus.classList.add('scanner-success');
+                
+                // Cerrar el escáner después de un breve delay
+                setTimeout(() => {
+                    cerrarScanner();
+                    
+                    // Poner el código en el input y buscar automáticamente
+                    envioIdInput.value = decodedText.toUpperCase();
+                    buscarEnvio();
+                }, 1000);
+            } else {
+                showScannerStatus('Código no válido. Busca un código de guía que comience con "ENV"', 'error');
+            }
+        }
+        
+        // Cuando hay un error en el escaneo
+        function onScanError(error) {
+            // No mostrar errores menores
+            if (!error || error === 'NotFoundException' || error.includes('No multi format readers')) {
+                return;
+            }
+            console.warn(`Error en escáner: ${error}`);
+        }
+        
+        // Mostrar estado del escáner
+        function showScannerStatus(message, type) {
+            scannerStatus.textContent = message;
+            scannerStatus.className = `scanner-status ${type}`;
+            scannerStatus.style.display = 'block';
+            
+            // Ocultar después de 3 segundos si es un error
+            if (type === 'error') {
+                setTimeout(() => {
+                    scannerStatus.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Escanear desde archivo
+        function escanearDesdeArchivo() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    Html5Qrcode.getCameras().then(devices => {
+                        if (devices && devices.length) {
+                            const html5QrCodeFile = new Html5Qrcode("qr-reader");
+                            html5QrCodeFile.scanFile(file, true)
+                                .then(decodedText => {
+                                    if (decodedText && decodedText.toUpperCase().startsWith('ENV')) {
+                                        showScannerStatus(`<i class="fas fa-check-circle"></i> Código detectado: ${decodedText}`, 'success');
+                                        scannerStatus.classList.add('scanner-success');
+                                        
+                                        setTimeout(() => {
+                                            cerrarScanner();
+                                            envioIdInput.value = decodedText.toUpperCase();
+                                            buscarEnvio();
+                                        }, 1000);
+                                    } else {
+                                        showScannerStatus('Código no válido en la imagen', 'error');
+                                    }
+                                })
+                                .catch(err => {
+                                    showScannerStatus('No se pudo leer el código de la imagen', 'error');
+                                    console.error("Error al escanear archivo:", err);
+                                });
+                        }
+                    });
+                }
+            };
+            input.click();
+        }
+        
         // Función para mostrar error
         function showError(mensaje) {
             errorText.textContent = mensaje;
@@ -674,6 +1002,23 @@
         
         // Event Listeners
         btnBuscar.addEventListener('click', buscarEnvio);
+        btnScanner.addEventListener('click', abrirScanner);
+        closeScanner.addEventListener('click', cerrarScanner);
+        btnFileScanner.addEventListener('click', escanearDesdeArchivo);
+        
+        // Cerrar escáner con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && scannerModal.style.display === 'flex') {
+                cerrarScanner();
+            }
+        });
+        
+        // Cerrar escáner haciendo clic fuera del modal
+        scannerModal.addEventListener('click', (e) => {
+            if (e.target === scannerModal) {
+                cerrarScanner();
+            }
+        });
         
         envioIdInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -684,6 +1029,13 @@
         // Auto-focus en el input al cargar
         window.addEventListener('DOMContentLoaded', () => {
             envioIdInput.focus();
+            
+            // Verificar si hay permisos de cámara disponibles
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                console.log('Cámara disponible para escáner');
+            } else {
+                console.warn('Cámara no disponible en este dispositivo');
+            }
         });
         
         // Permitir pegar y formatear automáticamente
