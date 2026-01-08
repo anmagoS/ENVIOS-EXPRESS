@@ -110,7 +110,8 @@
       <input type="hidden" name="fecha_bogota" id="fechaBogota">
       
       <label for="solucion">Solución:</label>
-      <textarea id="solucion" name="solucion" rows="4" required></textarea>
+      <textarea id="solucion" name="solucion" rows="4" required 
+                placeholder="Describa aquí la solución aplicada..."></textarea>
       
       <button type="submit">Enviar Solución</button>
     </form>
@@ -139,7 +140,7 @@
         const response = await fetch('https://worldtimeapi.org/api/timezone/America/Bogota');
         const data = await response.json();
         
-        // La API devuelve fecha en formato ISO: "2026-01-08T10:58:48.123456-05:00"
+        // La API devuelve fecha en formato ISO
         const fechaBogota = new Date(data.datetime);
         return fechaBogota;
         
@@ -164,29 +165,28 @@
       return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
     }
     
-    // AGREGAR FECHA BOGOTÁ AL CARGAR LA PÁGINA
+    // AGREGAR FECHA BOGOTÁ AL CARGAR LA PÁGINA (OCULTA)
     document.addEventListener('DOMContentLoaded', async function() {
-      const textareaSolucion = document.getElementById('solucion');
       const fechaBogotaInput = document.getElementById('fechaBogota');
+      const textareaSolucion = document.getElementById('solucion');
       
       // Obtener hora exacta de Bogotá
       const fechaBogota = await obtenerHoraBogotaExacta();
       const fechaFormateada = formatearFechaBogota(fechaBogota);
       
-      // Guardar fecha en campo oculto
+      // Guardar fecha SOLO en campo oculto (NO en el textarea)
       fechaBogotaInput.value = fechaFormateada;
       
-      // Si el textarea está vacío, agregar fecha automáticamente
-      if (textareaSolucion && textareaSolucion.value.trim() === '') {
-        textareaSolucion.value = `[${fechaFormateada}] `;
+      // Enfocar el textarea para que el usuario escriba directamente
+      if (textareaSolucion) {
         textareaSolucion.focus();
-        
-        // Mover cursor al final
-        textareaSolucion.selectionStart = textareaSolucion.value.length;
-        textareaSolucion.selectionEnd = textareaSolucion.value.length;
       }
       
-      console.log('✅ Hora Bogotá generada:', fechaFormateada);
+      console.log('✅ Hora Bogotá generada (oculta):', fechaFormateada);
+      
+      // Mostrar mensaje pequeño (opcional)
+      const guiaElement = document.getElementById('guia');
+      guiaElement.innerHTML += `<br><small style="color:#7f8c8d;">La fecha se registrará automáticamente</small>`;
     });
     
   </script>
