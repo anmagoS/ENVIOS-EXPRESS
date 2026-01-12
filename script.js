@@ -30,15 +30,14 @@ let resumenFormaPago, resumenValorRecaudar, resumenEstado;
 let submitButton, submitText, submitIcon;
 
 // ============================================
-// GOOGLE PLACES AUTOCOMPLETE - MEJORADO PARA BOGOTÁ
+// GOOGLE PLACES AUTOCOMPLETE - COMPATIBLE SIN API KEY
 // ============================================
 
 function inicializarGooglePlacesAutocomplete() {
-    console.log("📍 Inicializando Google Places Autocomplete MEJORADO para Bogotá...");
+    console.log("📍 Inicializando Google Places Autocomplete (modo seguro)...");
     
     const direccionInput = document.getElementById('direccionDestino');
     const barrioInput = document.getElementById('barrioLocalidad');
-    const ciudadDestinoSelect = document.getElementById('ciudadDestino');
     
     if (!direccionInput) {
         console.error("❌ No se encontró el campo 'direccionDestino'");
@@ -49,394 +48,195 @@ function inicializarGooglePlacesAutocomplete() {
     // VERIFICAR SI GOOGLE MAPS ESTÁ DISPONIBLE
     // ============================================
     if (typeof google === 'undefined') {
-        console.error("❌ Google Maps no está disponible");
-        mostrarErrorGoogleMapsFatal();
+        console.log("⚠️ Google Maps no está disponible globalmente");
+        habilitarAlternativaManual();
         return;
     }
     
     if (!google.maps || !google.maps.places) {
-        console.error("❌ Google Places API no está disponible");
-        mostrarErrorGoogleMapsFatal();
+        console.log("⚠️ Google Places API no está disponible");
+        habilitarAlternativaManual();
         return;
     }
     
     try {
         // ============================================
-        // CONFIGURACIÓN ESPECÍFICA PARA BOGOTÁ/COLOMBIA
+        // INTENTAR INICIALIZAR CON CONFIGURACIÓN BÁSICA
         // ============================================
         const autocomplete = new google.maps.places.Autocomplete(direccionInput, {
-            componentRestrictions: { 
-                country: 'co',
-                // Restringir a Bogotá y Soacha principalmente
-                // locality: ['Bogotá', 'Soacha']
-            },
-            fields: [
-                'address_components', 
-                'formatted_address', 
-                'geometry', 
-                'name',
-                'types',
-                'place_id'
-            ],
-            types: ['address', 'establishment'],  // Aceptar direcciones y establecimientos
-            bounds: new google.maps.LatLngBounds(
-                new google.maps.LatLng(4.482, -74.221), // Suroeste
-                new google.maps.LatLng(4.838, -74.021)  // Noreste (área Bogotá)
-            )
+            componentRestrictions: { country: 'co' },
+            fields: ['address_components', 'formatted_address', 'geometry'],
+            types: ['address']
         });
         
-        console.log("✅ Autocomplete creado exitosamente para Bogotá/Soacha");
+        console.log("✅ Autocomplete creado exitosamente");
         
         // Deshabilitar autocomplete nativo
         direccionInput.setAttribute('autocomplete', 'off');
         
         // ============================================
-        // EVENTO MEJORADO PARA DETECCIÓN PRECISA
+        // EVENTO SIMPLIFICADO
         // ============================================
         autocomplete.addListener('place_changed', function() {
-            const place = autocomplete.getPlace();
-            
-            if (!place.geometry) {
-                console.log("⚠️ Usuario no seleccionó de la lista");
-                // Si el usuario escribió manualmente, intentar extraer barrio del texto
-                if (direccionInput.value.trim() && barrioInput) {
-                    extraerBarrioDeTexto(direccionInput.value, barrioInput);
+            try {
+                const place = autocomplete.getPlace();
+                
+                if (!place.geometry) {
+                    console.log("⚠️ Usuario no seleccionó de la lista");
+                    return;
                 }
-                return;
-            }
-            
-            console.log("📍 Lugar seleccionado:", {
-                direccion: place.formatted_address,
-                tipos: place.types,
-                componentes: place.address_components,
-                nombre: place.name
-            });
-            
-            // Guardar datos globalmente
-            window.ultimaDireccionSeleccionada = {
-                direccion_completa: place.formatted_address,
-                latitud: place.geometry.location.lat(),
-                longitud: place.geometry.location.lng(),
-                nombre_lugar: place.name || '',
-                place_id: place.place_id || ''
-            };
-            
-            // ============================================
-            // EXTRACCIÓN MEJORADA DE BARRIO PARA BOGOTÁ
-            // ============================================
-            if (barrioInput) {
-                let barrioEncontrado = '';
-                let localidadEncontrada = '';
                 
-                // Estrategias de extracción en orden de prioridad
+                console.log("📍 Lugar seleccionado:", place.formatted_address);
                 
-                // 1. Buscar en los componentes de la dirección
-                if (place.address_components && place.address_components.length > 0) {
-                    console.log("🔍 Buscando barrio en componentes:", place.address_components);
+                // Guardar datos globalmente
+                window.ultimaDireccionSeleccionada = {
+                    direccion_completa: place.formatted_address,
+                    latitud: place.geometry.location.lat(),
+                    longitud: place.geometry.location.lng()
+                };
+                
+                // Extraer barrio de forma básica
+                if (barrioInput && place.address_components) {
+                    let barrioEncontrado = '';
                     
                     place.address_components.forEach(component => {
                         const tipos = component.types;
                         
-                        // Prioridad 1: neighborhood (barrio oficial en Google)
-                        if (tipos.includes('neighborhood')) {
+                        if (tipos.includes('sublocality') || tipos.includes('sublocality_level_1')) {
                             barrioEncontrado = component.long_name;
-                            console.log(`✅ Barrio encontrado (neighborhood): ${barrioEncontrado}`);
-                        }
-                        // Prioridad 2: sublocality (sub-localidad, común en Bogotá)
-                        else if ((tipos.includes('sublocality') || tipos.includes('sublocality_level_1') || 
-                                 tipos.includes('sublocality_level_2')) && !barrioEncontrado) {
+                        } else if (tipos.includes('neighborhood') && !barrioEncontrado) {
                             barrioEncontrado = component.long_name;
-                            console.log(`✅ Barrio encontrado (sublocality): ${barrioEncontrado}`);
-                        }
-                        // Prioridad 3: administrative_area_level_3 (localidad)
-                        else if (tipos.includes('administrative_area_level_3') && !localidadEncontrada) {
-                            localidadEncontrada = component.long_name;
-                        }
-                        // Prioridad 4: route (calle/carrera) - puede contener barrio en el nombre
-                        else if (tipos.includes('route') && !barrioEncontrado) {
-                            const nombreVia = component.long_name.toLowerCase();
-                            // Verificar si el nombre de la vía contiene barrio
-                            if (nombreVia.includes('kr') || nombreVia.includes('cl') || 
-                                nombreVia.includes('dg') || nombreVia.includes('av') ||
-                                nombreVia.includes('ak') || nombreVia.includes('ac')) {
-                                // Extraer posible barrio del nombre de la vía
-                                const partes = component.long_name.split(' ');
-                                if (partes.length > 2) {
-                                    // Tomar la última parte como posible barrio
-                                    barrioEncontrado = partes[partes.length - 1];
-                                    console.log(`✅ Posible barrio de vía: ${barrioEncontrado}`);
-                                }
-                            }
-                        }
-                    });
-                }
-                
-                // 2. Si no se encontró barrio en componentes, intentar extraer del nombre del lugar
-                if (!barrioEncontrado && place.name) {
-                    barrioEncontrado = extraerBarrioDeNombreLugar(place.name);
-                    if (barrioEncontrado) {
-                        console.log(`✅ Barrio extraído del nombre: ${barrioEncontrado}`);
-                    }
-                }
-                
-                // 3. Si aún no se encontró, intentar extraer del texto completo de la dirección
-                if (!barrioEncontrado) {
-                    barrioEncontrado = extraerBarrioDeTexto(place.formatted_address, null);
-                    if (barrioEncontrado) {
-                        console.log(`✅ Barrio extraído del texto: ${barrioEncontrado}`);
-                    }
-                }
-                
-                // 4. Si encontramos localidad pero no barrio, usar la localidad
-                if (!barrioEncontrado && localidadEncontrada) {
-                    barrioEncontrado = localidadEncontrada;
-                    console.log(`✅ Usando localidad como barrio: ${barrioEncontrado}`);
-                }
-                
-                // Asignar barrio si se encontró
-                if (barrioEncontrado) {
-                    // Limpiar el nombre del barrio
-                    barrioEncontrado = limpiarNombreBarrio(barrioEncontrado);
-                    
-                    barrioInput.value = barrioEncontrado;
-                    console.log(`🎯 Barrio asignado: ${barrioEncontrado}`);
-                    
-                    // Buscar coincidencia en datos de barrios
-                    buscarBarrioEnDatos(barrioEncontrado);
-                    
-                    // Disparar eventos para actualizar UI
-                    barrioInput.dispatchEvent(new Event('input', { bubbles: true }));
-                    barrioInput.dispatchEvent(new Event('change', { bubbles: true }));
-                } else {
-                    console.log("⚠️ No se detectó barrio automáticamente");
-                    // Sugerir al usuario que ingrese el barrio manualmente
-                    mostrarSugerenciaBarrioManual();
-                }
-            }
-            
-            // ============================================
-            // DETECCIÓN MEJORADA DE CIUDAD
-            // ============================================
-            if (ciudadDestinoSelect) {
-                let ciudadDetectada = '';
-                
-                place.address_components.forEach(component => {
-                    const tipos = component.types;
-                    
-                    // Buscar ciudad (locality)
-                    if (tipos.includes('locality')) {
-                        ciudadDetectada = component.long_name;
-                    }
-                    // Si no encuentra locality, buscar administrative_area_level_2
-                    else if (!ciudadDetectada && tipos.includes('administrative_area_level_2')) {
-                        ciudadDetectada = component.long_name;
-                    }
-                });
-                
-                // Normalizar nombre de ciudad para Bogotá
-                if (ciudadDetectada) {
-                    ciudadDetectada = ciudadDetectada.replace('Bogota', 'Bogotá')
-                                                     .replace('BOGOTA', 'Bogotá')
-                                                     .replace('bogota', 'Bogotá');
-                    
-                    // Buscar coincidencia en opciones
-                    let ciudadSeleccionada = '';
-                    Array.from(ciudadDestinoSelect.options).forEach(option => {
-                        if (option.value) {
-                            const optionLower = option.value.toLowerCase();
-                            const detectadaLower = ciudadDetectada.toLowerCase();
-                            
-                            // Comparaciones flexibles
-                            if (optionLower.includes(detectadaLower) || 
-                                detectadaLower.includes(optionLower) ||
-                                (detectadaLower.includes('bogotá') && optionLower.includes('bogotá')) ||
-                                (detectadaLower.includes('soacha') && optionLower.includes('soacha'))) {
-                                ciudadSeleccionada = option.value;
-                            }
+                        } else if (tipos.includes('administrative_area_level_3') && !barrioEncontrado) {
+                            barrioEncontrado = component.long_name;
                         }
                     });
                     
-                    if (ciudadSeleccionada) {
-                        ciudadDestinoSelect.value = ciudadSeleccionada;
-                        ciudadDestinoSelect.dispatchEvent(new Event('change', { bubbles: true }));
-                        console.log(`✅ Ciudad detectada y seleccionada: ${ciudadSeleccionada}`);
-                    } else {
-                        console.log(`⚠️ Ciudad detectada pero no en opciones: ${ciudadDetectada}`);
+                    if (barrioEncontrado) {
+                        barrioInput.value = barrioEncontrado;
+                        console.log(`✅ Barrio detectado: ${barrioEncontrado}`);
+                        
+                        // Disparar eventos
+                        barrioInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        barrioInput.dispatchEvent(new Event('change', { bubbles: true }));
                     }
                 }
-            }
-            
-            // ============================================
-            // MEJORAR EL TEXTO DE LA DIRECCIÓN
-            // ============================================
-            if (place.formatted_address) {
-                // Simplificar dirección si es muy larga
-                let direccionSimplificada = place.formatted_address;
                 
-                // Remover repetidos como "Bogotá, Bogotá, Colombia"
-                direccionSimplificada = direccionSimplificada.replace(/(Bogotá,?\s*){2,}/gi, 'Bogotá, ');
-                direccionSimplificada = direccionSimplificada.replace(/(Soacha,?\s*){2,}/gi, 'Soacha, ');
+                // Mostrar notificación simple
+                mostrarNotificacionSimple(`✅ Dirección encontrada: ${place.formatted_address.substring(0, 40)}...`);
                 
-                // Actualizar campo
-                direccionInput.value = direccionSimplificada;
-                
-                // Mostrar notificación
-                mostrarNotificacionSimple(`✅ Dirección encontrada: ${direccionSimplificada.substring(0, 50)}...`);
-            }
-            
-            // Enfocar siguiente campo
-            setTimeout(() => {
-                const complementoInput = document.getElementById('complementoDireccion');
-                if (complementoInput) {
-                    complementoInput.focus();
-                    // Sugerir complemento basado en el lugar
-                    sugerirComplementoDireccion(place);
-                }
-            }, 300);
-        });
-        
-        // ============================================
-        // EVENTOS ADICIONALES PARA MEJORAR LA EXPERIENCIA
-        // ============================================
-        
-        // Cuando el usuario empieza a escribir
-        direccionInput.addEventListener('input', function(e) {
-            // Si el usuario borra y empieza a escribir de nuevo, limpiar barrio
-            if (barrioInput && this.value.length < 3) {
-                barrioInput.value = '';
-            }
-            
-            // Si el usuario escribe "cll", "cra", "av", etc, sugerir formato
-            const texto = this.value.toLowerCase();
-            if (texto.includes('cll') || texto.includes('cra') || 
-                texto.includes('diag') || texto.includes('av') ||
-                texto.includes('trans') || texto.includes('ak')) {
-                mostrarSugerenciaFormatoDireccion();
+            } catch (error) {
+                console.error("❌ Error procesando selección:", error);
             }
         });
         
-        // Cuando el usuario presiona Enter sin seleccionar
+        // Prevenir Enter
         direccionInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                
-                // Si no hay selección del dropdown, intentar extraer barrio del texto
-                if (barrioInput && this.value.trim() && !window.ultimaDireccionSeleccionada) {
-                    const barrioExtraido = extraerBarrioDeTexto(this.value, barrioInput);
-                    if (barrioExtraido) {
-                        console.log(`✅ Barrio extraído al presionar Enter: ${barrioExtraido}`);
-                    }
-                }
             }
         });
         
-        // Cuando el campo pierde el foco
-        direccionInput.addEventListener('blur', function() {
-            // Pequeño delay para permitir que se procese la selección del dropdown
-            setTimeout(() => {
-                // Si no se seleccionó nada del dropdown pero hay texto
-                if (this.value.trim() && barrioInput && !barrioInput.value && !window.ultimaDireccionSeleccionada) {
-                    console.log("🔍 Campo perdió foco - intentando extraer barrio del texto");
-                    extraerBarrioDeTexto(this.value, barrioInput);
-                }
-            }, 500);
-        });
-        
-        console.log("✅ Google Places inicializado correctamente con mejoras para Bogotá");
+        console.log("✅ Google Places inicializado correctamente");
         
     } catch (error) {
         console.error("❌ Error en Google Places:", error);
-        mostrarErrorGoogleMaps();
+        habilitarAlternativaManual();
     }
 }
 
 // ============================================
-// FUNCIONES AUXILIARES PARA EXTRACCIÓN DE BARRIOS
+// ALTERNATIVA MANUAL CUANDO NO HAY GOOGLE MAPS
 // ============================================
 
-function extraerBarrioDeTexto(texto, barrioInputElement) {
-    if (!texto || !texto.trim()) return null;
+function habilitarAlternativaManual() {
+    console.log("🔄 Habilitando alternativa manual...");
     
-    console.log(`🔍 Extrayendo barrio de texto: "${texto.substring(0, 50)}..."`);
+    const direccionInput = document.getElementById('direccionDestino');
+    const barrioInput = document.getElementById('barrioLocalidad');
+    
+    if (!direccionInput) return;
+    
+    // Mostrar mensaje informativo
+    const mensajeDiv = document.createElement('div');
+    mensajeDiv.className = 'text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1';
+    mensajeDiv.innerHTML = `
+        <span class="material-symbols-outlined text-sm">info</span>
+        <span>Ingresa la dirección manualmente. Sugerencia: Usa formato "Calle XX # YY-ZZ, Barrio"</span>
+    `;
+    
+    if (direccionInput.parentNode) {
+        direccionInput.parentNode.appendChild(mensajeDiv);
+    }
+    
+    // Ayuda para extraer barrio automáticamente del texto
+    let timeoutId;
+    direccionInput.addEventListener('input', function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            if (this.value.length > 20 && barrioInput && !barrioInput.value) {
+                extraerBarrioSimple(this.value, barrioInput);
+            }
+        }, 1500);
+    });
+    
+    // Cuando el usuario presiona Enter
+    direccionInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (barrioInput && !barrioInput.value) {
+                extraerBarrioSimple(this.value, barrioInput);
+            }
+        }
+    });
+}
+
+function extraerBarrioSimple(texto, barrioInputElement) {
+    if (!texto || !barrioInputElement) return;
+    
+    console.log("🔍 Extrayendo barrio del texto:", texto.substring(0, 50));
     
     const textoLower = texto.toLowerCase();
     let barrioEncontrado = '';
     
-    // Lista de palabras clave que indican barrios en Bogotá
-    const palabrasClaveBarrios = [
-        // Localidades de Bogotá
+    // Palabras clave comunes en Bogotá
+    const palabrasClave = [
         'usaquén', 'chapinero', 'santa fe', 'san cristóbal', 'usme',
         'tunjuelito', 'bosa', 'kennedy', 'fontibón', 'engativá',
         'suba', 'barrios unidos', 'teusaquillo', 'los mártires',
         'antonio nariño', 'puente aranda', 'candelaria', 'rafael uribe',
-        
-        // Barrios comunes
-        'modelia', 'timiza', 'tibaná', 'patio bonito', 'quiroga',
-        'alquería', 'la fragua', 'ciudad jardín', 'normandía',
-        'muzú', 'las cruces', 'belén', 'la perseverancia',
-        'la macarena', 'la candelaria', 'la soledad', 'la esquina',
-        'las aguas', 'la victoria', 'las ferias',
-        
-        // Soacha
-        'soacha', 'ciudad verde', 'parques de bogotá', 'san mateo',
-        'san hilarion', 'san miguel', 'san juan', 'san pablo'
+        'modelia', 'timiza', 'patio bonito', 'alquería', 'ciudad jardín',
+        'soacha', 'ciudad verde', 'san mateo'
     ];
     
-    // Patrones comunes en direcciones de Bogotá
-    const patrones = [
-        // Patrón: Calle/Cra XX # YY - ZZ (Barrio)
-        /(?:cll|cra|av|diag|trans|ak|ac)\s*\d+\s*[#\-]\s*\d+\s*[-\w]+\s*[-–]\s*([\w\sáéíóúñ]+)/i,
-        
-        // Patrón: En el barrio XXXXX
-        /(?:barrio|brr|br|sector|localidad|zona)\s+([\w\sáéíóúñ]+)/i,
-        
-        // Patrón: Entre calles XX y YY - Barrio ZZZ
-        /entre\s+[\w\s]+\s+y\s+[\w\s]+\s*[-–]\s*(?:barrio\s+)?([\w\sáéíóúñ]+)/i,
-        
-        // Direcciones que terminan con barrio
-        /,\s*([\w\sáéíóúñ]+)(?:,\s*(?:bogotá|soacha|colombia))?$/i
-    ];
-    
-    // 1. Buscar por palabras clave
-    for (const palabra of palabrasClaveBarrios) {
+    // Buscar palabras clave
+    for (const palabra of palabrasClave) {
         if (textoLower.includes(palabra)) {
-            // Encontrar la palabra exacta con mayúsculas
+            // Encontrar la palabra exacta
             const regex = new RegExp(palabra, 'i');
             const match = texto.match(regex);
             if (match) {
                 barrioEncontrado = match[0];
-                // Capitalizar primera letra de cada palabra
-                barrioEncontrado = barrioEncontrado.split(' ')
-                    .map(pal => pal.charAt(0).toUpperCase() + pal.slice(1).toLowerCase())
-                    .join(' ');
                 break;
             }
         }
     }
     
-    // 2. Si no encontró por palabras clave, probar patrones
+    // Si no encontró, buscar patrones
     if (!barrioEncontrado) {
+        const patrones = [
+            /(?:cll|cra|av|diag|ak|trans)\s*\d+\s*[#\-]\s*\d+\s*[-\w]+\s*[-–]\s*([\w\sáéíóúñ]+)/i,
+            /(?:barrio|brr|br|sector)\s+([\w\sáéíóúñ]+)/i,
+            /,\s*([\w\sáéíóúñ]+)(?:,\s*(?:bogotá|soacha))?$/i
+        ];
+        
         for (const patron of patrones) {
             const match = texto.match(patron);
             if (match && match[1]) {
                 barrioEncontrado = match[1].trim();
                 // Limpiar
-                barrioEncontrado = barrioEncontrado.replace(/,$/, '')
-                                                   .replace(/^en\s+/i, '')
+                barrioEncontrado = barrioEncontrado.replace(/^en\s+/i, '')
                                                    .replace(/^el\s+/i, '')
-                                                   .replace(/^la\s+/i, '')
-                                                   .replace(/^los\s+/i, '')
-                                                   .replace(/^las\s+/i, '');
-                break;
-            }
-        }
-    }
-    
-    // 3. Buscar en los datos de barrios si tenemos acceso
-    if (!barrioEncontrado && window.barriosData && window.barriosData.length > 0) {
-        for (const barrio of window.barriosData) {
-            if (barrio.nombre && textoLower.includes(barrio.nombre.toLowerCase())) {
-                barrioEncontrado = barrio.nombre;
+                                                   .replace(/,$/, '');
                 break;
             }
         }
@@ -444,293 +244,30 @@ function extraerBarrioDeTexto(texto, barrioInputElement) {
     
     // Si encontramos un barrio
     if (barrioEncontrado) {
-        barrioEncontrado = limpiarNombreBarrio(barrioEncontrado);
-        console.log(`✅ Barrio extraído del texto: "${barrioEncontrado}"`);
+        // Capitalizar
+        barrioEncontrado = barrioEncontrado.split(' ')
+            .map(pal => pal.charAt(0).toUpperCase() + pal.slice(1).toLowerCase())
+            .join(' ');
         
-        if (barrioInputElement) {
-            barrioInputElement.value = barrioEncontrado;
-            
-            // Buscar coincidencia en datos
-            buscarBarrioEnDatos(barrioEncontrado);
-            
-            // Disparar eventos
-            barrioInputElement.dispatchEvent(new Event('input', { bubbles: true }));
-            barrioInputElement.dispatchEvent(new Event('change', { bubbles: true }));
-            
-            mostrarNotificacionSimple(`📍 Barrio detectado: ${barrioEncontrado}`);
-        }
+        barrioInputElement.value = barrioEncontrado;
+        console.log(`✅ Barrio extraído: ${barrioEncontrado}`);
+        
+        // Disparar eventos
+        barrioInputElement.dispatchEvent(new Event('input', { bubbles: true }));
+        barrioInputElement.dispatchEvent(new Event('change', { bubbles: true }));
+        
+        // Mostrar notificación breve
+        mostrarNotificacionSimple(`📍 Barrio detectado: ${barrioEncontrado}`);
         
         return barrioEncontrado;
     }
     
-    console.log("⚠️ No se pudo extraer barrio del texto");
     return null;
-}
-
-function extraerBarrioDeNombreLugar(nombreLugar) {
-    if (!nombreLugar) return null;
-    
-    const nombreLower = nombreLugar.toLowerCase();
-    
-    // Lugares que suelen incluir el barrio en el nombre
-    const patronesLugar = [
-        // Ej: "Centro Comercial Unicentro - Usaquén"
-        /[-–]\s*([\w\sáéíóúñ]+)$/i,
-        
-        // Ej: "Éxito Calle 80 (Fontibón)"
-        /\(([\w\sáéíóúñ]+)\)$/i,
-        
-        // Ej: "Clínica San Rafael, Chapinero"
-        /,\s*([\w\sáéíóúñ]+)$/i,
-        
-        // Ej: "Colegio Distrital Juan Pablo II - Bosa"
-        /\s+en\s+([\w\sáéíóúñ]+)$/i
-    ];
-    
-    for (const patron of patronesLugar) {
-        const match = nombreLugar.match(patron);
-        if (match && match[1]) {
-            const posibleBarrio = match[1].trim();
-            // Verificar que no sea una palabra genérica
-            if (!esPalabraGenerica(posibleBarrio)) {
-                return limpiarNombreBarrio(posibleBarrio);
-            }
-        }
-    }
-    
-    return null;
-}
-
-function buscarBarrioEnDatos(nombreBarrio) {
-    if (!nombreBarrio || !window.barriosData || window.barriosData.length === 0) return null;
-    
-    const barrioLower = nombreBarrio.toLowerCase();
-    
-    // Buscar coincidencia exacta o parcial
-    for (const barrio of window.barriosData) {
-        if (barrio.nombre && barrio.nombre.toLowerCase().includes(barrioLower)) {
-            console.log(`✅ Coincidencia encontrada en datos: ${barrio.nombre} (ID: ${barrio.id})`);
-            
-            // Actualizar campo de ID de barrio si existe
-            const barrioIdInput = document.getElementById('barrioId');
-            if (barrioIdInput && barrio.id) {
-                barrioIdInput.value = barrio.id;
-            }
-            
-            return barrio;
-        }
-    }
-    
-    // Si no encuentra, buscar por similitud
-    const barriosSimilares = window.barriosData.filter(barrio => 
-        barrio.nombre && calcularSimilitud(barrio.nombre.toLowerCase(), barrioLower) > 0.7
-    );
-    
-    if (barriosSimilares.length > 0) {
-        const mejorBarrio = barriosSimilares[0];
-        console.log(`✅ Barrio similar encontrado: ${mejorBarrio.nombre}`);
-        
-        const barrioIdInput = document.getElementById('barrioId');
-        if (barrioIdInput && mejorBarrio.id) {
-            barrioIdInput.value = mejorBarrio.id;
-        }
-        
-        return mejorBarrio;
-    }
-    
-    return null;
-}
-
-function limpiarNombreBarrio(nombre) {
-    if (!nombre) return '';
-    
-    return nombre
-        .trim()
-        .replace(/^barrio\s+/i, '')
-        .replace(/^brr?\s*/i, '')
-        .replace(/^sector\s+/i, '')
-        .replace(/^localidad\s+/i, '')
-        .replace(/^zona\s+/i, '')
-        .replace(/\s+\(.*?\)$/, '') // Remover paréntesis al final
-        .replace(/,\s*$/, '') // Remover coma al final
-        .split(' ') // Capitalizar cada palabra
-        .map(palabra => {
-            if (palabra.length <= 2) return palabra.toLowerCase(); // De, la, el, etc
-            return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
-        })
-        .join(' ');
-}
-
-function esPalabraGenerica(texto) {
-    const genericas = [
-        'centro', 'norte', 'sur', 'oriente', 'occidente',
-        'comercial', 'tienda', 'almacén', 'supermercado',
-        'clínica', 'hospital', 'colegio', 'universidad',
-        'estación', 'parque', 'plaza', 'avenida', 'calle',
-        'carrera', 'diagonal', 'transversal', 'ak', 'ac',
-        'edificio', 'torre', 'conjunto', 'residencial'
-    ];
-    
-    const textoLower = texto.toLowerCase();
-    return genericas.some(palabra => 
-        textoLower === palabra || 
-        new RegExp(`\\b${palabra}\\b`).test(textoLower)
-    );
-}
-
-function calcularSimilitud(str1, str2) {
-    // Algoritmo simple de similitud
-    const longer = str1.length > str2.length ? str1 : str2;
-    const shorter = str1.length > str2.length ? str2 : str1;
-    
-    if (longer.length === 0) return 1.0;
-    
-    return (longer.length - distanciaLevenshtein(longer, shorter)) / parseFloat(longer.length);
-}
-
-function distanciaLevenshtein(a, b) {
-    const matrix = [];
-    
-    // Inicializar matriz
-    for (let i = 0; i <= b.length; i++) {
-        matrix[i] = [i];
-    }
-    
-    for (let j = 0; j <= a.length; j++) {
-        matrix[0][j] = j;
-    }
-    
-    // Calcular distancia
-    for (let i = 1; i <= b.length; i++) {
-        for (let j = 1; j <= a.length; j++) {
-            if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-            } else {
-                matrix[i][j] = Math.min(
-                    matrix[i - 1][j - 1] + 1, // sustitución
-                    matrix[i][j - 1] + 1,     // inserción
-                    matrix[i - 1][j] + 1      // eliminación
-                );
-            }
-        }
-    }
-    
-    return matrix[b.length][a.length];
-}
-
-function sugerirComplementoDireccion(place) {
-    const complementoInput = document.getElementById('complementoDireccion');
-    if (!complementoInput) return;
-    
-    let sugerencias = [];
-    
-    // Basado en el tipo de lugar
-    if (place.types) {
-        if (place.types.includes('establishment') || place.types.includes('point_of_interest')) {
-            if (place.types.includes('store') || place.types.includes('shopping_mall')) {
-                sugerencias = ['Tienda', 'Local comercial', 'Centro comercial'];
-            } else if (place.types.includes('hospital') || place.types.includes('doctor')) {
-                sugerencias = ['Consultorio', 'Clínica', 'Hospital'];
-            } else if (place.types.includes('school') || place.types.includes('university')) {
-                sugerencias = ['Colegio', 'Universidad', 'Institución educativa'];
-            } else if (place.types.includes('apartment') || place.types.includes('residence')) {
-                sugerencias = ['Apartamento', 'Conjunto residencial', 'Edificio'];
-            }
-        }
-    }
-    
-    // Si es una casa o dirección residencial
-    if (place.formatted_address && 
-        (place.formatted_address.toLowerCase().includes('casa') ||
-         place.formatted_address.toLowerCase().includes('apartamento') ||
-         place.formatted_address.toLowerCase().includes('edificio'))) {
-        sugerencias = ['Casa', 'Apartamento', 'Unidad residencial'];
-    }
-    
-    // Si hay sugerencias, mostrarlas como placeholder
-    if (sugerencias.length > 0) {
-        complementoInput.placeholder = `Ej: ${sugerencias[0]}`;
-        complementoInput.title = `Sugerencias: ${sugerencias.join(', ')}`;
-    }
 }
 
 // ============================================
-// FUNCIONES DE NOTIFICACIÓN Y UI
+// FUNCIONES AUXILIARES
 // ============================================
-
-function mostrarErrorGoogleMapsFatal() {
-    console.error("❌ ERROR FATAL: Google Maps no está disponible");
-    
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg z-50 max-w-md';
-    errorDiv.innerHTML = `
-        <div class="flex items-center">
-            <span class="material-symbols-outlined mr-2">error</span>
-            <strong class="font-bold">Google Maps no disponible</strong>
-        </div>
-        <div class="mt-2 text-sm">
-            <p>El autocompletado de direcciones no funcionará.</p>
-            <p class="mt-1"><strong>Solución:</strong> Ingresa la dirección manualmente.</p>
-            <p class="mt-1 text-xs">Formato sugerido: "Calle 123 # 45-67, Barrio Los Rosales, Bogotá"</p>
-        </div>
-    `;
-    
-    document.body.appendChild(errorDiv);
-    
-    setTimeout(() => {
-        if (errorDiv.parentElement) errorDiv.remove();
-    }, 10000);
-}
-
-function mostrarSugerenciaBarrioManual() {
-    const barrioInput = document.getElementById('barrioLocalidad');
-    if (!barrioInput) return;
-    
-    // Verificar si ya hay un mensaje
-    const existingMsg = barrioInput.parentNode.querySelector('.sugerencia-barrio');
-    if (existingMsg) return;
-    
-    const sugerenciaDiv = document.createElement('div');
-    sugerenciaDiv.className = 'sugerencia-barrio text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1 animate-pulse';
-    sugerenciaDiv.innerHTML = `
-        <span class="material-symbols-outlined text-sm">info</span>
-        <span>¿No encontró el barrio? Escríbelo manualmente aquí.</span>
-    `;
-    
-    barrioInput.parentNode.appendChild(sugerenciaDiv);
-    
-    // Remover después de 10 segundos
-    setTimeout(() => {
-        if (sugerenciaDiv.parentElement) sugerenciaDiv.remove();
-    }, 10000);
-}
-
-function mostrarSugerenciaFormatoDireccion() {
-    const direccionInput = document.getElementById('direccionDestino');
-    if (!direccionInput) return;
-    
-    // Solo mostrar una vez por sesión
-    if (sessionStorage.getItem('mostradoSugerenciaFormato')) return;
-    
-    const sugerenciaDiv = document.createElement('div');
-    sugerenciaDiv.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm';
-    sugerenciaDiv.innerHTML = `
-        <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">tips_and_updates</span>
-            <span>💡 <strong>Sugerencia:</strong> Usa formato "Calle 80 # 12-34, Barrio" para mejores resultados</span>
-        </div>
-    `;
-    
-    document.body.appendChild(sugerenciaDiv);
-    sessionStorage.setItem('mostradoSugerenciaFormato', 'true');
-    
-    setTimeout(() => {
-        sugerenciaDiv.style.animation = 'slideDown 0.3s ease-in forwards';
-        setTimeout(() => {
-            if (sugerenciaDiv.parentElement) sugerenciaDiv.remove();
-        }, 300);
-    }, 5000);
-}
 
 function mostrarNotificacionSimple(mensaje) {
     // Eliminar notificaciones anteriores
@@ -756,6 +293,7 @@ function mostrarNotificacionSimple(mensaje) {
     
     document.body.appendChild(notificacion);
     
+    // Eliminar después de 3 segundos
     setTimeout(() => {
         notificacion.style.animation = 'slideDown 0.3s ease-in forwards';
         setTimeout(() => {
@@ -763,31 +301,6 @@ function mostrarNotificacionSimple(mensaje) {
         }, 300);
     }, 3000);
 }
-
-function mostrarErrorGoogleMaps() {
-    const direccionInput = document.getElementById('direccionDestino');
-    if (direccionInput) {
-        const existingError = direccionInput.parentNode.querySelector('.google-maps-error');
-        if (!existingError) {
-            const errorMsg = document.createElement('div');
-            errorMsg.className = 'google-maps-error text-xs text-orange-600 dark:text-orange-400 mt-1 flex items-center gap-1';
-            errorMsg.innerHTML = `
-                <span class="material-symbols-outlined text-sm">warning</span>
-                <span>Google Maps no disponible. Escribe la dirección manualmente.</span>
-            `;
-            
-            direccionInput.parentNode.appendChild(errorMsg);
-            
-            setTimeout(() => {
-                if (errorMsg.parentElement) errorMsg.remove();
-            }, 10000);
-        }
-    }
-}
-
-// ============================================
-// INICIALIZACIÓN PRINCIPAL MEJORADA
-// ============================================
 
 function agregarAnimacionesCSS() {
     const style = document.createElement('style');
@@ -818,46 +331,24 @@ function agregarAnimacionesCSS() {
             animation: slideUp 0.3s ease-out forwards;
         }
         
-        /* Mejores estilos para Google Places */
+        /* Estilos básicos para Google Places si está disponible */
         .pac-container {
             z-index: 10002 !important;
             border-radius: 8px !important;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
-            border: 1px solid #d1d5db !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border: 1px solid #e5e7eb !important;
             margin-top: 4px !important;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         }
         
         .pac-item {
-            padding: 12px 16px !important;
+            padding: 8px 12px !important;
             cursor: pointer !important;
             border-bottom: 1px solid #f3f4f6 !important;
             font-size: 14px !important;
-            transition: background-color 0.2s !important;
         }
         
         .pac-item:hover {
-            background-color: #eff6ff !important;
-        }
-        
-        .pac-item-selected {
-            background-color: #dbeafe !important;
-        }
-        
-        .pac-icon {
-            margin-right: 10px !important;
-            opacity: 0.7 !important;
-        }
-        
-        .pac-matched {
-            font-weight: 600 !important;
-            color: #1d4ed8 !important;
-        }
-        
-        /* Estilos para sugerencias */
-        .sugerencia-barrio {
-            animation-duration: 2s;
-            animation-iteration-count: 3;
+            background-color: #f9fafb !important;
         }
         
         @media (max-width: 767px) {
@@ -868,42 +359,19 @@ function agregarAnimacionesCSS() {
                 left: 0 !important;
                 right: 0 !important;
                 width: 100vw !important;
-                max-height: 60vh !important;
-                border-radius: 16px 16px 0 0 !important;
-                box-shadow: 0 -4px 20px rgba(0,0,0,0.15) !important;
-            }
-        }
-        
-        /* Mejor contraste para dark mode */
-        @media (prefers-color-scheme: dark) {
-            .pac-container {
-                background-color: #1f2937 !important;
-                border-color: #4b5563 !important;
-            }
-            
-            .pac-item {
-                color: #f3f4f6 !important;
-                border-bottom-color: #374151 !important;
-            }
-            
-            .pac-item:hover {
-                background-color: #374151 !important;
-            }
-            
-            .pac-item-selected {
-                background-color: #1e40af !important;
-            }
-            
-            .pac-matched {
-                color: #60a5fa !important;
+                max-height: 50vh !important;
+                border-radius: 12px 12px 0 0 !important;
             }
         }
     `;
     document.head.appendChild(style);
 }
 
+// ============================================
+// FUNCIÓN PRINCIPAL DE INICIALIZACIÓN - SIMPLIFICADA
+// ============================================
 function initApp() {
-    console.log('🚀 Inicializando aplicación MEJORADA...');
+    console.log('🚀 Inicializando aplicación...');
     
     initializeDOMElements();
     
@@ -914,91 +382,42 @@ function initApp() {
             initializeUI();
             
             // ============================================
-            // INICIALIZACIÓN MEJORADA DE GOOGLE MAPS
+            // INICIALIZACIÓN SEGURA DE GOOGLE MAPS
             // ============================================
+            console.log('🔍 Verificando Google Maps...');
+            
+            // Intentar cargar Google Maps de forma segura
             const checkGoogleMaps = () => {
-                console.log('🔍 Verificando Google Maps MEJORADO...');
-                
                 if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                    console.log('✅ Google Maps API disponible');
+                    console.log('✅ Google Maps disponible');
                     try {
-                        // Cargar también la API de Geocoding para mejor precisión
-                        if (!google.maps.Geocoder) {
-                            console.log('🔄 Cargando Geocoding API...');
-                        }
-                        
                         inicializarGooglePlacesAutocomplete();
-                        console.log('🎯 Google Places Autocomplete inicializado con mejoras');
                     } catch (error) {
                         console.error('❌ Error inicializando Google Places:', error);
-                        mostrarErrorGoogleMapsFatal();
+                        habilitarAlternativaManual();
                     }
                 } else {
-                    console.log('⏳ Google Maps no disponible aún, esperando...');
-                    
-                    if (window.googleMapsRetryCount === undefined) {
-                        window.googleMapsRetryCount = 0;
-                    }
-                    
-                    if (window.googleMapsRetryCount < 15) { // 15 intentos = 7.5 segundos
-                        window.googleMapsRetryCount++;
-                        setTimeout(checkGoogleMaps, 500);
-                    } else {
-                        console.error('❌ Google Maps no se cargó después de 7.5 segundos');
-                        mostrarErrorGoogleMapsFatal();
-                        
-                        // Aún así, habilitar extracción manual de barrios
-                        habilitarExtraccionManualBarrios();
-                    }
+                    console.log('🔄 Google Maps no disponible - usando modo manual');
+                    habilitarAlternativaManual();
                 }
             };
             
-            // Iniciar verificación
-            checkGoogleMaps();
+            // Esperar un momento por si Google Maps se carga después
+            setTimeout(checkGoogleMaps, 1000);
             
-            console.log('✅ Aplicación inicializada con mejoras');
+            console.log('✅ Aplicación inicializada');
         });
     }).catch(error => {
         console.error('❌ Error inicializando:', error);
         loadRemitentesData();
         setupEventListeners();
         initializeUI();
-        habilitarExtraccionManualBarrios();
+        habilitarAlternativaManual();
     });
 }
 
-function habilitarExtraccionManualBarrios() {
-    console.log('🔧 Habilitando extracción manual de barrios...');
-    
-    const direccionInput = document.getElementById('direccionDestino');
-    const barrioInput = document.getElementById('barrioLocalidad');
-    
-    if (direccionInput && barrioInput) {
-        // Cuando el usuario termine de escribir la dirección
-        let timeoutId;
-        direccionInput.addEventListener('input', function() {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                if (this.value.trim().length > 10 && !barrioInput.value) {
-                    console.log('🔍 Intentando extraer barrio del texto manual...');
-                    extraerBarrioDeTexto(this.value, barrioInput);
-                }
-            }, 1000);
-        });
-        
-        // Cuando el campo pierda el foco
-        direccionInput.addEventListener('blur', function() {
-            setTimeout(() => {
-                if (this.value.trim().length > 10 && !barrioInput.value) {
-                    extraerBarrioDeTexto(this.value, barrioInput);
-                }
-            }, 300);
-        });
-    }
-}
-
 // ============================================
-// FUNCIONES RESTANTES (MANTENIDAS IGUAL)
+// FUNCIONES DE INICIALIZACIÓN DEL DOM (IGUAL)
 // ============================================
 
 function initializeDOMElements() {
@@ -1026,6 +445,10 @@ function initializeDOMElements() {
     console.log('📍 Dropdown barrio:', autocompleteDropdown ? '✅' : '❌');
 }
 
+// ============================================
+// FUNCIONES PARA CARGA DE DATOS (IGUAL)
+// ============================================
+
 function loadBarriosData() {
     console.log('📂 Cargando datos de barrios...');
     
@@ -1038,22 +461,6 @@ function loadBarriosData() {
             barriosData = data;
             window.barriosData = data;
             console.log(`✅ Cargados ${barriosData.length} barrios`);
-            
-            // Mejorar los datos de barrios para búsquedas
-            if (barriosData.length > 0) {
-                barriosData.forEach(barrio => {
-                    // Crear variantes de nombres para mejor búsqueda
-                    if (barrio.nombre) {
-                        barrio.nombreVariantes = [
-                            barrio.nombre,
-                            barrio.nombre.replace('BRR ', ''),
-                            barrio.nombre.replace('SECTOR ', ''),
-                            barrio.nombre.replace('LOCALIDAD ', '')
-                        ];
-                    }
-                });
-            }
-            
             return data;
         })
         .catch(error => {
@@ -1070,15 +477,7 @@ function getDefaultBarrios() {
         { id: "1HOGOY32", nombre: "USAQUÉN-SANTA BARBARA CENTRAL" },
         { id: "WYWRDLUX", nombre: "USAQUÉN-CHICO NORTE II SECTOR" },
         { id: "5TKZNTB2", nombre: "USAQUÉN-SANTA BARBARA OCCIDENTAL" },
-        { id: "5DUKSNR5", nombre: "USAQUÉN-SAN PATRICIO" },
-        { id: "EXAMPLE1", nombre: "CHAPINERO" },
-        { id: "EXAMPLE2", nombre: "SUBA" },
-        { id: "EXAMPLE3", nombre: "KENNEDY" },
-        { id: "EXAMPLE4", nombre: "BOSA" },
-        { id: "EXAMPLE5", nombre: "FONTIBÓN" },
-        { id: "EXAMPLE6", nombre: "ENGATIVÁ" },
-        { id: "EXAMPLE7", nombre: "TEUSAQUILLO" },
-        { id: "EXAMPLE8", nombre: "BARRIOS UNIDOS" }
+        { id: "5DUKSNR5", nombre: "USAQUÉN-SAN PATRICIO" }
     ];
 }
 
@@ -1126,6 +525,10 @@ async function loadUsuariosParaAutocomplete() {
         return [];
     }
 }
+
+// ============================================
+// VERIFICACIÓN DE AUTENTICACIÓN Y SESIÓN (IGUAL)
+// ============================================
 
 function verificarSesionYConfigurarUI() {
     console.log("🔐 Verificando autenticación...");
@@ -1287,6 +690,197 @@ function configurarTemporizadorInactividad() {
     
     reiniciarTemporizador();
 }
+
+// ============================================
+// FUNCIONES PARA AUTOCOMPLETE DE BARRIOS (IGUAL)
+// ============================================
+
+function handleBarrioInput() {
+    const searchText = this.value.trim();
+    console.log(`🔍 Buscando barrio: "${searchText}"`);
+    
+    if (searchText === '') {
+        if (barrioIdInput) barrioIdInput.value = '';
+        hideDropdown();
+        return;
+    }
+    
+    if (searchText.length >= 1) {
+        filteredBarrios = filterBarrios(searchText);
+        console.log(`✅ ${filteredBarrios.length} resultados`);
+        
+        if (filteredBarrios.length > 0) {
+            showAutocomplete(filteredBarrios);
+        } else {
+            showAutocomplete([]);
+        }
+    } else {
+        hideDropdown();
+        currentFocus = -1;
+    }
+}
+
+function filterBarrios(searchText) {
+    const datos = window.barriosData || barriosData || [];
+    if (!datos.length) return [];
+    
+    const searchUpper = searchText.toUpperCase();
+    return datos.filter(barrio => 
+        barrio.nombre && barrio.nombre.toUpperCase().includes(searchUpper) ||
+        (barrio.id && barrio.id.toUpperCase().includes(searchUpper))
+    ).slice(0, 10);
+}
+
+function handleBarrioKeydown(e) {
+    if (!autocompleteDropdown || window.getComputedStyle(autocompleteDropdown).display !== 'block') return;
+    
+    const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
+    
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        moveFocus('down', items);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        moveFocus('up', items);
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (items[currentFocus]) {
+            dropdownJustClicked = true;
+            const clickEvent = new MouseEvent('click', { bubbles: true });
+            items[currentFocus].dispatchEvent(clickEvent);
+            setTimeout(() => { dropdownJustClicked = false; }, 100);
+        }
+    } else if (e.key === 'Escape') {
+        hideDropdown();
+        if (barrioInput) barrioInput.focus();
+    }
+}
+
+function handleBarrioFocus() {
+    console.log('🎯 Campo barrio enfocado');
+    const searchText = barrioInput.value.trim();
+    
+    if (searchText.length >= 1) {
+        filteredBarrios = filterBarrios(searchText);
+        showAutocomplete(filteredBarrios);
+    }
+}
+
+function showAutocomplete(results) {
+    if (!autocompleteDropdown || !barrioInput) return;
+    
+    console.log(`🎯 Mostrando ${results.length} resultados`);
+    
+    autocompleteDropdown.innerHTML = '';
+    
+    if (results.length === 0) {
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item';
+        item.textContent = 'No se encontraron barrios';
+        autocompleteDropdown.appendChild(item);
+        
+        showDropdown();
+    } else {
+        results.forEach((barrio, index) => {
+            const item = document.createElement('div');
+            item.className = 'autocomplete-item';
+            item.innerHTML = `
+                <span class="barrio-id">${barrio.id || 'N/A'}</span>
+                <span class="barrio-nombre">${barrio.nombre || ''}</span>
+            `;
+            
+            item.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropdownJustClicked = true;
+                
+                setTimeout(() => {
+                    console.log(`✅ Seleccionado: ${barrio.nombre}`);
+                    barrioInput.value = barrio.nombre || '';
+                    if (barrioIdInput) barrioIdInput.value = barrio.id || '';
+                    hideDropdown();
+                    
+                    setTimeout(() => {
+                        dropdownJustClicked = false;
+                    }, 50);
+                    
+                    barrioInput.focus();
+                }, 10);
+            });
+            
+            autocompleteDropdown.appendChild(item);
+        });
+        
+        showDropdown();
+    }
+}
+
+function showDropdown() {
+    if (!autocompleteDropdown) return;
+    
+    if (closeBarrioDropdownTimeout) {
+        clearTimeout(closeBarrioDropdownTimeout);
+        closeBarrioDropdownTimeout = null;
+    }
+    
+    autocompleteDropdown.className = '';
+    autocompleteDropdown.classList.add('autocomplete-dropdown-visible');
+    
+    const aggressiveStyles = `
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: absolute !important;
+        top: calc(100% + 5px) !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 999999 !important;
+        background-color: white !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 8px !important;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
+        max-height: 300px !important;
+        overflow-y: auto !important;
+        margin-top: 5px !important;
+        padding: 5px !important;
+    `;
+    
+    autocompleteDropdown.style.cssText = aggressiveStyles;
+    
+    console.log('✅ Dropdown visible - Estilos agresivos aplicados');
+}
+
+function hideDropdown() {
+    if (!autocompleteDropdown) return;
+    
+    const estilo = window.getComputedStyle(autocompleteDropdown);
+    const isVisible = estilo.display === 'block' || 
+                      autocompleteDropdown.style.display === 'block';
+    
+    if (isVisible) {
+        console.log('✅ Cerrando dropdown (autorizado)');
+        autocompleteDropdown.style.display = 'none';
+        currentFocus = -1;
+    }
+}
+
+function moveFocus(direction, items) {
+    if (!items.length) return;
+    
+    items.forEach(item => item.classList.remove('highlighted'));
+    
+    if (direction === 'down') currentFocus = (currentFocus + 1) % items.length;
+    else if (direction === 'up') currentFocus = (currentFocus - 1 + items.length) % items.length;
+    
+    if (items[currentFocus]) {
+        items[currentFocus].classList.add('highlighted');
+        items[currentFocus].scrollIntoView({ block: 'nearest' });
+    }
+}
+
+// ============================================
+// FUNCIONES PARA AUTOCOMPLETE DE REMITENTES (IGUAL)
+// ============================================
 
 function inicializarAutocompleteRemitente() {
     console.log("🔧 ===== INICIALIZANDO AUTOCOMPLETE REMITENTES =====");
@@ -1565,6 +1159,10 @@ function inicializarAutocompleteRemitente() {
     console.log("✅ Auto-complete inicializado - ¡LISTO PARA PROBAR!");
 }
 
+// ============================================
+// FUNCIONES PARA EL FORMULARIO (IGUAL)
+// ============================================
+
 function inicializarFormulario() {
     console.log("📝 Inicializando formulario...");
     
@@ -1720,6 +1318,10 @@ function calcularTotalAPagar() {
     return totalAPagar;
 }
 
+// ============================================
+// CONFIGURACIÓN DE EVENT LISTENERS (IGUAL)
+// ============================================
+
 function setupEventListeners() {
     console.log('🔗 Configurando event listeners...');
     
@@ -1786,7 +1388,7 @@ function setupEventListeners() {
 }
 
 function setupDropdownCloseBehavior() {
-    console.log('🔧 Configurando comportamiento MEJORADO del dropdown...');
+    console.log('🔧 Configurando comportamiento del dropdown...');
     
     let escribiendo = false;
     let dropdownJustClicked = false;
@@ -1907,6 +1509,10 @@ function setupDropdownCloseBehavior() {
     
     console.log('✅ Comportamiento mejorado configurado');
 }
+
+// ============================================
+// FUNCIONES DE UI (IGUAL)
+// ============================================
 
 function initializeUI() {
     const ciudadOrigenField = document.getElementById('ciudadOrigen');
@@ -2074,6 +1680,10 @@ function actualizarResumen() {
     
     totalElement.textContent = totalTexto;
 }
+
+// ============================================
+// FUNCIÓN PARA MANEJAR EL ENVÍO DEL FORMULARIO (IGUAL)
+// ============================================
 
 async function manejarEnvioFormulario(e) {
     e.preventDefault();
@@ -2556,189 +2166,6 @@ function generarIDLocal() {
     return `ENV${año}${mes}${dia}${hora}${minutos}${segundos}${milisegundos}`;
 }
 
-function handleBarrioInput() {
-    const searchText = this.value.trim();
-    console.log(`🔍 Buscando barrio: "${searchText}"`);
-    
-    if (searchText === '') {
-        if (barrioIdInput) barrioIdInput.value = '';
-        hideDropdown();
-        return;
-    }
-    
-    if (searchText.length >= 1) {
-        filteredBarrios = filterBarrios(searchText);
-        console.log(`✅ ${filteredBarrios.length} resultados`);
-        
-        if (filteredBarrios.length > 0) {
-            showAutocomplete(filteredBarrios);
-        } else {
-            showAutocomplete([]);
-        }
-    } else {
-        hideDropdown();
-        currentFocus = -1;
-    }
-}
-
-function filterBarrios(searchText) {
-    const datos = window.barriosData || barriosData || [];
-    if (!datos.length) return [];
-    
-    const searchUpper = searchText.toUpperCase();
-    return datos.filter(barrio => 
-        barrio.nombre && barrio.nombre.toUpperCase().includes(searchUpper) ||
-        (barrio.id && barrio.id.toUpperCase().includes(searchUpper))
-    ).slice(0, 10);
-}
-
-function handleBarrioKeydown(e) {
-    if (!autocompleteDropdown || window.getComputedStyle(autocompleteDropdown).display !== 'block') return;
-    
-    const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
-    
-    if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        moveFocus('down', items);
-    } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        moveFocus('up', items);
-    } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (items[currentFocus]) {
-            dropdownJustClicked = true;
-            const clickEvent = new MouseEvent('click', { bubbles: true });
-            items[currentFocus].dispatchEvent(clickEvent);
-            setTimeout(() => { dropdownJustClicked = false; }, 100);
-        }
-    } else if (e.key === 'Escape') {
-        hideDropdown();
-        if (barrioInput) barrioInput.focus();
-    }
-}
-
-function handleBarrioFocus() {
-    console.log('🎯 Campo barrio enfocado');
-    const searchText = barrioInput.value.trim();
-    
-    if (searchText.length >= 1) {
-        filteredBarrios = filterBarrios(searchText);
-        showAutocomplete(filteredBarrios);
-    }
-}
-
-function showAutocomplete(results) {
-    if (!autocompleteDropdown || !barrioInput) return;
-    
-    console.log(`🎯 Mostrando ${results.length} resultados`);
-    
-    autocompleteDropdown.innerHTML = '';
-    
-    if (results.length === 0) {
-        const item = document.createElement('div');
-        item.className = 'autocomplete-item';
-        item.textContent = 'No se encontraron barrios';
-        autocompleteDropdown.appendChild(item);
-        
-        showDropdown();
-    } else {
-        results.forEach((barrio, index) => {
-            const item = document.createElement('div');
-            item.className = 'autocomplete-item';
-            item.innerHTML = `
-                <span class="barrio-id">${barrio.id || 'N/A'}</span>
-                <span class="barrio-nombre">${barrio.nombre || ''}</span>
-            `;
-            
-            item.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dropdownJustClicked = true;
-                
-                setTimeout(() => {
-                    console.log(`✅ Seleccionado: ${barrio.nombre}`);
-                    barrioInput.value = barrio.nombre || '';
-                    if (barrioIdInput) barrioIdInput.value = barrio.id || '';
-                    hideDropdown();
-                    
-                    setTimeout(() => {
-                        dropdownJustClicked = false;
-                    }, 50);
-                    
-                    barrioInput.focus();
-                }, 10);
-            });
-            
-            autocompleteDropdown.appendChild(item);
-        });
-        
-        showDropdown();
-    }
-}
-
-function showDropdown() {
-    if (!autocompleteDropdown) return;
-    
-    if (closeBarrioDropdownTimeout) {
-        clearTimeout(closeBarrioDropdownTimeout);
-        closeBarrioDropdownTimeout = null;
-    }
-    
-    autocompleteDropdown.className = '';
-    autocompleteDropdown.classList.add('autocomplete-dropdown-visible');
-    
-    const aggressiveStyles = `
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: absolute !important;
-        top: calc(100% + 5px) !important;
-        left: 0 !important;
-        width: 100% !important;
-        z-index: 999999 !important;
-        background-color: white !important;
-        border: 1px solid #e5e7eb !important;
-        border-radius: 8px !important;
-        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
-        max-height: 300px !important;
-        overflow-y: auto !important;
-        margin-top: 5px !important;
-        padding: 5px !important;
-    `;
-    
-    autocompleteDropdown.style.cssText = aggressiveStyles;
-    
-    console.log('✅ Dropdown visible - Estilos agresivos aplicados');
-}
-
-function hideDropdown() {
-    if (!autocompleteDropdown) return;
-    
-    const estilo = window.getComputedStyle(autocompleteDropdown);
-    const isVisible = estilo.display === 'block' || 
-                      autocompleteDropdown.style.display === 'block';
-    
-    if (isVisible) {
-        console.log('✅ Cerrando dropdown (autorizado)');
-        autocompleteDropdown.style.display = 'none';
-        currentFocus = -1;
-    }
-}
-
-function moveFocus(direction, items) {
-    if (!items.length) return;
-    
-    items.forEach(item => item.classList.remove('highlighted'));
-    
-    if (direction === 'down') currentFocus = (currentFocus + 1) % items.length;
-    else if (direction === 'up') currentFocus = (currentFocus - 1 + items.length) % items.length;
-    
-    if (items[currentFocus]) {
-        items[currentFocus].classList.add('highlighted');
-        items[currentFocus].scrollIntoView({ block: 'nearest' });
-    }
-}
-
 function configurarBotonesAdmin() {
     try {
         const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
@@ -2799,7 +2226,7 @@ function configurarBotonHistorial() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 DOM cargado - Iniciando aplicación MEJORADA');
+    console.log('📄 DOM cargado - Iniciando aplicación...');
     
     agregarAnimacionesCSS();
     
