@@ -376,28 +376,46 @@ function initApp() {
     initializeDOMElements();
     
     loadBarriosData().then(() => {
-        // CAMBIAR ESTO:
-        // loadRemitentesData();  // ← VIEJO
-        // loadUsuariosParaAutocomplete().then(() => {  // ← VIEJO
-        
-        // POR ESTO:
-        loadRemitentesData().then(() => {  // ← NUEVO
-            loadUsuariosParaAutocomplete().then(() => {
-                setupEventListeners();
-                initializeUI();
-                
-                // ... resto del código
-            });
+        loadRemitentesData();
+        loadUsuariosParaAutocomplete().then(() => {
+            setupEventListeners();
+            initializeUI();
+            
+            // ============================================
+            // INICIALIZACIÓN SEGURA DE GOOGLE MAPS
+            // ============================================
+            console.log('🔍 Verificando Google Maps...');
+            
+            // Intentar cargar Google Maps de forma segura
+            const checkGoogleMaps = () => {
+                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    console.log('✅ Google Maps disponible');
+                    try {
+                        inicializarGooglePlacesAutocomplete();
+                    } catch (error) {
+                        console.error('❌ Error inicializando Google Places:', error);
+                        habilitarAlternativaManual();
+                    }
+                } else {
+                    console.log('🔄 Google Maps no disponible - usando modo manual');
+                    habilitarAlternativaManual();
+                }
+            };
+            
+            // Esperar un momento por si Google Maps se carga después
+            setTimeout(checkGoogleMaps, 1000);
+            
+            console.log('✅ Aplicación inicializada');
         });
     }).catch(error => {
         console.error('❌ Error inicializando:', error);
-        loadRemitentesData().then(() => {  // ← También aquí
-            setupEventListeners();
-            initializeUI();
-            habilitarAlternativaManual();
-        });
+        loadRemitentesData();
+        setupEventListeners();
+        initializeUI();
+        habilitarAlternativaManual();
     });
 }
+
 // ============================================
 // FUNCIONES DE INICIALIZACIÓN DEL DOM (IGUAL)
 // ============================================
@@ -463,109 +481,51 @@ function getDefaultBarrios() {
     ];
 }
 
-// NUEVA (usa historial real):
 function loadRemitentesData() {
-    console.log('📂 Cargando remitentes del HISTORIAL real...');
+    console.log('📂 Cargando datos de remitentes...');
     
-    // Usa la misma Web App URL pero con parámetro action
-    const HISTORIAL_URL = WEB_APP_URL + "?action=getRemitentesHistorial";
-    
-    return fetch(HISTORIAL_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(remitentes => {
-            // Estos son remitentes REALES del historial
-            remitentesData = remitentes;
-            console.log(`✅ ${remitentes.length} remitentes del historial real`);
-            console.log('📊 Primeros 3 remitentes:', remitentes.slice(0, 3));
-            return remitentes;
+    return fetch(REMITENTES_URL)
+        .then(response => response.json())
+        .then(data => {
+            remitentesData = data;
+            console.log(`✅ Cargados ${remitentesData.length} remitentes`);
+            return data;
         })
         .catch(error => {
-            console.error('❌ Error cargando remitentes del historial:', error);
-            
-            // Fallback: intentar cargar usuarios.json
-            console.log('🔄 Intentando fallback con usuarios.json...');
-            return fetch("usuarios.json?v=" + Date.now())
-                .then(response => response.json())
-                .then(usuarios => {
-                    remitentesData = usuarios.filter(u => 
-                        u.ESTADO === "ACTIVO" && u.ROL === "CLIENTE"
-                    );
-                    console.log(`✅ Fallback: ${remitentesData.length} usuarios`);
-                    return remitentesData;
-                })
-                .catch(fallbackError => {
-                    console.error('❌ Fallback también falló:', fallbackError);
-                    remitentesData = [];
-                    return [];
-                });
+            console.error('❌ Error cargando remitentes:', error);
+            remitentesData = [];
+            return [];
         });
 }
 
-// NUEVA: Usa remitentesData que ya cargamos del historial
 async function loadUsuariosParaAutocomplete() {
-    console.log("🔄 Preparando usuarios para autocomplete...");
-    
-    // Si ya cargamos remitentesData, úsala
-    if (remitentesData && remitentesData.length > 0) {
-        console.log(`📊 Usando ${remitentesData.length} remitentes del historial`);
+    try {
+        console.log("🔄 Cargando usuarios para autocomplete...");
+        const response = await fetch("usuarios.json?v=" + Date.now());
+        const usuarios = await response.json();
         
-        // Convertir el formato del historial al formato esperado por el autocomplete
-        usuariosDisponibles = remitentesData.map(remitente => ({
-            "NOMBRE REMITENTE": remitente.nombre || "",
-            "TELEFONO REMITENTE": remitente.telefono || "",
-            "DIRECCION REMITENTE": remitente.direccion || "",
-            "CORREO ELECTRONICO": remitente.correo || "",
-            "NOMBRE COMPLETO": remitente.nombre || "",
-            "TELEFONO": remitente.telefono || "",
-            "ESTADO": "ACTIVO",
-            "ROL": "CLIENTE",
-            "cantidadEnvios": remitente.cantidadEnvios || 1
-        }));
+        console.log(`✅ ${usuarios.length} usuarios cargados desde JSON`);
         
-        // Ordenar por cantidad de envíos (más frecuentes primero)
-        usuariosDisponibles.sort((a, b) => (b.cantidadEnvios || 0) - (a.cantidadEnvios || 0));
+        usuariosDisponibles = usuarios.filter(u => 
+            u.ESTADO === "ACTIVO" && 
+            u.ROL === "CLIENTE" &&
+            (u["NOMBRE REMITENTE"] || u["NOMBRE COMPLETO"])
+        );
         
         window.usuariosDisponibles = usuariosDisponibles;
+        
+        console.log(`📊 ${usuariosDisponibles.length} usuarios disponibles para autocomplete`);
+        
         return usuariosDisponibles;
+        
+    } catch (error) {
+        console.error("❌ Error cargando usuarios para autocomplete:", error);
+        usuariosDisponibles = [];
+        window.usuariosDisponibles = [];
+        return [];
     }
-    
-    // Si no hay datos, cargar del historial
-    console.log("🔄 No hay datos, cargando remitentes...");
-    await loadRemitentesData();
-    
-    // DESPUÉS de cargar, procesar los datos directamente
-    if (remitentesData && remitentesData.length > 0) {
-        console.log(`📊 Procesando ${remitentesData.length} remitentes recién cargados`);
-        
-        usuariosDisponibles = remitentesData.map(remitente => ({
-            "NOMBRE REMITENTE": remitente.nombre || "",
-            "TELEFONO REMITENTE": remitente.telefono || "",
-            "DIRECCION REMITENTE": remitente.direccion || "",
-            "CORREO ELECTRONICO": remitente.correo || "",
-            "NOMBRE COMPLETO": remitente.nombre || "",
-            "TELEFONO": remitente.telefono || "",
-            "ESTADO": "ACTIVO",
-            "ROL": "CLIENTE",
-            "cantidadEnvios": remitente.cantidadEnvios || 1
-        }));
-        
-        // Ordenar por cantidad de envíos
-        usuariosDisponibles.sort((a, b) => (b.cantidadEnvios || 0) - (a.cantidadEnvios || 0));
-        
-        window.usuariosDisponibles = usuariosDisponibles;
-        return usuariosDisponibles;
-    }
-    
-    console.warn("⚠️ No se pudieron cargar usuarios para autocomplete");
-    usuariosDisponibles = [];
-    window.usuariosDisponibles = [];
-    return [];
 }
+
 // ============================================
 // VERIFICACIÓN DE AUTENTICACIÓN Y SESIÓN (IGUAL)
 // ============================================
@@ -971,38 +931,27 @@ function inicializarAutocompleteRemitente() {
     let mouseInDropdown = false;
     
     function buscarRemitentes(texto) {
-    if (!texto || texto.length < 1) return [];
-    
-    const busqueda = texto.toLowerCase().trim();
-    
-    return usuariosDisponibles.filter(usuario => {
-        const nombre = (usuario["NOMBRE REMITENTE"] || "").toString().toLowerCase();
-        const nombreCompleto = (usuario["NOMBRE COMPLETO"] || "").toString().toLowerCase();
+        if (!texto || texto.length < 1) return [];
         
-        const telefonoRemitente = usuario["TELEFONO REMITENTE"];
-        const telefono = usuario.TELEFONO;
-        const telefonoStr = (telefonoRemitente ? telefonoRemitente.toString() : 
-                            telefono ? telefono.toString() : "").toLowerCase();
+        const busqueda = texto.toLowerCase().trim();
         
-        const correo = (usuario["CORREO ELECTRONICO"] || "").toString().toLowerCase();
-        
-        // 🆕 NUEVO: También buscar por dirección si está disponible
-        const direccion = (usuario["DIRECCION REMITENTE"] || "").toString().toLowerCase();
-        
-        // 🆕 NUEVO: Priorizar coincidencias en nombre
-        const coincidenciaNombre = nombre.includes(busqueda) || 
-                                  nombreCompleto.includes(busqueda);
-        
-        // 🆕 NUEVO: Coincidencia parcial (empiece con)
-        const empiezaCon = nombre.startsWith(busqueda) || 
-                          nombreCompleto.startsWith(busqueda);
-        
-        return empiezaCon || coincidenciaNombre ||
-               telefonoStr.includes(busqueda) ||
-               correo.includes(busqueda) ||
-               direccion.includes(busqueda);
-    });
-}
+        return usuariosDisponibles.filter(usuario => {
+            const nombre = (usuario["NOMBRE REMITENTE"] || "").toString().toLowerCase();
+            const nombreCompleto = (usuario["NOMBRE COMPLETO"] || "").toString().toLowerCase();
+            
+            const telefonoRemitente = usuario["TELEFONO REMITENTE"];
+            const telefono = usuario.TELEFONO;
+            const telefonoStr = (telefonoRemitente ? telefonoRemitente.toString() : 
+                                telefono ? telefono.toString() : "").toLowerCase();
+            
+            const correo = (usuario["CORREO ELECTRONICO"] || "").toString().toLowerCase();
+            
+            return nombre.includes(busqueda) || 
+                   nombreCompleto.includes(busqueda) ||
+                   telefonoStr.includes(busqueda) ||
+                   correo.includes(busqueda);
+        });
+    }
     
     function mostrarSugerencias(usuarios) {
         dropdown.innerHTML = '';
@@ -1031,31 +980,22 @@ function inicializarAutocompleteRemitente() {
             const telefono = usuario["TELEFONO REMITENTE"] || usuario.TELEFONO;
             const telefonoStr = telefono ? telefono.toString() : "";
             
-            // DENTRO DE mostrarSugerencias():
-item.innerHTML = `
-    <div style="display: flex; align-items: flex-start; gap: 10px; width: 100%;">
-        <div style="flex-grow: 1;">
-            <div style="font-size: 14px; color: #111827; font-weight: 600; margin-bottom: 2px;">
-                ${usuario["NOMBRE REMITENTE"] || usuario["NOMBRE COMPLETO"] || "Sin nombre"}
-            </div>
-            ${usuario["TELEFONO REMITENTE"] ? 
-                `<div style="font-size: 12px; color: #6b7280; margin-bottom: 2px;">
-                    📞 ${usuario["TELEFONO REMITENTE"]}
-                </div>` : ''}
-            ${usuario["DIRECCION REMITENTE"] ? 
-                `<div style="font-size: 11px; color: #9ca3af; margin-bottom: 2px;">
-                    📍 ${usuario["DIRECCION REMITENTE"].substring(0, 40)}...
-                </div>` : ''}
-            ${usuario.cantidadEnvios > 1 ? 
-                `<div style="font-size: 10px; color: #059669; font-weight: 500;">
-                    🔄 ${usuario.cantidadEnvios} envíos previos
-                </div>` : ''}
-        </div>
-        <div style="color: #10b981; font-size: 12px; font-weight: bold; padding: 4px 8px; background: #d1fae5; border-radius: 4px; white-space: nowrap;">
-            SELECCIONAR
-        </div>
-    </div>
-`;
+            item.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <div style="flex-grow: 1;">
+                        <div style="font-size: 14px; color: #111827; font-weight: 600; margin-bottom: 4px;">
+                            ${usuario["NOMBRE REMITENTE"] || usuario["NOMBRE COMPLETO"] || "Sin nombre"}
+                        </div>
+                        <div style="font-size: 12px; color: #6b7280;">
+                            <div>📞 ${telefonoStr || "Sin teléfono"}</div>
+                            ${usuario["DIRECCION REMITente"] ? `<div>📍 ${usuario["DIRECCION REMITENTE"].substring(0, 40)}...</div>` : ''}
+                        </div>
+                    </div>
+                    <div style="color: #10b981; font-size: 12px; font-weight: bold; padding: 4px 8px; background: #d1fae5; border-radius: 4px;">
+                        SELECCIONAR
+                    </div>
+                </div>
+            `;
             
             item.addEventListener('mousedown', function(e) {
                 e.preventDefault();
